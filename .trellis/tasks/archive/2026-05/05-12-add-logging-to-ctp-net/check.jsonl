@@ -1,0 +1,5 @@
+{"file": ".trellis/spec/backend/directory-structure.md", "reason": "Verify logging added in correct modules"}
+{"file": ".trellis/spec/backend/error-handling.md", "reason": "Logging must complement (not replace) existing Result-based error handling"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Code review checklist — encoding policy, decimal conversion, parallel stacks"}
+{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "Verify logging consistency across layers"}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "Verify MdClient/TraderClient logging patterns are consistent"}
