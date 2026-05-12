@@ -6,49 +6,62 @@
 
 ## Overview
 
-<!--
-Document your project's backend directory structure here.
+This repo is a two-layer wrapper around the official CTP SDK:
 
-Questions to answer:
-- How are modules/packages organized?
-- Where does business logic live?
-- Where are API endpoints defined?
-- How are utilities and helpers organized?
--->
-
-(To be filled by the team)
+1. **NativeBridge** (C++) — links the vendor SDK, exposes a stable C ABI in `include/ctp_bridge.h`.
+2. **Ctp.Net** (F#) — managed wrapper. `Ctp.Net/Bridge/` owns low-level interop; top-level files wrap callback-driven native APIs into `Async<Result<...>>` and .NET events.
 
 ---
 
 ## Directory Layout
 
 ```
-<!-- Replace with your actual structure -->
-src/
-├── ...
-└── ...
+Ctp.Net/
+├── Ctp.Net.fsproj          # Main project file
+├── AssemblyInfo.fs
+├── Common.fs               # Shared options, connection/request coordination primitives
+├── Md.fs                   # Market-data client (MailboxProcessor agent)
+├── Trader.fs               # Trader client (MailboxProcessor agent)
+└── Bridge/
+    ├── Common.fs           # Native library resolution, encoding, marshalling helpers
+    ├── MdBridge.fs         # Market-data native interop (DllImport, structs, callbacks)
+    └── TraderBridge.fs     # Trader native interop (DllImport, structs, callbacks)
+
+NativeBridge/
+├── include/
+│   └── ctp_bridge.h        # Stable C ABI
+├── src/
+│   ├── md_bridge.cpp       # Market-data bridge implementation
+│   └── trader_bridge.cpp   # Trader bridge implementation
+├── ctp-sdk/<version_date>/ # Bundled CTP SDK headers and libraries
+├── build.sh                # Linux build
+└── build.ps1               # Windows build
+
+Tests/
+├── Ctp.Net.Tests/          # Fast behavioral unit tests (xUnit v3 MTP)
+└── Ctp.Net.SmokeTests/     # Live integration tests against real CTP fronts
 ```
 
 ---
 
 ## Module Organization
 
-<!-- How should new features/modules be organized? -->
-
-(To be filled by the team)
+- **`Common.fs`**: Shared domain types (`CtpOptions`, `CtpEncodingOptions`, `ConnectError`), connection coordination (`ConnectionCoordinator`, `SinglePendingResult`, `SinglePendingRequest`), and query helpers (`PendingQueryDict`). Used by both `MdClient` and `TraderClient`.
+- **`Md.fs`** / **`Trader.fs`**: Public client classes. Each uses a `MailboxProcessor` agent to serialize native callbacks, complete pending async requests, and raise user-facing .NET events. These are intentionally parallel across all layers.
+- **`Bridge/`**: Low-level interop layer. `DllImport` declarations, native struct layouts (`[<StructLayout>]`), callback delegate registration, `SafeHandle` lifetimes, and marshalling. Public surface is `MdApi` / `TraderApi` thin wrappers.
 
 ---
 
 ## Naming Conventions
 
-<!-- File and folder naming rules -->
-
-(To be filled by the team)
+- F# source files: PascalCase (e.g., `Common.fs`, `MdBridge.fs`).
+- Namespaces: `Ctp.Net` for public API, `Ctp.Net.Bridge` for interop layer.
+- Internal helpers in modules marked `internal` (e.g., `module internal ClientHelpers`).
+- Agent message types: private DU suffixed with `AgentMessage` (e.g., `MdAgentMessage`).
 
 ---
 
 ## Examples
 
-<!-- Link to well-organized modules as examples -->
-
-(To be filled by the team)
+- Well-organized public API: `Ctp.Net/Trader.fs` — clear separation of agent loop, async public methods, and event exposure.
+- Clean interop boundary: `Ctp.Net/Bridge/Common.fs` — native resolution, encoding defaults, fixed-width string marshalling all in one place.
