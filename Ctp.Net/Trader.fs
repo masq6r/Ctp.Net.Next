@@ -232,19 +232,15 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.QueryTradingAccountAsync(?currencyId: string, ?bizType: char, ?accountId: string) =
+    member private _.QueryAsync<'TItem, 'TRequest>
+        (request: 'TRequest)
+        (apiCall: 'TRequest * int -> int)
+        : Async<Result<'TItem list, RspInfo>>
+        =
         let requestId = nextRequestId ()
-
-        let request =
-            { BrokerId = options.BrokerId
-              InvestorId = options.UserId
-              CurrencyId = currencyId
-              BizType = bizType
-              AccountId = accountId }
-
-        let completion = ClientHelpers.createCompletionSource<Result<TradingAccount list, RspInfo>> ()
+        let completion = ClientHelpers.createCompletionSource<Result<'TItem list, RspInfo>> ()
         pendingQueries.Register(requestId, completion)
-        let errCode = api.ReqQryTradingAccount(request, requestId)
+        let errCode = apiCall (request, requestId)
 
         if errCode <> 0 then
             pendingQueries.TryRemove requestId
@@ -252,9 +248,17 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.QueryInvestorPositionAsync(?exchangeId: string, ?investUnitId: string, ?instrumentId: string) =
-        let requestId = nextRequestId ()
+    member this.QueryTradingAccountAsync(?currencyId: string, ?bizType: char, ?accountId: string) =
+        let request =
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              CurrencyId = currencyId
+              BizType = bizType
+              AccountId = accountId }
 
+        this.QueryAsync<TradingAccount, QueryTradingAccountRequest> request api.ReqQryTradingAccount
+
+    member this.QueryInvestorPositionAsync(?exchangeId: string, ?investUnitId: string, ?instrumentId: string) =
         let request =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -262,15 +266,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        let completion = ClientHelpers.createCompletionSource<Result<InvestorPosition list, RspInfo>> ()
-        pendingQueries.Register(requestId, completion)
-        let result = api.ReqQryInvestorPosition(request, requestId)
-
-        if result <> 0 then
-            pendingQueries.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-
-        completion.Task |> ClientHelpers.awaitTask
+        this.QueryAsync<InvestorPosition, QueryInvestorPositionRequest> request api.ReqQryInvestorPosition
 
     member _.InsertOrderAsync(request: InputOrderRequest) = async {
         let requestId = nextRequestId ()

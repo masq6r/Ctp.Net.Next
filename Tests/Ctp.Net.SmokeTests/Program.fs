@@ -265,13 +265,6 @@ type TraderSmokeTests() =
         let! confirmed = client.SettlementInfoConfirmAsync() |> Async.StartAsTask
         confirmed |> Helper.expectOk |> ignore
 
-    // let queryRequest: QueryTradingAccountRequest =
-    //     { BrokerId = config.Shared.BrokerId
-    //       InvestorId = config.Shared.UserId
-    //       CurrencyId = None
-    //       BizType = None
-    //       AccountId = None }
-
-    // let! accountResult = client.QueryTradingAccountAsync(queryRequest) |> Async.StartAsTask
-    // accountResult |> Helper.expectOk |> ignore
+        let! accountResult = client.QueryTradingAccountAsync() |> Async.StartAsTask
+        accountResult |> Helper.expectOk |> ignore
     }
