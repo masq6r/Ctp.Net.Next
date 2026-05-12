@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~40 | Active |
+| `journal-1.md` | ~41 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,7 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
-| 1 | 2026-05-12 | Extract QueryAsync helper in TraderClient | `e8b9858` | `master` |
+| 1 | 2026-05-12 | Bootstrap guidelines + Add logging to Ctp.Net | `288f325`, `aa9ab9d` | `master` |
 <!-- @@@/auto:session-history -->
 
 ---

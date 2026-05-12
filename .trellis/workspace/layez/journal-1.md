@@ -7,15 +7,15 @@
 
 
 
-## Session 1: Extract QueryAsync helper in TraderClient
+## Session 1: Bootstrap guidelines + Add logging to Ctp.Net
 
 **Date**: 2026-05-12
-**Task**: Extract QueryAsync helper in TraderClient
+**Task**: Bootstrap guidelines + Add logging to Ctp.Net
 **Branch**: `master`
 
 ### Summary
 
-Added private QueryAsync<'TItem, 'TRequest> helper to TraderClient, eliminating duplicated boilerplate in QueryTradingAccountAsync and QueryInvestorPositionAsync. Each query method now delegates to the helper, reducing ~18 lines of duplicated code to ~4 lines per method.
+Filled trellis spec with backend conventions from CLAUDE.md. Added Microsoft.Extensions.Logging.Abstractions with ILoggerFactory injection to MdClient, TraderClient, ConnectionCoordinator, and PendingQueryDict. 35 tests pass.
 
 ### Main Changes
 
@@ -25,7 +25,8 @@ Added private QueryAsync<'TItem, 'TRequest> helper to TraderClient, eliminating 
 
 | Hash | Message |
 |------|---------|
-| `e8b9858` | (see git log) |
+| `288f325` | (see git log) |
+| `aa9ab9d` | (see git log) |
 
 ### Testing
 
