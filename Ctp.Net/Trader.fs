@@ -42,17 +42,7 @@ type TraderClient
     let loginPending = SinglePendingResult<Result<UserLoginResponse, RspInfo>>()
     let logoutPending = SinglePendingResult<Result<UserLogoutResponse, RspInfo>>()
 
-    let tradingAccountPending =
-        ConcurrentDictionary<
-            int,
-            ResizeArray<TradingAccount> * TaskCompletionSource<Result<TradingAccount list, RspInfo>>
-         >()
-
-    let investorPositionPending =
-        ConcurrentDictionary<
-            int,
-            ResizeArray<InvestorPosition> * TaskCompletionSource<Result<InvestorPosition list, RspInfo>>
-         >()
+    let pendingQueries = PendingQueryDict()
 
     let frontConnectedEvent = Event<unit>()
     let frontDisconnectedEvent = Event<int>()
@@ -92,16 +82,7 @@ type TraderClient
                             settlementInfoConfirmPending.TrySetResult(Error info)
                             loginPending.TrySetResult(Error info)
                             logoutPending.TrySetResult(Error info)
-
-                            let mutable accounts = Unchecked.defaultof<_>
-
-                            if tradingAccountPending.TryRemove(requestId, &accounts) then
-                                snd accounts |> fun tcs -> tcs.TrySetResult(Error info) |> ignore
-
-                            let mutable positions = Unchecked.defaultof<_>
-
-                            if investorPositionPending.TryRemove(requestId, &positions) then
-                                snd positions |> fun tcs -> tcs.TrySetResult(Error info) |> ignore)
+                            pendingQueries.TryFail(requestId, info))
                 | RspAuthenticate(response, rspInfo, _, isLast) when isLast ->
                     let result =
                         match ClientHelpers.resultFromRspInfo rspInfo, response with
@@ -135,35 +116,9 @@ type TraderClient
 
                     logoutPending.TrySetResult result
                 | RspQryTradingAccount(account, rspInfo, requestId, isLast) ->
-                    let mutable state = Unchecked.defaultof<_>
-
-                    if tradingAccountPending.TryGetValue(requestId, &state) then
-                        account |> Option.iter (fun item -> fst state |> fun items -> items.Add(item))
-
-                        if isLast then
-                            let mutable removed = Unchecked.defaultof<_>
-
-                            if tradingAccountPending.TryRemove(requestId, &removed) then
-                                match ClientHelpers.resultFromRspInfo rspInfo with
-                                | Error info -> snd removed |> fun tcs -> tcs.TrySetResult(Error info) |> ignore
-                                | Ok() ->
-                                    snd removed
-                                    |> fun tcs -> tcs.TrySetResult(Ok(List.ofSeq (fst removed))) |> ignore
+                    pendingQueries.TryAccumulate(requestId, account, rspInfo, isLast)
                 | RspQryInvestorPosition(position, rspInfo, requestId, isLast) ->
-                    let mutable state = Unchecked.defaultof<_>
-
-                    if investorPositionPending.TryGetValue(requestId, &state) then
-                        position |> Option.iter (fun item -> fst state |> fun items -> items.Add(item))
-
-                        if isLast then
-                            let mutable removed = Unchecked.defaultof<_>
-
-                            if investorPositionPending.TryRemove(requestId, &removed) then
-                                match ClientHelpers.resultFromRspInfo rspInfo with
-                                | Error info -> snd removed |> fun tcs -> tcs.TrySetResult(Error info) |> ignore
-                                | Ok() ->
-                                    snd removed
-                                    |> fun tcs -> tcs.TrySetResult(Ok(List.ofSeq (fst removed))) |> ignore
+                    pendingQueries.TryAccumulate(requestId, position, rspInfo, isLast)
                 | RspOrderInsert(_, rspInfo, _, isLast) when isLast ->
                     rspInfo
                     |> Option.filter (fun info -> info.ErrorId <> 0)
@@ -277,26 +232,42 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.QueryTradingAccountAsync(request: QueryTradingAccountRequest) =
+    member _.QueryTradingAccountAsync(?currencyId: string, ?bizType: char, ?accountId: string) =
         let requestId = nextRequestId ()
-        let completion = ClientHelpers.createCompletionSource<Result<TradingAccount list, RspInfo>> ()
-        tradingAccountPending[requestId] <- (ResizeArray(), completion)
-        let result = api.ReqQryTradingAccount(request, requestId)
 
-        if result <> 0 then
-            tradingAccountPending.TryRemove(requestId) |> ignore
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        let request =
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              CurrencyId = currencyId
+              BizType = bizType
+              AccountId = accountId }
+
+        let completion = ClientHelpers.createCompletionSource<Result<TradingAccount list, RspInfo>> ()
+        pendingQueries.Register(requestId, completion)
+        let errCode = api.ReqQryTradingAccount(request, requestId)
+
+        if errCode <> 0 then
+            pendingQueries.TryRemove requestId
+            completion.TrySetResult(Error(ClientHelpers.apiReturnError errCode)) |> ignore
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.QueryInvestorPositionAsync(request: QueryInvestorPositionRequest) =
+    member _.QueryInvestorPositionAsync(?exchangeId: string, ?investUnitId: string, ?instrumentId: string) =
         let requestId = nextRequestId ()
+
+        let request =
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              ExchangeId = exchangeId
+              InvestUnitId = investUnitId
+              InstrumentId = instrumentId }
+
         let completion = ClientHelpers.createCompletionSource<Result<InvestorPosition list, RspInfo>> ()
-        investorPositionPending[requestId] <- (ResizeArray(), completion)
+        pendingQueries.Register(requestId, completion)
         let result = api.ReqQryInvestorPosition(request, requestId)
 
         if result <> 0 then
-            investorPositionPending.TryRemove(requestId) |> ignore
+            pendingQueries.TryRemove requestId
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
 
         completion.Task |> ClientHelpers.awaitTask

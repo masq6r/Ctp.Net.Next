@@ -179,6 +179,38 @@ type internal SinglePendingRequest<'TRequest, 'TResult>() =
         this.TryTake()
         |> Option.iter (fun (request, completion) -> completion.TrySetResult(mapResult request) |> ignore)
 
+type internal PendingQueryDict() =
+    let dict = ConcurrentDictionary<int, {| Items: ResizeArray<obj>; Finalize: RspInfo option -> unit |}>()
+
+    member _.Register<'a>(requestId, completion: TaskCompletionSource<Result<'a list, RspInfo>>) =
+        let items = ResizeArray<obj>()
+
+        let finalize rspInfo =
+            match ClientHelpers.resultFromRspInfo rspInfo with
+            | Error info -> completion.TrySetResult(Error info) |> ignore
+            | Ok() -> items |> Seq.cast<'a> |> List.ofSeq |> Ok |> completion.TrySetResult |> ignore
+
+        dict.TryAdd(requestId, {| Items = items; Finalize = finalize |}) |> ignore
+
+    member _.TryRemove(requestId: int) = dict.TryRemove requestId |> ignore
+
+    member _.TryFail(requestId, error: RspInfo) =
+        let mutable removed = Unchecked.defaultof<_>
+
+        if dict.TryRemove(requestId, &removed) then
+            removed.Finalize(Some error)
+
+    member _.TryAccumulate<'a>(requestId, item: 'a option, rspInfo: RspInfo option, isLast: bool) =
+        match dict.TryGetValue requestId with
+        | true, state ->
+            item |> Option.iter state.Items.Add
+
+            if isLast then
+                dict.TryRemove requestId
+                |> Option.ofPair
+                |> Option.iter (fun removed -> removed.Finalize rspInfo)
+        | _ -> ()
+
 type internal ConnectionStartPhase =
     | NotStarted
     | Starting
