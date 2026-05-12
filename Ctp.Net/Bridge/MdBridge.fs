@@ -1,8 +1,8 @@
-namespace Ctp.Bridge.Net
+namespace Ctp.Net.Bridge
 
 open System
-open System.Runtime.InteropServices
 open Microsoft.Win32.SafeHandles
+open System.Runtime.InteropServices
 
 type DepthMarketData =
     { TradingDay: string

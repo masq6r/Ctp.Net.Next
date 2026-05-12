@@ -2,9 +2,9 @@ namespace Ctp.Net.Tests
 
 open Xunit
 open System
-open Ctp.Bridge.Net
 open Ctp.Net
 open System.Text
+open Ctp.Net.Bridge
 open System.Threading
 
 module Helper =
@@ -43,13 +43,13 @@ type EncodingTests() =
 
     [<Fact>]
     member _.``user login request keeps broker and user ids``() =
-        let login = UserLoginRequest.Create("9999", "demo", "secret")
+        let login = RequestUserLogin.Create("9999", "demo", "secret")
         Assert.Equal("9999", login.BrokerId)
         Assert.Equal("demo", login.UserId)
 
     [<Fact>]
     member _.``user logout request keeps broker and user ids``() =
-        let logout = UserLogoutRequest.Create("9999", "demo")
+        let logout = RequestUserLogout.Create("9999", "demo")
         Assert.Equal("9999", logout.BrokerId)
         Assert.Equal("demo", logout.UserId)
 
@@ -216,7 +216,7 @@ type SinglePendingRequestTests() =
 
     [<Fact>]
     member _.``pending request completes with mapped request``() =
-        let pending = SinglePendingRequest<string list, Result<string list, CtpError>>()
+        let pending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
         let completion = pending.Begin([ "au2506"; "ag2506" ])
 
         pending.TrySetResultFromRequest Ok
@@ -229,7 +229,7 @@ type SinglePendingRequestTests() =
 
     [<Fact>]
     member _.``pending request can complete with explicit error``() =
-        let pending = SinglePendingRequest<string list, Result<string list, CtpError>>()
+        let pending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
         let completion = pending.Begin([ "au2506" ])
         let error = ClientHelpers.apiReturnError 7
 
@@ -243,7 +243,7 @@ type SinglePendingRequestTests() =
 
     [<Fact>]
     member _.``only one pending request is allowed``() =
-        let pending = SinglePendingRequest<string list, Result<string list, CtpError>>()
+        let pending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
         pending.Begin([ "au2506" ]) |> ignore
 
         Assert.Throws<InvalidOperationException>(fun () -> pending.Begin([ "ag2506" ]) |> ignore)

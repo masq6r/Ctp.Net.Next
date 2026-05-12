@@ -2,17 +2,17 @@ namespace Ctp.Net
 
 open System
 open FSharpPlus
-open Ctp.Bridge.Net
+open Ctp.Net.Bridge
 
 type private MdAgentMessage =
     | FrontConnected
     | FrontDisconnected of int
     | HeartBeatWarning of int
-    | RspError of CtpError option * int * bool
-    | RspUserLogin of UserLoginResponse option * CtpError option * int * bool
-    | RspSubMarketData of SpecificInstrument option * CtpError option * int * bool
-    | RspUnsubMarketData of SpecificInstrument option * CtpError option * int * bool
-    | RspUserLogout of UserLogoutResponse option * CtpError option * int * bool
+    | RspError of RspInfo option * int * bool
+    | RspUserLogin of UserLoginResponse option * RspInfo option * int * bool
+    | RspSubMarketData of SpecificInstrument option * RspInfo option * int * bool
+    | RspUnsubMarketData of SpecificInstrument option * RspInfo option * int * bool
+    | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
     | RtnDepthMarketData of DepthMarketData
 
 type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool, ?useMulticast: bool) =
@@ -23,15 +23,15 @@ type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool
           InboundEncoding = value.InboundEncoding }
 
     let nextRequestId = ClientHelpers.nextRequestId
-    let loginPending = SinglePendingResult<Result<UserLoginResponse, CtpError>>()
-    let logoutPending = SinglePendingResult<Result<UserLogoutResponse, CtpError>>()
-    let subscribePending = SinglePendingRequest<string list, Result<string list, CtpError>>()
-    let unsubscribePending = SinglePendingRequest<string list, Result<string list, CtpError>>()
+    let loginPending = SinglePendingResult<Result<UserLoginResponse, RspInfo>>()
+    let logoutPending = SinglePendingResult<Result<UserLogoutResponse, RspInfo>>()
+    let subscribePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
+    let unsubscribePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
 
     let frontConnectedEvent = Event<unit>()
     let frontDisconnectedEvent = Event<int>()
     let heartBeatWarningEvent = Event<int>()
-    let rspErrorEvent = Event<CtpError>()
+    let rspErrorEvent = Event<RspInfo>()
     let depthMarketDataEvent = Event<DepthMarketData>()
 
     let api =

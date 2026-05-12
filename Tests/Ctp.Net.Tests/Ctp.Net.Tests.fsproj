@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Ctp.Bridge.Net\Ctp.Bridge.Net.fsproj" />
+
     <ProjectReference Include="..\..\Ctp.Net\Ctp.Net.fsproj" />
   </ItemGroup>
 

@@ -1,23 +1,23 @@
 namespace Ctp.Net
 
 open System
-open System.Collections.Concurrent
+open Ctp.Net.Bridge
 open System.Threading.Tasks
-open Ctp.Bridge.Net
+open System.Collections.Concurrent
 
 type private TraderAgentMessage =
     | FrontConnected
     | FrontDisconnected of int
     | HeartBeatWarning of int
-    | RspError of CtpError option * int * bool
-    | RspAuthenticate of AuthenticateResponse option * CtpError option * int * bool
-    | RspSettlementInfoConfirm of SettlementInfoConfirm option * CtpError option * int * bool
-    | RspUserLogin of UserLoginResponse option * CtpError option * int * bool
-    | RspUserLogout of UserLogoutResponse option * CtpError option * int * bool
-    | RspQryTradingAccount of TradingAccount option * CtpError option * int * bool
-    | RspQryInvestorPosition of InvestorPosition option * CtpError option * int * bool
-    | RspOrderInsert of InputOrderRequest option * CtpError option * int * bool
-    | RspOrderAction of InputOrderActionRequest option * CtpError option * int * bool
+    | RspError of RspInfo option * int * bool
+    | RspAuthenticate of AuthenticateResponse option * RspInfo option * int * bool
+    | RspSettlementInfoConfirm of SettlementInfoConfirm option * RspInfo option * int * bool
+    | RspUserLogin of UserLoginResponse option * RspInfo option * int * bool
+    | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
+    | RspQryTradingAccount of TradingAccount option * RspInfo option * int * bool
+    | RspQryInvestorPosition of InvestorPosition option * RspInfo option * int * bool
+    | RspOrderInsert of InputOrderRequest option * RspInfo option * int * bool
+    | RspOrderAction of InputOrderActionRequest option * RspInfo option * int * bool
     | RtnOrder of OrderUpdate
     | RtnTrade of TradeUpdate
 
@@ -37,27 +37,27 @@ type TraderClient
           InboundEncoding = value.InboundEncoding }
 
     let nextRequestId = ClientHelpers.nextRequestId
-    let authenticatePending = SinglePendingResult<Result<AuthenticateResponse, CtpError>>()
-    let settlementInfoConfirmPending = SinglePendingResult<Result<SettlementInfoConfirm, CtpError>>()
-    let loginPending = SinglePendingResult<Result<UserLoginResponse, CtpError>>()
-    let logoutPending = SinglePendingResult<Result<UserLogoutResponse, CtpError>>()
+    let authenticatePending = SinglePendingResult<Result<AuthenticateResponse, RspInfo>>()
+    let settlementInfoConfirmPending = SinglePendingResult<Result<SettlementInfoConfirm, RspInfo>>()
+    let loginPending = SinglePendingResult<Result<UserLoginResponse, RspInfo>>()
+    let logoutPending = SinglePendingResult<Result<UserLogoutResponse, RspInfo>>()
 
     let tradingAccountPending =
         ConcurrentDictionary<
             int,
-            ResizeArray<TradingAccount> * TaskCompletionSource<Result<TradingAccount list, CtpError>>
+            ResizeArray<TradingAccount> * TaskCompletionSource<Result<TradingAccount list, RspInfo>>
          >()
 
     let investorPositionPending =
         ConcurrentDictionary<
             int,
-            ResizeArray<InvestorPosition> * TaskCompletionSource<Result<InvestorPosition list, CtpError>>
+            ResizeArray<InvestorPosition> * TaskCompletionSource<Result<InvestorPosition list, RspInfo>>
          >()
 
     let frontConnectedEvent = Event<unit>()
     let frontDisconnectedEvent = Event<int>()
     let heartBeatWarningEvent = Event<int>()
-    let rspErrorEvent = Event<CtpError>()
+    let rspErrorEvent = Event<RspInfo>()
     let orderEvent = Event<OrderUpdate>()
     let tradeEvent = Event<TradeUpdate>()
     let api = new TraderApi(options.FlowPath, options.ProductionMode, encodings = bridgeEncodings)
@@ -279,7 +279,7 @@ type TraderClient
 
     member _.QueryTradingAccountAsync(request: QueryTradingAccountRequest) =
         let requestId = nextRequestId ()
-        let completion = ClientHelpers.createCompletionSource<Result<TradingAccount list, CtpError>> ()
+        let completion = ClientHelpers.createCompletionSource<Result<TradingAccount list, RspInfo>> ()
         tradingAccountPending[requestId] <- (ResizeArray(), completion)
         let result = api.ReqQryTradingAccount(request, requestId)
 
@@ -291,7 +291,7 @@ type TraderClient
 
     member _.QueryInvestorPositionAsync(request: QueryInvestorPositionRequest) =
         let requestId = nextRequestId ()
-        let completion = ClientHelpers.createCompletionSource<Result<InvestorPosition list, CtpError>> ()
+        let completion = ClientHelpers.createCompletionSource<Result<InvestorPosition list, RspInfo>> ()
         investorPositionPending[requestId] <- (ResizeArray(), completion)
         let result = api.ReqQryInvestorPosition(request, requestId)
 

@@ -1,4 +1,4 @@
-namespace Ctp.Bridge.Net
+namespace Ctp.Net.Bridge
 
 open System
 open System.IO
@@ -161,8 +161,7 @@ module internal NumericHelpers =
         else
             Some(decimal value)
 
-    let decimalOr defaultValue value =
-        tryDecimal value |> Option.defaultValue defaultValue
+    let decimalOr defaultValue value = tryDecimal value |> Option.defaultValue defaultValue
 
     let priceOrInvalid value = decimalOr invalidPrice value
 
@@ -191,9 +190,7 @@ type UserLoginResponse =
       LastLoginTime: string
       ReserveInfo: string }
 
-type UserLogoutResponse =
-    { BrokerId: string
-      UserId: string }
+type UserLogoutResponse = { BrokerId: string; UserId: string }
 
 type RequestUserLogin =
     { TradingDay: string option
@@ -229,9 +226,7 @@ type RequestUserLogout =
     { BrokerId: string
       UserId: string }
 
-    static member Create(brokerId: string, userId: string) =
-        { BrokerId = brokerId
-          UserId = userId }
+    static member Create(brokerId: string, userId: string) = { BrokerId = brokerId; UserId = userId }
 
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type internal NativeRspInfo =

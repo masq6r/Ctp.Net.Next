@@ -2,11 +2,11 @@ namespace Ctp.Net
 
 open System
 open FSharpPlus
-open System.Collections.Concurrent
 open System.Text
+open Ctp.Net.Bridge
 open System.Threading
 open System.Threading.Tasks
-open Ctp.Bridge.Net
+open System.Collections.Concurrent
 
 type CtpEncodingOptions =
     { OutboundEncoding: Encoding
@@ -40,7 +40,8 @@ type CtpOptions =
             ?userProductInfo: string,
             ?appId: string,
             ?authCode: string
-        ) =
+        )
+        =
         { FrontAddress = frontAddress
           FlowPath = flowPath
           ProductionMode = defaultArg productionMode true
@@ -57,33 +58,14 @@ type ConnectError =
     | Cancelled
     | NativeOperationFailed of string
 
-type CtpError = Ctp.Bridge.Net.RspInfo
-type UserLoginRequest = Ctp.Bridge.Net.RequestUserLogin
-type UserLogoutRequest = Ctp.Bridge.Net.RequestUserLogout
-type AuthenticateRequest = Ctp.Bridge.Net.AuthenticateRequest
-type SettlementInfoConfirm = Ctp.Bridge.Net.SettlementInfoConfirm
-type QueryTradingAccountRequest = Ctp.Bridge.Net.QueryTradingAccountRequest
-type QueryInvestorPositionRequest = Ctp.Bridge.Net.QueryInvestorPositionRequest
-type InputOrderRequest = Ctp.Bridge.Net.InputOrderRequest
-type InputOrderActionRequest = Ctp.Bridge.Net.InputOrderActionRequest
-type UserLoginResponse = Ctp.Bridge.Net.UserLoginResponse
-type UserLogoutResponse = Ctp.Bridge.Net.UserLogoutResponse
-type AuthenticateResponse = Ctp.Bridge.Net.AuthenticateResponse
-type SpecificInstrument = Ctp.Bridge.Net.SpecificInstrument
-type DepthMarketData = Ctp.Bridge.Net.DepthMarketData
-type TradingAccount = Ctp.Bridge.Net.TradingAccount
-type InvestorPosition = Ctp.Bridge.Net.InvestorPosition
-type OrderUpdate = Ctp.Bridge.Net.OrderUpdate
-type TradeUpdate = Ctp.Bridge.Net.TradeUpdate
 
 module internal OptionHelpers =
     let createUserLoginRequest (options: CtpOptions) =
-        let request = UserLoginRequest.Create(options.BrokerId, options.UserId, options.Password)
+        let request = RequestUserLogin.Create(options.BrokerId, options.UserId, options.Password)
 
         { request with UserProductInfo = options.UserProductInfo }
 
-    let createUserLogoutRequest (options: CtpOptions) =
-        UserLogoutRequest.Create(options.BrokerId, options.UserId)
+    let createUserLogoutRequest (options: CtpOptions) = RequestUserLogout.Create(options.BrokerId, options.UserId)
 
     let createAuthenticateRequest (options: CtpOptions) =
         { BrokerId = options.BrokerId
@@ -113,7 +95,7 @@ module internal ClientHelpers =
     let createCompletionSource<'T> () =
         TaskCompletionSource<'T>(TaskCreationOptions.RunContinuationsAsynchronously)
 
-    let resultFromRspInfo (rspInfo: CtpError option) =
+    let resultFromRspInfo (rspInfo: RspInfo option) =
         match rspInfo with
         | Some info when info.ErrorId <> 0 -> Error info
         | _ -> Ok()
@@ -124,7 +106,7 @@ module internal ClientHelpers =
           RawErrorMessage = Array.empty }
 
     let completeWithFailure
-        (dict: ConcurrentDictionary<int, TaskCompletionSource<Result<'T, CtpError>>>)
+        (dict: ConcurrentDictionary<int, TaskCompletionSource<Result<'T, RspInfo>>>)
         requestId
         error
         =
@@ -134,7 +116,7 @@ module internal ClientHelpers =
             completion.TrySetResult(Error error) |> ignore
 
     let completeWithResult
-        (dict: ConcurrentDictionary<int, TaskCompletionSource<Result<'T, CtpError>>>)
+        (dict: ConcurrentDictionary<int, TaskCompletionSource<Result<'T, RspInfo>>>)
         requestId
         result
         =

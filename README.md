@@ -6,10 +6,10 @@ This repository uses a thin native C++ bridge to translate the vendor C++ ABI in
 
 ## Layout
 
-- `Ctp.Bridge.Net`: low-level F# interop layer and native bridge loader
-- `Ctp.Net`: higher-level F# client API for `mduserapi` and `traderapi`
-- `Ctp.Bridge.C`: C++ bridge, exported C ABI, CMake build, and bundled `ctp-sdk`
-- `Tests/Ctp.Net.Tests`: smoke runner that validates encoding defaults and bridge version lookup
+- `Ctp.Net`: managed F# client API — `Bridge/` holds the low-level interop (`DllImport`, native structs, callback marshalling), while the top-level files wrap `mduserapi` and `traderapi` into `Async<Result<...>>` methods and .NET events
+- `NativeBridge`: C++ bridge, exported C ABI, CMake build, and bundled `ctp-sdk`
+- `Tests/Ctp.Net.Tests`: fast unit tests covering encoding, request helpers, and connection coordination
+- `Tests/Ctp.Net.SmokeTests`: end-to-end integration suite against live CTP fronts
 
 ## Encoding policy
 
@@ -25,24 +25,24 @@ This matches the usual CTP deployment reality more closely than forcing UTF-8 at
 ### Linux
 
 ```bash
-cd /home/layez/Projects/Ctp.Net
-./Ctp.Bridge.C/build.sh
-dotnet build Ctp.Net.sln -m:1
+cd /home/layez/repos/Ctp.Net.Next
+./NativeBridge/build.sh
+dotnet build Ctp.Net/Ctp.Net.fsproj -m:1
 ```
 
-`build.sh` defaults `CTP_SDK_ROOT` to `./Ctp.Bridge.C/ctp-sdk` and automatically selects the latest version directory under it, such as `v6.7.13_20260225`. Override `CTP_SDK_ROOT` if your SDK root is elsewhere, or set `CTP_SDK_VERSION` to pin a specific version directory.
+`build.sh` defaults `CTP_SDK_ROOT` to `./NativeBridge/ctp-sdk` and automatically selects the latest version directory under it, such as `v6.7.13_20260225`. Override `CTP_SDK_ROOT` if your SDK root is elsewhere, or set `CTP_SDK_VERSION` to pin a specific version directory.
 
 ### Windows
 
 ```powershell
 cd C:\path\to\Ctp.Net
-.\Ctp.Bridge.C\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk
-dotnet build .\Ctp.Net.sln -m:1
+.\NativeBridge\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk
+dotnet build .\Ctp.Net\Ctp.Net.fsproj -m:1
 ```
 
-The native build copies the official CTP runtime libraries into `Ctp.Bridge.C/build`, so setting `CTP_BRIDGE_DIR` to that directory is enough for smoke tests and local development.
+The native build copies the official CTP runtime libraries into `NativeBridge/build`, so setting `CTP_BRIDGE_DIR` to that directory is enough for smoke tests and local development.
 
-`Ctp.Bridge.Net` resolves native bridge libraries in this order:
+`Ctp.Net` resolves native bridge libraries in this order:
 
 1. `CTP_BRIDGE_DIR`
 2. `AppContext.BaseDirectory`
@@ -55,14 +55,14 @@ It does not read from the process current working directory.
 ### Linux
 
 ```bash
-cd /home/layez/Projects/Ctp.Net
-CTP_BRIDGE_DIR=/home/layez/Projects/Ctp.Net/Ctp.Bridge.C/build dotnet run --project Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj --no-restore
+cd /home/layez/repos/Ctp.Net.Next
+CTP_BRIDGE_DIR=/home/layez/repos/Ctp.Net.Next/NativeBridge/build dotnet run --project Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj --no-restore
 ```
 
 ### Windows
 
 ```powershell
-$env:CTP_BRIDGE_DIR = "C:\path\to\Ctp.Net\Ctp.Bridge.C\build"
+$env:CTP_BRIDGE_DIR = "C:\path\to\Ctp.Net\NativeBridge\build"
 dotnet run --project .\Tests\Ctp.Net.Tests\Ctp.Net.Tests.fsproj --no-restore
 ```
 
@@ -77,20 +77,20 @@ Use `dotnet build -m:1` for now.
 ```fsharp
 open Ctp.Net
 
-let connection =
-    CtpConnectionOptions.Create(
+let options =
+    CtpOptions.Create(
         frontAddress = "tcp://180.168.146.187:10211",
+        brokerId = "9999",
+        userId = "demo",
+        password = "secret",
         flowPath = "./flow"
     )
 
-use md = new MdClient(connection)
+use md = new MdClient(options)
 match md.Connect() |> Async.RunSynchronously with
 | Ok () -> ()
 | Error error -> failwithf "Connect failed: %A" error
 
-let login =
-    UserLoginRequest.Create("9999", "demo", "secret")
-
-let result = md.LoginAsync(login) |> Async.RunSynchronously
-printfn "%A" result
+let! loginResult = md.LoginAsync() |> Async.AwaitTask
+printfn "%A" loginResult
 ```

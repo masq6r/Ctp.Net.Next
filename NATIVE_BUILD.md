@@ -1,6 +1,6 @@
 # Native Bridge Build Guide
 
-This document covers only the native C++ bridge under `Ctp.Bridge.C/` for `Ctp.Net`.
+This document covers only the native C++ bridge under `NativeBridge/` for `Ctp.Net`.
 
 ## Purpose
 
@@ -9,17 +9,17 @@ The official CTP SDK ships as C++ libraries. `Ctp.Net` does not call those libra
 - `ctpmd_bridge`
 - `ctptrader_bridge`
 
-These expose a stable C ABI for the F# interop layer in `Ctp.Bridge.Net`.
+These expose a stable C ABI for the F# interop layer in `Ctp.Net/Bridge/`.
 
 ## Directory Layout
 
-- `Ctp.Bridge.C/CMakeLists.txt`: CMake project for the native bridge
-- `Ctp.Bridge.C/src/md_bridge.cpp`: market data bridge
-- `Ctp.Bridge.C/src/trader_bridge.cpp`: trader bridge
-- `Ctp.Bridge.C/include/ctp_bridge.h`: exported C ABI header
-- `Ctp.Bridge.C/build.sh`: Linux build entrypoint
-- `Ctp.Bridge.C/build.ps1`: Windows build entrypoint
-- `Ctp.Bridge.C/ctp-sdk`: bundled SDK root
+- `NativeBridge/CMakeLists.txt`: CMake project for the native bridge
+- `NativeBridge/src/md_bridge.cpp`: market data bridge
+- `NativeBridge/src/trader_bridge.cpp`: trader bridge
+- `NativeBridge/include/ctp_bridge.h`: exported C ABI header
+- `NativeBridge/build.sh`: Linux build entrypoint
+- `NativeBridge/build.ps1`: Windows build entrypoint
+- `NativeBridge/ctp-sdk`: bundled SDK root
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ These expose a stable C ABI for the F# interop layer in `Ctp.Bridge.Net`.
 `ctp-sdk` remains the SDK root. Under it, each first-level child is a version directory, for example:
 
 ```text
-Ctp.Bridge.C/ctp-sdk/
+NativeBridge/ctp-sdk/
 └── v6.7.13_20260225/
     ├── mduserapi/
     │   ├── linux-x64/
@@ -61,30 +61,30 @@ For backward compatibility, `CTP_SDK_ROOT` may also point directly at a single v
 From the project root:
 
 ```bash
-cd /home/layez/Projects/Ctp.Net
-./Ctp.Bridge.C/build.sh
+cd /home/layez/repos/Ctp.Net.Next
+./NativeBridge/build.sh
 ```
 
 If the SDK root is elsewhere:
 
 ```bash
-cd /home/layez/Projects/Ctp.Net
-CTP_SDK_ROOT=/path/to/ctp-sdk ./Ctp.Bridge.C/build.sh
+cd /home/layez/repos/Ctp.Net.Next
+CTP_SDK_ROOT=/path/to/ctp-sdk ./NativeBridge/build.sh
 ```
 
 To pin a specific version directory:
 
 ```bash
-cd /home/layez/Projects/Ctp.Net
-CTP_SDK_ROOT=/path/to/ctp-sdk CTP_SDK_VERSION=v6.7.13_20260225 ./Ctp.Bridge.C/build.sh
+cd /home/layez/repos/Ctp.Net.Next
+CTP_SDK_ROOT=/path/to/ctp-sdk CTP_SDK_VERSION=v6.7.13_20260225 ./NativeBridge/build.sh
 ```
 
 What `build.sh` does:
 
-1. configures `Ctp.Bridge.C/` with CMake
+1. configures `NativeBridge/` with CMake
 2. uses `CTP_SDK_ROOT` if provided
 3. optionally uses `CTP_SDK_VERSION` if provided
-4. writes build output to `Ctp.Bridge.C/build`
+4. writes build output to `NativeBridge/build`
 5. builds both bridge shared libraries
 
 ## Build on Windows
@@ -93,7 +93,7 @@ From the project root in PowerShell:
 
 ```powershell
 cd C:\path\to\Ctp.Net
-.\Ctp.Bridge.C\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk
+.\NativeBridge\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk
 ```
 
 If `CTP_SDK_ROOT` is already set:
@@ -101,25 +101,25 @@ If `CTP_SDK_ROOT` is already set:
 ```powershell
 cd C:\path\to\Ctp.Net
 $env:CTP_SDK_ROOT = 'C:\path\to\ctp-sdk'
-.\Ctp.Bridge.C\build.ps1
+.\NativeBridge\build.ps1
 ```
 
 To pin a specific version directory:
 
 ```powershell
 cd C:\path\to\Ctp.Net
-.\Ctp.Bridge.C\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk -CtpSdkVersion v6.7.13_20260225
+.\NativeBridge\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk -CtpSdkVersion v6.7.13_20260225
 ```
 
 The PowerShell script:
 
-1. configures `Ctp.Bridge.C/` with CMake
-2. writes output to `Ctp.Bridge.C/build`
+1. configures `NativeBridge/` with CMake
+2. writes output to `NativeBridge/build`
 3. builds the bridge in `Release`
 
 ## Expected Output
 
-After a successful Linux build, `Ctp.Bridge.C/build` should contain:
+After a successful Linux build, `NativeBridge/build` should contain:
 
 ```text
 libctpmd_bridge.so
@@ -128,7 +128,7 @@ thostmduserapi_se.so
 thosttraderapi_se.so
 ```
 
-After a successful Windows build, `Ctp.Bridge.C/build` should contain equivalents such as:
+After a successful Windows build, `NativeBridge/build` should contain equivalents such as:
 
 ```text
 ctpmd_bridge.dll
@@ -148,13 +148,13 @@ Typical usage:
 ### Linux
 
 ```bash
-export CTP_BRIDGE_DIR=/home/layez/Projects/Ctp.Net/Ctp.Bridge.C/build
+export CTP_BRIDGE_DIR=/home/layez/repos/Ctp.Net.Next/NativeBridge/build
 ```
 
 ### Windows
 
 ```powershell
-$env:CTP_BRIDGE_DIR = 'C:\path\to\Ctp.Net\Ctp.Bridge.C\build'
+$env:CTP_BRIDGE_DIR = 'C:\path\to\Ctp.Net\NativeBridge\build'
 ```
 
 ## Rebuild From Scratch
@@ -164,18 +164,18 @@ If you need a clean rebuild:
 ### Linux
 
 ```bash
-rm -rf /home/layez/Projects/Ctp.Net/Ctp.Bridge.C/build
-cd /home/layez/Projects/Ctp.Net
-./Ctp.Bridge.C/build.sh
+rm -rf /home/layez/repos/Ctp.Net.Next/NativeBridge/build
+cd /home/layez/repos/Ctp.Net.Next
+./NativeBridge/build.sh
 ```
 
 ### Windows
 
-Delete `Ctp.Bridge.C/build`, then run:
+Delete `NativeBridge/build`, then run:
 
 ```powershell
 cd C:\path\to\Ctp.Net
-.\Ctp.Bridge.C\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk
+.\NativeBridge\build.ps1 -CtpSdkRoot C:\path\to\ctp-sdk
 ```
 
 ## Common Problems
@@ -210,28 +210,28 @@ Cause:
 
 - `CTP_BRIDGE_DIR` is not set
 - bridge libraries were not built
-- runtime libraries were not copied into `Ctp.Bridge.C/build`
+- runtime libraries were not copied into `NativeBridge/build`
 
 Fix:
 
-1. rebuild `Ctp.Bridge.C`
-2. confirm the bridge files exist in `Ctp.Bridge.C/build`
-3. set `CTP_BRIDGE_DIR` to `Ctp.Bridge.C/build`
+1. rebuild `NativeBridge`
+2. confirm the bridge files exist in `NativeBridge/build`
+3. set `CTP_BRIDGE_DIR` to `NativeBridge/build`
 
 ## Linux runtime library resolution issues
 
 Check the generated output with:
 
 ```bash
-ldd /home/layez/Projects/Ctp.Net/Ctp.Bridge.C/build/libctpmd_bridge.so
-ldd /home/layez/Projects/Ctp.Net/Ctp.Bridge.C/build/libctptrader_bridge.so
+ldd /home/layez/repos/Ctp.Net.Next/NativeBridge/build/libctpmd_bridge.so
+ldd /home/layez/repos/Ctp.Net.Next/NativeBridge/build/libctptrader_bridge.so
 ```
 
-Both bridge libraries should resolve their dependent CTP `.so` files from `Ctp.Bridge.C/build` or the configured RPATH/load path.
+Both bridge libraries should resolve their dependent CTP `.so` files from `NativeBridge/build` or the configured RPATH/load path.
 
 ## Related Files
 
-- [Ctp.Bridge.C/CMakeLists.txt](/home/layez/repos/eXp.nXt/Trader/Ctp.Net.New/Ctp.Bridge.C/CMakeLists.txt)
-- [Ctp.Bridge.C/build.sh](/home/layez/repos/eXp.nXt/Trader/Ctp.Net.New/Ctp.Bridge.C/build.sh)
-- [Ctp.Bridge.C/build.ps1](/home/layez/repos/eXp.nXt/Trader/Ctp.Net.New/Ctp.Bridge.C/build.ps1)
-- [README.md](/home/layez/repos/eXp.nXt/Trader/Ctp.Net.New/README.md)
+- [NativeBridge/CMakeLists.txt](NativeBridge/CMakeLists.txt)
+- [NativeBridge/build.sh](NativeBridge/build.sh)
+- [NativeBridge/build.ps1](NativeBridge/build.ps1)
+- [README.md](README.md)

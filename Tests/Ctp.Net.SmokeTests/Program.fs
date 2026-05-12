@@ -1,11 +1,12 @@
 namespace Ctp.Net.SmokeTests
 
+open Xunit
 open System
+open Ctp.Net
 open System.IO
+open Ctp.Net.Bridge
 open System.Text.Json
 open System.Threading.Tasks
-open Xunit
-open Ctp.Net
 
 [<CLIMutable>]
 type SmokeTestConfigFile =

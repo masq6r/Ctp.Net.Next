@@ -14,8 +14,7 @@ packages/
 *.nupkg
 
 # C++ native CMake build output
-Ctp.Bridge.C/build/
-CtpDemo.Native/build/
+NativeBridge/build/
 
 # clangd
 .clangd/
