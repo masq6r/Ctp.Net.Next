@@ -6,6 +6,7 @@ open System.Text
 open Ctp.Net.Bridge
 open System.Threading
 open System.Threading.Tasks
+open Microsoft.Extensions.Logging
 open System.Collections.Concurrent
 
 type CtpEncodingOptions =
@@ -179,26 +180,60 @@ type internal SinglePendingRequest<'TRequest, 'TResult>() =
         this.TryTake()
         |> Option.iter (fun (request, completion) -> completion.TrySetResult(mapResult request) |> ignore)
 
-type internal PendingQueryDict() =
-    let dict = ConcurrentDictionary<int, {| Items: ResizeArray<obj>; Finalize: RspInfo option -> unit |}>()
+type internal PendingQueryDict(?logger: ILogger) =
+    let logger = defaultArg logger Abstractions.NullLogger.Instance
 
-    member _.Register<'a>(requestId, completion: TaskCompletionSource<Result<'a list, RspInfo>>) =
+    let dict =
+        ConcurrentDictionary<
+            int,
+            {| Items: ResizeArray<obj>
+               QueryName: string
+               Finalize: RspInfo option -> unit |}
+         >()
+
+    member _.Register<'a>(requestId, queryName: string, completion: TaskCompletionSource<Result<'a list, RspInfo>>) =
         let items = ResizeArray<obj>()
 
         let finalize rspInfo =
             match ClientHelpers.resultFromRspInfo rspInfo with
-            | Error info -> completion.TrySetResult(Error info) |> ignore
-            | Ok() -> items |> Seq.cast<'a> |> List.ofSeq |> Ok |> completion.TrySetResult |> ignore
+            | Error info ->
+                logger.LogError(
+                    "{QueryName} query failed for request {RequestId}: [{ErrorId}] {ErrorMessage}",
+                    queryName,
+                    requestId,
+                    info.ErrorId,
+                    info.ErrorMessage
+                )
 
-        dict.TryAdd(requestId, {| Items = items; Finalize = finalize |}) |> ignore
+                completion.TrySetResult(Error info) |> ignore
+            | Ok() ->
+                logger.LogDebug(
+                    "{QueryName} query completed for request {RequestId} with {ItemCount} items",
+                    queryName,
+                    requestId,
+                    items.Count
+                )
+
+                items |> Seq.cast<'a> |> List.ofSeq |> Ok |> completion.TrySetResult |> ignore
+
+        dict.TryAdd(requestId, {| Items = items; QueryName = queryName; Finalize = finalize |})
+        |> ignore
 
     member _.TryRemove(requestId: int) = dict.TryRemove requestId |> ignore
 
-    member _.TryFail(requestId, error: RspInfo) =
-        let mutable removed = Unchecked.defaultof<_>
+    member _.TryFail(requestId: int, error: RspInfo) =
+        match dict.TryRemove requestId with
+        | true, removed ->
+            logger.LogError(
+                "{QueryName} query failed for request {RequestId} via RspError: [{ErrorId}] {ErrorMessage}",
+                removed.QueryName,
+                requestId,
+                error.ErrorId,
+                error.ErrorMessage
+            )
 
-        if dict.TryRemove(requestId, &removed) then
             removed.Finalize(Some error)
+        | _ -> ()
 
     member _.TryAccumulate<'a>(requestId, item: 'a option, rspInfo: RspInfo option, isLast: bool) =
         match dict.TryGetValue requestId with
@@ -209,6 +244,13 @@ type internal PendingQueryDict() =
                 dict.TryRemove requestId
                 |> Option.ofPair
                 |> Option.iter (fun removed -> removed.Finalize rspInfo)
+            else
+                logger.LogTrace(
+                    "Received response for {QueryName} query with request {RequestId}",
+                    state.QueryName,
+                    requestId,
+                    state.Items.Count
+                )
         | _ -> ()
 
 type internal ConnectionStartPhase =
@@ -216,7 +258,8 @@ type internal ConnectionStartPhase =
     | Starting
     | Started
 
-type internal ConnectionCoordinator(startConnection: unit -> unit) =
+type internal ConnectionCoordinator(startConnection: unit -> unit, ?logger: ILogger) =
+    let logger = defaultArg logger Abstractions.NullLogger.Instance
     let syncRoot = obj ()
     let mutable startPhase = NotStarted
     let mutable isConnected = false
@@ -247,12 +290,18 @@ type internal ConnectionCoordinator(startConnection: unit -> unit) =
             with
             | :? TimeoutException ->
                 match normalizedTimeout with
-                | Some value -> return Error(ConnectError.Timeout value)
+                | Some value ->
+                    logger.LogWarning("Connection attempt timed out after {TimeoutSeconds}s", value.TotalSeconds)
+                    return Error(ConnectError.Timeout value)
                 | None -> return Error(ConnectError.Cancelled)
-            | :? OperationCanceledException -> return Error ConnectError.Cancelled
+            | :? OperationCanceledException ->
+                logger.LogWarning("Connection attempt was cancelled")
+                return Error ConnectError.Cancelled
         }
 
     member _.HandleFrontConnected() =
+        logger.LogDebug("Front connected")
+
         let mutable completion: TaskCompletionSource<Result<unit, ConnectError>> option = None
 
         lock syncRoot (fun () ->
@@ -263,6 +312,8 @@ type internal ConnectionCoordinator(startConnection: unit -> unit) =
         completion |> Option.iter (fun value -> value.TrySetResult(Ok()) |> ignore)
 
     member _.HandleFrontDisconnected() =
+        logger.LogInformation("Front disconnected")
+
         lock syncRoot (fun () ->
             if isConnected then
                 isConnected <- false
@@ -289,9 +340,12 @@ type internal ConnectionCoordinator(startConnection: unit -> unit) =
                     false)
 
         if hasImmediateResult then
+            logger.LogDebug("Already connected, returning immediately")
             return immediateResult
         else
             if shouldStart then
+                logger.LogInformation("Initiating front connection")
+
                 try
                     startConnection ()
 
@@ -299,6 +353,8 @@ type internal ConnectionCoordinator(startConnection: unit -> unit) =
                         if startPhase = Starting then
                             startPhase <- Started)
                 with ex ->
+                    logger.LogError(ex, "Native connection initiation failed: {Message}", ex.Message)
+
                     let error = Error(ConnectError.NativeOperationFailed ex.Message)
 
                     lock syncRoot (fun () ->

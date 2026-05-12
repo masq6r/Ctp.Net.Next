@@ -3,6 +3,7 @@ namespace Ctp.Net
 open System
 open FSharpPlus
 open Ctp.Net.Bridge
+open Microsoft.Extensions.Logging
 
 type private MdAgentMessage =
     | FrontConnected
@@ -15,7 +16,19 @@ type private MdAgentMessage =
     | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
     | RtnDepthMarketData of DepthMarketData
 
-type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool, ?useMulticast: bool) =
+type MdClient
+    (
+        options: CtpOptions,
+        ?encodings: CtpEncodingOptions,
+        ?useUdp: bool,
+        ?useMulticast: bool,
+        ?loggerFactory: ILoggerFactory
+    )
+    =
+    let loggerFactory = defaultArg loggerFactory Abstractions.NullLoggerFactory.Instance
+    let logger = loggerFactory.CreateLogger<MdClient>()
+    let coordinatorLogger = loggerFactory.CreateLogger<ConnectionCoordinator>()
+
     let bridgeEncodings: EncodingPair =
         let value = defaultArg encodings CtpEncodingOptions.Default
 
@@ -44,9 +57,12 @@ type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool
         )
 
     let connectionCoordinator =
-        ConnectionCoordinator(fun () ->
-            api.RegisterFront(options.FrontAddress)
-            api.Init())
+        ConnectionCoordinator(
+            (fun () ->
+                api.RegisterFront(options.FrontAddress)
+                api.Init()),
+            logger = coordinatorLogger
+        )
 
     let agent =
         MailboxProcessor.Start(fun inbox ->
@@ -62,26 +78,48 @@ type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool
                     frontDisconnectedEvent.Trigger reason
                 | HeartBeatWarning timeLapse -> heartBeatWarningEvent.Trigger timeLapse
                 | RspError(rspInfo, _, isLast) ->
-                    rspInfo |> Option.iter rspErrorEvent.Trigger
+                    rspInfo
+                    |> Option.iter (fun info ->
+                        logger.LogError("CTP error: [{ErrorId}] {ErrorMessage}", info.ErrorId, info.ErrorMessage)
+                        rspErrorEvent.Trigger info)
 
                     if isLast then
                         rspInfo
                         |> Option.iter (fun info ->
+                            logger.LogWarning("RspError isLast=true, failing all pending operations")
                             loginPending.TrySetResult(Error info)
                             logoutPending.TrySetResult(Error info))
                 | RspUserLogin(login, rspInfo, _, isLast) when isLast ->
                     let result =
                         match ClientHelpers.resultFromRspInfo rspInfo, login with
-                        | Error info, _ -> Error info
-                        | Ok(), Some value -> Ok value
+                        | Error info, _ ->
+                            logger.LogError(
+                                "Md login failed: [{ErrorId}] {ErrorMessage}",
+                                info.ErrorId,
+                                info.ErrorMessage
+                            )
+
+                            Error info
+                        | Ok(), Some value ->
+                            logger.LogInformation("Md login succeeded")
+                            Ok value
                         | Ok(), None -> Error(ClientHelpers.apiReturnError -2)
 
                     loginPending.TrySetResult result
                 | RspUserLogout(logout, rspInfo, _, isLast) when isLast ->
                     let result =
                         match ClientHelpers.resultFromRspInfo rspInfo, logout with
-                        | Error info, _ -> Error info
-                        | Ok(), Some value -> Ok value
+                        | Error info, _ ->
+                            logger.LogError(
+                                "Md logout failed: [{ErrorId}] {ErrorMessage}",
+                                info.ErrorId,
+                                info.ErrorMessage
+                            )
+
+                            Error info
+                        | Ok(), Some value ->
+                            logger.LogInformation("Md logout succeeded")
+                            Ok value
                         | Ok(), None -> Error(ClientHelpers.apiReturnError -2)
 
                     logoutPending.TrySetResult result
@@ -133,24 +171,28 @@ type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool
     member _.Join() = api.Join()
 
     member _.LoginAsync() =
+        logger.LogDebug("Sending login request")
         let requestId = nextRequestId ()
         let request = OptionHelpers.createUserLoginRequest options
         let completion = loginPending.Begin()
         let result = api.ReqUserLogin(request, requestId)
 
         if result <> 0 then
+            logger.LogError("Login request failed with native return code {ReturnCode}", result)
             loginPending.TryTake() |> ignore
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
 
         completion.Task |> ClientHelpers.awaitTask
 
     member _.LogoutAsync() =
+        logger.LogDebug("Sending logout request")
         let requestId = nextRequestId ()
         let request = OptionHelpers.createUserLogoutRequest options
         let completion = logoutPending.Begin()
         let result = api.ReqUserLogout(request, requestId)
 
         if result <> 0 then
+            logger.LogError("Logout request failed with native return code {ReturnCode}", result)
             logoutPending.TryTake() |> ignore
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
         else
@@ -161,10 +203,12 @@ type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool
 
     member _.SubscribeMarketDataAsync(instrumentIds: string seq) =
         let requested = List.ofSeq instrumentIds
+        logger.LogDebug("Subscribing to {InstrumentCount} instruments", requested.Length)
         let completion = subscribePending.Begin requested
         let result = api.SubscribeMarketData requested
 
         if result <> 0 then
+            logger.LogError("SubscribeMarketData failed with native return code {ReturnCode}", result)
             subscribePending.TryTake() |> ignore
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
 
@@ -172,10 +216,12 @@ type MdClient(options: CtpOptions, ?encodings: CtpEncodingOptions, ?useUdp: bool
 
     member _.UnsubscribeMarketDataAsync(instrumentIds: string seq) =
         let requested = List.ofSeq instrumentIds
+        logger.LogDebug("Unsubscribing from {InstrumentCount} instruments", requested.Length)
         let completion = unsubscribePending.Begin requested
         let result = api.UnsubscribeMarketData requested
 
         if result <> 0 then
+            logger.LogError("UnsubscribeMarketData failed with native return code {ReturnCode}", result)
             unsubscribePending.TryTake() |> ignore
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
 

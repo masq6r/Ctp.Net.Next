@@ -6,6 +6,8 @@ open Ctp.Net
 open System.Text
 open Ctp.Net.Bridge
 open System.Threading
+open System.Collections.Generic
+open Microsoft.Extensions.Logging
 
 module Helper =
 
@@ -352,3 +354,128 @@ type ConnectionCoordinatorTests() =
         coordinator.Connect()
         |> Async.RunSynchronously
         |> Helper.assertConnectError (ConnectError.NativeOperationFailed "boom")
+
+
+module FakeLogger =
+
+    type LogEntry = { Level: LogLevel; Message: string }
+
+    type FakeLogger() =
+        let entries = ResizeArray<LogEntry>()
+
+        member _.Entries = entries :> IReadOnlyList<LogEntry>
+
+        interface ILogger with
+            member _.BeginScope _ = null
+            member _.IsEnabled _ = true
+
+            member _.Log(logLevel, _eventId, state, exn, formatter: Func<_, _, _>) =
+                let message = formatter.Invoke(state, exn) |> string
+                entries.Add({ Level = logLevel; Message = message })
+
+    type FakeLoggerProvider() =
+        let logger = FakeLogger()
+
+        member _.Logger = logger
+
+        interface ILoggerProvider with
+            member _.CreateLogger _ = logger :> ILogger
+            member _.Dispose() = ()
+
+
+type LoggingTests() =
+
+    let factoryWithProvider (provider: FakeLogger.FakeLoggerProvider) =
+        { new ILoggerFactory with
+            member _.CreateLogger(category) =
+                provider :> ILoggerProvider |> fun p -> p.CreateLogger(category)
+
+            member _.AddProvider _ = ()
+            member _.Dispose() = () }
+
+    [<Fact>]
+    member _.``native failure logs error``() =
+        use provider = new FakeLogger.FakeLoggerProvider()
+        use factory = factoryWithProvider provider
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let coordinator = ConnectionCoordinator((fun () -> invalidOp "boom"), logger = logger)
+
+        coordinator.Connect()
+        |> Async.RunSynchronously
+        |> Helper.assertConnectError (ConnectError.NativeOperationFailed "boom")
+
+        let errors =
+            provider.Logger.Entries
+            |> Seq.filter (fun e -> e.Level = LogLevel.Error)
+            |> List.ofSeq
+
+        Assert.Single(errors) |> ignore
+        Assert.Contains("Native connection initiation failed", errors[0].Message)
+        Assert.Contains("boom", errors[0].Message)
+
+    [<Fact>]
+    member _.``connect timeout logs warning``() =
+        use provider = new FakeLogger.FakeLoggerProvider()
+        use factory = factoryWithProvider provider
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
+        let timeout = TimeSpan.FromMilliseconds 50.0
+
+        coordinator.Connect(timeout = timeout)
+        |> Async.RunSynchronously
+        |> Helper.assertConnectError (ConnectError.Timeout timeout)
+
+        let warnings =
+            provider.Logger.Entries
+            |> Seq.filter (fun e -> e.Level = LogLevel.Warning)
+            |> List.ofSeq
+
+        Assert.Single(warnings) |> ignore
+        Assert.Contains("timed out", warnings[0].Message)
+
+    [<Fact>]
+    member _.``front connected logs debug``() =
+        use provider = new FakeLogger.FakeLoggerProvider()
+        use factory = factoryWithProvider provider
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
+
+        let task = Async.StartAsTask(coordinator.Connect())
+        Helper.waitFor (fun () -> task.IsCompleted = false) 1000
+        coordinator.HandleFrontConnected()
+        task.GetAwaiter().GetResult() |> Helper.assertOk
+
+        let debugs =
+            provider.Logger.Entries
+            |> Seq.filter (fun e -> e.Level = LogLevel.Debug)
+            |> List.ofSeq
+
+        Assert.Contains(debugs, fun e -> e.Message.Contains("Front connected"))
+
+    [<Fact>]
+    member _.``front disconnected logs info``() =
+        use provider = new FakeLogger.FakeLoggerProvider()
+        use factory = factoryWithProvider provider
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
+
+        let task = Async.StartAsTask(coordinator.Connect())
+        coordinator.HandleFrontConnected()
+        task.GetAwaiter().GetResult() |> Helper.assertOk
+        coordinator.HandleFrontDisconnected()
+
+        let infos =
+            provider.Logger.Entries
+            |> Seq.filter (fun e -> e.Level = LogLevel.Information)
+            |> List.ofSeq
+
+        Assert.Contains(infos, fun e -> e.Message.Contains("Front disconnected"))
+
+    [<Fact>]
+    member _.``no logger means no logging``() =
+        let coordinator = ConnectionCoordinator(fun () -> ())
+        let task = Async.StartAsTask(coordinator.Connect())
+
+        coordinator.HandleFrontConnected()
+        task.GetAwaiter().GetResult() |> Helper.assertOk
+// No exception thrown = pass
