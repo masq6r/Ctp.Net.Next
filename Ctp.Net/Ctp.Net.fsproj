@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Common.fs" />
+    <Compile Include="Md.fs" />
+    <Compile Include="Trader.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ctp.Bridge.Net\Ctp.Bridge.Net.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharpPlus" Version="1.9.1" />
+  </ItemGroup>
+
+</Project>

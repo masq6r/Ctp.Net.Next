@@ -1,0 +1,39 @@
+# .NET / F# build artifacts
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+
+# MSBuild log
+msbuild.log
+
+# NuGet
+packages/
+*.nupkg
+
+# C++ native CMake build output
+Ctp.Bridge.C/build/
+CtpDemo.Native/build/
+
+# clangd
+.clangd/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+\#*\#
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Smoke test local config (contains credentials)
+Tests/Ctp.Net.SmokeTests/smoke.local.json
+
+# Local demos
+CtpDemo*/
