@@ -44,6 +44,7 @@ type MdSmokeConfig =
 type TraderSmokeConfig =
     { Shared: SharedSmokeConfig
       FrontAddress: string
+      InstrumentId: string
       Authentication: AuthenticationConfig option }
 
 module Helper =
@@ -177,7 +178,7 @@ module SmokeConfig =
         match tryLoadConfigFile () with
         | Some config ->
             match createSharedConfig config with
-            | Some shared when isPresent config.TraderFront ->
+            | Some shared when isPresent config.TraderFront && isPresent config.InstrumentId ->
                 let authentication =
                     match trimToOption config.AppId, trimToOption config.AuthCode with
                     | None, None -> Some None
@@ -188,6 +189,7 @@ module SmokeConfig =
                 |> Option.map (fun auth ->
                     { Shared = shared
                       FrontAddress = trimRequired config.TraderFront
+                      InstrumentId = trimRequired config.InstrumentId
                       Authentication = auth })
             | _ -> None
         | None -> None
@@ -267,6 +269,26 @@ type TraderSmokeTests() =
 
         let! accountResult = client.QueryTradingAccountAsync() |> Async.StartAsTask
         accountResult |> Helper.expectOk |> ignore
+
+        let speculationHedgeFlag = '1'
+
+        let! instrumentMarginRateResult =
+            client.QueryInstrumentMarginRateAsync(speculationHedgeFlag, config.InstrumentId)
+            |> Async.StartAsTask
+
+        instrumentMarginRateResult |> Helper.expectOk |> ignore
+
+        let! exchangeMarginRateResult =
+            client.QueryExchangeMarginRateAsync(speculationHedgeFlag, config.InstrumentId)
+            |> Async.StartAsTask
+
+        exchangeMarginRateResult |> Helper.expectOk |> ignore
+
+        let! instrumentCommissionRateResult =
+            client.QueryInstrumentCommissionRateAsync(config.InstrumentId)
+            |> Async.StartAsTask
+
+        instrumentCommissionRateResult |> Helper.expectOk |> ignore
 
         let! logoutResult = client.LogoutAsync() |> Async.StartAsTask
         logoutResult |> Helper.expectOk |> ignore

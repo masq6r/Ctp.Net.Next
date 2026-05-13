@@ -1,0 +1,5 @@
+{"file": ".trellis/spec/backend/logging-guidelines.md", "reason": "Verify new TraderClient logs use the same structured fields and levels as existing query flows."}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Check code quality expectations for the touched backend files, even though the spec is currently a placeholder."}
+{"file": ".trellis/spec/backend/error-handling.md", "reason": "Verify non-zero native return codes and callback RspInfo errors still surface through the existing Result contract."}
+{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "Check that request/response fields stay consistent across SDK, native bridge, managed interop, and public API layers."}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "Review whether the implementation stayed aligned with the existing query pattern and avoided unnecessary duplication."}

@@ -5,7 +5,7 @@ allowed-tools: Read, Grep, Glob
 ---
 
 ## Docs
-- **API reference**: `docs/reference/`
+- **API reference**: `docs/reference/**`
 - **Conventions and pitfalls**: `docs/pitfalls.md`
 
 ## Usage

@@ -16,6 +16,9 @@ type private TraderAgentMessage =
     | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
     | RspQryTradingAccount of TradingAccount option * RspInfo option * int * bool
     | RspQryInvestorPosition of InvestorPosition option * RspInfo option * int * bool
+    | RspQryInstrumentMarginRate of InstrumentMarginRate option * RspInfo option * int * bool
+    | RspQryExchangeMarginRate of ExchangeMarginRate option * RspInfo option * int * bool
+    | RspQryInstrumentCommissionRate of InstrumentCommissionRate option * RspInfo option * int * bool
     | RspOrderInsert of InputOrderRequest option * RspInfo option * int * bool
     | RspOrderAction of InputOrderActionRequest option * RspInfo option * int * bool
     | RtnOrder of OrderUpdate
@@ -100,6 +103,12 @@ type TraderClient
                     pending.TryAccumulate(requestId, account, rspInfo, isLast)
                 | RspQryInvestorPosition(position, rspInfo, requestId, isLast) ->
                     pending.TryAccumulate(requestId, position, rspInfo, isLast)
+                | RspQryInstrumentMarginRate(marginRate, rspInfo, requestId, isLast) ->
+                    pending.TryAccumulate(requestId, marginRate, rspInfo, isLast)
+                | RspQryExchangeMarginRate(marginRate, rspInfo, requestId, isLast) ->
+                    pending.TryAccumulate(requestId, marginRate, rspInfo, isLast)
+                | RspQryInstrumentCommissionRate(commissionRate, rspInfo, requestId, isLast) ->
+                    pending.TryAccumulate(requestId, commissionRate, rspInfo, isLast)
                 | RspOrderInsert(_, rspInfo, _, isLast) when isLast ->
                     rspInfo
                     |> Option.filter (fun info -> info.ErrorId <> 0)
@@ -156,6 +165,15 @@ type TraderClient
                 RspQryInvestorPosition =
                     Some(fun position rsp requestId isLast ->
                         agent.Post(RspQryInvestorPosition(position, rsp, requestId, isLast)))
+                RspQryInstrumentMarginRate =
+                    Some(fun marginRate rsp requestId isLast ->
+                        agent.Post(RspQryInstrumentMarginRate(marginRate, rsp, requestId, isLast)))
+                RspQryExchangeMarginRate =
+                    Some(fun marginRate rsp requestId isLast ->
+                        agent.Post(RspQryExchangeMarginRate(marginRate, rsp, requestId, isLast)))
+                RspQryInstrumentCommissionRate =
+                    Some(fun commissionRate rsp requestId isLast ->
+                        agent.Post(RspQryInstrumentCommissionRate(commissionRate, rsp, requestId, isLast)))
                 RspOrderInsert =
                     Some(fun request rsp requestId isLast ->
                         agent.Post(RspOrderInsert(request, rsp, requestId, isLast)))
@@ -277,7 +295,7 @@ type TraderClient
             api.ReqQryTradingAccount
 
     member this.QueryInvestorPositionAsync(?exchangeId: string, ?investUnitId: string, ?instrumentId: string) =
-        let request =
+        let request: QueryInvestorPositionRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
               ExchangeId = exchangeId
@@ -288,6 +306,47 @@ type TraderClient
             (nameof QueryInvestorPositionRequest)
             request
             api.ReqQryInvestorPosition
+
+    member this.QueryInstrumentMarginRateAsync
+        (hedgeFlag: char, instrumentId: string, ?exchangeId: string, ?investUnitId: string)
+        =
+        let request: QueryInstrumentMarginRateRequest =
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              HedgeFlag = hedgeFlag
+              ExchangeId = exchangeId
+              InvestUnitId = investUnitId
+              InstrumentId = instrumentId }
+
+        this.QueryAsync<InstrumentMarginRate, QueryInstrumentMarginRateRequest>
+            (nameof QueryInstrumentMarginRateRequest)
+            request
+            api.ReqQryInstrumentMarginRate
+
+    member this.QueryExchangeMarginRateAsync(hedgeFlag: char, instrumentId: string, ?exchangeId: string) =
+        let request: QueryExchangeMarginRateRequest =
+            { BrokerId = options.BrokerId
+              HedgeFlag = hedgeFlag
+              ExchangeId = exchangeId
+              InstrumentId = instrumentId }
+
+        this.QueryAsync<ExchangeMarginRate, QueryExchangeMarginRateRequest>
+            (nameof QueryExchangeMarginRateRequest)
+            request
+            api.ReqQryExchangeMarginRate
+
+    member this.QueryInstrumentCommissionRateAsync(instrumentId: string, ?exchangeId: string, ?investUnitId: string) =
+        let request: QueryInstrumentCommissionRateRequest =
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              ExchangeId = exchangeId
+              InvestUnitId = investUnitId
+              InstrumentId = instrumentId }
+
+        this.QueryAsync<InstrumentCommissionRate, QueryInstrumentCommissionRateRequest>
+            (nameof QueryInstrumentCommissionRateRequest)
+            request
+            api.ReqQryInstrumentCommissionRate
 
     member _.InsertOrderAsync(request: InputOrderRequest) = async {
         logger.LogDebug("Inserting order: {InstrumentId}", request.InstrumentId)

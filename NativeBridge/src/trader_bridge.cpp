@@ -137,6 +137,63 @@ void fill_investor_position(ctp_investor_position& dest, const CThostFtdcInvesto
   dest.open_cost = src->OpenCost;
 }
 
+void fill_instrument_margin_rate(ctp_instrument_margin_rate& dest, const CThostFtdcInstrumentMarginRateField* src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.reserve1, src->reserve1);
+  dest.investor_range = src->InvestorRange;
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.investor_id, src->InvestorID);
+  dest.hedge_flag = src->HedgeFlag;
+  dest.long_margin_ratio_by_money = src->LongMarginRatioByMoney;
+  dest.long_margin_ratio_by_volume = src->LongMarginRatioByVolume;
+  dest.short_margin_ratio_by_money = src->ShortMarginRatioByMoney;
+  dest.short_margin_ratio_by_volume = src->ShortMarginRatioByVolume;
+  dest.is_relative = src->IsRelative;
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.invest_unit_id, src->InvestUnitID);
+  copy_field(dest.instrument_id, src->InstrumentID);
+}
+
+void fill_exchange_margin_rate(ctp_exchange_margin_rate& dest, const CThostFtdcExchangeMarginRateField* src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.reserve1, src->reserve1);
+  dest.hedge_flag = src->HedgeFlag;
+  dest.long_margin_ratio_by_money = src->LongMarginRatioByMoney;
+  dest.long_margin_ratio_by_volume = src->LongMarginRatioByVolume;
+  dest.short_margin_ratio_by_money = src->ShortMarginRatioByMoney;
+  dest.short_margin_ratio_by_volume = src->ShortMarginRatioByVolume;
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.instrument_id, src->InstrumentID);
+}
+
+void fill_instrument_commission_rate(ctp_instrument_commission_rate& dest, const CThostFtdcInstrumentCommissionRateField* src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.reserve1, src->reserve1);
+  dest.investor_range = src->InvestorRange;
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.investor_id, src->InvestorID);
+  dest.open_ratio_by_money = src->OpenRatioByMoney;
+  dest.open_ratio_by_volume = src->OpenRatioByVolume;
+  dest.close_ratio_by_money = src->CloseRatioByMoney;
+  dest.close_ratio_by_volume = src->CloseRatioByVolume;
+  dest.close_today_ratio_by_money = src->CloseTodayRatioByMoney;
+  dest.close_today_ratio_by_volume = src->CloseTodayRatioByVolume;
+  copy_field(dest.exchange_id, src->ExchangeID);
+  dest.biz_type = src->BizType;
+  copy_field(dest.invest_unit_id, src->InvestUnitID);
+  copy_field(dest.instrument_id, src->InstrumentID);
+}
+
 void fill_input_order(ctp_input_order& dest, const CThostFtdcInputOrderField* src) {
   std::memset(&dest, 0, sizeof(dest));
   if (src == nullptr) {
@@ -354,6 +411,39 @@ public:
     callbacks_.on_rsp_qry_investor_position(position != nullptr ? &position_bridge : nullptr, rsp_info != nullptr ? &rsp_bridge : nullptr, request_id, is_last ? 1 : 0, user_data_);
   }
 
+  void OnRspQryInstrumentMarginRate(CThostFtdcInstrumentMarginRateField* margin_rate, CThostFtdcRspInfoField* rsp_info, int request_id, bool is_last) override {
+    if (callbacks_.on_rsp_qry_instrument_margin_rate == nullptr) {
+      return;
+    }
+    ctp_instrument_margin_rate margin_rate_bridge {};
+    ctp_rsp_info rsp_bridge {};
+    fill_instrument_margin_rate(margin_rate_bridge, margin_rate);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.on_rsp_qry_instrument_margin_rate(margin_rate != nullptr ? &margin_rate_bridge : nullptr, rsp_info != nullptr ? &rsp_bridge : nullptr, request_id, is_last ? 1 : 0, user_data_);
+  }
+
+  void OnRspQryExchangeMarginRate(CThostFtdcExchangeMarginRateField* margin_rate, CThostFtdcRspInfoField* rsp_info, int request_id, bool is_last) override {
+    if (callbacks_.on_rsp_qry_exchange_margin_rate == nullptr) {
+      return;
+    }
+    ctp_exchange_margin_rate margin_rate_bridge {};
+    ctp_rsp_info rsp_bridge {};
+    fill_exchange_margin_rate(margin_rate_bridge, margin_rate);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.on_rsp_qry_exchange_margin_rate(margin_rate != nullptr ? &margin_rate_bridge : nullptr, rsp_info != nullptr ? &rsp_bridge : nullptr, request_id, is_last ? 1 : 0, user_data_);
+  }
+
+  void OnRspQryInstrumentCommissionRate(CThostFtdcInstrumentCommissionRateField* commission_rate, CThostFtdcRspInfoField* rsp_info, int request_id, bool is_last) override {
+    if (callbacks_.on_rsp_qry_instrument_commission_rate == nullptr) {
+      return;
+    }
+    ctp_instrument_commission_rate commission_rate_bridge {};
+    ctp_rsp_info rsp_bridge {};
+    fill_instrument_commission_rate(commission_rate_bridge, commission_rate);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.on_rsp_qry_instrument_commission_rate(commission_rate != nullptr ? &commission_rate_bridge : nullptr, rsp_info != nullptr ? &rsp_bridge : nullptr, request_id, is_last ? 1 : 0, user_data_);
+  }
+
   void OnRspOrderInsert(CThostFtdcInputOrderField* input_order, CThostFtdcRspInfoField* rsp_info, int request_id, bool is_last) override {
     if (callbacks_.on_rsp_order_insert == nullptr) {
       return;
@@ -452,6 +542,33 @@ void fill_qry_trading_account(CThostFtdcQryTradingAccountField& dest, const ctp_
 }
 
 void fill_qry_investor_position(CThostFtdcQryInvestorPositionField& dest, const ctp_qry_investor_position& src) {
+  std::memset(&dest, 0, sizeof(dest));
+  copy_field(dest.BrokerID, src.broker_id);
+  copy_field(dest.InvestorID, src.investor_id);
+  copy_field(dest.ExchangeID, src.exchange_id);
+  copy_field(dest.InvestUnitID, src.invest_unit_id);
+  copy_field(dest.InstrumentID, src.instrument_id);
+}
+
+void fill_qry_instrument_margin_rate(CThostFtdcQryInstrumentMarginRateField& dest, const ctp_qry_instrument_margin_rate& src) {
+  std::memset(&dest, 0, sizeof(dest));
+  copy_field(dest.BrokerID, src.broker_id);
+  copy_field(dest.InvestorID, src.investor_id);
+  dest.HedgeFlag = src.hedge_flag;
+  copy_field(dest.ExchangeID, src.exchange_id);
+  copy_field(dest.InvestUnitID, src.invest_unit_id);
+  copy_field(dest.InstrumentID, src.instrument_id);
+}
+
+void fill_qry_exchange_margin_rate(CThostFtdcQryExchangeMarginRateField& dest, const ctp_qry_exchange_margin_rate& src) {
+  std::memset(&dest, 0, sizeof(dest));
+  copy_field(dest.BrokerID, src.broker_id);
+  dest.HedgeFlag = src.hedge_flag;
+  copy_field(dest.ExchangeID, src.exchange_id);
+  copy_field(dest.InstrumentID, src.instrument_id);
+}
+
+void fill_qry_instrument_commission_rate(CThostFtdcQryInstrumentCommissionRateField& dest, const ctp_qry_instrument_commission_rate& src) {
   std::memset(&dest, 0, sizeof(dest));
   copy_field(dest.BrokerID, src.broker_id);
   copy_field(dest.InvestorID, src.investor_id);
@@ -659,6 +776,33 @@ int32_t ctp_trader_req_qry_investor_position(ctp_trader_handle* handle, const ct
   CThostFtdcQryInvestorPositionField native_request {};
   fill_qry_investor_position(native_request, *request);
   return handle->api->ReqQryInvestorPosition(&native_request, request_id);
+}
+
+int32_t ctp_trader_req_qry_instrument_margin_rate(ctp_trader_handle* handle, const ctp_qry_instrument_margin_rate* request, int32_t request_id) {
+  if (handle == nullptr || handle->api == nullptr || request == nullptr) {
+    return -1;
+  }
+  CThostFtdcQryInstrumentMarginRateField native_request {};
+  fill_qry_instrument_margin_rate(native_request, *request);
+  return handle->api->ReqQryInstrumentMarginRate(&native_request, request_id);
+}
+
+int32_t ctp_trader_req_qry_exchange_margin_rate(ctp_trader_handle* handle, const ctp_qry_exchange_margin_rate* request, int32_t request_id) {
+  if (handle == nullptr || handle->api == nullptr || request == nullptr) {
+    return -1;
+  }
+  CThostFtdcQryExchangeMarginRateField native_request {};
+  fill_qry_exchange_margin_rate(native_request, *request);
+  return handle->api->ReqQryExchangeMarginRate(&native_request, request_id);
+}
+
+int32_t ctp_trader_req_qry_instrument_commission_rate(ctp_trader_handle* handle, const ctp_qry_instrument_commission_rate* request, int32_t request_id) {
+  if (handle == nullptr || handle->api == nullptr || request == nullptr) {
+    return -1;
+  }
+  CThostFtdcQryInstrumentCommissionRateField native_request {};
+  fill_qry_instrument_commission_rate(native_request, *request);
+  return handle->api->ReqQryInstrumentCommissionRate(&native_request, request_id);
 }
 
 int32_t ctp_trader_req_order_insert(ctp_trader_handle* handle, const ctp_input_order* request, int32_t request_id) {

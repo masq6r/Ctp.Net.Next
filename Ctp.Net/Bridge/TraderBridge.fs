@@ -60,6 +60,45 @@ type InvestorPosition =
       PositionCost: decimal
       OpenCost: decimal }
 
+type InstrumentMarginRate =
+    { InvestorRange: char option
+      BrokerId: string
+      InvestorId: string
+      HedgeFlag: char option
+      LongMarginRatioByMoney: decimal
+      LongMarginRatioByVolume: decimal
+      ShortMarginRatioByMoney: decimal
+      ShortMarginRatioByVolume: decimal
+      IsRelative: bool
+      ExchangeId: string
+      InvestUnitId: string
+      InstrumentId: string }
+
+type ExchangeMarginRate =
+    { BrokerId: string
+      HedgeFlag: char option
+      LongMarginRatioByMoney: decimal
+      LongMarginRatioByVolume: decimal
+      ShortMarginRatioByMoney: decimal
+      ShortMarginRatioByVolume: decimal
+      ExchangeId: string
+      InstrumentId: string }
+
+type InstrumentCommissionRate =
+    { InvestorRange: char option
+      BrokerId: string
+      InvestorId: string
+      OpenRatioByMoney: decimal
+      OpenRatioByVolume: decimal
+      CloseRatioByMoney: decimal
+      CloseRatioByVolume: decimal
+      CloseTodayRatioByMoney: decimal
+      CloseTodayRatioByVolume: decimal
+      ExchangeId: string
+      BizType: char option
+      InvestUnitId: string
+      InstrumentId: string }
+
 type InputOrderRequest =
     { BrokerId: string
       InvestorId: string
@@ -178,6 +217,27 @@ type QueryInvestorPositionRequest =
       InvestUnitId: string option
       InstrumentId: string option }
 
+type QueryInstrumentMarginRateRequest =
+    { BrokerId: string
+      InvestorId: string
+      HedgeFlag: char
+      ExchangeId: string option
+      InvestUnitId: string option
+      InstrumentId: string }
+
+type QueryExchangeMarginRateRequest =
+    { BrokerId: string
+      HedgeFlag: char
+      ExchangeId: string option
+      InstrumentId: string }
+
+type QueryInstrumentCommissionRateRequest =
+    { BrokerId: string
+      InvestorId: string
+      ExchangeId: string option
+      InvestUnitId: string option
+      InstrumentId: string }
+
 type TraderCallbacks =
     { FrontConnected: (unit -> unit) option
       FrontDisconnected: (int -> unit) option
@@ -189,6 +249,9 @@ type TraderCallbacks =
       RspError: (RspInfo option -> int -> bool -> unit) option
       RspQryTradingAccount: (TradingAccount option -> RspInfo option -> int -> bool -> unit) option
       RspQryInvestorPosition: (InvestorPosition option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInstrumentMarginRate: (InstrumentMarginRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryExchangeMarginRate: (ExchangeMarginRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInstrumentCommissionRate: (InstrumentCommissionRate option -> RspInfo option -> int -> bool -> unit) option
       RspOrderInsert: (InputOrderRequest option -> RspInfo option -> int -> bool -> unit) option
       RspOrderAction: (InputOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
       RtnOrder: (OrderUpdate -> unit) option
@@ -205,6 +268,9 @@ type TraderCallbacks =
           RspError = None
           RspQryTradingAccount = None
           RspQryInvestorPosition = None
+          RspQryInstrumentMarginRate = None
+          RspQryExchangeMarginRate = None
+          RspQryInstrumentCommissionRate = None
           RspOrderInsert = None
           RspOrderAction = None
           RtnOrder = None
@@ -444,6 +510,212 @@ type private NativeInvestorPosition =
 
     [<DefaultValue>]
     val mutable OpenCost: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInstrumentMarginRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInstrumentMarginRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable LongMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable LongMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable ShortMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable ShortMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable IsRelative: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryExchangeMarginRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeExchangeMarginRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable LongMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable LongMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable ShortMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable ShortMarginRatioByVolume: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInstrumentCommissionRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInstrumentCommissionRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OpenRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable OpenRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByVolume: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable BizType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
 
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeInputOrder =
@@ -812,6 +1084,15 @@ type private TraderRspQryTradingAccountDelegate = delegate of nativeint * native
 type private TraderRspQryInvestorPositionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInstrumentMarginRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryExchangeMarginRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInstrumentCommissionRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspOrderInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
@@ -864,6 +1145,18 @@ type private NativeTraderSpi =
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
     val mutable OnRspQryInvestorPosition: TraderRspQryInvestorPositionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable OnRspQryInstrumentMarginRate: TraderRspQryInstrumentMarginRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable OnRspQryExchangeMarginRate: TraderRspQryExchangeMarginRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable OnRspQryInstrumentCommissionRate: TraderRspQryInstrumentCommissionRateDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
@@ -933,6 +1226,21 @@ module private TraderNativeInterop =
                 CallingConvention = CallingConvention.Cdecl,
                 EntryPoint = "ctp_trader_req_qry_investor_position")>]
     extern int reqQryInvestorPosition(nativeint handle, NativeQryInvestorPosition& request, int requestId)
+
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_instrument_margin_rate")>]
+    extern int reqQryInstrumentMarginRate(nativeint handle, NativeQryInstrumentMarginRate& request, int requestId)
+
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_exchange_margin_rate")>]
+    extern int reqQryExchangeMarginRate(nativeint handle, NativeQryExchangeMarginRate& request, int requestId)
+
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_instrument_commission_rate")>]
+    extern int reqQryInstrumentCommissionRate(nativeint handle, NativeQryInstrumentCommissionRate& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_order_insert")>]
     extern int reqOrderInsert(nativeint handle, NativeInputOrder& request, int requestId)
@@ -1011,6 +1319,45 @@ module private TraderBridgeMapping =
           UseMargin = toDecimal value.UseMargin
           PositionCost = toDecimal value.PositionCost
           OpenCost = toDecimal value.OpenCost }
+
+    let instrumentMarginRate encoding (value: NativeInstrumentMarginRate) =
+        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange
+          BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
+          InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
+          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag
+          LongMarginRatioByMoney = toDecimal value.LongMarginRatioByMoney
+          LongMarginRatioByVolume = toDecimal value.LongMarginRatioByVolume
+          ShortMarginRatioByMoney = toDecimal value.ShortMarginRatioByMoney
+          ShortMarginRatioByVolume = toDecimal value.ShortMarginRatioByVolume
+          IsRelative = value.IsRelative <> 0
+          ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
+          InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+
+    let exchangeMarginRate encoding (value: NativeExchangeMarginRate) =
+        { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
+          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag
+          LongMarginRatioByMoney = toDecimal value.LongMarginRatioByMoney
+          LongMarginRatioByVolume = toDecimal value.LongMarginRatioByVolume
+          ShortMarginRatioByMoney = toDecimal value.ShortMarginRatioByMoney
+          ShortMarginRatioByVolume = toDecimal value.ShortMarginRatioByVolume
+          ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+
+    let instrumentCommissionRate encoding (value: NativeInstrumentCommissionRate) =
+        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange
+          BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
+          InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
+          OpenRatioByMoney = toDecimal value.OpenRatioByMoney
+          OpenRatioByVolume = toDecimal value.OpenRatioByVolume
+          CloseRatioByMoney = toDecimal value.CloseRatioByMoney
+          CloseRatioByVolume = toDecimal value.CloseRatioByVolume
+          CloseTodayRatioByMoney = toDecimal value.CloseTodayRatioByMoney
+          CloseTodayRatioByVolume = toDecimal value.CloseTodayRatioByVolume
+          ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
+          BizType = EncodingHelpers.byteToChar value.BizType
+          InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
 
     let inputOrderRequest encoding (value: NativeInputOrder) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -1182,6 +1529,36 @@ module private TraderBridgeBuilders =
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 request.InstrumentId
+        native
+
+    let qryInstrumentMarginRate encoding (request: QueryInstrumentMarginRateRequest) : NativeQryInstrumentMarginRate =
+        let mutable native = NativeQryInstrumentMarginRate()
+        native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
+        native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
+        native.HedgeFlag <- EncodingHelpers.charToByte (Some request.HedgeFlag)
+        native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
+        native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
+        native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
+        native
+
+    let qryExchangeMarginRate encoding (request: QueryExchangeMarginRateRequest) : NativeQryExchangeMarginRate =
+        let mutable native = NativeQryExchangeMarginRate()
+        native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
+        native.HedgeFlag <- EncodingHelpers.charToByte (Some request.HedgeFlag)
+        native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
+        native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
+        native
+
+    let qryInstrumentCommissionRate encoding (request: QueryInstrumentCommissionRateRequest) : NativeQryInstrumentCommissionRate =
+        let mutable native = NativeQryInstrumentCommissionRate()
+        native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
+        native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
+        native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
+        native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
+        native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native
 
     let inputOrder encoding requestId (request: InputOrderRequest) =
@@ -1367,6 +1744,54 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
 
                 handler position rspInfo requestId (isLast <> 0)))
 
+    let onRspQryInstrumentMarginRate =
+        TraderRspQryInstrumentMarginRateDelegate(fun marginRatePtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInstrumentMarginRate
+            |> Option.iter (fun handler ->
+                let marginRate =
+                    marginRatePtr
+                    |> EncodingHelpers.ptrToOption<NativeInstrumentMarginRate>
+                    |> Option.map (TraderBridgeMapping.instrumentMarginRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler marginRate rspInfo requestId (isLast <> 0)))
+
+    let onRspQryExchangeMarginRate =
+        TraderRspQryExchangeMarginRateDelegate(fun marginRatePtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryExchangeMarginRate
+            |> Option.iter (fun handler ->
+                let marginRate =
+                    marginRatePtr
+                    |> EncodingHelpers.ptrToOption<NativeExchangeMarginRate>
+                    |> Option.map (TraderBridgeMapping.exchangeMarginRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler marginRate rspInfo requestId (isLast <> 0)))
+
+    let onRspQryInstrumentCommissionRate =
+        TraderRspQryInstrumentCommissionRateDelegate(fun commissionRatePtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInstrumentCommissionRate
+            |> Option.iter (fun handler ->
+                let commissionRate =
+                    commissionRatePtr
+                    |> EncodingHelpers.ptrToOption<NativeInstrumentCommissionRate>
+                    |> Option.map (TraderBridgeMapping.instrumentCommissionRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler commissionRate rspInfo requestId (isLast <> 0)))
+
     let onRspOrderInsert =
         TraderRspOrderInsertDelegate(fun orderPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspOrderInsert
@@ -1428,6 +1853,9 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
         native.OnRspError <- onRspError
         native.OnRspQryTradingAccount <- onRspQryTradingAccount
         native.OnRspQryInvestorPosition <- onRspQryInvestorPosition
+        native.OnRspQryInstrumentMarginRate <- onRspQryInstrumentMarginRate
+        native.OnRspQryExchangeMarginRate <- onRspQryExchangeMarginRate
+        native.OnRspQryInstrumentCommissionRate <- onRspQryInstrumentCommissionRate
         native.OnRspOrderInsert <- onRspOrderInsert
         native.OnRspOrderAction <- onRspOrderAction
         native.OnRtnOrder <- onRtnOrder
@@ -1508,6 +1936,18 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
     member this.ReqQryInvestorPosition(request: QueryInvestorPositionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorPosition encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorPosition (this.Handle, &native, requestId)
+
+    member this.ReqQryInstrumentMarginRate(request: QueryInstrumentMarginRateRequest, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInstrumentMarginRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInstrumentMarginRate (this.Handle, &native, requestId)
+
+    member this.ReqQryExchangeMarginRate(request: QueryExchangeMarginRateRequest, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryExchangeMarginRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryExchangeMarginRate (this.Handle, &native, requestId)
+
+    member this.ReqQryInstrumentCommissionRate(request: QueryInstrumentCommissionRateRequest, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInstrumentCommissionRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInstrumentCommissionRate (this.Handle, &native, requestId)
 
     member this.ReqOrderInsert(request: InputOrderRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputOrder encodings.OutboundEncoding requestId request

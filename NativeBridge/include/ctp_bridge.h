@@ -201,6 +201,78 @@ typedef struct ctp_investor_position {
   double open_cost;
 } ctp_investor_position;
 
+typedef struct ctp_qry_instrument_margin_rate {
+  char broker_id[11];
+  char investor_id[13];
+  char reserve1[31];
+  char hedge_flag;
+  char exchange_id[9];
+  char invest_unit_id[17];
+  char instrument_id[81];
+} ctp_qry_instrument_margin_rate;
+
+typedef struct ctp_instrument_margin_rate {
+  char reserve1[31];
+  char investor_range;
+  char broker_id[11];
+  char investor_id[13];
+  char hedge_flag;
+  double long_margin_ratio_by_money;
+  double long_margin_ratio_by_volume;
+  double short_margin_ratio_by_money;
+  double short_margin_ratio_by_volume;
+  int32_t is_relative;
+  char exchange_id[9];
+  char invest_unit_id[17];
+  char instrument_id[81];
+} ctp_instrument_margin_rate;
+
+typedef struct ctp_qry_exchange_margin_rate {
+  char broker_id[11];
+  char reserve1[31];
+  char hedge_flag;
+  char exchange_id[9];
+  char instrument_id[81];
+} ctp_qry_exchange_margin_rate;
+
+typedef struct ctp_exchange_margin_rate {
+  char broker_id[11];
+  char reserve1[31];
+  char hedge_flag;
+  double long_margin_ratio_by_money;
+  double long_margin_ratio_by_volume;
+  double short_margin_ratio_by_money;
+  double short_margin_ratio_by_volume;
+  char exchange_id[9];
+  char instrument_id[81];
+} ctp_exchange_margin_rate;
+
+typedef struct ctp_qry_instrument_commission_rate {
+  char broker_id[11];
+  char investor_id[13];
+  char reserve1[31];
+  char exchange_id[9];
+  char invest_unit_id[17];
+  char instrument_id[81];
+} ctp_qry_instrument_commission_rate;
+
+typedef struct ctp_instrument_commission_rate {
+  char reserve1[31];
+  char investor_range;
+  char broker_id[11];
+  char investor_id[13];
+  double open_ratio_by_money;
+  double open_ratio_by_volume;
+  double close_ratio_by_money;
+  double close_ratio_by_volume;
+  double close_today_ratio_by_money;
+  double close_today_ratio_by_volume;
+  char exchange_id[9];
+  char biz_type;
+  char invest_unit_id[17];
+  char instrument_id[81];
+} ctp_instrument_commission_rate;
+
 typedef struct ctp_input_order {
   char broker_id[11];
   char investor_id[13];
@@ -327,6 +399,9 @@ typedef struct ctp_trader_spi {
   void (*on_rsp_error)(const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
   void (*on_rsp_qry_trading_account)(const ctp_trading_account* account, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
   void (*on_rsp_qry_investor_position)(const ctp_investor_position* position, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
+  void (*on_rsp_qry_instrument_margin_rate)(const ctp_instrument_margin_rate* margin_rate, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
+  void (*on_rsp_qry_exchange_margin_rate)(const ctp_exchange_margin_rate* margin_rate, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
+  void (*on_rsp_qry_instrument_commission_rate)(const ctp_instrument_commission_rate* commission_rate, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
   void (*on_rsp_order_insert)(const ctp_input_order* input_order, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
   void (*on_rsp_order_action)(const ctp_input_order_action* action, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
   void (*on_rtn_order)(const ctp_order* order, void* user_data);
@@ -363,6 +438,9 @@ CTP_BRIDGE_API int32_t ctp_trader_req_user_login(ctp_trader_handle* handle, cons
 CTP_BRIDGE_API int32_t ctp_trader_req_user_logout(ctp_trader_handle* handle, const ctp_user_logout* request, int32_t request_id);
 CTP_BRIDGE_API int32_t ctp_trader_req_qry_trading_account(ctp_trader_handle* handle, const ctp_qry_trading_account* request, int32_t request_id);
 CTP_BRIDGE_API int32_t ctp_trader_req_qry_investor_position(ctp_trader_handle* handle, const ctp_qry_investor_position* request, int32_t request_id);
+CTP_BRIDGE_API int32_t ctp_trader_req_qry_instrument_margin_rate(ctp_trader_handle* handle, const ctp_qry_instrument_margin_rate* request, int32_t request_id);
+CTP_BRIDGE_API int32_t ctp_trader_req_qry_exchange_margin_rate(ctp_trader_handle* handle, const ctp_qry_exchange_margin_rate* request, int32_t request_id);
+CTP_BRIDGE_API int32_t ctp_trader_req_qry_instrument_commission_rate(ctp_trader_handle* handle, const ctp_qry_instrument_commission_rate* request, int32_t request_id);
 CTP_BRIDGE_API int32_t ctp_trader_req_order_insert(ctp_trader_handle* handle, const ctp_input_order* request, int32_t request_id);
 CTP_BRIDGE_API int32_t ctp_trader_req_order_action(ctp_trader_handle* handle, const ctp_input_order_action* request, int32_t request_id);
 
