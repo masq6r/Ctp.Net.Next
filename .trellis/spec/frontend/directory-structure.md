@@ -1,54 +1,13 @@
 # Directory Structure
 
-> How frontend code is organized in this project.
+> Not applicable for this repository.
 
----
+This repository has no frontend source tree.
 
-## Overview
+Current top-level implementation areas are:
 
-<!--
-Document your project's frontend directory structure here.
+- `NativeBridge/` for the native C++ bridge
+- `Ctp.Net/` for the managed F# wrapper
+- `Tests/` for unit and smoke tests
 
-Questions to answer:
-- Where do components live?
-- How are features/modules organized?
-- Where are shared utilities?
-- How are assets organized?
--->
-
-(To be filled by the team)
-
----
-
-## Directory Layout
-
-```
-<!-- Replace with your actual structure -->
-src/
-├── ...
-└── ...
-```
-
----
-
-## Module Organization
-
-<!-- How should new features be organized? -->
-
-(To be filled by the team)
-
----
-
-## Naming Conventions
-
-<!-- File and folder naming rules -->
-
-(To be filled by the team)
-
----
-
-## Examples
-
-<!-- Link to well-organized modules as examples -->
-
-(To be filled by the team)
+Do not create or assume frontend folders such as `src/components`, `src/pages`, `src/hooks`, or asset pipelines as part of normal work here.
