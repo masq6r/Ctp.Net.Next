@@ -1,4 +1,0 @@
-{"file": ".trellis/spec/backend/directory-structure.md", "reason": "Module organization — MdClient/TraderClient/Common.fs roles"}
-{"file": ".trellis/spec/backend/error-handling.md", "reason": "Error handling patterns — Result/RspInfo, ConnectError DU, agent callback resolution"}
-{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "Logging spans multiple layers (clients → Common.fs primitives → Bridge)"}
-{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "Logging injection pattern must be consistent across MdClient and TraderClient"}

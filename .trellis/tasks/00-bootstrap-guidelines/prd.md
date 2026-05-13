@@ -21,9 +21,9 @@ the rest conversationally.
 
 ## Status (update the checkboxes as you complete each item)
 
-- [x] Fill backend guidelines
-- [x] Fill frontend guidelines (marked N/A — no frontend code)
-- [x] Add code examples
+- [ ] Fill backend guidelines
+- [ ] Fill frontend guidelines
+- [ ] Add code examples
 
 ---
 
