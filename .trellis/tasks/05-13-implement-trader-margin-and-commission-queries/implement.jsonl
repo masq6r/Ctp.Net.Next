@@ -1,5 +1,0 @@
-{"file": ".trellis/spec/backend/logging-guidelines.md", "reason": "Follow existing managed-layer logging patterns for request start, native return-code failures, and callback-delivered errors in TraderClient/Common."}
-{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Carry forward backend quality expectations even though this spec is currently a placeholder."}
-{"file": ".trellis/spec/backend/error-handling.md", "reason": "Preserve current Result/RspInfo error translation behavior across the new query APIs."}
-{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "This change spans SDK structs, native bridge, F# interop, and public wrapper, so contracts must stay aligned across layers."}
-{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "The work mirrors existing query plumbing; reuse the established pattern rather than inventing a parallel abstraction."}
