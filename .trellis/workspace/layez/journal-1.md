@@ -40,3 +40,36 @@ Reworked the Trellis bootstrap specs to match the CTP native/managed wrapper rep
 ### Next Steps
 
 - None - task complete
+
+
+## Session 2: Implement trader margin and commission queries
+
+**Date**: 2026-05-13
+**Task**: Implement trader margin and commission queries
+**Branch**: `master`
+
+### Summary
+
+Implemented ReqQryInstrumentMarginRate, ReqQryExchangeMarginRate, and ReqQryInstrumentCommissionRate across the native and managed bridges, tightened public/query request signatures to preserve SDK-required fields, updated smoke coverage, and captured the contract in backend quality guidelines.
+
+### Main Changes
+
+(Add details)
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `32623d8` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
