@@ -267,4 +267,28 @@ type TraderSmokeTests() =
 
         let! accountResult = client.QueryTradingAccountAsync() |> Async.StartAsTask
         accountResult |> Helper.expectOk |> ignore
+
+        let! logoutResult = client.LogoutAsync() |> Async.StartAsTask
+        logoutResult |> Helper.expectOk |> ignore
+    }
+
+    [<Fact(Skip = "Create Tests/Ctp.Net.SmokeTests/smoke.local.json to enable this smoke test.",
+           SkipUnless = "IsTraderConfigured",
+           SkipType = typeof<SmokeTestAvailability>)>]
+    member _.``trader client returns error when password is wrong``() = task {
+        let config = SmokeConfig.loadTrader ()
+        let options = Helper.createOptions config.Shared config.FrontAddress config.Authentication
+        use client = new TraderClient({ options with Password = "" })
+
+        let! connectResult = client.Connect(timeout = config.Shared.ConnectTimeout) |> Async.StartAsTask
+        connectResult |> Helper.expectOk |> ignore
+
+        let! authenticateResult = client.AuthenticateAsync() |> Async.StartAsTask
+        authenticateResult |> Helper.expectOk |> ignore
+
+        let! loginResult = client.LoginAsync() |> Async.StartAsTask
+
+        match loginResult with
+        | Error error -> Assert.NotEqual(0, error.ErrorId)
+        | Ok response -> failwith $"Expected Error(_) but got Ok({response})."
     }

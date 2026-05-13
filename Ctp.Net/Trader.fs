@@ -42,12 +42,8 @@ type TraderClient
           InboundEncoding = value.InboundEncoding }
 
     let nextRequestId = ClientHelpers.nextRequestId
-    let authenticatePending = SinglePendingResult<Result<AuthenticateResponse, RspInfo>>()
-    let settlementInfoConfirmPending = SinglePendingResult<Result<SettlementInfoConfirm, RspInfo>>()
-    let loginPending = SinglePendingResult<Result<UserLoginResponse, RspInfo>>()
-    let logoutPending = SinglePendingResult<Result<UserLogoutResponse, RspInfo>>()
 
-    let pendingQueries = PendingQueryDict(logger = logger)
+    let pending = PendingQueryDict(logger = logger)
 
     let frontConnectedEvent = Event<unit>()
     let frontDisconnectedEvent = Event<int>()
@@ -89,88 +85,21 @@ type TraderClient
                     if isLast then
                         rspInfo
                         |> Option.iter (fun info ->
-                            logger.LogWarning(
-                                "RspError isLast=true, failing all pending operations for request {RequestId}",
-                                requestId
-                            )
+                            logger.LogWarning("RspError isLast=true for request {RequestId}", requestId)
 
-                            authenticatePending.TrySetResult(Error info)
-                            settlementInfoConfirmPending.TrySetResult(Error info)
-                            loginPending.TrySetResult(Error info)
-                            logoutPending.TrySetResult(Error info)
-                            pendingQueries.TryFail(requestId, info))
-                | RspAuthenticate(response, rspInfo, _, isLast) when isLast ->
-                    let result =
-                        match ClientHelpers.resultFromRspInfo rspInfo, response with
-                        | Error info, _ ->
-                            logger.LogError(
-                                "Authentication failed: [{ErrorId}] {ErrorMessage}",
-                                info.ErrorId,
-                                info.ErrorMessage
-                            )
-
-                            Error info
-                        | Ok(), Some value ->
-                            logger.LogInformation("Authentication succeeded")
-                            Ok value
-                        | Ok(), None -> Error(ClientHelpers.apiReturnError -2)
-
-                    authenticatePending.TrySetResult result
-                | RspSettlementInfoConfirm(response, rspInfo, _, isLast) when isLast ->
-                    let result =
-                        match ClientHelpers.resultFromRspInfo rspInfo, response with
-                        | Error info, _ ->
-                            logger.LogError(
-                                "Settlement info confirm failed: [{ErrorId}] {ErrorMessage}",
-                                info.ErrorId,
-                                info.ErrorMessage
-                            )
-
-                            Error info
-                        | Ok(), Some value ->
-                            logger.LogDebug("Settlement info confirmed")
-                            Ok value
-                        | Ok(), None -> Error(ClientHelpers.apiReturnError -2)
-
-                    settlementInfoConfirmPending.TrySetResult result
-                | RspUserLogin(response, rspInfo, _, isLast) when isLast ->
-                    let result =
-                        match ClientHelpers.resultFromRspInfo rspInfo, response with
-                        | Error info, _ ->
-                            logger.LogError(
-                                "Trader login failed: [{ErrorId}] {ErrorMessage}",
-                                info.ErrorId,
-                                info.ErrorMessage
-                            )
-
-                            Error info
-                        | Ok(), Some value ->
-                            logger.LogInformation("Trader login succeeded")
-                            Ok value
-                        | Ok(), None -> Error(ClientHelpers.apiReturnError -2)
-
-                    loginPending.TrySetResult result
-                | RspUserLogout(response, rspInfo, _, isLast) when isLast ->
-                    let result =
-                        match ClientHelpers.resultFromRspInfo rspInfo, response with
-                        | Error info, _ ->
-                            logger.LogError(
-                                "Trader logout failed: [{ErrorId}] {ErrorMessage}",
-                                info.ErrorId,
-                                info.ErrorMessage
-                            )
-
-                            Error info
-                        | Ok(), Some value ->
-                            logger.LogInformation("Trader logout succeeded")
-                            Ok value
-                        | Ok(), None -> Error(ClientHelpers.apiReturnError -2)
-
-                    logoutPending.TrySetResult result
+                            pending.TryFail(requestId, info))
+                | RspAuthenticate(response, rspInfo, requestId, isLast) when isLast ->
+                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
+                | RspSettlementInfoConfirm(response, rspInfo, requestId, isLast) when isLast ->
+                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
+                | RspUserLogin(response, rspInfo, requestId, isLast) when isLast ->
+                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
+                | RspUserLogout(response, rspInfo, requestId, isLast) when isLast ->
+                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
                 | RspQryTradingAccount(account, rspInfo, requestId, isLast) ->
-                    pendingQueries.TryAccumulate(requestId, account, rspInfo, isLast)
+                    pending.TryAccumulate(requestId, account, rspInfo, isLast)
                 | RspQryInvestorPosition(position, rspInfo, requestId, isLast) ->
-                    pendingQueries.TryAccumulate(requestId, position, rspInfo, isLast)
+                    pending.TryAccumulate(requestId, position, rspInfo, isLast)
                 | RspOrderInsert(_, rspInfo, _, isLast) when isLast ->
                     rspInfo
                     |> Option.filter (fun info -> info.ErrorId <> 0)
@@ -251,12 +180,13 @@ type TraderClient
         logger.LogDebug("Sending authenticate request")
         let requestId = nextRequestId ()
         let request = OptionHelpers.createAuthenticateRequest options
-        let completion = authenticatePending.Begin()
+        let completion = ClientHelpers.createCompletionSource<Result<AuthenticateResponse list, RspInfo>> ()
+        pending.Register(requestId, "Authenticate", completion)
         let result = api.ReqAuthenticate(request, requestId)
 
         if result <> 0 then
             logger.LogError("Authenticate request failed with native return code {ReturnCode}", result)
-            authenticatePending.TryTake() |> ignore
+            pending.TryRemove requestId
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
 
         completion.Task |> ClientHelpers.awaitTask
@@ -265,12 +195,13 @@ type TraderClient
         logger.LogDebug("Sending settlement info confirm request")
         let requestId = nextRequestId ()
         let request = OptionHelpers.createSettlementInfoConfirmRequest options
-        let completion = settlementInfoConfirmPending.Begin()
+        let completion = ClientHelpers.createCompletionSource<Result<SettlementInfoConfirm list, RspInfo>> ()
+        pending.Register(requestId, "SettlementInfoConfirm", completion)
         let result = api.ReqSettlementInfoConfirm(request, requestId)
 
         if result <> 0 then
             logger.LogError("Settlement info confirm request failed with native return code {ReturnCode}", result)
-            settlementInfoConfirmPending.TryTake() |> ignore
+            pending.TryRemove requestId
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
 
         completion.Task |> ClientHelpers.awaitTask
@@ -279,12 +210,13 @@ type TraderClient
         logger.LogDebug("Sending login request")
         let requestId = nextRequestId ()
         let request = OptionHelpers.createUserLoginRequest options
-        let completion = loginPending.Begin()
+        let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
+        pending.Register(requestId, "Login", completion)
         let result = api.ReqUserLogin(request, requestId)
 
         if result <> 0 then
             logger.LogError("Login request failed with native return code {ReturnCode}", result)
-            loginPending.TryTake() |> ignore
+            pending.TryRemove requestId
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
 
         completion.Task |> ClientHelpers.awaitTask
@@ -293,16 +225,22 @@ type TraderClient
         logger.LogDebug("Sending logout request")
         let requestId = nextRequestId ()
         let request = OptionHelpers.createUserLogoutRequest options
-        let completion = logoutPending.Begin()
+        let completion = ClientHelpers.createCompletionSource<Result<UserLogoutResponse list, RspInfo>> ()
+        pending.Register(requestId, "Logout", completion)
         let result = api.ReqUserLogout(request, requestId)
 
         if result <> 0 then
             logger.LogError("Logout request failed with native return code {ReturnCode}", result)
-            logoutPending.TryTake() |> ignore
+            pending.TryRemove requestId
             completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
         else
             // Current CTP SDK does not reliably invoke OnRspUserLogout, so a successful request is treated as completion.
-            logoutPending.TrySetResult(Ok { BrokerId = request.BrokerId; UserId = request.UserId })
+            pending.TryAccumulate(
+                requestId,
+                Some { UserLogoutResponse.BrokerId = request.BrokerId; UserId = request.UserId },
+                None,
+                true
+            )
 
         completion.Task |> ClientHelpers.awaitTask
 
@@ -315,12 +253,12 @@ type TraderClient
         logger.LogDebug("Sending {QueryName} request", queryName)
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<'TItem list, RspInfo>> ()
-        pendingQueries.Register(requestId, queryName, completion)
+        pending.Register(requestId, queryName, completion)
         let errCode = apiCall (request, requestId)
 
         if errCode <> 0 then
             logger.LogError("{QueryName} request failed with native return code {ReturnCode}", queryName, errCode)
-            pendingQueries.TryRemove requestId
+            pending.TryRemove requestId
             completion.TrySetResult(Error(ClientHelpers.apiReturnError errCode)) |> ignore
 
         completion.Task |> ClientHelpers.awaitTask
@@ -333,7 +271,10 @@ type TraderClient
               BizType = bizType
               AccountId = accountId }
 
-        this.QueryAsync<TradingAccount, QueryTradingAccountRequest> (nameof QueryTradingAccountRequest) request api.ReqQryTradingAccount
+        this.QueryAsync<TradingAccount, QueryTradingAccountRequest>
+            (nameof QueryTradingAccountRequest)
+            request
+            api.ReqQryTradingAccount
 
     member this.QueryInvestorPositionAsync(?exchangeId: string, ?investUnitId: string, ?instrumentId: string) =
         let request =
@@ -343,7 +284,10 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<InvestorPosition, QueryInvestorPositionRequest> (nameof QueryInvestorPositionRequest) request api.ReqQryInvestorPosition
+        this.QueryAsync<InvestorPosition, QueryInvestorPositionRequest>
+            (nameof QueryInvestorPositionRequest)
+            request
+            api.ReqQryInvestorPosition
 
     member _.InsertOrderAsync(request: InputOrderRequest) = async {
         logger.LogDebug("Inserting order: {InstrumentId}", request.InstrumentId)
