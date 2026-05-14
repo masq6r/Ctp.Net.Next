@@ -180,26 +180,31 @@ type internal SinglePendingRequest<'TRequest, 'TResult>() =
         this.TryTake()
         |> Option.iter (fun (request, completion) -> completion.TrySetResult(mapResult request) |> ignore)
 
+[<RequireQualifiedAccess>]
+type internal PendingResponseCompletionPolicy =
+    | FinalOnly
+    | StreamUntilLast
+
 type internal PendingQueryDict(?logger: ILogger) =
     let logger = defaultArg logger Abstractions.NullLogger.Instance
 
     let dict =
         ConcurrentDictionary<
             int,
-            {| Items: ResizeArray<obj>
-               QueryName: string
+            {| Items: ResizeArray<objnull>
+               OperationName: string
                Finalize: RspInfo option -> unit |}
          >()
 
-    member _.Register<'a>(requestId, queryName: string, completion: TaskCompletionSource<Result<'a list, RspInfo>>) =
-        let items = ResizeArray<obj>()
+    member _.Register<'a>(requestId, operationName: string, completion: TaskCompletionSource<Result<'a list, RspInfo>>) =
+        let items = ResizeArray<objnull>()
 
         let finalize rspInfo =
             match ClientHelpers.resultFromRspInfo rspInfo with
             | Error info ->
                 logger.LogError(
-                    "{QueryName} query failed for request {RequestId}: [{ErrorId}] {ErrorMessage}",
-                    queryName,
+                    "{OperationName} operation failed for request {RequestId}: [{ErrorId}] {ErrorMessage}",
+                    operationName,
                     requestId,
                     info.ErrorId,
                     info.ErrorMessage
@@ -208,15 +213,15 @@ type internal PendingQueryDict(?logger: ILogger) =
                 completion.TrySetResult(Error info) |> ignore
             | Ok() ->
                 logger.LogDebug(
-                    "{QueryName} query completed for request {RequestId} with {ItemCount} items",
-                    queryName,
+                    "{OperationName} operation completed for request {RequestId} with {ItemCount} items",
+                    operationName,
                     requestId,
                     items.Count
                 )
 
                 items |> Seq.cast<'a> |> List.ofSeq |> Ok |> completion.TrySetResult |> ignore
 
-        dict.TryAdd(requestId, {| Items = items; QueryName = queryName; Finalize = finalize |})
+        dict.TryAdd(requestId, {| Items = items; OperationName = operationName; Finalize = finalize |})
         |> ignore
 
     member _.TryRemove(requestId: int) = dict.TryRemove requestId |> ignore
@@ -225,8 +230,8 @@ type internal PendingQueryDict(?logger: ILogger) =
         match dict.TryRemove requestId with
         | true, removed ->
             logger.LogError(
-                "{QueryName} query failed for request {RequestId} via RspError: [{ErrorId}] {ErrorMessage}",
-                removed.QueryName,
+                "{OperationName} operation failed for request {RequestId} via RspError: [{ErrorId}] {ErrorMessage}",
+                removed.OperationName,
                 requestId,
                 error.ErrorId,
                 error.ErrorMessage
@@ -235,23 +240,54 @@ type internal PendingQueryDict(?logger: ILogger) =
             removed.Finalize(Some error)
         | _ -> ()
 
-    member _.TryAccumulate<'a>(requestId, item: 'a option, rspInfo: RspInfo option, isLast: bool) =
+    member _.TryHandleResponse
+        (
+            requestId: int,
+            item: objnull option,
+            rspInfo: RspInfo option,
+            isLast: bool,
+            completionPolicy: PendingResponseCompletionPolicy
+        )
+        =
         match dict.TryGetValue requestId with
         | true, state ->
-            item |> Option.iter state.Items.Add
+            match completionPolicy with
+            | PendingResponseCompletionPolicy.FinalOnly when not isLast ->
+                logger.LogTrace(
+                    "Ignoring non-final response for {OperationName} request {RequestId}",
+                    state.OperationName,
+                    requestId
+                )
+            | PendingResponseCompletionPolicy.FinalOnly ->
+                item |> Option.iter state.Items.Add
 
-            if isLast then
                 dict.TryRemove requestId
                 |> Option.ofPair
                 |> Option.iter (fun removed -> removed.Finalize rspInfo)
-            else
-                logger.LogTrace(
-                    "Received response for {QueryName} query with request {RequestId}",
-                    state.QueryName,
-                    requestId,
-                    state.Items.Count
-                )
+            | PendingResponseCompletionPolicy.StreamUntilLast ->
+                item |> Option.iter state.Items.Add
+
+                if isLast then
+                    dict.TryRemove requestId
+                    |> Option.ofPair
+                    |> Option.iter (fun removed -> removed.Finalize rspInfo)
+                else
+                    logger.LogTrace(
+                        "Received response for {OperationName} request {RequestId} with {ItemCount} items",
+                        state.OperationName,
+                        requestId,
+                        state.Items.Count
+                    )
         | _ -> ()
+
+    member this.TryAccumulate<'a>(requestId, item: 'a option, rspInfo: RspInfo option, isLast: bool) =
+        this.TryHandleResponse(
+            requestId,
+            item |> Option.map box,
+            rspInfo,
+            isLast,
+            PendingResponseCompletionPolicy.StreamUntilLast
+        )
 
 type internal ConnectionStartPhase =
     | NotStarted

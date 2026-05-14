@@ -252,6 +252,84 @@ type SinglePendingRequestTests() =
         |> ignore
 
 
+type TraderBridgeSurfaceTests() =
+
+    [<Fact>]
+    member _.``trader callbacks include private seq no slot``() =
+        Assert.True(TraderCallbacks.Empty.RtnPrivateSeqNo.IsNone)
+
+
+type PendingQueryDictTests() =
+
+    [<Fact>]
+    member _.``stream until last accumulates all responses``() =
+        let pending = PendingQueryDict()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+
+        pending.Register(1, "QueryNumbers", completion)
+        pending.TryHandleResponse(1, Some(box 1), None, false, PendingResponseCompletionPolicy.StreamUntilLast)
+
+        Assert.False(completion.Task.IsCompleted)
+
+        pending.TryHandleResponse(1, Some(box 2), None, true, PendingResponseCompletionPolicy.StreamUntilLast)
+
+        Assert.True(completion.Task.Wait(1000))
+
+        match completion.Task.Result with
+        | Ok values -> Assert.Equal<int list>([ 1; 2 ], values)
+        | Error error -> failwith $"Expected Ok but got Error({error})."
+
+    [<Fact>]
+    member _.``final only ignores non final responses``() =
+        let pending = PendingQueryDict()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+
+        pending.Register(1, "Login", completion)
+        pending.TryHandleResponse(1, Some(box 1), None, false, PendingResponseCompletionPolicy.FinalOnly)
+
+        Assert.False(completion.Task.IsCompleted)
+
+        pending.TryHandleResponse(1, Some(box 2), None, true, PendingResponseCompletionPolicy.FinalOnly)
+
+        Assert.True(completion.Task.Wait(1000))
+
+        match completion.Task.Result with
+        | Ok values -> Assert.Equal<int list>([ 2 ], values)
+        | Error error -> failwith $"Expected Ok but got Error({error})."
+
+    [<Fact>]
+    member _.``final only returns error from final response``() =
+        let pending = PendingQueryDict()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+        let error = ClientHelpers.apiReturnError 7
+
+        pending.Register(1, "Authenticate", completion)
+        pending.TryHandleResponse(1, Some(box 1), Some error, true, PendingResponseCompletionPolicy.FinalOnly)
+
+        Assert.True(completion.Task.Wait(1000))
+
+        match completion.Task.Result with
+        | Error actual -> Assert.Equal(error.ErrorId, actual.ErrorId)
+        | Ok value -> failwith $"Expected Error but got Ok({value})."
+
+    [<Fact>]
+    member _.``rsp error failure clears pending request``() =
+        let pending = PendingQueryDict()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+        let error = ClientHelpers.apiReturnError 9
+
+        pending.Register(1, "QueryNumbers", completion)
+        pending.TryHandleResponse(1, Some(box 1), None, false, PendingResponseCompletionPolicy.StreamUntilLast)
+        pending.TryFail(1, error)
+        pending.TryHandleResponse(1, Some(box 2), None, true, PendingResponseCompletionPolicy.StreamUntilLast)
+
+        Assert.True(completion.Task.Wait(1000))
+
+        match completion.Task.Result with
+        | Error actual -> Assert.Equal(error.ErrorId, actual.ErrorId)
+        | Ok value -> failwith $"Expected Error but got Ok({value})."
+
+
 type ConnectionCoordinatorTests() =
 
     [<Fact>]

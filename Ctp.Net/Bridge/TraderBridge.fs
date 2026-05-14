@@ -242,6 +242,7 @@ type TraderCallbacks =
     { FrontConnected: (unit -> unit) option
       FrontDisconnected: (int -> unit) option
       HeartBeatWarning: (int -> unit) option
+      RtnPrivateSeqNo: (int -> unit) option
       RspAuthenticate: (AuthenticateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspSettlementInfoConfirm: (SettlementInfoConfirm option -> RspInfo option -> int -> bool -> unit) option
       RspUserLogin: (UserLoginResponse option -> RspInfo option -> int -> bool -> unit) option
@@ -261,6 +262,7 @@ type TraderCallbacks =
         { FrontConnected = None
           FrontDisconnected = None
           HeartBeatWarning = None
+          RtnPrivateSeqNo = None
           RspAuthenticate = None
           RspSettlementInfoConfirm = None
           RspUserLogin = None
@@ -1063,6 +1065,9 @@ type private TraderFrontDisconnectedDelegate = delegate of int * nativeint -> un
 type private TraderHeartBeatWarningDelegate = delegate of int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnPrivateSeqNoDelegate = delegate of int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspAuthenticateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
@@ -1117,6 +1122,10 @@ type private NativeTraderSpi =
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
     val mutable OnHeartBeatWarning: TraderHeartBeatWarningDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable OnRtnPrivateSeqNo: TraderRtnPrivateSeqNoDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
@@ -1637,6 +1646,10 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
         TraderHeartBeatWarningDelegate(fun lapse _ ->
             callbacks.HeartBeatWarning |> Option.iter (fun handler -> handler lapse))
 
+    let onRtnPrivateSeqNo =
+        TraderRtnPrivateSeqNoDelegate(fun seqNo _ ->
+            callbacks.RtnPrivateSeqNo |> Option.iter (fun handler -> handler seqNo))
+
     let onRspAuthenticate =
         TraderRspAuthenticateDelegate(fun authPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspAuthenticate
@@ -1846,6 +1859,7 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
         native.OnFrontConnected <- onFrontConnected
         native.OnFrontDisconnected <- onFrontDisconnected
         native.OnHeartBeatWarning <- onHeartBeatWarning
+        native.OnRtnPrivateSeqNo <- onRtnPrivateSeqNo
         native.OnRspAuthenticate <- onRspAuthenticate
         native.OnRspSettlementInfoConfirm <- onRspSettlementInfoConfirm
         native.OnRspUserLogin <- onRspUserLogin

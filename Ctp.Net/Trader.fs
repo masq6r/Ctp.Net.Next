@@ -5,24 +5,24 @@ open Ctp.Net.Bridge
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.Logging.Abstractions
 
-type private TraderAgentMessage =
+[<RequireQualifiedAccess>]
+type private TraderSystemEvent =
     | FrontConnected
     | FrontDisconnected of int
     | HeartBeatWarning of int
-    | RspError of RspInfo option * int * bool
-    | RspAuthenticate of AuthenticateResponse option * RspInfo option * int * bool
-    | RspSettlementInfoConfirm of SettlementInfoConfirm option * RspInfo option * int * bool
-    | RspUserLogin of UserLoginResponse option * RspInfo option * int * bool
-    | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
-    | RspQryTradingAccount of TradingAccount option * RspInfo option * int * bool
-    | RspQryInvestorPosition of InvestorPosition option * RspInfo option * int * bool
-    | RspQryInstrumentMarginRate of InstrumentMarginRate option * RspInfo option * int * bool
-    | RspQryExchangeMarginRate of ExchangeMarginRate option * RspInfo option * int * bool
-    | RspQryInstrumentCommissionRate of InstrumentCommissionRate option * RspInfo option * int * bool
-    | RspOrderInsert of InputOrderRequest option * RspInfo option * int * bool
-    | RspOrderAction of InputOrderActionRequest option * RspInfo option * int * bool
-    | RtnOrder of OrderUpdate
-    | RtnTrade of TradeUpdate
+    | PrivateSeqNo of int
+
+[<RequireQualifiedAccess>]
+type private TraderPushNotification =
+    | OrderReceived of OrderUpdate
+    | TradeReceived of TradeUpdate
+
+type private TraderAgentMessage =
+    | SystemEvent of TraderSystemEvent
+    | CorrelatedError of RspInfo option * int * bool
+    | CorrelatedResponse of PendingResponseCompletionPolicy * objnull option * RspInfo option * int * bool
+    | OrderCommandResponse of string * RspInfo option * int * bool
+    | PushNotification of TraderPushNotification
 
 type TraderClient
     (
@@ -51,6 +51,7 @@ type TraderClient
     let frontConnectedEvent = Event<unit>()
     let frontDisconnectedEvent = Event<int>()
     let heartBeatWarningEvent = Event<int>()
+    let privateSeqNoEvent = Event<int>()
     let rspErrorEvent = Event<RspInfo>()
     let orderEvent = Event<OrderUpdate>()
     let tradeEvent = Event<TradeUpdate>()
@@ -72,14 +73,15 @@ type TraderClient
                 let! message = inbox.Receive()
 
                 match message with
-                | FrontConnected ->
+                | SystemEvent TraderSystemEvent.FrontConnected ->
                     connectionCoordinator.HandleFrontConnected()
                     frontConnectedEvent.Trigger()
-                | FrontDisconnected reason ->
+                | SystemEvent(TraderSystemEvent.FrontDisconnected reason) ->
                     connectionCoordinator.HandleFrontDisconnected()
                     frontDisconnectedEvent.Trigger reason
-                | HeartBeatWarning lapse -> heartBeatWarningEvent.Trigger lapse
-                | RspError(rspInfo, requestId, isLast) ->
+                | SystemEvent(TraderSystemEvent.HeartBeatWarning lapse) -> heartBeatWarningEvent.Trigger lapse
+                | SystemEvent(TraderSystemEvent.PrivateSeqNo seqNo) -> privateSeqNoEvent.Trigger seqNo
+                | CorrelatedError(rspInfo, requestId, isLast) ->
                     rspInfo
                     |> Option.iter (fun info ->
                         logger.LogError("CTP error: [{ErrorId}] {ErrorMessage}", info.ErrorId, info.ErrorMessage)
@@ -91,48 +93,23 @@ type TraderClient
                             logger.LogWarning("RspError isLast=true for request {RequestId}", requestId)
 
                             pending.TryFail(requestId, info))
-                | RspAuthenticate(response, rspInfo, requestId, isLast) when isLast ->
-                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
-                | RspSettlementInfoConfirm(response, rspInfo, requestId, isLast) when isLast ->
-                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
-                | RspUserLogin(response, rspInfo, requestId, isLast) when isLast ->
-                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
-                | RspUserLogout(response, rspInfo, requestId, isLast) when isLast ->
-                    pending.TryAccumulate(requestId, response, rspInfo, isLast)
-                | RspQryTradingAccount(account, rspInfo, requestId, isLast) ->
-                    pending.TryAccumulate(requestId, account, rspInfo, isLast)
-                | RspQryInvestorPosition(position, rspInfo, requestId, isLast) ->
-                    pending.TryAccumulate(requestId, position, rspInfo, isLast)
-                | RspQryInstrumentMarginRate(marginRate, rspInfo, requestId, isLast) ->
-                    pending.TryAccumulate(requestId, marginRate, rspInfo, isLast)
-                | RspQryExchangeMarginRate(marginRate, rspInfo, requestId, isLast) ->
-                    pending.TryAccumulate(requestId, marginRate, rspInfo, isLast)
-                | RspQryInstrumentCommissionRate(commissionRate, rspInfo, requestId, isLast) ->
-                    pending.TryAccumulate(requestId, commissionRate, rspInfo, isLast)
-                | RspOrderInsert(_, rspInfo, _, isLast) when isLast ->
+                | CorrelatedResponse(completionPolicy, response, rspInfo, requestId, isLast) ->
+                    pending.TryHandleResponse(requestId, response, rspInfo, isLast, completionPolicy)
+                | OrderCommandResponse(operationName, rspInfo, requestId, isLast) when isLast ->
                     rspInfo
                     |> Option.filter (fun info -> info.ErrorId <> 0)
                     |> Option.iter (fun info ->
                         logger.LogError(
-                            "Order insert failed: [{ErrorId}] {ErrorMessage}",
+                            "{OperationName} failed for request {RequestId}: [{ErrorId}] {ErrorMessage}",
+                            operationName,
+                            requestId,
                             info.ErrorId,
                             info.ErrorMessage
                         )
 
                         rspErrorEvent.Trigger info)
-                | RspOrderAction(_, rspInfo, _, isLast) when isLast ->
-                    rspInfo
-                    |> Option.filter (fun info -> info.ErrorId <> 0)
-                    |> Option.iter (fun info ->
-                        logger.LogError(
-                            "Order action failed: [{ErrorId}] {ErrorMessage}",
-                            info.ErrorId,
-                            info.ErrorMessage
-                        )
-
-                        rspErrorEvent.Trigger info)
-                | RtnOrder order -> orderEvent.Trigger order
-                | RtnTrade trade -> tradeEvent.Trigger trade
+                | PushNotification(TraderPushNotification.OrderReceived order) -> orderEvent.Trigger order
+                | PushNotification(TraderPushNotification.TradeReceived trade) -> tradeEvent.Trigger trade
                 | _ -> ()
 
                 return! loop ()
@@ -140,52 +117,41 @@ type TraderClient
 
             loop ())
 
+    let postCorrelatedResponse completionPolicy response rsp requestId isLast =
+        agent.Post(CorrelatedResponse(completionPolicy, response |> Option.map box, rsp, requestId, isLast))
+
+    let postOrderCommandResponse operationName _ rsp requestId isLast =
+        agent.Post(OrderCommandResponse(operationName, rsp, requestId, isLast))
+
     do
         api.SetCallbacks
             { TraderCallbacks.Empty with
-                FrontConnected = Some(fun () -> agent.Post FrontConnected)
-                FrontDisconnected = Some(fun reason -> agent.Post(FrontDisconnected reason))
-                HeartBeatWarning = Some(fun lapse -> agent.Post(HeartBeatWarning lapse))
-                RspError = Some(fun rsp requestId isLast -> agent.Post(RspError(rsp, requestId, isLast)))
-                RspAuthenticate =
-                    Some(fun response rsp requestId isLast ->
-                        agent.Post(RspAuthenticate(response, rsp, requestId, isLast)))
-                RspSettlementInfoConfirm =
-                    Some(fun response rsp requestId isLast ->
-                        agent.Post(RspSettlementInfoConfirm(response, rsp, requestId, isLast)))
-                RspUserLogin =
-                    Some(fun response rsp requestId isLast ->
-                        agent.Post(RspUserLogin(response, rsp, requestId, isLast)))
-                RspUserLogout =
-                    Some(fun response rsp requestId isLast ->
-                        agent.Post(RspUserLogout(response, rsp, requestId, isLast)))
-                RspQryTradingAccount =
-                    Some(fun account rsp requestId isLast ->
-                        agent.Post(RspQryTradingAccount(account, rsp, requestId, isLast)))
-                RspQryInvestorPosition =
-                    Some(fun position rsp requestId isLast ->
-                        agent.Post(RspQryInvestorPosition(position, rsp, requestId, isLast)))
-                RspQryInstrumentMarginRate =
-                    Some(fun marginRate rsp requestId isLast ->
-                        agent.Post(RspQryInstrumentMarginRate(marginRate, rsp, requestId, isLast)))
-                RspQryExchangeMarginRate =
-                    Some(fun marginRate rsp requestId isLast ->
-                        agent.Post(RspQryExchangeMarginRate(marginRate, rsp, requestId, isLast)))
-                RspQryInstrumentCommissionRate =
-                    Some(fun commissionRate rsp requestId isLast ->
-                        agent.Post(RspQryInstrumentCommissionRate(commissionRate, rsp, requestId, isLast)))
-                RspOrderInsert =
-                    Some(fun request rsp requestId isLast ->
-                        agent.Post(RspOrderInsert(request, rsp, requestId, isLast)))
-                RspOrderAction =
-                    Some(fun request rsp requestId isLast ->
-                        agent.Post(RspOrderAction(request, rsp, requestId, isLast)))
-                RtnOrder = Some(fun order -> agent.Post(RtnOrder order))
-                RtnTrade = Some(fun trade -> agent.Post(RtnTrade trade)) }
+                FrontConnected = Some(fun () -> agent.Post(SystemEvent TraderSystemEvent.FrontConnected))
+                FrontDisconnected =
+                    Some(fun reason -> agent.Post(SystemEvent(TraderSystemEvent.FrontDisconnected reason)))
+                HeartBeatWarning =
+                    Some(fun lapse -> agent.Post(SystemEvent(TraderSystemEvent.HeartBeatWarning lapse)))
+                RtnPrivateSeqNo =
+                    Some(fun seqNo -> agent.Post(SystemEvent(TraderSystemEvent.PrivateSeqNo seqNo)))
+                RspError = Some(fun rsp requestId isLast -> agent.Post(CorrelatedError(rsp, requestId, isLast)))
+                RspAuthenticate = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
+                RspSettlementInfoConfirm = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
+                RspUserLogin = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
+                RspUserLogout = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
+                RspQryTradingAccount = Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
+                RspQryInvestorPosition = Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
+                RspQryInstrumentMarginRate = Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
+                RspQryExchangeMarginRate = Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
+                RspQryInstrumentCommissionRate = Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
+                RspOrderInsert = Some(postOrderCommandResponse "Order insert")
+                RspOrderAction = Some(postOrderCommandResponse "Order action")
+                RtnOrder = Some(fun order -> agent.Post(PushNotification(TraderPushNotification.OrderReceived order)))
+                RtnTrade = Some(fun trade -> agent.Post(PushNotification(TraderPushNotification.TradeReceived trade))) }
 
     member _.FrontConnected = frontConnectedEvent.Publish
     member _.FrontDisconnected = frontDisconnectedEvent.Publish
     member _.HeartBeatWarning = heartBeatWarningEvent.Publish
+    member _.PrivateSeqNoReceived = privateSeqNoEvent.Publish
     member _.RspError = rspErrorEvent.Publish
     member _.OrderReceived = orderEvent.Publish
     member _.TradeReceived = tradeEvent.Publish

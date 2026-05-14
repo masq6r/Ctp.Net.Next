@@ -336,6 +336,12 @@ public:
     }
   }
 
+  void OnRtnPrivateSeqNo(int nSeqNo) override {
+    if (callbacks_.on_rtn_private_seq_no != nullptr) {
+      callbacks_.on_rtn_private_seq_no(nSeqNo, user_data_);
+    }
+  }
+
   void OnRspAuthenticate(CThostFtdcRspAuthenticateField* auth, CThostFtdcRspInfoField* rsp_info, int request_id, bool is_last) override {
     if (callbacks_.on_rsp_authenticate == nullptr) {
       return;

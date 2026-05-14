@@ -392,6 +392,7 @@ typedef struct ctp_trader_spi {
   void (*on_front_connected)(void* user_data);
   void (*on_front_disconnected)(int32_t reason, void* user_data);
   void (*on_heartbeat_warning)(int32_t time_lapse, void* user_data);
+  void (*on_rtn_private_seq_no)(int32_t seq_no, void* user_data);
   void (*on_rsp_authenticate)(const ctp_rsp_authenticate* auth, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
   void (*on_rsp_settlement_info_confirm)(const ctp_settlement_info_confirm* confirm, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
   void (*on_rsp_user_login)(const ctp_rsp_user_login* login, const ctp_rsp_info* rsp_info, int32_t request_id, int32_t is_last, void* user_data);
