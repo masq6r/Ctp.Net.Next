@@ -10,19 +10,19 @@ type DepthMarketData =
       LastPrice: decimal
       PreSettlementPrice: decimal
       PreClosePrice: decimal
-      PreOpenInterest: float
+      PreOpenInterest: decimal
       OpenPrice: decimal
       HighestPrice: decimal
       LowestPrice: decimal
       Volume: int
       Turnover: decimal
-      OpenInterest: float
+      OpenInterest: decimal
       ClosePrice: decimal
       SettlementPrice: decimal
       UpperLimitPrice: decimal
       LowerLimitPrice: decimal
-      PreDelta: float
-      CurrDelta: float
+      PreDelta: decimal
+      CurrDelta: decimal
       UpdateTime: string
       UpdateMillisec: int
       BidPrice1: decimal
@@ -341,19 +341,19 @@ module private MdBridgeMapping =
           LastPrice = toDecimal value.LastPrice
           PreSettlementPrice = toDecimal value.PreSettlementPrice
           PreClosePrice = toDecimal value.PreClosePrice
-          PreOpenInterest = value.PreOpenInterest
+          PreOpenInterest = toDecimal value.PreOpenInterest
           OpenPrice = toDecimal value.OpenPrice
           HighestPrice = toDecimal value.HighestPrice
           LowestPrice = toDecimal value.LowestPrice
           Volume = value.Volume
           Turnover = toDecimal value.Turnover
-          OpenInterest = value.OpenInterest
+          OpenInterest = toDecimal value.OpenInterest
           ClosePrice = toDecimal value.ClosePrice
           SettlementPrice = toDecimal value.SettlementPrice
           UpperLimitPrice = toDecimal value.UpperLimitPrice
           LowerLimitPrice = toDecimal value.LowerLimitPrice
-          PreDelta = value.PreDelta
-          CurrDelta = value.CurrDelta
+          PreDelta = toDecimal value.PreDelta
+          CurrDelta = toDecimal value.CurrDelta
           UpdateTime = EncodingHelpers.decodeFixed encoding value.UpdateTime
           UpdateMillisec = value.UpdateMillisec
           BidPrice1 = toDecimal value.BidPrice1

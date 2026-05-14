@@ -252,19 +252,12 @@ type SinglePendingRequestTests() =
         |> ignore
 
 
-type TraderBridgeSurfaceTests() =
-
-    [<Fact>]
-    member _.``trader callbacks include private seq no slot``() =
-        Assert.True(TraderCallbacks.Empty.RtnPrivateSeqNo.IsNone)
-
-
 type PendingQueryDictTests() =
 
     [<Fact>]
     member _.``stream until last accumulates all responses``() =
         let pending = PendingQueryDict()
-        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>> ()
 
         pending.Register(1, "QueryNumbers", completion)
         pending.TryHandleResponse(1, Some(box 1), None, false, PendingResponseCompletionPolicy.StreamUntilLast)
@@ -282,7 +275,7 @@ type PendingQueryDictTests() =
     [<Fact>]
     member _.``final only ignores non final responses``() =
         let pending = PendingQueryDict()
-        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>> ()
 
         pending.Register(1, "Login", completion)
         pending.TryHandleResponse(1, Some(box 1), None, false, PendingResponseCompletionPolicy.FinalOnly)
@@ -300,7 +293,7 @@ type PendingQueryDictTests() =
     [<Fact>]
     member _.``final only returns error from final response``() =
         let pending = PendingQueryDict()
-        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>> ()
         let error = ClientHelpers.apiReturnError 7
 
         pending.Register(1, "Authenticate", completion)
@@ -315,7 +308,7 @@ type PendingQueryDictTests() =
     [<Fact>]
     member _.``rsp error failure clears pending request``() =
         let pending = PendingQueryDict()
-        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>>()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>> ()
         let error = ClientHelpers.apiReturnError 9
 
         pending.Register(1, "QueryNumbers", completion)

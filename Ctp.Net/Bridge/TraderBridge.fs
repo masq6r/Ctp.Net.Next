@@ -2,6 +2,7 @@ namespace Ctp.Net.Bridge
 
 open System
 open Microsoft.Win32.SafeHandles
+open Microsoft.FSharp.Reflection
 open System.Runtime.InteropServices
 
 type AuthenticateResponse =
@@ -238,8 +239,2781 @@ type QueryInstrumentCommissionRateRequest =
       InvestUnitId: string option
       InstrumentId: string }
 
+type Accountregister =
+    { 
+      TradeDay: string;
+      BankId: string;
+      BankBranchId: string;
+      BankAccount: string;
+      BrokerId: string;
+      BrokerBranchId: string;
+      AccountId: string;
+      IdCardType: char option;
+      IdentifiedCardNo: string;
+      CustomerName: string;
+      CurrencyId: string;
+      OpenOrDestroy: char option;
+      RegDate: string;
+      OutDate: string;
+      TId: int;
+      CustType: char option;
+      BankAccType: char option;
+      LongCustomerName: string }
+
+type BatchOrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      OrderActionRef: int;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      ActionDate: string;
+      ActionTime: string;
+      TraderId: string;
+      InstallId: int;
+      ActionLocalId: string;
+      ParticipantId: string;
+      ClientId: string;
+      BusinessUnit: string;
+      OrderActionStatus: char option;
+      UserId: string;
+      StatusMsg: string;
+      InvestUnitId: string;
+      Reserve1: string;
+      MacAddress: string;
+      IpAddress: string }
+
+type BrokerTradingAlgos =
+    { 
+      BrokerId: string;
+      ExchangeId: string;
+      Reserve1: string;
+      HandlePositionAlgoId: char option;
+      FindMarginRateAlgoId: char option;
+      HandleTradingAccountAlgoId: char option;
+      InstrumentId: string }
+
+type BrokerTradingParams =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      MarginPriceType: char option;
+      Algorithm: char option;
+      AvailIncludeCloseProfit: char option;
+      CurrencyId: string;
+      OptionRoyaltyPriceType: char option;
+      AccountId: string }
+
+type CancelOffsetSetting =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string;
+      UnderlyingInstrId: string;
+      ProductId: string;
+      OffsetType: char option;
+      Volume: int;
+      IsOffset: int;
+      RequestId: int;
+      UserId: string;
+      ExchangeId: string;
+      IpAddress: string;
+      MacAddress: string;
+      ExchangeInstId: string;
+      ExchangeSerialNo: string;
+      ExchangeProductId: string;
+      TraderId: string;
+      InstallId: int;
+      ParticipantId: string;
+      ClientId: string;
+      OrderActionStatus: char option;
+      StatusMsg: string;
+      ActionLocalId: string;
+      ActionDate: string;
+      ActionTime: string }
+
+type CfmmcTradingAccountKey =
+    { 
+      BrokerId: string;
+      ParticipantId: string;
+      AccountId: string;
+      KeyId: int;
+      CurrentKey: string }
+
+type CombAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      CombActionRef: string;
+      UserId: string;
+      Direction: char option;
+      Volume: int;
+      CombDirection: char option;
+      HedgeFlag: char option;
+      ActionLocalId: string;
+      ExchangeId: string;
+      ParticipantId: string;
+      ClientId: string;
+      Reserve2: string;
+      TraderId: string;
+      InstallId: int;
+      ActionStatus: char option;
+      NotifySequence: int;
+      TradingDay: string;
+      SettlementId: int;
+      SequenceNo: int;
+      FrontId: int;
+      SessionId: int;
+      UserProductInfo: string;
+      StatusMsg: string;
+      Reserve3: string;
+      MacAddress: string;
+      ComTradeId: string;
+      BranchId: string;
+      InvestUnitId: string;
+      InstrumentId: string;
+      ExchangeInstId: string;
+      IpAddress: string }
+
+type CombInstrumentGuard =
+    { 
+      BrokerId: string;
+      Reserve1: string;
+      GuarantRatio: decimal;
+      ExchangeId: string;
+      InstrumentId: string }
+
+type CombLeg =
+    { 
+      CombInstrumentId: string;
+      LegId: int;
+      LegInstrumentId: string;
+      Direction: char option;
+      LegMultiple: int;
+      ImplyLevel: int }
+
+type CombPromotionParam =
+    { 
+      ExchangeId: string;
+      InstrumentId: string;
+      CombHedgeFlag: string;
+      Xparameter: decimal }
+
+type ContractBank =
+    { 
+      BrokerId: string;
+      BankId: string;
+      BankBrchId: string;
+      BankName: string;
+      CsrcBankId: string }
+
+type EWarrantOffset =
+    { 
+      TradingDay: string;
+      BrokerId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      Reserve1: string;
+      Direction: char option;
+      HedgeFlag: char option;
+      Volume: int;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type Exchange =
+    { 
+      ExchangeId: string;
+      ExchangeName: string;
+      ExchangeProperty: char option }
+
+type ExchangeMarginRateAdjust =
+    { 
+      BrokerId: string;
+      Reserve1: string;
+      HedgeFlag: char option;
+      LongMarginRatioByMoney: decimal;
+      LongMarginRatioByVolume: decimal;
+      ShortMarginRatioByMoney: decimal;
+      ShortMarginRatioByVolume: decimal;
+      ExchLongMarginRatioByMoney: decimal;
+      ExchLongMarginRatioByVolume: decimal;
+      ExchShortMarginRatioByMoney: decimal;
+      ExchShortMarginRatioByVolume: decimal;
+      NoLongMarginRatioByMoney: decimal;
+      NoLongMarginRatioByVolume: decimal;
+      NoShortMarginRatioByMoney: decimal;
+      NoShortMarginRatioByVolume: decimal;
+      InstrumentId: string }
+
+type ExchangeRate =
+    { 
+      BrokerId: string;
+      FromCurrencyId: string;
+      FromCurrencyUnit: decimal;
+      ToCurrencyId: string;
+      ExchangeRate: decimal }
+
+type ExecOrder =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExecOrderRef: string;
+      UserId: string;
+      Volume: int;
+      RequestId: int;
+      BusinessUnit: string;
+      OffsetFlag: char option;
+      HedgeFlag: char option;
+      ActionType: char option;
+      PosiDirection: char option;
+      ReservePositionFlag: char option;
+      CloseFlag: char option;
+      ExecOrderLocalId: string;
+      ExchangeId: string;
+      ParticipantId: string;
+      ClientId: string;
+      Reserve2: string;
+      TraderId: string;
+      InstallId: int;
+      OrderSubmitStatus: char option;
+      NotifySequence: int;
+      TradingDay: string;
+      SettlementId: int;
+      ExecOrderSysId: string;
+      InsertDate: string;
+      InsertTime: string;
+      CancelTime: string;
+      ExecResult: char option;
+      ClearingPartId: string;
+      SequenceNo: int;
+      FrontId: int;
+      SessionId: int;
+      UserProductInfo: string;
+      StatusMsg: string;
+      ActiveUserId: string;
+      BrokerExecOrderSeq: int;
+      BranchId: string;
+      InvestUnitId: string;
+      AccountId: string;
+      CurrencyId: string;
+      Reserve3: string;
+      MacAddress: string;
+      InstrumentId: string;
+      ExchangeInstId: string;
+      IpAddress: string }
+
+type ExecOrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ExecOrderActionRef: int;
+      ExecOrderRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      ExecOrderSysId: string;
+      ActionFlag: char option;
+      ActionDate: string;
+      ActionTime: string;
+      TraderId: string;
+      InstallId: int;
+      ExecOrderLocalId: string;
+      ActionLocalId: string;
+      ParticipantId: string;
+      ClientId: string;
+      BusinessUnit: string;
+      OrderActionStatus: char option;
+      UserId: string;
+      ActionType: char option;
+      StatusMsg: string;
+      Reserve1: string;
+      BranchId: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type FensUserInfo =
+    { 
+      BrokerId: string;
+      UserId: string;
+      LoginMode: char option }
+
+type ForQuote =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ForQuoteRef: string;
+      UserId: string;
+      ForQuoteLocalId: string;
+      ExchangeId: string;
+      ParticipantId: string;
+      ClientId: string;
+      Reserve2: string;
+      TraderId: string;
+      InstallId: int;
+      InsertDate: string;
+      InsertTime: string;
+      ForQuoteStatus: char option;
+      FrontId: int;
+      SessionId: int;
+      StatusMsg: string;
+      ActiveUserId: string;
+      BrokerForQutoSeq: int;
+      InvestUnitId: string;
+      Reserve3: string;
+      MacAddress: string;
+      InstrumentId: string;
+      ExchangeInstId: string;
+      IpAddress: string }
+
+type ForQuoteRsp =
+    { 
+      TradingDay: string;
+      Reserve1: string;
+      ForQuoteSysId: string;
+      ForQuoteTime: string;
+      ActionDay: string;
+      ExchangeId: string;
+      InstrumentId: string }
+
+type FrontInfo =
+    { 
+      FrontAddr: string;
+      QryFreq: int;
+      FtdPkgFreq: int }
+
+type HedgeCfm =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string;
+      UserId: string;
+      Volume: int;
+      Direction: char option;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      OrderRef: string;
+      ActiveUserId: string;
+      BrokerOrderSeq: int;
+      OrderSysId: string;
+      ApplyStatus: char option;
+      SequenceNo: int;
+      DealVolume: int;
+      InsertDate: string;
+      InsertTime: string;
+      CancelTime: string;
+      ReqDate: string;
+      OrderLocalId: string;
+      ExchangeId: string;
+      ParticipantId: string;
+      ClientId: string;
+      ExchangeInstId: string;
+      TraderId: string;
+      InstallId: int;
+      OrderSubmitStatus: char option;
+      NotifySequence: int;
+      TradingDay: string;
+      SettlementId: int;
+      StatusMsg: string;
+      IpAddress: string;
+      MacAddress: string }
+
+type HedgeCfmAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ActionDate: string;
+      ActionTime: string;
+      TraderId: string;
+      InstallId: int;
+      OrderLocalId: string;
+      ActionLocalId: string;
+      ParticipantId: string;
+      ClientId: string;
+      OrderActionStatus: char option;
+      UserId: string;
+      ExchangeId: string;
+      OrderSysId: string;
+      RequestId: int;
+      StatusMsg: string;
+      OrderRef: string;
+      FrontId: int;
+      SessionId: int;
+      IpAddress: string;
+      MacAddress: string }
+
+type InputBatchOrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      OrderActionRef: int;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      UserId: string;
+      InvestUnitId: string;
+      Reserve1: string;
+      MacAddress: string;
+      IpAddress: string }
+
+type InputCombAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      CombActionRef: string;
+      UserId: string;
+      Direction: char option;
+      Volume: int;
+      CombDirection: char option;
+      HedgeFlag: char option;
+      ExchangeId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InvestUnitId: string;
+      FrontId: int;
+      SessionId: int;
+      InstrumentId: string;
+      IpAddress: string }
+
+type InputExecOrder =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExecOrderRef: string;
+      UserId: string;
+      Volume: int;
+      RequestId: int;
+      BusinessUnit: string;
+      OffsetFlag: char option;
+      HedgeFlag: char option;
+      ActionType: char option;
+      PosiDirection: char option;
+      ReservePositionFlag: char option;
+      CloseFlag: char option;
+      ExchangeId: string;
+      InvestUnitId: string;
+      AccountId: string;
+      CurrencyId: string;
+      ClientId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type InputExecOrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ExecOrderActionRef: int;
+      ExecOrderRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      ExecOrderSysId: string;
+      ActionFlag: char option;
+      UserId: string;
+      Reserve1: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type InputForQuote =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ForQuoteRef: string;
+      UserId: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type InputHedgeCfm =
+    { 
+      BrokerId: string;
+      UserId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      InstrumentId: string;
+      Volume: int;
+      Direction: char option;
+      RequestId: int;
+      OrderRef: string;
+      IpAddress: string;
+      MacAddress: string }
+
+type InputHedgeCfmAction =
+    { 
+      BrokerId: string;
+      UserId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      OrderSysId: string;
+      OrderRef: string;
+      FrontId: int;
+      SessionId: int;
+      RequestId: int;
+      IpAddress: string;
+      MacAddress: string }
+
+type InputOffsetSetting =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string;
+      UnderlyingInstrId: string;
+      ProductId: string;
+      OffsetType: char option;
+      Volume: int;
+      IsOffset: int;
+      RequestId: int;
+      UserId: string;
+      ExchangeId: string;
+      IpAddress: string;
+      MacAddress: string }
+
+type InputOptionSelfClose =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      OptionSelfCloseRef: string;
+      UserId: string;
+      Volume: int;
+      RequestId: int;
+      BusinessUnit: string;
+      HedgeFlag: char option;
+      OptSelfCloseFlag: char option;
+      ExchangeId: string;
+      InvestUnitId: string;
+      AccountId: string;
+      CurrencyId: string;
+      ClientId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type InputOptionSelfCloseAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      OptionSelfCloseActionRef: int;
+      OptionSelfCloseRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      OptionSelfCloseSysId: string;
+      ActionFlag: char option;
+      UserId: string;
+      Reserve1: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type InputQuote =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      QuoteRef: string;
+      UserId: string;
+      AskPrice: decimal;
+      BidPrice: decimal;
+      AskVolume: int;
+      BidVolume: int;
+      RequestId: int;
+      BusinessUnit: string;
+      AskOffsetFlag: char option;
+      BidOffsetFlag: char option;
+      AskHedgeFlag: char option;
+      BidHedgeFlag: char option;
+      AskOrderRef: string;
+      BidOrderRef: string;
+      ForQuoteSysId: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      ClientId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string;
+      ReplaceSysId: string;
+      TimeCondition: char option;
+      OrderMemo: string;
+      SessionReqSeq: int }
+
+type InputQuoteAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      QuoteActionRef: int;
+      QuoteRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      QuoteSysId: string;
+      ActionFlag: char option;
+      UserId: string;
+      Reserve1: string;
+      InvestUnitId: string;
+      ClientId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string;
+      OrderMemo: string;
+      SessionReqSeq: int }
+
+type InputSpdApply =
+    { 
+      BrokerId: string;
+      UserId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      FirstLegInstrumentId: string;
+      SecondLegInstrumentId: string;
+      Volume: int;
+      Direction: char option;
+      CmbType: char option;
+      RequestId: int;
+      OrderRef: string;
+      IpAddress: string;
+      MacAddress: string }
+
+type InputSpdApplyAction =
+    { 
+      BrokerId: string;
+      UserId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      OrderSysId: string;
+      OrderRef: string;
+      FrontId: int;
+      SessionId: int;
+      RequestId: int;
+      IpAddress: string;
+      MacAddress: string }
+
+type Instrument =
+    { 
+      Reserve1: string;
+      ExchangeId: string;
+      InstrumentName: string;
+      Reserve2: string;
+      Reserve3: string;
+      ProductClass: char option;
+      DeliveryYear: int;
+      DeliveryMonth: int;
+      MaxMarketOrderVolume: int;
+      MinMarketOrderVolume: int;
+      MaxLimitOrderVolume: int;
+      MinLimitOrderVolume: int;
+      VolumeMultiple: int;
+      PriceTick: decimal;
+      CreateDate: string;
+      OpenDate: string;
+      ExpireDate: string;
+      StartDelivDate: string;
+      EndDelivDate: string;
+      InstLifePhase: char option;
+      IsTrading: int;
+      PositionType: char option;
+      PositionDateType: char option;
+      LongMarginRatio: decimal;
+      ShortMarginRatio: decimal;
+      MaxMarginSideAlgorithm: char option;
+      Reserve4: string;
+      StrikePrice: decimal;
+      OptionsType: char option;
+      UnderlyingMultiple: decimal;
+      CombinationType: char option;
+      InstrumentId: string;
+      ExchangeInstId: string;
+      ProductId: string;
+      UnderlyingInstrId: string }
+
+type InstrumentOrderCommRate =
+    { 
+      Reserve1: string;
+      InvestorRange: char option;
+      BrokerId: string;
+      InvestorId: string;
+      HedgeFlag: char option;
+      OrderCommByVolume: decimal;
+      OrderActionCommByVolume: decimal;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string;
+      OrderCommByTrade: decimal;
+      OrderActionCommByTrade: decimal }
+
+type InvestUnit =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InvestUnitId: string;
+      InvestorUnitName: string;
+      InvestorGroupId: string;
+      CommModelId: string;
+      MarginModelId: string;
+      AccountId: string;
+      CurrencyId: string }
+
+type Investor =
+    { 
+      InvestorId: string;
+      BrokerId: string;
+      InvestorGroupId: string;
+      InvestorName: string;
+      IdentifiedCardType: char option;
+      IdentifiedCardNo: string;
+      IsActive: int;
+      Telephone: string;
+      Address: string;
+      OpenDate: string;
+      Mobile: string;
+      CommModelId: string;
+      MarginModelId: string;
+      IsOrderFreq: char option;
+      IsOpenVolLimit: char option }
+
+type InvestorCommodityGroupSpmmMargin =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      CommodityGroupId: string;
+      MarginBeforeDiscount: decimal;
+      MarginNoDiscount: decimal;
+      LongRisk: decimal;
+      ShortRisk: decimal;
+      CloseFrozenMargin: decimal;
+      InterCommodityRate: decimal;
+      MiniMarginRatio: decimal;
+      AdjustRatio: decimal;
+      IntraCommodityDiscount: decimal;
+      InterCommodityDiscount: decimal;
+      ExchMargin: decimal;
+      InvestorMargin: decimal;
+      FrozenCommission: decimal;
+      Commission: decimal;
+      FrozenCash: decimal;
+      CashIn: decimal;
+      StrikeFrozenMargin: decimal }
+
+type InvestorCommoditySpmmMargin =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      CommodityId: string;
+      MarginBeforeDiscount: decimal;
+      MarginNoDiscount: decimal;
+      LongPosRisk: decimal;
+      LongOpenFrozenRisk: decimal;
+      LongCloseFrozenRisk: decimal;
+      ShortPosRisk: decimal;
+      ShortOpenFrozenRisk: decimal;
+      ShortCloseFrozenRisk: decimal;
+      IntraCommodityRate: decimal;
+      OptionDiscountRate: decimal;
+      PosDiscount: decimal;
+      OpenFrozenDiscount: decimal;
+      NetRisk: decimal;
+      CloseFrozenMargin: decimal;
+      FrozenCommission: decimal;
+      Commission: decimal;
+      FrozenCash: decimal;
+      CashIn: decimal;
+      StrikeFrozenMargin: decimal }
+
+type InvestorInfoCommRec =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string;
+      OrderCount: int;
+      OrderActionCount: int;
+      ForQuoteCnt: int;
+      InfoComm: decimal;
+      IsOptSeries: int;
+      ProductId: string;
+      InfoCnt: int }
+
+type InvestorPortfMarginRatio =
+    { 
+      InvestorRange: char option;
+      BrokerId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      MarginRatio: decimal;
+      ProductGroupId: string }
+
+type InvestorPortfSetting =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      HedgeFlag: char option;
+      UsePortf: int }
+
+type InvestorPositionCombineDetail =
+    { 
+      TradingDay: string;
+      OpenDate: string;
+      ExchangeId: string;
+      SettlementId: int;
+      BrokerId: string;
+      InvestorId: string;
+      ComTradeId: string;
+      TradeId: string;
+      Reserve1: string;
+      HedgeFlag: char option;
+      Direction: char option;
+      TotalAmt: int;
+      Margin: decimal;
+      ExchMargin: decimal;
+      MarginRateByMoney: decimal;
+      MarginRateByVolume: decimal;
+      LegId: int;
+      LegMultiple: int;
+      Reserve2: string;
+      TradeGroupId: int;
+      InvestUnitId: string;
+      InstrumentId: string;
+      CombInstrumentId: string }
+
+type InvestorPositionDetail =
+    { 
+      Reserve1: string;
+      BrokerId: string;
+      InvestorId: string;
+      HedgeFlag: char option;
+      Direction: char option;
+      OpenDate: string;
+      TradeId: string;
+      Volume: int;
+      OpenPrice: decimal;
+      TradingDay: string;
+      SettlementId: int;
+      TradeType: char option;
+      Reserve2: string;
+      ExchangeId: string;
+      CloseProfitByDate: decimal;
+      CloseProfitByTrade: decimal;
+      PositionProfitByDate: decimal;
+      PositionProfitByTrade: decimal;
+      Margin: decimal;
+      ExchMargin: decimal;
+      MarginRateByMoney: decimal;
+      MarginRateByVolume: decimal;
+      LastSettlementPrice: decimal;
+      SettlementPrice: decimal;
+      CloseVolume: int;
+      CloseAmount: decimal;
+      TimeFirstVolume: int;
+      InvestUnitId: string;
+      SpecPosiType: char option;
+      InstrumentId: string;
+      CombInstrumentId: string }
+
+type InvestorProdRcamsMargin =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      CombProductId: string;
+      HedgeFlag: char option;
+      ProductGroupId: string;
+      RiskBeforeDiscount: decimal;
+      IntraInstrRisk: decimal;
+      BPosRisk: decimal;
+      SPosRisk: decimal;
+      IntraProdRisk: decimal;
+      NetRisk: decimal;
+      InterProdRisk: decimal;
+      ShortOptRiskAdj: decimal;
+      OptionRoyalty: decimal;
+      MmsaCloseFrozenMargin: decimal;
+      CloseCombFrozenMargin: decimal;
+      CloseFrozenMargin: decimal;
+      MmsaOpenFrozenMargin: decimal;
+      DeliveryOpenFrozenMargin: decimal;
+      OpenFrozenMargin: decimal;
+      UseFrozenMargin: decimal;
+      MmsaExchMargin: decimal;
+      DeliveryExchMargin: decimal;
+      CombExchMargin: decimal;
+      ExchMargin: decimal;
+      UseMargin: decimal }
+
+type InvestorProdRuleMargin =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      ProdFamilyCode: string;
+      InstrumentClass: char option;
+      CommodityGroupId: int;
+      BStdPosition: decimal;
+      SStdPosition: decimal;
+      BStdOpenFrozen: decimal;
+      SStdOpenFrozen: decimal;
+      BStdCloseFrozen: decimal;
+      SStdCloseFrozen: decimal;
+      IntraProdStdPosition: decimal;
+      NetStdPosition: decimal;
+      InterProdStdPosition: decimal;
+      SingleStdPosition: decimal;
+      IntraProdMargin: decimal;
+      InterProdMargin: decimal;
+      SingleMargin: decimal;
+      NonCombMargin: decimal;
+      AddOnMargin: decimal;
+      ExchMargin: decimal;
+      AddOnFrozenMargin: decimal;
+      OpenFrozenMargin: decimal;
+      CloseFrozenMargin: decimal;
+      Margin: decimal;
+      FrozenMargin: decimal }
+
+type InvestorProdSpbmDetail =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      ProdFamilyCode: string;
+      IntraInstrMargin: decimal;
+      BCollectingMargin: decimal;
+      SCollectingMargin: decimal;
+      IntraProdMargin: decimal;
+      NetMargin: decimal;
+      InterProdMargin: decimal;
+      SingleMargin: decimal;
+      AddOnMargin: decimal;
+      DeliveryMargin: decimal;
+      CallOptionMinRisk: decimal;
+      PutOptionMinRisk: decimal;
+      OptionMinRisk: decimal;
+      OptionValueOffset: decimal;
+      OptionRoyalty: decimal;
+      RealOptionValueOffset: decimal;
+      Margin: decimal;
+      ExchMargin: decimal }
+
+type InvestorProductGroupMargin =
+    { 
+      Reserve1: string;
+      BrokerId: string;
+      InvestorId: string;
+      TradingDay: string;
+      SettlementId: int;
+      FrozenMargin: decimal;
+      LongFrozenMargin: decimal;
+      ShortFrozenMargin: decimal;
+      UseMargin: decimal;
+      LongUseMargin: decimal;
+      ShortUseMargin: decimal;
+      ExchMargin: decimal;
+      LongExchMargin: decimal;
+      ShortExchMargin: decimal;
+      CloseProfit: decimal;
+      FrozenCommission: decimal;
+      Commission: decimal;
+      FrozenCash: decimal;
+      CashIn: decimal;
+      PositionProfit: decimal;
+      OffsetAmount: decimal;
+      LongOffsetAmount: decimal;
+      ShortOffsetAmount: decimal;
+      ExchOffsetAmount: decimal;
+      LongExchOffsetAmount: decimal;
+      ShortExchOffsetAmount: decimal;
+      HedgeFlag: char option;
+      ExchangeId: string;
+      InvestUnitId: string;
+      ProductGroupId: string }
+
+type MmInstrumentCommissionRate =
+    { 
+      Reserve1: string;
+      InvestorRange: char option;
+      BrokerId: string;
+      InvestorId: string;
+      OpenRatioByMoney: decimal;
+      OpenRatioByVolume: decimal;
+      CloseRatioByMoney: decimal;
+      CloseRatioByVolume: decimal;
+      CloseTodayRatioByMoney: decimal;
+      CloseTodayRatioByVolume: decimal;
+      InstrumentId: string }
+
+type MmOptionInstrCommRate =
+    { 
+      Reserve1: string;
+      InvestorRange: char option;
+      BrokerId: string;
+      InvestorId: string;
+      OpenRatioByMoney: decimal;
+      OpenRatioByVolume: decimal;
+      CloseRatioByMoney: decimal;
+      CloseRatioByVolume: decimal;
+      CloseTodayRatioByMoney: decimal;
+      CloseTodayRatioByVolume: decimal;
+      StrikeRatioByMoney: decimal;
+      StrikeRatioByVolume: decimal;
+      InstrumentId: string }
+
+type Notice =
+    { 
+      BrokerId: string;
+      Content: string;
+      SequenceLabel: string }
+
+type NotifyQueryAccount =
+    { 
+      TradeCode: string;
+      BankId: string;
+      BankBranchId: string;
+      BrokerId: string;
+      BrokerBranchId: string;
+      TradeDate: string;
+      TradeTime: string;
+      BankSerial: string;
+      TradingDay: string;
+      PlateSerial: int;
+      LastFragment: char option;
+      SessionId: int;
+      CustomerName: string;
+      IdCardType: char option;
+      IdentifiedCardNo: string;
+      CustType: char option;
+      BankAccount: string;
+      BankPassWord: string;
+      AccountId: string;
+      Password: string;
+      FutureSerial: int;
+      InstallId: int;
+      UserId: string;
+      VerifyCertNoFlag: char option;
+      CurrencyId: string;
+      Digest: string;
+      BankAccType: char option;
+      DeviceId: string;
+      BankSecuAccType: char option;
+      BrokerIdByBank: string;
+      BankSecuAcc: string;
+      BankPwdFlag: char option;
+      SecuPwdFlag: char option;
+      OperNo: string;
+      RequestId: int;
+      TId: int;
+      BankUseAmount: decimal;
+      BankFetchAmount: decimal;
+      ErrorId: int;
+      ErrorMsg: string;
+      LongCustomerName: string }
+
+type OffsetSetting =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string;
+      UnderlyingInstrId: string;
+      ProductId: string;
+      OffsetType: char option;
+      Volume: int;
+      IsOffset: int;
+      RequestId: int;
+      UserId: string;
+      ExchangeId: string;
+      IpAddress: string;
+      MacAddress: string;
+      ExchangeInstId: string;
+      ExchangeSerialNo: string;
+      ExchangeProductId: string;
+      ParticipantId: string;
+      ClientId: string;
+      TraderId: string;
+      InstallId: int;
+      OrderSubmitStatus: char option;
+      TradingDay: string;
+      SettlementId: int;
+      InsertDate: string;
+      InsertTime: string;
+      CancelTime: string;
+      ExecResult: char option;
+      SequenceNo: int;
+      FrontId: int;
+      SessionId: int;
+      StatusMsg: string;
+      ActiveUserId: string;
+      BrokerOffsetSettingSeq: int;
+      ApplySrc: char option }
+
+type OptionInstrCommRate =
+    { 
+      Reserve1: string;
+      InvestorRange: char option;
+      BrokerId: string;
+      InvestorId: string;
+      OpenRatioByMoney: decimal;
+      OpenRatioByVolume: decimal;
+      CloseRatioByMoney: decimal;
+      CloseRatioByVolume: decimal;
+      CloseTodayRatioByMoney: decimal;
+      CloseTodayRatioByVolume: decimal;
+      StrikeRatioByMoney: decimal;
+      StrikeRatioByVolume: decimal;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type OptionInstrTradeCost =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      HedgeFlag: char option;
+      FixedMargin: decimal;
+      MiniMargin: decimal;
+      Royalty: decimal;
+      ExchFixedMargin: decimal;
+      ExchMiniMargin: decimal;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type OptionSelfClose =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      OptionSelfCloseRef: string;
+      UserId: string;
+      Volume: int;
+      RequestId: int;
+      BusinessUnit: string;
+      HedgeFlag: char option;
+      OptSelfCloseFlag: char option;
+      OptionSelfCloseLocalId: string;
+      ExchangeId: string;
+      ParticipantId: string;
+      ClientId: string;
+      Reserve2: string;
+      TraderId: string;
+      InstallId: int;
+      OrderSubmitStatus: char option;
+      NotifySequence: int;
+      TradingDay: string;
+      SettlementId: int;
+      OptionSelfCloseSysId: string;
+      InsertDate: string;
+      InsertTime: string;
+      CancelTime: string;
+      ExecResult: char option;
+      ClearingPartId: string;
+      SequenceNo: int;
+      FrontId: int;
+      SessionId: int;
+      UserProductInfo: string;
+      StatusMsg: string;
+      ActiveUserId: string;
+      BrokerOptionSelfCloseSeq: int;
+      BranchId: string;
+      InvestUnitId: string;
+      AccountId: string;
+      CurrencyId: string;
+      Reserve3: string;
+      MacAddress: string;
+      InstrumentId: string;
+      ExchangeInstId: string;
+      IpAddress: string }
+
+type OptionSelfCloseAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      OptionSelfCloseActionRef: int;
+      OptionSelfCloseRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      OptionSelfCloseSysId: string;
+      ActionFlag: char option;
+      ActionDate: string;
+      ActionTime: string;
+      TraderId: string;
+      InstallId: int;
+      OptionSelfCloseLocalId: string;
+      ActionLocalId: string;
+      ParticipantId: string;
+      ClientId: string;
+      BusinessUnit: string;
+      OrderActionStatus: char option;
+      UserId: string;
+      StatusMsg: string;
+      Reserve1: string;
+      BranchId: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type OrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      OrderActionRef: int;
+      OrderRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      OrderSysId: string;
+      ActionFlag: char option;
+      LimitPrice: decimal;
+      VolumeChange: int;
+      ActionDate: string;
+      ActionTime: string;
+      TraderId: string;
+      InstallId: int;
+      OrderLocalId: string;
+      ActionLocalId: string;
+      ParticipantId: string;
+      ClientId: string;
+      BusinessUnit: string;
+      OrderActionStatus: char option;
+      UserId: string;
+      StatusMsg: string;
+      Reserve1: string;
+      BranchId: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string;
+      OrderMemo: string;
+      SessionReqSeq: int }
+
+type ParkedOrder =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      OrderRef: string;
+      UserId: string;
+      OrderPriceType: char option;
+      Direction: char option;
+      CombOffsetFlag: string;
+      CombHedgeFlag: string;
+      LimitPrice: decimal;
+      VolumeTotalOriginal: int;
+      TimeCondition: char option;
+      GtdDate: string;
+      VolumeCondition: char option;
+      MinVolume: int;
+      ContingentCondition: char option;
+      StopPrice: decimal;
+      ForceCloseReason: char option;
+      IsAutoSuspend: int;
+      BusinessUnit: string;
+      RequestId: int;
+      UserForceClose: int;
+      ExchangeId: string;
+      ParkedOrderId: string;
+      UserType: char option;
+      Status: char option;
+      ErrorId: int;
+      ErrorMsg: string;
+      IsSwapOrder: int;
+      AccountId: string;
+      CurrencyId: string;
+      ClientId: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type ParkedOrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      OrderActionRef: int;
+      OrderRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      OrderSysId: string;
+      ActionFlag: char option;
+      LimitPrice: decimal;
+      VolumeChange: int;
+      UserId: string;
+      Reserve1: string;
+      ParkedOrderActionId: string;
+      UserType: char option;
+      Status: char option;
+      ErrorId: int;
+      ErrorMsg: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string }
+
+type Product =
+    { 
+      Reserve1: string;
+      ProductName: string;
+      ExchangeId: string;
+      ProductClass: char option;
+      VolumeMultiple: int;
+      PriceTick: decimal;
+      MaxMarketOrderVolume: int;
+      MinMarketOrderVolume: int;
+      MaxLimitOrderVolume: int;
+      MinLimitOrderVolume: int;
+      PositionType: char option;
+      PositionDateType: char option;
+      CloseDealType: char option;
+      TradeCurrencyId: string;
+      MortgageFundUseRange: char option;
+      Reserve2: string;
+      UnderlyingMultiple: decimal;
+      ProductId: string;
+      ExchangeProductId: string;
+      OpenLimitControlLevel: char option;
+      OrderFreqControlLevel: char option }
+
+type ProductExchRate =
+    { 
+      Reserve1: string;
+      QuoteCurrencyId: string;
+      ExchangeRate: decimal;
+      ExchangeId: string;
+      ProductId: string }
+
+type ProductGroup =
+    { 
+      Reserve1: string;
+      ExchangeId: string;
+      Reserve2: string;
+      ProductId: string;
+      ProductGroupId: string }
+
+type QryAccountregister =
+    { 
+      BrokerId: string;
+      AccountId: string;
+      BankId: string;
+      BankBranchId: string;
+      CurrencyId: string }
+
+type QryBrokerTradingAlgos =
+    { 
+      BrokerId: string;
+      ExchangeId: string;
+      Reserve1: string;
+      InstrumentId: string }
+
+type QryBrokerTradingParams =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      CurrencyId: string;
+      AccountId: string }
+
+type QryCfmmcTradingAccountKey =
+    { 
+      BrokerId: string;
+      InvestorId: string }
+
+type QryClassifiedInstrument =
+    { 
+      InstrumentId: string;
+      ExchangeId: string;
+      ExchangeInstId: string;
+      ProductId: string;
+      TradingType: char option;
+      ClassType: char option }
+
+type QryCombAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryCombInstrumentGuard =
+    { 
+      BrokerId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InstrumentId: string }
+
+type QryCombLeg =
+    { 
+      LegInstrumentId: string }
+
+type QryCombPromotionParam =
+    { 
+      ExchangeId: string;
+      InstrumentId: string }
+
+type QryContractBank =
+    { 
+      BrokerId: string;
+      BankId: string;
+      BankBrchId: string }
+
+type QryDepthMarketData =
+    { 
+      Reserve1: string;
+      ExchangeId: string;
+      InstrumentId: string;
+      ProductClass: char option }
+
+type QryEWarrantOffset =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      Reserve1: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryExchange =
+    { 
+      ExchangeId: string }
+
+type QryExchangeMarginRateAdjust =
+    { 
+      BrokerId: string;
+      Reserve1: string;
+      HedgeFlag: char option;
+      InstrumentId: string }
+
+type QryExchangeRate =
+    { 
+      BrokerId: string;
+      FromCurrencyId: string;
+      ToCurrencyId: string }
+
+type QryExecOrder =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      ExecOrderSysId: string;
+      InsertTimeStart: string;
+      InsertTimeEnd: string;
+      InstrumentId: string }
+
+type QryForQuote =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InsertTimeStart: string;
+      InsertTimeEnd: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryHedgeCfm =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      OrderSysId: string;
+      InstrumentId: string }
+
+type QryInstrument =
+    { 
+      Reserve1: string;
+      ExchangeId: string;
+      Reserve2: string;
+      Reserve3: string;
+      InstrumentId: string;
+      ExchangeInstId: string;
+      ProductId: string }
+
+type QryInstrumentOrderCommRate =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      InstrumentId: string }
+
+type QryInvestUnit =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InvestUnitId: string }
+
+type QryInvestor =
+    { 
+      BrokerId: string;
+      InvestorId: string }
+
+type QryInvestorCommodityGroupSpmmMargin =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      CommodityGroupId: string }
+
+type QryInvestorCommoditySpmmMargin =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      CommodityId: string }
+
+type QryInvestorInfoCommRec =
+    { 
+      InvestorId: string;
+      InstrumentId: string;
+      BrokerId: string }
+
+type QryInvestorPortfMarginRatio =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      ProductGroupId: string }
+
+type QryInvestorPortfSetting =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string }
+
+type QryInvestorPositionCombineDetail =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      CombInstrumentId: string }
+
+type QryInvestorPositionDetail =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryInvestorProdRcamsMargin =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      CombProductId: string;
+      ProductGroupId: string }
+
+type QryInvestorProdRuleMargin =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      ProdFamilyCode: string;
+      CommodityGroupId: int }
+
+type QryInvestorProdSpbmDetail =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      ProdFamilyCode: string }
+
+type QryInvestorProductGroupMargin =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      HedgeFlag: char option;
+      ExchangeId: string;
+      InvestUnitId: string;
+      ProductGroupId: string }
+
+type QryMaxOrderVolume =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      Direction: char option;
+      OffsetFlag: char option;
+      HedgeFlag: char option;
+      MaxVolume: int;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryMmInstrumentCommissionRate =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      InstrumentId: string }
+
+type QryMmOptionInstrCommRate =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      InstrumentId: string }
+
+type QryNotice =
+    { 
+      BrokerId: string }
+
+type QryOffsetSetting =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ProductId: string;
+      OffsetType: char option }
+
+type QryOptionInstrCommRate =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryOptionInstrTradeCost =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      HedgeFlag: char option;
+      InputPrice: decimal;
+      UnderlyingPrice: decimal;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryOptionSelfClose =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      OptionSelfCloseSysId: string;
+      InsertTimeStart: string;
+      InsertTimeEnd: string;
+      InstrumentId: string }
+
+type QryOrder =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      OrderSysId: string;
+      InsertTimeStart: string;
+      InsertTimeEnd: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryParkedOrder =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryParkedOrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryProduct =
+    { 
+      Reserve1: string;
+      ProductClass: char option;
+      ExchangeId: string;
+      ProductId: string }
+
+type QryProductExchRate =
+    { 
+      Reserve1: string;
+      ExchangeId: string;
+      ProductId: string }
+
+type QryProductGroup =
+    { 
+      Reserve1: string;
+      ExchangeId: string;
+      ProductId: string }
+
+type QryQuote =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      QuoteSysId: string;
+      InsertTimeStart: string;
+      InsertTimeEnd: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryRcamsCombProductInfo =
+    { 
+      ProductId: string;
+      CombProductId: string;
+      ProductGroupId: string }
+
+type QryRcamsInstrParameter =
+    { 
+      ProductId: string }
+
+type QryRcamsInterParameter =
+    { 
+      ProductGroupId: string;
+      CombProduct1: string;
+      CombProduct2: string }
+
+type QryRcamsIntraParameter =
+    { 
+      CombProductId: string }
+
+type QryRcamsInvestorCombPosition =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string;
+      CombInstrumentId: string }
+
+type QryRcamsShortOptAdjustParam =
+    { 
+      CombProductId: string }
+
+type QryRiskSettleInvstPosition =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string }
+
+type QryRiskSettleProductStatus =
+    { 
+      ProductId: string }
+
+type QryRuleInstrParameter =
+    { 
+      ExchangeId: string;
+      InstrumentId: string }
+
+type QryRuleInterParameter =
+    { 
+      ExchangeId: string;
+      Leg1ProdFamilyCode: string;
+      Leg2ProdFamilyCode: string;
+      CommodityGroupId: int }
+
+type QryRuleIntraParameter =
+    { 
+      ExchangeId: string;
+      ProdFamilyCode: string }
+
+type QrySecAgentAcIdMap =
+    { 
+      BrokerId: string;
+      UserId: string;
+      AccountId: string;
+      CurrencyId: string }
+
+type QrySecAgentCheckMode =
+    { 
+      BrokerId: string;
+      InvestorId: string }
+
+type QrySecAgentTradeInfo =
+    { 
+      BrokerId: string;
+      BrokerSecAgentId: string }
+
+type QrySettlementInfo =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      TradingDay: string;
+      AccountId: string;
+      CurrencyId: string }
+
+type QrySettlementInfoConfirm =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      AccountId: string;
+      CurrencyId: string }
+
+type QrySpbmAddOnInterParameter =
+    { 
+      ExchangeId: string;
+      Leg1ProdFamilyCode: string;
+      Leg2ProdFamilyCode: string }
+
+type QrySpbmFutureParameter =
+    { 
+      ExchangeId: string;
+      InstrumentId: string;
+      ProdFamilyCode: string }
+
+type QrySpbmInterParameter =
+    { 
+      ExchangeId: string;
+      Leg1ProdFamilyCode: string;
+      Leg2ProdFamilyCode: string }
+
+type QrySpbmIntraParameter =
+    { 
+      ExchangeId: string;
+      ProdFamilyCode: string }
+
+type QrySpbmInvestorPortfDef =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string }
+
+type QrySpbmOptionParameter =
+    { 
+      ExchangeId: string;
+      InstrumentId: string;
+      ProdFamilyCode: string }
+
+type QrySpbmPortfDefinition =
+    { 
+      ExchangeId: string;
+      PortfolioDefId: int;
+      ProdFamilyCode: string }
+
+type QrySpdApply =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      OrderSysId: string;
+      FirstLegInstrumentId: string;
+      SecondLegInstrumentId: string }
+
+type QrySpmmInstParam =
+    { 
+      InstrumentId: string }
+
+type QrySpmmProductParam =
+    { 
+      ProductId: string }
+
+type QryTrade =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      ExchangeId: string;
+      TradeId: string;
+      TradeTimeStart: string;
+      TradeTimeEnd: string;
+      InvestUnitId: string;
+      InstrumentId: string }
+
+type QryTraderOffer =
+    { 
+      ExchangeId: string;
+      ParticipantId: string;
+      TraderId: string }
+
+type QryTradingCode =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ExchangeId: string;
+      ClientId: string;
+      ClientIdType: char option;
+      InvestUnitId: string }
+
+type QryTradingNotice =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InvestUnitId: string }
+
+type QryTransferBank =
+    { 
+      BankId: string;
+      BankBrchId: string }
+
+type QryTransferSerial =
+    { 
+      BrokerId: string;
+      AccountId: string;
+      BankId: string;
+      CurrencyId: string }
+
+type QryUserSession =
+    { 
+      FrontId: int;
+      SessionId: int;
+      BrokerId: string;
+      UserId: string }
+
+type QueryCfmmcTradingAccountToken =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      InvestUnitId: string }
+
+type Quote =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      Reserve1: string;
+      QuoteRef: string;
+      UserId: string;
+      AskPrice: decimal;
+      BidPrice: decimal;
+      AskVolume: int;
+      BidVolume: int;
+      RequestId: int;
+      BusinessUnit: string;
+      AskOffsetFlag: char option;
+      BidOffsetFlag: char option;
+      AskHedgeFlag: char option;
+      BidHedgeFlag: char option;
+      QuoteLocalId: string;
+      ExchangeId: string;
+      ParticipantId: string;
+      ClientId: string;
+      Reserve2: string;
+      TraderId: string;
+      InstallId: int;
+      NotifySequence: int;
+      OrderSubmitStatus: char option;
+      TradingDay: string;
+      SettlementId: int;
+      QuoteSysId: string;
+      InsertDate: string;
+      InsertTime: string;
+      CancelTime: string;
+      QuoteStatus: char option;
+      ClearingPartId: string;
+      SequenceNo: int;
+      AskOrderSysId: string;
+      BidOrderSysId: string;
+      FrontId: int;
+      SessionId: int;
+      UserProductInfo: string;
+      StatusMsg: string;
+      ActiveUserId: string;
+      BrokerQuoteSeq: int;
+      AskOrderRef: string;
+      BidOrderRef: string;
+      ForQuoteSysId: string;
+      BranchId: string;
+      InvestUnitId: string;
+      AccountId: string;
+      CurrencyId: string;
+      Reserve3: string;
+      MacAddress: string;
+      InstrumentId: string;
+      ExchangeInstId: string;
+      IpAddress: string;
+      ReplaceSysId: string;
+      TimeCondition: char option;
+      OrderMemo: string;
+      SessionReqSeq: int }
+
+type QuoteAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      QuoteActionRef: int;
+      QuoteRef: string;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      ExchangeId: string;
+      QuoteSysId: string;
+      ActionFlag: char option;
+      ActionDate: string;
+      ActionTime: string;
+      TraderId: string;
+      InstallId: int;
+      QuoteLocalId: string;
+      ActionLocalId: string;
+      ParticipantId: string;
+      ClientId: string;
+      BusinessUnit: string;
+      OrderActionStatus: char option;
+      UserId: string;
+      StatusMsg: string;
+      Reserve1: string;
+      BranchId: string;
+      InvestUnitId: string;
+      Reserve2: string;
+      MacAddress: string;
+      InstrumentId: string;
+      IpAddress: string;
+      OrderMemo: string;
+      SessionReqSeq: int }
+
+type RcamsCombProductInfo =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      ProductId: string;
+      CombProductId: string;
+      ProductGroupId: string }
+
+type RcamsInstrParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      ProductId: string;
+      HedgeRate: decimal }
+
+type RcamsInterParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      ProductGroupId: string;
+      Priority: int;
+      CreditRate: decimal;
+      CombProduct1: string;
+      CombProduct2: string }
+
+type RcamsIntraParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      CombProductId: string;
+      HedgeRate: decimal }
+
+type RcamsInvestorCombPosition =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      InstrumentId: string;
+      HedgeFlag: char option;
+      PosiDirection: char option;
+      CombInstrumentId: string;
+      LegId: int;
+      ExchangeInstId: string;
+      TotalAmt: int;
+      ExchMargin: decimal;
+      Margin: decimal }
+
+type RcamsShortOptAdjustParam =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      CombProductId: string;
+      HedgeFlag: char option;
+      AdjustValue: decimal }
+
+type RemoveParkedOrder =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ParkedOrderId: string;
+      InvestUnitId: string }
+
+type RemoveParkedOrderAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ParkedOrderActionId: string;
+      InvestUnitId: string }
+
+type ReqGenSmsCode =
+    { 
+      BrokerId: string;
+      UserId: string;
+      Mobile: string }
+
+type ReqGenUserCaptcha =
+    { 
+      TradingDay: string;
+      BrokerId: string;
+      UserId: string }
+
+type ReqGenUserText =
+    { 
+      TradingDay: string;
+      BrokerId: string;
+      UserId: string }
+
+type ReqQueryAccount =
+    { 
+      TradeCode: string;
+      BankId: string;
+      BankBranchId: string;
+      BrokerId: string;
+      BrokerBranchId: string;
+      TradeDate: string;
+      TradeTime: string;
+      BankSerial: string;
+      TradingDay: string;
+      PlateSerial: int;
+      LastFragment: char option;
+      SessionId: int;
+      CustomerName: string;
+      IdCardType: char option;
+      IdentifiedCardNo: string;
+      CustType: char option;
+      BankAccount: string;
+      BankPassWord: string;
+      AccountId: string;
+      Password: string;
+      FutureSerial: int;
+      InstallId: int;
+      UserId: string;
+      VerifyCertNoFlag: char option;
+      CurrencyId: string;
+      Digest: string;
+      BankAccType: char option;
+      DeviceId: string;
+      BankSecuAccType: char option;
+      BrokerIdByBank: string;
+      BankSecuAcc: string;
+      BankPwdFlag: char option;
+      SecuPwdFlag: char option;
+      OperNo: string;
+      RequestId: int;
+      TId: int;
+      LongCustomerName: string }
+
+type ReqTransfer =
+    { 
+      TradeCode: string;
+      BankId: string;
+      BankBranchId: string;
+      BrokerId: string;
+      BrokerBranchId: string;
+      TradeDate: string;
+      TradeTime: string;
+      BankSerial: string;
+      TradingDay: string;
+      PlateSerial: int;
+      LastFragment: char option;
+      SessionId: int;
+      CustomerName: string;
+      IdCardType: char option;
+      IdentifiedCardNo: string;
+      CustType: char option;
+      BankAccount: string;
+      BankPassWord: string;
+      AccountId: string;
+      Password: string;
+      InstallId: int;
+      FutureSerial: int;
+      UserId: string;
+      VerifyCertNoFlag: char option;
+      CurrencyId: string;
+      TradeAmount: decimal;
+      FutureFetchAmount: decimal;
+      FeePayFlag: char option;
+      CustFee: decimal;
+      BrokerFee: decimal;
+      Message: string;
+      Digest: string;
+      BankAccType: char option;
+      DeviceId: string;
+      BankSecuAccType: char option;
+      BrokerIdByBank: string;
+      BankSecuAcc: string;
+      BankPwdFlag: char option;
+      SecuPwdFlag: char option;
+      OperNo: string;
+      RequestId: int;
+      TId: int;
+      TransferStatus: char option;
+      LongCustomerName: string }
+
+type ReqUserAuthMethod =
+    { 
+      TradingDay: string;
+      BrokerId: string;
+      UserId: string }
+
+type ReqUserLoginWithCaptcha =
+    { 
+      TradingDay: string;
+      BrokerId: string;
+      UserId: string;
+      Password: string;
+      UserProductInfo: string;
+      InterfaceProductInfo: string;
+      ProtocolInfo: string;
+      MacAddress: string;
+      Reserve1: string;
+      LoginRemark: string;
+      Captcha: string;
+      ClientIpPort: int;
+      ClientIpAddress: string }
+
+type ReqUserLoginWithOtp =
+    { 
+      TradingDay: string;
+      BrokerId: string;
+      UserId: string;
+      Password: string;
+      UserProductInfo: string;
+      InterfaceProductInfo: string;
+      ProtocolInfo: string;
+      MacAddress: string;
+      Reserve1: string;
+      LoginRemark: string;
+      OtpPassword: string;
+      ClientIpPort: int;
+      ClientIpAddress: string }
+
+type ReqUserLoginWithText =
+    { 
+      TradingDay: string;
+      BrokerId: string;
+      UserId: string;
+      Password: string;
+      UserProductInfo: string;
+      InterfaceProductInfo: string;
+      ProtocolInfo: string;
+      MacAddress: string;
+      Reserve1: string;
+      LoginRemark: string;
+      Text: string;
+      ClientIpPort: int;
+      ClientIpAddress: string }
+
+type RiskSettleInvstPosition =
+    { 
+      InstrumentId: string;
+      BrokerId: string;
+      InvestorId: string;
+      PosiDirection: char option;
+      HedgeFlag: char option;
+      PositionDate: char option;
+      YdPosition: int;
+      Position: int;
+      LongFrozen: int;
+      ShortFrozen: int;
+      LongFrozenAmount: decimal;
+      ShortFrozenAmount: decimal;
+      OpenVolume: int;
+      CloseVolume: int;
+      OpenAmount: decimal;
+      CloseAmount: decimal;
+      PositionCost: decimal;
+      PreMargin: decimal;
+      UseMargin: decimal;
+      FrozenMargin: decimal;
+      FrozenCash: decimal;
+      FrozenCommission: decimal;
+      CashIn: decimal;
+      Commission: decimal;
+      CloseProfit: decimal;
+      PositionProfit: decimal;
+      PreSettlementPrice: decimal;
+      SettlementPrice: decimal;
+      TradingDay: string;
+      SettlementId: int;
+      OpenCost: decimal;
+      ExchangeMargin: decimal;
+      CombPosition: int;
+      CombLongFrozen: int;
+      CombShortFrozen: int;
+      CloseProfitByDate: decimal;
+      CloseProfitByTrade: decimal;
+      TodayPosition: int;
+      MarginRateByMoney: decimal;
+      MarginRateByVolume: decimal;
+      StrikeFrozen: int;
+      StrikeFrozenAmount: decimal;
+      AbandonFrozen: int;
+      ExchangeId: string;
+      YdStrikeFrozen: int;
+      InvestUnitId: string;
+      PositionCostOffset: decimal;
+      TasPosition: int;
+      TasPositionCost: decimal }
+
+type RiskSettleProductStatus =
+    { 
+      ExchangeId: string;
+      ProductId: string;
+      ProductStatus: char option }
+
+type RspGenSmsCode =
+    { 
+      BrokerId: string;
+      UserId: string;
+      GenTime: string }
+
+type RspGenUserCaptcha =
+    { 
+      BrokerId: string;
+      UserId: string;
+      CaptchaInfoLen: int;
+      CaptchaInfo: string }
+
+type RspGenUserText =
+    { 
+      UserTextSeq: int }
+
+type RspTransfer =
+    { 
+      TradeCode: string;
+      BankId: string;
+      BankBranchId: string;
+      BrokerId: string;
+      BrokerBranchId: string;
+      TradeDate: string;
+      TradeTime: string;
+      BankSerial: string;
+      TradingDay: string;
+      PlateSerial: int;
+      LastFragment: char option;
+      SessionId: int;
+      CustomerName: string;
+      IdCardType: char option;
+      IdentifiedCardNo: string;
+      CustType: char option;
+      BankAccount: string;
+      BankPassWord: string;
+      AccountId: string;
+      Password: string;
+      InstallId: int;
+      FutureSerial: int;
+      UserId: string;
+      VerifyCertNoFlag: char option;
+      CurrencyId: string;
+      TradeAmount: decimal;
+      FutureFetchAmount: decimal;
+      FeePayFlag: char option;
+      CustFee: decimal;
+      BrokerFee: decimal;
+      Message: string;
+      Digest: string;
+      BankAccType: char option;
+      DeviceId: string;
+      BankSecuAccType: char option;
+      BrokerIdByBank: string;
+      BankSecuAcc: string;
+      BankPwdFlag: char option;
+      SecuPwdFlag: char option;
+      OperNo: string;
+      RequestId: int;
+      TId: int;
+      TransferStatus: char option;
+      ErrorId: int;
+      ErrorMsg: string;
+      LongCustomerName: string }
+
+type RspUserAuthMethod =
+    { 
+      UsableAuthMethod: int }
+
+type RuleInstrParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      InstrumentId: string;
+      InstrumentClass: char option;
+      StdInstrumentId: string;
+      BSpecRatio: decimal;
+      SSpecRatio: decimal;
+      BHedgeRatio: decimal;
+      SHedgeRatio: decimal;
+      BAddOnMargin: decimal;
+      SAddOnMargin: decimal;
+      CommodityGroupId: int }
+
+type RuleInterParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      SpreadId: int;
+      InterRate: decimal;
+      Leg1ProdFamilyCode: string;
+      Leg2ProdFamilyCode: string;
+      Leg1PropFactor: int;
+      Leg2PropFactor: int;
+      CommodityGroupId: int;
+      CommodityGroupName: string }
+
+type RuleIntraParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      ProdFamilyCode: string;
+      StdInstrumentId: string;
+      StdInstrMargin: decimal;
+      UsualIntraRate: decimal;
+      DeliveryIntraRate: decimal }
+
+type SecAgentAcIdMap =
+    { 
+      BrokerId: string;
+      UserId: string;
+      AccountId: string;
+      CurrencyId: string;
+      BrokerSecAgentId: string }
+
+type SecAgentCheckMode =
+    { 
+      InvestorId: string;
+      BrokerId: string;
+      CurrencyId: string;
+      BrokerSecAgentId: string;
+      CheckSelfAccount: int }
+
+type SecAgentTradeInfo =
+    { 
+      BrokerId: string;
+      BrokerSecAgentId: string;
+      InvestorId: string;
+      LongCustomerName: string }
+
+type SettlementInfo =
+    { 
+      TradingDay: string;
+      SettlementId: int;
+      BrokerId: string;
+      InvestorId: string;
+      SequenceNo: int;
+      Content: string;
+      AccountId: string;
+      CurrencyId: string }
+
+type SpbmAddOnInterParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      SpreadId: int;
+      AddOnInterRateZ2: decimal;
+      Leg1ProdFamilyCode: string;
+      Leg2ProdFamilyCode: string }
+
+type SpbmFutureParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      InstrumentId: string;
+      ProdFamilyCode: string;
+      Cvf: int;
+      TimeRange: char option;
+      MarginRate: decimal;
+      LockRateX: decimal;
+      AddOnRate: decimal;
+      PreSettlementPrice: decimal;
+      AddOnLockRateX2: decimal }
+
+type SpbmInterParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      SpreadId: int;
+      InterRateZ: decimal;
+      Leg1ProdFamilyCode: string;
+      Leg2ProdFamilyCode: string }
+
+type SpbmIntraParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      ProdFamilyCode: string;
+      IntraRateY: decimal;
+      AddOnIntraRateY2: decimal }
+
+type SpbmInvestorPortfDef =
+    { 
+      ExchangeId: string;
+      BrokerId: string;
+      InvestorId: string;
+      PortfolioDefId: int }
+
+type SpbmOptionParameter =
+    { 
+      TradingDay: string;
+      ExchangeId: string;
+      InstrumentId: string;
+      ProdFamilyCode: string;
+      Cvf: int;
+      DownPrice: decimal;
+      Delta: decimal;
+      SlimiDelta: decimal;
+      PreSettlementPrice: decimal }
+
+type SpbmPortfDefinition =
+    { 
+      ExchangeId: string;
+      PortfolioDefId: int;
+      ProdFamilyCode: string;
+      IsSpbm: int }
+
+type SpdApply =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      FirstLegInstrumentId: string;
+      SecondLegInstrumentId: string;
+      UserId: string;
+      Volume: int;
+      Direction: char option;
+      RequestId: int;
+      FrontId: int;
+      SessionId: int;
+      OrderRef: string;
+      ActiveUserId: string;
+      BrokerOrderSeq: int;
+      OrderSysId: string;
+      ApplyStatus: char option;
+      SequenceNo: int;
+      InsertDate: string;
+      InsertTime: string;
+      CancelTime: string;
+      OrderLocalId: string;
+      ExchangeId: string;
+      ParticipantId: string;
+      ClientId: string;
+      ExchangeInstId: string;
+      TraderId: string;
+      InstallId: int;
+      OrderSubmitStatus: char option;
+      NotifySequence: int;
+      TradingDay: string;
+      SettlementId: int;
+      IpAddress: string;
+      MacAddress: string;
+      CmbType: char option;
+      StatusMsg: string }
+
+type SpdApplyAction =
+    { 
+      BrokerId: string;
+      InvestorId: string;
+      ActionDate: string;
+      ActionTime: string;
+      TraderId: string;
+      InstallId: int;
+      OrderLocalId: string;
+      ActionLocalId: string;
+      ParticipantId: string;
+      ClientId: string;
+      OrderActionStatus: char option;
+      UserId: string;
+      ExchangeId: string;
+      OrderSysId: string;
+      RequestId: int;
+      StatusMsg: string;
+      OrderRef: string;
+      FrontId: int;
+      SessionId: int;
+      IpAddress: string;
+      MacAddress: string }
+
+type SpmmInstParam =
+    { 
+      ExchangeId: string;
+      InstrumentId: string;
+      InstMarginCalId: char option;
+      CommodityId: string;
+      CommodityGroupId: string }
+
+type SpmmProductParam =
+    { 
+      ExchangeId: string;
+      ProductId: string;
+      CommodityId: string;
+      CommodityGroupId: string }
+
+type TraderOffer =
+    { 
+      ExchangeId: string;
+      TraderId: string;
+      ParticipantId: string;
+      Password: string;
+      InstallId: int;
+      OrderLocalId: string;
+      TraderConnectStatus: char option;
+      ConnectRequestDate: string;
+      ConnectRequestTime: string;
+      LastReportDate: string;
+      LastReportTime: string;
+      ConnectDate: string;
+      ConnectTime: string;
+      StartDate: string;
+      StartTime: string;
+      TradingDay: string;
+      BrokerId: string;
+      MaxTradeId: string;
+      MaxOrderMessageReference: string;
+      OrderCancelAlg: char option }
+
+type TradingAccountPasswordUpdate =
+    { 
+      BrokerId: string;
+      AccountId: string;
+      OldPassword: string;
+      NewPassword: string;
+      CurrencyId: string }
+
+type TradingCode =
+    { 
+      InvestorId: string;
+      BrokerId: string;
+      ExchangeId: string;
+      ClientId: string;
+      IsActive: int;
+      ClientIdType: char option;
+      BranchId: string;
+      BizType: char option;
+      InvestUnitId: string }
+
+type TradingNotice =
+    { 
+      BrokerId: string;
+      InvestorRange: char option;
+      InvestorId: string;
+      SequenceSeries: int;
+      UserId: string;
+      SendTime: string;
+      SequenceNo: int;
+      FieldContent: string;
+      InvestUnitId: string }
+
+type TransferBank =
+    { 
+      BankId: string;
+      BankBrchId: string;
+      BankName: string;
+      IsActive: int }
+
+type TransferSerial =
+    { 
+      PlateSerial: int;
+      TradeDate: string;
+      TradingDay: string;
+      TradeTime: string;
+      TradeCode: string;
+      SessionId: int;
+      BankId: string;
+      BankBranchId: string;
+      BankAccType: char option;
+      BankAccount: string;
+      BankSerial: string;
+      BrokerId: string;
+      BrokerBranchId: string;
+      FutureAccType: char option;
+      AccountId: string;
+      InvestorId: string;
+      FutureSerial: int;
+      IdCardType: char option;
+      IdentifiedCardNo: string;
+      CurrencyId: string;
+      TradeAmount: decimal;
+      CustFee: decimal;
+      BrokerFee: decimal;
+      AvailabilityFlag: char option;
+      OperatorCode: string;
+      BankNewAccount: string;
+      ErrorId: int;
+      ErrorMsg: string }
+
+type UserPasswordUpdate =
+    { 
+      BrokerId: string;
+      UserId: string;
+      OldPassword: string;
+      NewPassword: string }
+
+type UserSession =
+    { 
+      FrontId: int;
+      SessionId: int;
+      BrokerId: string;
+      UserId: string;
+      LoginDate: string;
+      LoginTime: string;
+      Reserve1: string;
+      UserProductInfo: string;
+      InterfaceProductInfo: string;
+      ProtocolInfo: string;
+      MacAddress: string;
+      LoginRemark: string;
+      IpAddress: string }
+
+type UserSystemInfo =
+    { 
+      BrokerId: string;
+      UserId: string;
+      ClientSystemInfoLen: int;
+      ClientSystemInfo: string;
+      Reserve1: string;
+      ClientIpPort: int;
+      ClientLoginTime: string;
+      ClientAppId: string;
+      ClientPublicIp: string;
+      ClientLoginRemark: string;
+      Mac: string }
+
+type WechatUserSystemInfo =
+    { 
+      BrokerId: string;
+      UserId: string;
+      WechatCltSysInfoLen: int;
+      WechatCltSysInfo: string;
+      ClientIpPort: int;
+      ClientLoginTime: string;
+      ClientAppId: string;
+      ClientPublicIp: string;
+      ClientLoginRemark: string }
+
 type TraderCallbacks =
-    { FrontConnected: (unit -> unit) option
+    {
+      FrontConnected: (unit -> unit) option
       FrontDisconnected: (int -> unit) option
       HeartBeatWarning: (int -> unit) option
       RtnPrivateSeqNo: (int -> unit) option
@@ -256,7 +3030,150 @@ type TraderCallbacks =
       RspOrderInsert: (InputOrderRequest option -> RspInfo option -> int -> bool -> unit) option
       RspOrderAction: (InputOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
       RtnOrder: (OrderUpdate -> unit) option
-      RtnTrade: (TradeUpdate -> unit) option }
+      RtnTrade: (TradeUpdate -> unit) option
+      ErrRtnBankToFutureByFuture: (ReqTransfer option -> RspInfo option -> unit) option
+      ErrRtnBatchOrderAction: (BatchOrderAction option -> RspInfo option -> unit) option
+      ErrRtnCancelOffsetSetting: (CancelOffsetSetting option -> RspInfo option -> unit) option
+      ErrRtnCombActionInsert: (InputCombAction option -> RspInfo option -> unit) option
+      ErrRtnExecOrderAction: (ExecOrderAction option -> RspInfo option -> unit) option
+      ErrRtnExecOrderInsert: (InputExecOrder option -> RspInfo option -> unit) option
+      ErrRtnForQuoteInsert: (InputForQuote option -> RspInfo option -> unit) option
+      ErrRtnFutureToBankByFuture: (ReqTransfer option -> RspInfo option -> unit) option
+      ErrRtnHedgeCfm: (InputHedgeCfm option -> RspInfo option -> unit) option
+      ErrRtnHedgeCfmAction: (HedgeCfmAction option -> RspInfo option -> unit) option
+      ErrRtnOffsetSetting: (InputOffsetSetting option -> RspInfo option -> unit) option
+      ErrRtnOptionSelfCloseAction: (OptionSelfCloseAction option -> RspInfo option -> unit) option
+      ErrRtnOptionSelfCloseInsert: (InputOptionSelfClose option -> RspInfo option -> unit) option
+      ErrRtnOrderAction: (OrderAction option -> RspInfo option -> unit) option
+      ErrRtnOrderInsert: (InputOrderRequest option -> RspInfo option -> unit) option
+      ErrRtnQueryBankBalanceByFuture: (ReqQueryAccount option -> RspInfo option -> unit) option
+      ErrRtnQuoteAction: (QuoteAction option -> RspInfo option -> unit) option
+      ErrRtnQuoteInsert: (InputQuote option -> RspInfo option -> unit) option
+      ErrRtnSpdApply: (InputSpdApply option -> RspInfo option -> unit) option
+      ErrRtnSpdApplyAction: (SpdApplyAction option -> RspInfo option -> unit) option
+      RspBatchOrderAction: (InputBatchOrderAction option -> RspInfo option -> int -> bool -> unit) option
+      RspCancelOffsetSetting: (InputOffsetSetting option -> RspInfo option -> int -> bool -> unit) option
+      RspCombActionInsert: (InputCombAction option -> RspInfo option -> int -> bool -> unit) option
+      RspExecOrderAction: (InputExecOrderAction option -> RspInfo option -> int -> bool -> unit) option
+      RspExecOrderInsert: (InputExecOrder option -> RspInfo option -> int -> bool -> unit) option
+      RspForQuoteInsert: (InputForQuote option -> RspInfo option -> int -> bool -> unit) option
+      RspFromBankToFutureByFuture: (ReqTransfer option -> RspInfo option -> int -> bool -> unit) option
+      RspFromFutureToBankByFuture: (ReqTransfer option -> RspInfo option -> int -> bool -> unit) option
+      RspGenSmsCode: (RspGenSmsCode option -> RspInfo option -> int -> bool -> unit) option
+      RspGenUserCaptcha: (RspGenUserCaptcha option -> RspInfo option -> int -> bool -> unit) option
+      RspGenUserText: (RspGenUserText option -> RspInfo option -> int -> bool -> unit) option
+      RspHedgeCfm: (InputHedgeCfm option -> RspInfo option -> int -> bool -> unit) option
+      RspHedgeCfmAction: (InputHedgeCfmAction option -> RspInfo option -> int -> bool -> unit) option
+      RspOffsetSetting: (InputOffsetSetting option -> RspInfo option -> int -> bool -> unit) option
+      RspOptionSelfCloseAction: (InputOptionSelfCloseAction option -> RspInfo option -> int -> bool -> unit) option
+      RspOptionSelfCloseInsert: (InputOptionSelfClose option -> RspInfo option -> int -> bool -> unit) option
+      RspParkedOrderAction: (ParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
+      RspParkedOrderInsert: (ParkedOrder option -> RspInfo option -> int -> bool -> unit) option
+      RspQryAccountregister: (Accountregister option -> RspInfo option -> int -> bool -> unit) option
+      RspQryBrokerTradingAlgos: (BrokerTradingAlgos option -> RspInfo option -> int -> bool -> unit) option
+      RspQryBrokerTradingParams: (BrokerTradingParams option -> RspInfo option -> int -> bool -> unit) option
+      RspQryCfmmcTradingAccountKey: (CfmmcTradingAccountKey option -> RspInfo option -> int -> bool -> unit) option
+      RspQryClassifiedInstrument: (Instrument option -> RspInfo option -> int -> bool -> unit) option
+      RspQryCombAction: (CombAction option -> RspInfo option -> int -> bool -> unit) option
+      RspQryCombInstrumentGuard: (CombInstrumentGuard option -> RspInfo option -> int -> bool -> unit) option
+      RspQryCombLeg: (CombLeg option -> RspInfo option -> int -> bool -> unit) option
+      RspQryCombPromotionParam: (CombPromotionParam option -> RspInfo option -> int -> bool -> unit) option
+      RspQryContractBank: (ContractBank option -> RspInfo option -> int -> bool -> unit) option
+      RspQryDepthMarketData: (DepthMarketData option -> RspInfo option -> int -> bool -> unit) option
+      RspQryEWarrantOffset: (EWarrantOffset option -> RspInfo option -> int -> bool -> unit) option
+      RspQryExchange: (Exchange option -> RspInfo option -> int -> bool -> unit) option
+      RspQryExchangeMarginRateAdjust: (ExchangeMarginRateAdjust option -> RspInfo option -> int -> bool -> unit) option
+      RspQryExchangeRate: (ExchangeRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryExecOrder: (ExecOrder option -> RspInfo option -> int -> bool -> unit) option
+      RspQryForQuote: (ForQuote option -> RspInfo option -> int -> bool -> unit) option
+      RspQryHedgeCfm: (HedgeCfm option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInstrument: (Instrument option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInstrumentOrderCommRate: (InstrumentOrderCommRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestUnit: (InvestUnit option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestor: (Investor option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorCommodityGroupSpmmMargin: (InvestorCommodityGroupSpmmMargin option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorCommoditySpmmMargin: (InvestorCommoditySpmmMargin option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorInfoCommRec: (InvestorInfoCommRec option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorPortfMarginRatio: (InvestorPortfMarginRatio option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorPortfSetting: (InvestorPortfSetting option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorPositionCombineDetail: (InvestorPositionCombineDetail option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorPositionDetail: (InvestorPositionDetail option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProdRcamsMargin: (InvestorProdRcamsMargin option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProdRuleMargin: (InvestorProdRuleMargin option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProdSpbmDetail: (InvestorProdSpbmDetail option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProductGroupMargin: (InvestorProductGroupMargin option -> RspInfo option -> int -> bool -> unit) option
+      RspQryMmInstrumentCommissionRate: (MmInstrumentCommissionRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryMmOptionInstrCommRate: (MmOptionInstrCommRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryMaxOrderVolume: (QryMaxOrderVolume option -> RspInfo option -> int -> bool -> unit) option
+      RspQryNotice: (Notice option -> RspInfo option -> int -> bool -> unit) option
+      RspQryOffsetSetting: (OffsetSetting option -> RspInfo option -> int -> bool -> unit) option
+      RspQryOptionInstrCommRate: (OptionInstrCommRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryOptionInstrTradeCost: (OptionInstrTradeCost option -> RspInfo option -> int -> bool -> unit) option
+      RspQryOptionSelfClose: (OptionSelfClose option -> RspInfo option -> int -> bool -> unit) option
+      RspQryOrder: (OrderUpdate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryParkedOrder: (ParkedOrder option -> RspInfo option -> int -> bool -> unit) option
+      RspQryParkedOrderAction: (ParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
+      RspQryProduct: (Product option -> RspInfo option -> int -> bool -> unit) option
+      RspQryProductExchRate: (ProductExchRate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryProductGroup: (ProductGroup option -> RspInfo option -> int -> bool -> unit) option
+      RspQryQuote: (Quote option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsCombProductInfo: (RcamsCombProductInfo option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsInstrParameter: (RcamsInstrParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsInterParameter: (RcamsInterParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsIntraParameter: (RcamsIntraParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsInvestorCombPosition: (RcamsInvestorCombPosition option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsShortOptAdjustParam: (RcamsShortOptAdjustParam option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRuleInstrParameter: (RuleInstrParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRuleInterParameter: (RuleInterParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRuleIntraParameter: (RuleIntraParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRiskSettleInvstPosition: (RiskSettleInvstPosition option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRiskSettleProductStatus: (RiskSettleProductStatus option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmAddOnInterParameter: (SpbmAddOnInterParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmFutureParameter: (SpbmFutureParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmInterParameter: (SpbmInterParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmIntraParameter: (SpbmIntraParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmInvestorPortfDef: (SpbmInvestorPortfDef option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmOptionParameter: (SpbmOptionParameter option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmPortfDefinition: (SpbmPortfDefinition option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpmmInstParam: (SpmmInstParam option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpmmProductParam: (SpmmProductParam option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySecAgentAcIdMap: (SecAgentAcIdMap option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySecAgentCheckMode: (SecAgentCheckMode option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySecAgentTradeInfo: (SecAgentTradeInfo option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySecAgentTradingAccount: (TradingAccount option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySettlementInfo: (SettlementInfo option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySettlementInfoConfirm: (SettlementInfoConfirm option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpdApply: (SpdApply option -> RspInfo option -> int -> bool -> unit) option
+      RspQryTrade: (TradeUpdate option -> RspInfo option -> int -> bool -> unit) option
+      RspQryTraderOffer: (TraderOffer option -> RspInfo option -> int -> bool -> unit) option
+      RspQryTradingCode: (TradingCode option -> RspInfo option -> int -> bool -> unit) option
+      RspQryTradingNotice: (TradingNotice option -> RspInfo option -> int -> bool -> unit) option
+      RspQryTransferBank: (TransferBank option -> RspInfo option -> int -> bool -> unit) option
+      RspQryTransferSerial: (TransferSerial option -> RspInfo option -> int -> bool -> unit) option
+      RspQryUserSession: (UserSession option -> RspInfo option -> int -> bool -> unit) option
+      RspQueryBankAccountMoneyByFuture: (ReqQueryAccount option -> RspInfo option -> int -> bool -> unit) option
+      RspQueryCfmmcTradingAccountToken: (QueryCfmmcTradingAccountToken option -> RspInfo option -> int -> bool -> unit) option
+      RspQuoteAction: (InputQuoteAction option -> RspInfo option -> int -> bool -> unit) option
+      RspQuoteInsert: (InputQuote option -> RspInfo option -> int -> bool -> unit) option
+      RspRemoveParkedOrder: (RemoveParkedOrder option -> RspInfo option -> int -> bool -> unit) option
+      RspRemoveParkedOrderAction: (RemoveParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
+      RspSpdApply: (InputSpdApply option -> RspInfo option -> int -> bool -> unit) option
+      RspSpdApplyAction: (InputSpdApplyAction option -> RspInfo option -> int -> bool -> unit) option
+      RspTradingAccountPasswordUpdate: (TradingAccountPasswordUpdate option -> RspInfo option -> int -> bool -> unit) option
+      RspUserAuthMethod: (RspUserAuthMethod option -> RspInfo option -> int -> bool -> unit) option
+      RspUserPasswordUpdate: (UserPasswordUpdate option -> RspInfo option -> int -> bool -> unit) option
+      RtnCombAction: (CombAction -> unit) option
+      RtnExecOrder: (ExecOrder -> unit) option
+      RtnForQuoteRsp: (ForQuoteRsp -> unit) option
+      RtnFromBankToFutureByFuture: (RspTransfer -> unit) option
+      RtnFromFutureToBankByFuture: (RspTransfer -> unit) option
+      RtnHedgeCfm: (HedgeCfm -> unit) option
+      RtnOffsetSetting: (OffsetSetting -> unit) option
+      RtnOptionSelfClose: (OptionSelfClose -> unit) option
+      RtnQueryBankBalanceByFuture: (NotifyQueryAccount -> unit) option
+      RtnQuote: (Quote -> unit) option
+      RtnSpdApply: (SpdApply -> unit) option
+    }
 
     static member Empty =
         { FrontConnected = None
@@ -276,7 +3193,149 @@ type TraderCallbacks =
           RspOrderInsert = None
           RspOrderAction = None
           RtnOrder = None
-          RtnTrade = None }
+          RtnTrade = None
+          ErrRtnBankToFutureByFuture = None
+          ErrRtnBatchOrderAction = None
+          ErrRtnCancelOffsetSetting = None
+          ErrRtnCombActionInsert = None
+          ErrRtnExecOrderAction = None
+          ErrRtnExecOrderInsert = None
+          ErrRtnForQuoteInsert = None
+          ErrRtnFutureToBankByFuture = None
+          ErrRtnHedgeCfm = None
+          ErrRtnHedgeCfmAction = None
+          ErrRtnOffsetSetting = None
+          ErrRtnOptionSelfCloseAction = None
+          ErrRtnOptionSelfCloseInsert = None
+          ErrRtnOrderAction = None
+          ErrRtnOrderInsert = None
+          ErrRtnQueryBankBalanceByFuture = None
+          ErrRtnQuoteAction = None
+          ErrRtnQuoteInsert = None
+          ErrRtnSpdApply = None
+          ErrRtnSpdApplyAction = None
+          RspBatchOrderAction = None
+          RspCancelOffsetSetting = None
+          RspCombActionInsert = None
+          RspExecOrderAction = None
+          RspExecOrderInsert = None
+          RspForQuoteInsert = None
+          RspFromBankToFutureByFuture = None
+          RspFromFutureToBankByFuture = None
+          RspGenSmsCode = None
+          RspGenUserCaptcha = None
+          RspGenUserText = None
+          RspHedgeCfm = None
+          RspHedgeCfmAction = None
+          RspOffsetSetting = None
+          RspOptionSelfCloseAction = None
+          RspOptionSelfCloseInsert = None
+          RspParkedOrderAction = None
+          RspParkedOrderInsert = None
+          RspQryAccountregister = None
+          RspQryBrokerTradingAlgos = None
+          RspQryBrokerTradingParams = None
+          RspQryCfmmcTradingAccountKey = None
+          RspQryClassifiedInstrument = None
+          RspQryCombAction = None
+          RspQryCombInstrumentGuard = None
+          RspQryCombLeg = None
+          RspQryCombPromotionParam = None
+          RspQryContractBank = None
+          RspQryDepthMarketData = None
+          RspQryEWarrantOffset = None
+          RspQryExchange = None
+          RspQryExchangeMarginRateAdjust = None
+          RspQryExchangeRate = None
+          RspQryExecOrder = None
+          RspQryForQuote = None
+          RspQryHedgeCfm = None
+          RspQryInstrument = None
+          RspQryInstrumentOrderCommRate = None
+          RspQryInvestUnit = None
+          RspQryInvestor = None
+          RspQryInvestorCommodityGroupSpmmMargin = None
+          RspQryInvestorCommoditySpmmMargin = None
+          RspQryInvestorInfoCommRec = None
+          RspQryInvestorPortfMarginRatio = None
+          RspQryInvestorPortfSetting = None
+          RspQryInvestorPositionCombineDetail = None
+          RspQryInvestorPositionDetail = None
+          RspQryInvestorProdRcamsMargin = None
+          RspQryInvestorProdRuleMargin = None
+          RspQryInvestorProdSpbmDetail = None
+          RspQryInvestorProductGroupMargin = None
+          RspQryMmInstrumentCommissionRate = None
+          RspQryMmOptionInstrCommRate = None
+          RspQryMaxOrderVolume = None
+          RspQryNotice = None
+          RspQryOffsetSetting = None
+          RspQryOptionInstrCommRate = None
+          RspQryOptionInstrTradeCost = None
+          RspQryOptionSelfClose = None
+          RspQryOrder = None
+          RspQryParkedOrder = None
+          RspQryParkedOrderAction = None
+          RspQryProduct = None
+          RspQryProductExchRate = None
+          RspQryProductGroup = None
+          RspQryQuote = None
+          RspQryRcamsCombProductInfo = None
+          RspQryRcamsInstrParameter = None
+          RspQryRcamsInterParameter = None
+          RspQryRcamsIntraParameter = None
+          RspQryRcamsInvestorCombPosition = None
+          RspQryRcamsShortOptAdjustParam = None
+          RspQryRuleInstrParameter = None
+          RspQryRuleInterParameter = None
+          RspQryRuleIntraParameter = None
+          RspQryRiskSettleInvstPosition = None
+          RspQryRiskSettleProductStatus = None
+          RspQrySpbmAddOnInterParameter = None
+          RspQrySpbmFutureParameter = None
+          RspQrySpbmInterParameter = None
+          RspQrySpbmIntraParameter = None
+          RspQrySpbmInvestorPortfDef = None
+          RspQrySpbmOptionParameter = None
+          RspQrySpbmPortfDefinition = None
+          RspQrySpmmInstParam = None
+          RspQrySpmmProductParam = None
+          RspQrySecAgentAcIdMap = None
+          RspQrySecAgentCheckMode = None
+          RspQrySecAgentTradeInfo = None
+          RspQrySecAgentTradingAccount = None
+          RspQrySettlementInfo = None
+          RspQrySettlementInfoConfirm = None
+          RspQrySpdApply = None
+          RspQryTrade = None
+          RspQryTraderOffer = None
+          RspQryTradingCode = None
+          RspQryTradingNotice = None
+          RspQryTransferBank = None
+          RspQryTransferSerial = None
+          RspQryUserSession = None
+          RspQueryBankAccountMoneyByFuture = None
+          RspQueryCfmmcTradingAccountToken = None
+          RspQuoteAction = None
+          RspQuoteInsert = None
+          RspRemoveParkedOrder = None
+          RspRemoveParkedOrderAction = None
+          RspSpdApply = None
+          RspSpdApplyAction = None
+          RspTradingAccountPasswordUpdate = None
+          RspUserAuthMethod = None
+          RspUserPasswordUpdate = None
+          RtnCombAction = None
+          RtnExecOrder = None
+          RtnForQuoteRsp = None
+          RtnFromBankToFutureByFuture = None
+          RtnFromFutureToBankByFuture = None
+          RtnHedgeCfm = None
+          RtnOffsetSetting = None
+          RtnOptionSelfClose = None
+          RtnQueryBankBalanceByFuture = None
+          RtnQuote = None
+          RtnSpdApply = None }
 
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeRspAuthenticate =
@@ -1055,6 +4114,8456 @@ type private NativeTrade =
     [<DefaultValue>]
     val mutable TradingDay: byte array
 
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeAccountregister =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable OpenOrDestroy: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable RegDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable OutDate: byte array
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeBatchOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionRef: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeBrokerTradingAlgos =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HandlePositionAlgoId: byte
+
+    [<DefaultValue>]
+    val mutable FindMarginRateAlgoId: byte
+
+    [<DefaultValue>]
+    val mutable HandleTradingAccountAlgoId: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeBrokerTradingParams =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable MarginPriceType: byte
+
+    [<DefaultValue>]
+    val mutable Algorithm: byte
+
+    [<DefaultValue>]
+    val mutable AvailIncludeCloseProfit: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable OptionRoyaltyPriceType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCancelOffsetSetting =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable UnderlyingInstrId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable OffsetType: byte
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable IsOffset: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeSerialNo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ExchangeProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCfmmcTradingAccountKey =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<DefaultValue>]
+    val mutable KeyId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable CurrentKey: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCombAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable CombActionRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable CombDirection: byte
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable ActionStatus: byte
+
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ComTradeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCombInstrumentGuard =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable GuarantRatio: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCombLeg =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable CombInstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable LegId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable LegInstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable LegMultiple: int
+
+    [<DefaultValue>]
+    val mutable ImplyLevel: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCombPromotionParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable CombHedgeFlag: byte array
+
+    [<DefaultValue>]
+    val mutable Xparameter: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeContractBank =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBrchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 101)>]
+    [<DefaultValue>]
+    val mutable BankName: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CsrcBankId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTraderDepthMarketData =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable LastPrice: float
+
+    [<DefaultValue>]
+    val mutable PreSettlementPrice: float
+
+    [<DefaultValue>]
+    val mutable PreClosePrice: float
+
+    [<DefaultValue>]
+    val mutable PreOpenInterest: float
+
+    [<DefaultValue>]
+    val mutable OpenPrice: float
+
+    [<DefaultValue>]
+    val mutable HighestPrice: float
+
+    [<DefaultValue>]
+    val mutable LowestPrice: float
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable Turnover: float
+
+    [<DefaultValue>]
+    val mutable OpenInterest: float
+
+    [<DefaultValue>]
+    val mutable ClosePrice: float
+
+    [<DefaultValue>]
+    val mutable SettlementPrice: float
+
+    [<DefaultValue>]
+    val mutable UpperLimitPrice: float
+
+    [<DefaultValue>]
+    val mutable LowerLimitPrice: float
+
+    [<DefaultValue>]
+    val mutable PreDelta: float
+
+    [<DefaultValue>]
+    val mutable CurrDelta: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable UpdateTime: byte array
+
+    [<DefaultValue>]
+    val mutable UpdateMillisec: int
+
+    [<DefaultValue>]
+    val mutable BidPrice1: float
+
+    [<DefaultValue>]
+    val mutable BidVolume1: int
+
+    [<DefaultValue>]
+    val mutable AskPrice1: float
+
+    [<DefaultValue>]
+    val mutable AskVolume1: int
+
+    [<DefaultValue>]
+    val mutable BidPrice2: float
+
+    [<DefaultValue>]
+    val mutable BidVolume2: int
+
+    [<DefaultValue>]
+    val mutable AskPrice2: float
+
+    [<DefaultValue>]
+    val mutable AskVolume2: int
+
+    [<DefaultValue>]
+    val mutable BidPrice3: float
+
+    [<DefaultValue>]
+    val mutable BidVolume3: int
+
+    [<DefaultValue>]
+    val mutable AskPrice3: float
+
+    [<DefaultValue>]
+    val mutable AskVolume3: int
+
+    [<DefaultValue>]
+    val mutable BidPrice4: float
+
+    [<DefaultValue>]
+    val mutable BidVolume4: int
+
+    [<DefaultValue>]
+    val mutable AskPrice4: float
+
+    [<DefaultValue>]
+    val mutable AskVolume4: int
+
+    [<DefaultValue>]
+    val mutable BidPrice5: float
+
+    [<DefaultValue>]
+    val mutable BidVolume5: int
+
+    [<DefaultValue>]
+    val mutable AskPrice5: float
+
+    [<DefaultValue>]
+    val mutable AskVolume5: int
+
+    [<DefaultValue>]
+    val mutable AveragePrice: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<DefaultValue>]
+    val mutable BandingUpperPrice: float
+
+    [<DefaultValue>]
+    val mutable BandingLowerPrice: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeEWarrantOffset =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeExchange =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 61)>]
+    [<DefaultValue>]
+    val mutable ExchangeName: byte array
+
+    [<DefaultValue>]
+    val mutable ExchangeProperty: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeExchangeMarginRateAdjust =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable LongMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable LongMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable ShortMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable ShortMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable ExchLongMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable ExchLongMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable ExchShortMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable ExchShortMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable NoLongMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable NoLongMarginRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable NoShortMarginRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable NoShortMarginRatioByVolume: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeExchangeRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable FromCurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable FromCurrencyUnit: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable ToCurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable ExchangeRate: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeExecOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ExecOrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable OffsetFlag: byte
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable ActionType: byte
+
+    [<DefaultValue>]
+    val mutable PosiDirection: byte
+
+    [<DefaultValue>]
+    val mutable ReservePositionFlag: byte
+
+    [<DefaultValue>]
+    val mutable CloseFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ExecOrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable OrderSubmitStatus: byte
+
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ExecOrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CancelTime: byte array
+
+    [<DefaultValue>]
+    val mutable ExecResult: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClearingPartId: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerExecOrderSeq: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeExecOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable ExecOrderActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ExecOrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ExecOrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ExecOrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeFensUserInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable LoginMode: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeForQuote =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ForQuoteRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ForQuoteLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<DefaultValue>]
+    val mutable ForQuoteStatus: byte
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerForQutoSeq: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeForQuoteRsp =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ForQuoteSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ForQuoteTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeFrontInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 101)>]
+    [<DefaultValue>]
+    val mutable FrontAddr: byte array
+
+    [<DefaultValue>]
+    val mutable QryFreq: int
+
+    [<DefaultValue>]
+    val mutable FtdPkgFreq: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeHedgeCfm =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerOrderSeq: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ApplyStatus: byte
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<DefaultValue>]
+    val mutable DealVolume: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CancelTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ReqDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable OrderSubmitStatus: byte
+
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeHedgeCfmAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputBatchOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionRef: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputCombAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable CombActionRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable CombDirection: byte
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputExecOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ExecOrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable OffsetFlag: byte
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable ActionType: byte
+
+    [<DefaultValue>]
+    val mutable PosiDirection: byte
+
+    [<DefaultValue>]
+    val mutable ReservePositionFlag: byte
+
+    [<DefaultValue>]
+    val mutable CloseFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputExecOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable ExecOrderActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ExecOrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ExecOrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputForQuote =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ForQuoteRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputHedgeCfm =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputHedgeCfmAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputOffsetSetting =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable UnderlyingInstrId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable OffsetType: byte
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable IsOffset: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputOptionSelfClose =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable OptSelfCloseFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputOptionSelfCloseAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OptionSelfCloseActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputQuote =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable QuoteRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable AskPrice: float
+
+    [<DefaultValue>]
+    val mutable BidPrice: float
+
+    [<DefaultValue>]
+    val mutable AskVolume: int
+
+    [<DefaultValue>]
+    val mutable BidVolume: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable AskOffsetFlag: byte
+
+    [<DefaultValue>]
+    val mutable BidOffsetFlag: byte
+
+    [<DefaultValue>]
+    val mutable AskHedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable BidHedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AskOrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BidOrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ForQuoteSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ReplaceSysId: byte array
+
+    [<DefaultValue>]
+    val mutable TimeCondition: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderMemo: byte array
+
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputQuoteAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable QuoteActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable QuoteRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable QuoteSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderMemo: byte array
+
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputSpdApply =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable FirstLegInstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable SecondLegInstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable CmbType: byte
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInputSpdApplyAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInstrument =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable InstrumentName: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<DefaultValue>]
+    val mutable ProductClass: byte
+
+    [<DefaultValue>]
+    val mutable DeliveryYear: int
+
+    [<DefaultValue>]
+    val mutable DeliveryMonth: int
+
+    [<DefaultValue>]
+    val mutable MaxMarketOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable MinMarketOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable MaxLimitOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable MinLimitOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable VolumeMultiple: int
+
+    [<DefaultValue>]
+    val mutable PriceTick: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CreateDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable OpenDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExpireDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable StartDelivDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable EndDelivDate: byte array
+
+    [<DefaultValue>]
+    val mutable InstLifePhase: byte
+
+    [<DefaultValue>]
+    val mutable IsTrading: int
+
+    [<DefaultValue>]
+    val mutable PositionType: byte
+
+    [<DefaultValue>]
+    val mutable PositionDateType: byte
+
+    [<DefaultValue>]
+    val mutable LongMarginRatio: float
+
+    [<DefaultValue>]
+    val mutable ShortMarginRatio: float
+
+    [<DefaultValue>]
+    val mutable MaxMarginSideAlgorithm: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve4: byte array
+
+    [<DefaultValue>]
+    val mutable StrikePrice: float
+
+    [<DefaultValue>]
+    val mutable OptionsType: byte
+
+    [<DefaultValue>]
+    val mutable UnderlyingMultiple: float
+
+    [<DefaultValue>]
+    val mutable CombinationType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable UnderlyingInstrId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInstrumentOrderCommRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable OrderCommByVolume: float
+
+    [<DefaultValue>]
+    val mutable OrderActionCommByVolume: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderCommByTrade: float
+
+    [<DefaultValue>]
+    val mutable OrderActionCommByTrade: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestUnit =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InvestorUnitName: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorGroupId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable CommModelId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable MarginModelId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestor =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorGroupId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InvestorName: byte array
+
+    [<DefaultValue>]
+    val mutable IdentifiedCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable IsActive: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Telephone: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 101)>]
+    [<DefaultValue>]
+    val mutable Address: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable OpenDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Mobile: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable CommModelId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable MarginModelId: byte array
+
+    [<DefaultValue>]
+    val mutable IsOrderFreq: byte
+
+    [<DefaultValue>]
+    val mutable IsOpenVolLimit: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorCommodityGroupSpmmMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityGroupId: byte array
+
+    [<DefaultValue>]
+    val mutable MarginBeforeDiscount: float
+
+    [<DefaultValue>]
+    val mutable MarginNoDiscount: float
+
+    [<DefaultValue>]
+    val mutable LongRisk: float
+
+    [<DefaultValue>]
+    val mutable ShortRisk: float
+
+    [<DefaultValue>]
+    val mutable CloseFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable InterCommodityRate: float
+
+    [<DefaultValue>]
+    val mutable MiniMarginRatio: float
+
+    [<DefaultValue>]
+    val mutable AdjustRatio: float
+
+    [<DefaultValue>]
+    val mutable IntraCommodityDiscount: float
+
+    [<DefaultValue>]
+    val mutable InterCommodityDiscount: float
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+    [<DefaultValue>]
+    val mutable InvestorMargin: float
+
+    [<DefaultValue>]
+    val mutable FrozenCommission: float
+
+    [<DefaultValue>]
+    val mutable Commission: float
+
+    [<DefaultValue>]
+    val mutable FrozenCash: float
+
+    [<DefaultValue>]
+    val mutable CashIn: float
+
+    [<DefaultValue>]
+    val mutable StrikeFrozenMargin: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorCommoditySpmmMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityId: byte array
+
+    [<DefaultValue>]
+    val mutable MarginBeforeDiscount: float
+
+    [<DefaultValue>]
+    val mutable MarginNoDiscount: float
+
+    [<DefaultValue>]
+    val mutable LongPosRisk: float
+
+    [<DefaultValue>]
+    val mutable LongOpenFrozenRisk: float
+
+    [<DefaultValue>]
+    val mutable LongCloseFrozenRisk: float
+
+    [<DefaultValue>]
+    val mutable ShortPosRisk: float
+
+    [<DefaultValue>]
+    val mutable ShortOpenFrozenRisk: float
+
+    [<DefaultValue>]
+    val mutable ShortCloseFrozenRisk: float
+
+    [<DefaultValue>]
+    val mutable IntraCommodityRate: float
+
+    [<DefaultValue>]
+    val mutable OptionDiscountRate: float
+
+    [<DefaultValue>]
+    val mutable PosDiscount: float
+
+    [<DefaultValue>]
+    val mutable OpenFrozenDiscount: float
+
+    [<DefaultValue>]
+    val mutable NetRisk: float
+
+    [<DefaultValue>]
+    val mutable CloseFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable FrozenCommission: float
+
+    [<DefaultValue>]
+    val mutable Commission: float
+
+    [<DefaultValue>]
+    val mutable FrozenCash: float
+
+    [<DefaultValue>]
+    val mutable CashIn: float
+
+    [<DefaultValue>]
+    val mutable StrikeFrozenMargin: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorInfoCommRec =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderCount: int
+
+    [<DefaultValue>]
+    val mutable OrderActionCount: int
+
+    [<DefaultValue>]
+    val mutable ForQuoteCnt: int
+
+    [<DefaultValue>]
+    val mutable InfoComm: float
+
+    [<DefaultValue>]
+    val mutable IsOptSeries: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable InfoCnt: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorPortfMarginRatio =
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable MarginRatio: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorPortfSetting =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable UsePortf: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorPositionCombineDetail =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable OpenDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ComTradeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TradeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable TotalAmt: int
+
+    [<DefaultValue>]
+    val mutable Margin: float
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+    [<DefaultValue>]
+    val mutable MarginRateByMoney: float
+
+    [<DefaultValue>]
+    val mutable MarginRateByVolume: float
+
+    [<DefaultValue>]
+    val mutable LegId: int
+
+    [<DefaultValue>]
+    val mutable LegMultiple: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<DefaultValue>]
+    val mutable TradeGroupId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable CombInstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorPositionDetail =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable OpenDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TradeId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable OpenPrice: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<DefaultValue>]
+    val mutable TradeType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable CloseProfitByDate: float
+
+    [<DefaultValue>]
+    val mutable CloseProfitByTrade: float
+
+    [<DefaultValue>]
+    val mutable PositionProfitByDate: float
+
+    [<DefaultValue>]
+    val mutable PositionProfitByTrade: float
+
+    [<DefaultValue>]
+    val mutable Margin: float
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+    [<DefaultValue>]
+    val mutable MarginRateByMoney: float
+
+    [<DefaultValue>]
+    val mutable MarginRateByVolume: float
+
+    [<DefaultValue>]
+    val mutable LastSettlementPrice: float
+
+    [<DefaultValue>]
+    val mutable SettlementPrice: float
+
+    [<DefaultValue>]
+    val mutable CloseVolume: int
+
+    [<DefaultValue>]
+    val mutable CloseAmount: float
+
+    [<DefaultValue>]
+    val mutable TimeFirstVolume: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<DefaultValue>]
+    val mutable SpecPosiType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable CombInstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorProdRcamsMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+    [<DefaultValue>]
+    val mutable RiskBeforeDiscount: float
+
+    [<DefaultValue>]
+    val mutable IntraInstrRisk: float
+
+    [<DefaultValue>]
+    val mutable BPosRisk: float
+
+    [<DefaultValue>]
+    val mutable SPosRisk: float
+
+    [<DefaultValue>]
+    val mutable IntraProdRisk: float
+
+    [<DefaultValue>]
+    val mutable NetRisk: float
+
+    [<DefaultValue>]
+    val mutable InterProdRisk: float
+
+    [<DefaultValue>]
+    val mutable ShortOptRiskAdj: float
+
+    [<DefaultValue>]
+    val mutable OptionRoyalty: float
+
+    [<DefaultValue>]
+    val mutable MmsaCloseFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable CloseCombFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable CloseFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable MmsaOpenFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable DeliveryOpenFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable OpenFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable UseFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable MmsaExchMargin: float
+
+    [<DefaultValue>]
+    val mutable DeliveryExchMargin: float
+
+    [<DefaultValue>]
+    val mutable CombExchMargin: float
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+    [<DefaultValue>]
+    val mutable UseMargin: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorProdRuleMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable InstrumentClass: byte
+
+    [<DefaultValue>]
+    val mutable CommodityGroupId: int
+
+    [<DefaultValue>]
+    val mutable BStdPosition: float
+
+    [<DefaultValue>]
+    val mutable SStdPosition: float
+
+    [<DefaultValue>]
+    val mutable BStdOpenFrozen: float
+
+    [<DefaultValue>]
+    val mutable SStdOpenFrozen: float
+
+    [<DefaultValue>]
+    val mutable BStdCloseFrozen: float
+
+    [<DefaultValue>]
+    val mutable SStdCloseFrozen: float
+
+    [<DefaultValue>]
+    val mutable IntraProdStdPosition: float
+
+    [<DefaultValue>]
+    val mutable NetStdPosition: float
+
+    [<DefaultValue>]
+    val mutable InterProdStdPosition: float
+
+    [<DefaultValue>]
+    val mutable SingleStdPosition: float
+
+    [<DefaultValue>]
+    val mutable IntraProdMargin: float
+
+    [<DefaultValue>]
+    val mutable InterProdMargin: float
+
+    [<DefaultValue>]
+    val mutable SingleMargin: float
+
+    [<DefaultValue>]
+    val mutable NonCombMargin: float
+
+    [<DefaultValue>]
+    val mutable AddOnMargin: float
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+    [<DefaultValue>]
+    val mutable AddOnFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable OpenFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable CloseFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable Margin: float
+
+    [<DefaultValue>]
+    val mutable FrozenMargin: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorProdSpbmDetail =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable IntraInstrMargin: float
+
+    [<DefaultValue>]
+    val mutable BCollectingMargin: float
+
+    [<DefaultValue>]
+    val mutable SCollectingMargin: float
+
+    [<DefaultValue>]
+    val mutable IntraProdMargin: float
+
+    [<DefaultValue>]
+    val mutable NetMargin: float
+
+    [<DefaultValue>]
+    val mutable InterProdMargin: float
+
+    [<DefaultValue>]
+    val mutable SingleMargin: float
+
+    [<DefaultValue>]
+    val mutable AddOnMargin: float
+
+    [<DefaultValue>]
+    val mutable DeliveryMargin: float
+
+    [<DefaultValue>]
+    val mutable CallOptionMinRisk: float
+
+    [<DefaultValue>]
+    val mutable PutOptionMinRisk: float
+
+    [<DefaultValue>]
+    val mutable OptionMinRisk: float
+
+    [<DefaultValue>]
+    val mutable OptionValueOffset: float
+
+    [<DefaultValue>]
+    val mutable OptionRoyalty: float
+
+    [<DefaultValue>]
+    val mutable RealOptionValueOffset: float
+
+    [<DefaultValue>]
+    val mutable Margin: float
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInvestorProductGroupMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<DefaultValue>]
+    val mutable FrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable LongFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable ShortFrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable UseMargin: float
+
+    [<DefaultValue>]
+    val mutable LongUseMargin: float
+
+    [<DefaultValue>]
+    val mutable ShortUseMargin: float
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+    [<DefaultValue>]
+    val mutable LongExchMargin: float
+
+    [<DefaultValue>]
+    val mutable ShortExchMargin: float
+
+    [<DefaultValue>]
+    val mutable CloseProfit: float
+
+    [<DefaultValue>]
+    val mutable FrozenCommission: float
+
+    [<DefaultValue>]
+    val mutable Commission: float
+
+    [<DefaultValue>]
+    val mutable FrozenCash: float
+
+    [<DefaultValue>]
+    val mutable CashIn: float
+
+    [<DefaultValue>]
+    val mutable PositionProfit: float
+
+    [<DefaultValue>]
+    val mutable OffsetAmount: float
+
+    [<DefaultValue>]
+    val mutable LongOffsetAmount: float
+
+    [<DefaultValue>]
+    val mutable ShortOffsetAmount: float
+
+    [<DefaultValue>]
+    val mutable ExchOffsetAmount: float
+
+    [<DefaultValue>]
+    val mutable LongExchOffsetAmount: float
+
+    [<DefaultValue>]
+    val mutable ShortExchOffsetAmount: float
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeMmInstrumentCommissionRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OpenRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable OpenRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByVolume: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeMmOptionInstrCommRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OpenRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable OpenRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable StrikeRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable StrikeRatioByVolume: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeNotice =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 501)>]
+    [<DefaultValue>]
+    val mutable Content: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)>]
+    [<DefaultValue>]
+    val mutable SequenceLabel: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeNotifyQueryAccount =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable FutureSerial: int
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<DefaultValue>]
+    val mutable BankUseAmount: float
+
+    [<DefaultValue>]
+    val mutable BankFetchAmount: float
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeOffsetSetting =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable UnderlyingInstrId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable OffsetType: byte
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable IsOffset: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeSerialNo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ExchangeProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable OrderSubmitStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CancelTime: byte array
+
+    [<DefaultValue>]
+    val mutable ExecResult: byte
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerOffsetSettingSeq: int
+
+    [<DefaultValue>]
+    val mutable ApplySrc: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeOptionInstrCommRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OpenRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable OpenRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable CloseTodayRatioByVolume: float
+
+    [<DefaultValue>]
+    val mutable StrikeRatioByMoney: float
+
+    [<DefaultValue>]
+    val mutable StrikeRatioByVolume: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeOptionInstrTradeCost =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable FixedMargin: float
+
+    [<DefaultValue>]
+    val mutable MiniMargin: float
+
+    [<DefaultValue>]
+    val mutable Royalty: float
+
+    [<DefaultValue>]
+    val mutable ExchFixedMargin: float
+
+    [<DefaultValue>]
+    val mutable ExchMiniMargin: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeOptionSelfClose =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable OptSelfCloseFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable OrderSubmitStatus: byte
+
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CancelTime: byte array
+
+    [<DefaultValue>]
+    val mutable ExecResult: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClearingPartId: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerOptionSelfCloseSeq: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeOptionSelfCloseAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OptionSelfCloseActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<DefaultValue>]
+    val mutable LimitPrice: float
+
+    [<DefaultValue>]
+    val mutable VolumeChange: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderMemo: byte array
+
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeParkedOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderPriceType: byte
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable CombOffsetFlag: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable CombHedgeFlag: byte array
+
+    [<DefaultValue>]
+    val mutable LimitPrice: float
+
+    [<DefaultValue>]
+    val mutable VolumeTotalOriginal: int
+
+    [<DefaultValue>]
+    val mutable TimeCondition: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable GtdDate: byte array
+
+    [<DefaultValue>]
+    val mutable VolumeCondition: byte
+
+    [<DefaultValue>]
+    val mutable MinVolume: int
+
+    [<DefaultValue>]
+    val mutable ContingentCondition: byte
+
+    [<DefaultValue>]
+    val mutable StopPrice: float
+
+    [<DefaultValue>]
+    val mutable ForceCloseReason: byte
+
+    [<DefaultValue>]
+    val mutable IsAutoSuspend: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable UserForceClose: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ParkedOrderId: byte array
+
+    [<DefaultValue>]
+    val mutable UserType: byte
+
+    [<DefaultValue>]
+    val mutable Status: byte
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<DefaultValue>]
+    val mutable IsSwapOrder: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeParkedOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<DefaultValue>]
+    val mutable LimitPrice: float
+
+    [<DefaultValue>]
+    val mutable VolumeChange: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ParkedOrderActionId: byte array
+
+    [<DefaultValue>]
+    val mutable UserType: byte
+
+    [<DefaultValue>]
+    val mutable Status: byte
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeProduct =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ProductName: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable ProductClass: byte
+
+    [<DefaultValue>]
+    val mutable VolumeMultiple: int
+
+    [<DefaultValue>]
+    val mutable PriceTick: float
+
+    [<DefaultValue>]
+    val mutable MaxMarketOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable MinMarketOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable MaxLimitOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable MinLimitOrderVolume: int
+
+    [<DefaultValue>]
+    val mutable PositionType: byte
+
+    [<DefaultValue>]
+    val mutable PositionDateType: byte
+
+    [<DefaultValue>]
+    val mutable CloseDealType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable TradeCurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable MortgageFundUseRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<DefaultValue>]
+    val mutable UnderlyingMultiple: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeProductId: byte array
+
+    [<DefaultValue>]
+    val mutable OpenLimitControlLevel: byte
+
+    [<DefaultValue>]
+    val mutable OrderFreqControlLevel: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeProductExchRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable QuoteCurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable ExchangeRate: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeProductGroup =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryAccountregister =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryBrokerTradingAlgos =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryBrokerTradingParams =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryCfmmcTradingAccountKey =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryClassifiedInstrument =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable TradingType: byte
+
+    [<DefaultValue>]
+    val mutable ClassType: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryCombAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryCombInstrumentGuard =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryCombLeg =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable LegInstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryCombPromotionParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryContractBank =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBrchId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryDepthMarketData =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable ProductClass: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryEWarrantOffset =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryExchange =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryExchangeMarginRateAdjust =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryExchangeRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable FromCurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable ToCurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryExecOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ExecOrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeStart: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeEnd: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryForQuote =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeStart: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeEnd: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryHedgeCfm =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInstrument =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInstrumentOrderCommRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestUnit =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestor =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorCommodityGroupSpmmMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorCommoditySpmmMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorInfoCommRec =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorPortfMarginRatio =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorPortfSetting =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorPositionCombineDetail =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable CombInstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorPositionDetail =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorProdRcamsMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorProdRuleMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable CommodityGroupId: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorProdSpbmDetail =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryInvestorProductGroupMargin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryMaxOrderVolume =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable OffsetFlag: byte
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable MaxVolume: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryMmInstrumentCommissionRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryMmOptionInstrCommRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryNotice =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryOffsetSetting =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable OffsetType: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryOptionInstrCommRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryOptionInstrTradeCost =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable InputPrice: float
+
+    [<DefaultValue>]
+    val mutable UnderlyingPrice: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryOptionSelfClose =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OptionSelfCloseSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeStart: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeEnd: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeStart: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeEnd: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryParkedOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryParkedOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryProduct =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable ProductClass: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryProductExchRate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryProductGroup =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryQuote =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable QuoteSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeStart: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTimeEnd: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRcamsCombProductInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRcamsInstrParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRcamsInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProduct1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProduct2: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRcamsIntraParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRcamsInvestorCombPosition =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable CombInstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRcamsShortOptAdjustParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRiskSettleInvstPosition =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRiskSettleProductStatus =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRuleInstrParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRuleInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg1ProdFamilyCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg2ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable CommodityGroupId: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryRuleIntraParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySecAgentAcIdMap =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySecAgentCheckMode =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySecAgentTradeInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BrokerSecAgentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySettlementInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySettlementInfoConfirm =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpbmAddOnInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg1ProdFamilyCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg2ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpbmFutureParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpbmInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg1ProdFamilyCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg2ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpbmIntraParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpbmInvestorPortfDef =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpbmOptionParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpbmPortfDefinition =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable PortfolioDefId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpdApply =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable FirstLegInstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable SecondLegInstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpmmInstParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQrySpmmProductParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryTrade =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TradeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTimeStart: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTimeEnd: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryTraderOffer =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryTradingCode =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<DefaultValue>]
+    val mutable ClientIdType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryTradingNotice =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryTransferBank =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBrchId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryTransferSerial =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryUserSession =
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQueryCfmmcTradingAccountToken =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQuote =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable QuoteRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable AskPrice: float
+
+    [<DefaultValue>]
+    val mutable BidPrice: float
+
+    [<DefaultValue>]
+    val mutable AskVolume: int
+
+    [<DefaultValue>]
+    val mutable BidVolume: int
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable AskOffsetFlag: byte
+
+    [<DefaultValue>]
+    val mutable BidOffsetFlag: byte
+
+    [<DefaultValue>]
+    val mutable AskHedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable BidHedgeFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable QuoteLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+
+    [<DefaultValue>]
+    val mutable OrderSubmitStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable QuoteSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CancelTime: byte array
+
+    [<DefaultValue>]
+    val mutable QuoteStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClearingPartId: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable AskOrderSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BidOrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerQuoteSeq: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AskOrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BidOrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ForQuoteSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ReplaceSysId: byte array
+
+    [<DefaultValue>]
+    val mutable TimeCondition: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderMemo: byte array
+
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQuoteAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable QuoteActionRef: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable QuoteRef: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable QuoteSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ActionFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable QuoteLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderMemo: byte array
+
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRcamsCombProductInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRcamsInstrParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeRate: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRcamsInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductGroupId: byte array
+
+    [<DefaultValue>]
+    val mutable Priority: int
+
+    [<DefaultValue>]
+    val mutable CreditRate: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProduct1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProduct2: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRcamsIntraParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeRate: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRcamsInvestorCombPosition =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable PosiDirection: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable CombInstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable LegId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<DefaultValue>]
+    val mutable TotalAmt: int
+
+    [<DefaultValue>]
+    val mutable ExchMargin: float
+
+    [<DefaultValue>]
+    val mutable Margin: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRcamsShortOptAdjustParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CombProductId: byte array
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable AdjustValue: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRemoveParkedOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ParkedOrderId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRemoveParkedOrderAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ParkedOrderActionId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqGenSmsCode =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable Mobile: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqGenUserCaptcha =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqGenUserText =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqQueryAccount =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable FutureSerial: int
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqTransfer =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable FutureSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable TradeAmount: float
+
+    [<DefaultValue>]
+    val mutable FutureFetchAmount: float
+
+    [<DefaultValue>]
+    val mutable FeePayFlag: byte
+
+    [<DefaultValue>]
+    val mutable CustFee: float
+
+    [<DefaultValue>]
+    val mutable BrokerFee: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 129)>]
+    [<DefaultValue>]
+    val mutable Message: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<DefaultValue>]
+    val mutable TransferStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqUserAuthMethod =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqUserLoginWithCaptcha =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable InterfaceProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ProtocolInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable LoginRemark: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Captcha: byte array
+
+    [<DefaultValue>]
+    val mutable ClientIpPort: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable ClientIpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqUserLoginWithOtp =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable InterfaceProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ProtocolInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable LoginRemark: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable OtpPassword: byte array
+
+    [<DefaultValue>]
+    val mutable ClientIpPort: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable ClientIpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqUserLoginWithText =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable InterfaceProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ProtocolInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable LoginRemark: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Text: byte array
+
+    [<DefaultValue>]
+    val mutable ClientIpPort: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable ClientIpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRiskSettleInvstPosition =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable PosiDirection: byte
+
+    [<DefaultValue>]
+    val mutable HedgeFlag: byte
+
+    [<DefaultValue>]
+    val mutable PositionDate: byte
+
+    [<DefaultValue>]
+    val mutable YdPosition: int
+
+    [<DefaultValue>]
+    val mutable Position: int
+
+    [<DefaultValue>]
+    val mutable LongFrozen: int
+
+    [<DefaultValue>]
+    val mutable ShortFrozen: int
+
+    [<DefaultValue>]
+    val mutable LongFrozenAmount: float
+
+    [<DefaultValue>]
+    val mutable ShortFrozenAmount: float
+
+    [<DefaultValue>]
+    val mutable OpenVolume: int
+
+    [<DefaultValue>]
+    val mutable CloseVolume: int
+
+    [<DefaultValue>]
+    val mutable OpenAmount: float
+
+    [<DefaultValue>]
+    val mutable CloseAmount: float
+
+    [<DefaultValue>]
+    val mutable PositionCost: float
+
+    [<DefaultValue>]
+    val mutable PreMargin: float
+
+    [<DefaultValue>]
+    val mutable UseMargin: float
+
+    [<DefaultValue>]
+    val mutable FrozenMargin: float
+
+    [<DefaultValue>]
+    val mutable FrozenCash: float
+
+    [<DefaultValue>]
+    val mutable FrozenCommission: float
+
+    [<DefaultValue>]
+    val mutable CashIn: float
+
+    [<DefaultValue>]
+    val mutable Commission: float
+
+    [<DefaultValue>]
+    val mutable CloseProfit: float
+
+    [<DefaultValue>]
+    val mutable PositionProfit: float
+
+    [<DefaultValue>]
+    val mutable PreSettlementPrice: float
+
+    [<DefaultValue>]
+    val mutable SettlementPrice: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<DefaultValue>]
+    val mutable OpenCost: float
+
+    [<DefaultValue>]
+    val mutable ExchangeMargin: float
+
+    [<DefaultValue>]
+    val mutable CombPosition: int
+
+    [<DefaultValue>]
+    val mutable CombLongFrozen: int
+
+    [<DefaultValue>]
+    val mutable CombShortFrozen: int
+
+    [<DefaultValue>]
+    val mutable CloseProfitByDate: float
+
+    [<DefaultValue>]
+    val mutable CloseProfitByTrade: float
+
+    [<DefaultValue>]
+    val mutable TodayPosition: int
+
+    [<DefaultValue>]
+    val mutable MarginRateByMoney: float
+
+    [<DefaultValue>]
+    val mutable MarginRateByVolume: float
+
+    [<DefaultValue>]
+    val mutable StrikeFrozen: int
+
+    [<DefaultValue>]
+    val mutable StrikeFrozenAmount: float
+
+    [<DefaultValue>]
+    val mutable AbandonFrozen: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable YdStrikeFrozen: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<DefaultValue>]
+    val mutable PositionCostOffset: float
+
+    [<DefaultValue>]
+    val mutable TasPosition: int
+
+    [<DefaultValue>]
+    val mutable TasPositionCost: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRiskSettleProductStatus =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<DefaultValue>]
+    val mutable ProductStatus: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRspGenSmsCode =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable GenTime: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRspGenUserCaptcha =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable CaptchaInfoLen: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 2561)>]
+    [<DefaultValue>]
+    val mutable CaptchaInfo: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRspGenUserText =
+    [<DefaultValue>]
+    val mutable UserTextSeq: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRspTransfer =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable FutureSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable TradeAmount: float
+
+    [<DefaultValue>]
+    val mutable FutureFetchAmount: float
+
+    [<DefaultValue>]
+    val mutable FeePayFlag: byte
+
+    [<DefaultValue>]
+    val mutable CustFee: float
+
+    [<DefaultValue>]
+    val mutable BrokerFee: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 129)>]
+    [<DefaultValue>]
+    val mutable Message: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<DefaultValue>]
+    val mutable TransferStatus: byte
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRspUserAuthMethod =
+    [<DefaultValue>]
+    val mutable UsableAuthMethod: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRuleInstrParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable InstrumentClass: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StdInstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable BSpecRatio: float
+
+    [<DefaultValue>]
+    val mutable SSpecRatio: float
+
+    [<DefaultValue>]
+    val mutable BHedgeRatio: float
+
+    [<DefaultValue>]
+    val mutable SHedgeRatio: float
+
+    [<DefaultValue>]
+    val mutable BAddOnMargin: float
+
+    [<DefaultValue>]
+    val mutable SAddOnMargin: float
+
+    [<DefaultValue>]
+    val mutable CommodityGroupId: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRuleInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable SpreadId: int
+
+    [<DefaultValue>]
+    val mutable InterRate: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg1ProdFamilyCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg2ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable Leg1PropFactor: int
+
+    [<DefaultValue>]
+    val mutable Leg2PropFactor: int
+
+    [<DefaultValue>]
+    val mutable CommodityGroupId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable CommodityGroupName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRuleIntraParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StdInstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable StdInstrMargin: float
+
+    [<DefaultValue>]
+    val mutable UsualIntraRate: float
+
+    [<DefaultValue>]
+    val mutable DeliveryIntraRate: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSecAgentAcIdMap =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BrokerSecAgentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSecAgentCheckMode =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BrokerSecAgentId: byte array
+
+    [<DefaultValue>]
+    val mutable CheckSelfAccount: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSecAgentTradeInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BrokerSecAgentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSettlementInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 501)>]
+    [<DefaultValue>]
+    val mutable Content: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpbmAddOnInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable SpreadId: int
+
+    [<DefaultValue>]
+    val mutable AddOnInterRateZ2: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg1ProdFamilyCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg2ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpbmFutureParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable Cvf: int
+
+    [<DefaultValue>]
+    val mutable TimeRange: byte
+
+    [<DefaultValue>]
+    val mutable MarginRate: float
+
+    [<DefaultValue>]
+    val mutable LockRateX: float
+
+    [<DefaultValue>]
+    val mutable AddOnRate: float
+
+    [<DefaultValue>]
+    val mutable PreSettlementPrice: float
+
+    [<DefaultValue>]
+    val mutable AddOnLockRateX2: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpbmInterParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable SpreadId: int
+
+    [<DefaultValue>]
+    val mutable InterRateZ: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg1ProdFamilyCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Leg2ProdFamilyCode: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpbmIntraParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable IntraRateY: float
+
+    [<DefaultValue>]
+    val mutable AddOnIntraRateY2: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpbmInvestorPortfDef =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable PortfolioDefId: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpbmOptionParameter =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable Cvf: int
+
+    [<DefaultValue>]
+    val mutable DownPrice: float
+
+    [<DefaultValue>]
+    val mutable Delta: float
+
+    [<DefaultValue>]
+    val mutable SlimiDelta: float
+
+    [<DefaultValue>]
+    val mutable PreSettlementPrice: float
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpbmPortfDefinition =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<DefaultValue>]
+    val mutable PortfolioDefId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ProdFamilyCode: byte array
+
+    [<DefaultValue>]
+    val mutable IsSpbm: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpdApply =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable FirstLegInstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable SecondLegInstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable Volume: int
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerOrderSeq: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ApplyStatus: byte
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CancelTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable OrderSubmitStatus: byte
+
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<DefaultValue>]
+    val mutable CmbType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpdApplyAction =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable ActionLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderActionStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpmmInstParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<DefaultValue>]
+    val mutable InstMarginCalId: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeSpmmProductParam =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable ProductId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable CommodityGroupId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTraderOffer =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+
+    [<DefaultValue>]
+    val mutable TraderConnectStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ConnectRequestDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ConnectRequestTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable LastReportDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable LastReportTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ConnectDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ConnectTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable StartDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable StartTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MaxTradeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable MaxOrderMessageReference: byte array
+
+    [<DefaultValue>]
+    val mutable OrderCancelAlg: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTradingAccountPasswordUpdate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable OldPassword: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable NewPassword: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTradingCode =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<DefaultValue>]
+    val mutable IsActive: int
+
+    [<DefaultValue>]
+    val mutable ClientIdType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<DefaultValue>]
+    val mutable BizType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTradingNotice =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<DefaultValue>]
+    val mutable InvestorRange: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceSeries: int16
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable SendTime: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 501)>]
+    [<DefaultValue>]
+    val mutable FieldContent: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTransferBank =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBrchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 101)>]
+    [<DefaultValue>]
+    val mutable BankName: byte array
+
+    [<DefaultValue>]
+    val mutable IsActive: int
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTransferSerial =
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<DefaultValue>]
+    val mutable FutureAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<DefaultValue>]
+    val mutable FutureSerial: int
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable TradeAmount: float
+
+    [<DefaultValue>]
+    val mutable CustFee: float
+
+    [<DefaultValue>]
+    val mutable BrokerFee: float
+
+    [<DefaultValue>]
+    val mutable AvailabilityFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperatorCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankNewAccount: byte array
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeUserPasswordUpdate =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable OldPassword: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable NewPassword: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeUserSession =
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable LoginDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable LoginTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable InterfaceProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ProtocolInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable LoginRemark: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeUserSystemInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable ClientSystemInfoLen: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 273)>]
+    [<DefaultValue>]
+    val mutable ClientSystemInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<DefaultValue>]
+    val mutable ClientIpPort: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ClientLoginTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable ClientAppId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable ClientPublicIp: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 151)>]
+    [<DefaultValue>]
+    val mutable ClientLoginRemark: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Mac: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeWechatUserSystemInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable WechatCltSysInfoLen: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 273)>]
+    [<DefaultValue>]
+    val mutable WechatCltSysInfo: byte array
+
+    [<DefaultValue>]
+    val mutable ClientIpPort: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ClientLoginTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable ClientAppId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable ClientPublicIp: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 151)>]
+    [<DefaultValue>]
+    val mutable ClientLoginRemark: byte array
+
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderFrontConnectedDelegate = delegate of nativeint -> unit
 
@@ -1109,79 +12618,1073 @@ type private TraderRtnOrderDelegate = delegate of nativeint * nativeint -> unit
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRtnTradeDelegate = delegate of nativeint * nativeint -> unit
 
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnBankToFutureByFutureDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnBatchOrderActionDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnCancelOffsetSettingDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnCombActionInsertDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnExecOrderActionDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnExecOrderInsertDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnForQuoteInsertDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnFutureToBankByFutureDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnHedgeCfmDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnHedgeCfmActionDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnOffsetSettingDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnOptionSelfCloseActionDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnOptionSelfCloseInsertDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnOrderActionDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnOrderInsertDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnQueryBankBalanceByFutureDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnQuoteActionDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnQuoteInsertDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnSpdApplyDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnSpdApplyActionDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspBatchOrderActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspCancelOffsetSettingDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspCombActionInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspExecOrderActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspExecOrderInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspForQuoteInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspFromBankToFutureByFutureDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspFromFutureToBankByFutureDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspGenSmsCodeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspGenUserCaptchaDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspGenUserTextDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspHedgeCfmDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspHedgeCfmActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspOffsetSettingDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspOptionSelfCloseActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspOptionSelfCloseInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspParkedOrderActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspParkedOrderInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryAccountregisterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryBrokerTradingAlgosDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryBrokerTradingParamsDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryCfmmcTradingAccountKeyDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryClassifiedInstrumentDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryCombActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryCombInstrumentGuardDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryCombLegDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryCombPromotionParamDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryContractBankDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryDepthMarketDataDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryEWarrantOffsetDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryExchangeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryExchangeMarginRateAdjustDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryExchangeRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryExecOrderDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryForQuoteDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryHedgeCfmDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInstrumentDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInstrumentOrderCommRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestUnitDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorCommodityGroupSpmmMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorCommoditySpmmMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorInfoCommRecDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorPortfMarginRatioDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorPortfSettingDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorPositionCombineDetailDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorPositionDetailDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorProdRcamsMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorProdRuleMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorProdSpbmDetailDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryInvestorProductGroupMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryMmInstrumentCommissionRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryMmOptionInstrCommRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryMaxOrderVolumeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryNoticeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryOffsetSettingDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryOptionInstrCommRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryOptionInstrTradeCostDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryOptionSelfCloseDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryOrderDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryParkedOrderDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryParkedOrderActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryProductDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryProductExchRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryProductGroupDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryQuoteDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRcamsCombProductInfoDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRcamsInstrParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRcamsInterParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRcamsIntraParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRcamsInvestorCombPositionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRcamsShortOptAdjustParamDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRuleInstrParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRuleInterParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRuleIntraParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRiskSettleInvstPositionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryRiskSettleProductStatusDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpbmAddOnInterParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpbmFutureParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpbmInterParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpbmIntraParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpbmInvestorPortfDefDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpbmOptionParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpbmPortfDefinitionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpmmInstParamDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpmmProductParamDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySecAgentAcIdMapDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySecAgentCheckModeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySecAgentTradeInfoDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySecAgentTradingAccountDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySettlementInfoDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySettlementInfoConfirmDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQrySpdApplyDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryTradeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryTraderOfferDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryTradingCodeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryTradingNoticeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryTransferBankDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryTransferSerialDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQryUserSessionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQueryBankAccountMoneyByFutureDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQueryCfmmcTradingAccountTokenDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQuoteActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspQuoteInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspRemoveParkedOrderDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspRemoveParkedOrderActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspSpdApplyDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspSpdApplyActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspTradingAccountPasswordUpdateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspUserAuthMethodDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRspUserPasswordUpdateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnCombActionDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnExecOrderDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnForQuoteRspDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnFromBankToFutureByFutureDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnFromFutureToBankByFutureDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnHedgeCfmDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnOffsetSettingDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnOptionSelfCloseDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnQueryBankBalanceByFutureDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnQuoteDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnSpdApplyDelegate = delegate of nativeint * nativeint -> unit
+
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeTraderSpi =
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnFrontConnected: TraderFrontConnectedDelegate
+    val mutable FrontConnected: TraderFrontConnectedDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnFrontDisconnected: TraderFrontDisconnectedDelegate
+    val mutable FrontDisconnected: TraderFrontDisconnectedDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnHeartBeatWarning: TraderHeartBeatWarningDelegate
+    val mutable HeartBeatWarning: TraderHeartBeatWarningDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRtnPrivateSeqNo: TraderRtnPrivateSeqNoDelegate
+    val mutable RtnPrivateSeqNo: TraderRtnPrivateSeqNoDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspAuthenticate: TraderRspAuthenticateDelegate
+    val mutable RspAuthenticate: TraderRspAuthenticateDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspSettlementInfoConfirm: TraderRspSettlementInfoConfirmDelegate
+    val mutable RspSettlementInfoConfirm: TraderRspSettlementInfoConfirmDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspUserLogin: TraderRspUserLoginDelegate
+    val mutable RspUserLogin: TraderRspUserLoginDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspUserLogout: TraderRspUserLogoutDelegate
+    val mutable RspUserLogout: TraderRspUserLogoutDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspError: TraderRspErrorDelegate
+    val mutable RspError: TraderRspErrorDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspQryTradingAccount: TraderRspQryTradingAccountDelegate
+    val mutable RspQryTradingAccount: TraderRspQryTradingAccountDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspQryInvestorPosition: TraderRspQryInvestorPositionDelegate
+    val mutable RspQryInvestorPosition: TraderRspQryInvestorPositionDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspQryInstrumentMarginRate: TraderRspQryInstrumentMarginRateDelegate
+    val mutable RspQryInstrumentMarginRate: TraderRspQryInstrumentMarginRateDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspQryExchangeMarginRate: TraderRspQryExchangeMarginRateDelegate
+    val mutable RspQryExchangeMarginRate: TraderRspQryExchangeMarginRateDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspQryInstrumentCommissionRate: TraderRspQryInstrumentCommissionRateDelegate
+    val mutable RspQryInstrumentCommissionRate: TraderRspQryInstrumentCommissionRateDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspOrderInsert: TraderRspOrderInsertDelegate
+    val mutable RspOrderInsert: TraderRspOrderInsertDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRspOrderAction: TraderRspOrderActionDelegate
+    val mutable RspOrderAction: TraderRspOrderActionDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRtnOrder: TraderRtnOrderDelegate
+    val mutable RtnOrder: TraderRtnOrderDelegate
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
-    val mutable OnRtnTrade: TraderRtnTradeDelegate
+    val mutable RtnTrade: TraderRtnTradeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnBankToFutureByFuture: TraderErrRtnBankToFutureByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnBatchOrderAction: TraderErrRtnBatchOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnCancelOffsetSetting: TraderErrRtnCancelOffsetSettingDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnCombActionInsert: TraderErrRtnCombActionInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnExecOrderAction: TraderErrRtnExecOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnExecOrderInsert: TraderErrRtnExecOrderInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnForQuoteInsert: TraderErrRtnForQuoteInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnFutureToBankByFuture: TraderErrRtnFutureToBankByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnHedgeCfm: TraderErrRtnHedgeCfmDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnHedgeCfmAction: TraderErrRtnHedgeCfmActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnOffsetSetting: TraderErrRtnOffsetSettingDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnOptionSelfCloseAction: TraderErrRtnOptionSelfCloseActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnOptionSelfCloseInsert: TraderErrRtnOptionSelfCloseInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnOrderAction: TraderErrRtnOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnOrderInsert: TraderErrRtnOrderInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnQueryBankBalanceByFuture: TraderErrRtnQueryBankBalanceByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnQuoteAction: TraderErrRtnQuoteActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnQuoteInsert: TraderErrRtnQuoteInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnSpdApply: TraderErrRtnSpdApplyDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnSpdApplyAction: TraderErrRtnSpdApplyActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspBatchOrderAction: TraderRspBatchOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspCancelOffsetSetting: TraderRspCancelOffsetSettingDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspCombActionInsert: TraderRspCombActionInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspExecOrderAction: TraderRspExecOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspExecOrderInsert: TraderRspExecOrderInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspForQuoteInsert: TraderRspForQuoteInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspFromBankToFutureByFuture: TraderRspFromBankToFutureByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspFromFutureToBankByFuture: TraderRspFromFutureToBankByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspGenSmsCode: TraderRspGenSmsCodeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspGenUserCaptcha: TraderRspGenUserCaptchaDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspGenUserText: TraderRspGenUserTextDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspHedgeCfm: TraderRspHedgeCfmDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspHedgeCfmAction: TraderRspHedgeCfmActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspOffsetSetting: TraderRspOffsetSettingDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspOptionSelfCloseAction: TraderRspOptionSelfCloseActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspOptionSelfCloseInsert: TraderRspOptionSelfCloseInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspParkedOrderAction: TraderRspParkedOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspParkedOrderInsert: TraderRspParkedOrderInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryAccountregister: TraderRspQryAccountregisterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryBrokerTradingAlgos: TraderRspQryBrokerTradingAlgosDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryBrokerTradingParams: TraderRspQryBrokerTradingParamsDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryCfmmcTradingAccountKey: TraderRspQryCfmmcTradingAccountKeyDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryClassifiedInstrument: TraderRspQryClassifiedInstrumentDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryCombAction: TraderRspQryCombActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryCombInstrumentGuard: TraderRspQryCombInstrumentGuardDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryCombLeg: TraderRspQryCombLegDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryCombPromotionParam: TraderRspQryCombPromotionParamDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryContractBank: TraderRspQryContractBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryDepthMarketData: TraderRspQryDepthMarketDataDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryEWarrantOffset: TraderRspQryEWarrantOffsetDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryExchange: TraderRspQryExchangeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryExchangeMarginRateAdjust: TraderRspQryExchangeMarginRateAdjustDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryExchangeRate: TraderRspQryExchangeRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryExecOrder: TraderRspQryExecOrderDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryForQuote: TraderRspQryForQuoteDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryHedgeCfm: TraderRspQryHedgeCfmDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInstrument: TraderRspQryInstrumentDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInstrumentOrderCommRate: TraderRspQryInstrumentOrderCommRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestUnit: TraderRspQryInvestUnitDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestor: TraderRspQryInvestorDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorCommodityGroupSpmmMargin: TraderRspQryInvestorCommodityGroupSpmmMarginDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorCommoditySpmmMargin: TraderRspQryInvestorCommoditySpmmMarginDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorInfoCommRec: TraderRspQryInvestorInfoCommRecDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorPortfMarginRatio: TraderRspQryInvestorPortfMarginRatioDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorPortfSetting: TraderRspQryInvestorPortfSettingDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorPositionCombineDetail: TraderRspQryInvestorPositionCombineDetailDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorPositionDetail: TraderRspQryInvestorPositionDetailDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorProdRcamsMargin: TraderRspQryInvestorProdRcamsMarginDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorProdRuleMargin: TraderRspQryInvestorProdRuleMarginDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorProdSpbmDetail: TraderRspQryInvestorProdSpbmDetailDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryInvestorProductGroupMargin: TraderRspQryInvestorProductGroupMarginDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryMmInstrumentCommissionRate: TraderRspQryMmInstrumentCommissionRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryMmOptionInstrCommRate: TraderRspQryMmOptionInstrCommRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryMaxOrderVolume: TraderRspQryMaxOrderVolumeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryNotice: TraderRspQryNoticeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryOffsetSetting: TraderRspQryOffsetSettingDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryOptionInstrCommRate: TraderRspQryOptionInstrCommRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryOptionInstrTradeCost: TraderRspQryOptionInstrTradeCostDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryOptionSelfClose: TraderRspQryOptionSelfCloseDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryOrder: TraderRspQryOrderDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryParkedOrder: TraderRspQryParkedOrderDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryParkedOrderAction: TraderRspQryParkedOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryProduct: TraderRspQryProductDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryProductExchRate: TraderRspQryProductExchRateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryProductGroup: TraderRspQryProductGroupDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryQuote: TraderRspQryQuoteDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRcamsCombProductInfo: TraderRspQryRcamsCombProductInfoDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRcamsInstrParameter: TraderRspQryRcamsInstrParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRcamsInterParameter: TraderRspQryRcamsInterParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRcamsIntraParameter: TraderRspQryRcamsIntraParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRcamsInvestorCombPosition: TraderRspQryRcamsInvestorCombPositionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRcamsShortOptAdjustParam: TraderRspQryRcamsShortOptAdjustParamDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRuleInstrParameter: TraderRspQryRuleInstrParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRuleInterParameter: TraderRspQryRuleInterParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRuleIntraParameter: TraderRspQryRuleIntraParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRiskSettleInvstPosition: TraderRspQryRiskSettleInvstPositionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryRiskSettleProductStatus: TraderRspQryRiskSettleProductStatusDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpbmAddOnInterParameter: TraderRspQrySpbmAddOnInterParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpbmFutureParameter: TraderRspQrySpbmFutureParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpbmInterParameter: TraderRspQrySpbmInterParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpbmIntraParameter: TraderRspQrySpbmIntraParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpbmInvestorPortfDef: TraderRspQrySpbmInvestorPortfDefDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpbmOptionParameter: TraderRspQrySpbmOptionParameterDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpbmPortfDefinition: TraderRspQrySpbmPortfDefinitionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpmmInstParam: TraderRspQrySpmmInstParamDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpmmProductParam: TraderRspQrySpmmProductParamDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySecAgentAcIdMap: TraderRspQrySecAgentAcIdMapDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySecAgentCheckMode: TraderRspQrySecAgentCheckModeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySecAgentTradeInfo: TraderRspQrySecAgentTradeInfoDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySecAgentTradingAccount: TraderRspQrySecAgentTradingAccountDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySettlementInfo: TraderRspQrySettlementInfoDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySettlementInfoConfirm: TraderRspQrySettlementInfoConfirmDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQrySpdApply: TraderRspQrySpdApplyDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryTrade: TraderRspQryTradeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryTraderOffer: TraderRspQryTraderOfferDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryTradingCode: TraderRspQryTradingCodeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryTradingNotice: TraderRspQryTradingNoticeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryTransferBank: TraderRspQryTransferBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryTransferSerial: TraderRspQryTransferSerialDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQryUserSession: TraderRspQryUserSessionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQueryBankAccountMoneyByFuture: TraderRspQueryBankAccountMoneyByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQueryCfmmcTradingAccountToken: TraderRspQueryCfmmcTradingAccountTokenDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQuoteAction: TraderRspQuoteActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspQuoteInsert: TraderRspQuoteInsertDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspRemoveParkedOrder: TraderRspRemoveParkedOrderDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspRemoveParkedOrderAction: TraderRspRemoveParkedOrderActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspSpdApply: TraderRspSpdApplyDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspSpdApplyAction: TraderRspSpdApplyActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspTradingAccountPasswordUpdate: TraderRspTradingAccountPasswordUpdateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspUserAuthMethod: TraderRspUserAuthMethodDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RspUserPasswordUpdate: TraderRspUserPasswordUpdateDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnCombAction: TraderRtnCombActionDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnExecOrder: TraderRtnExecOrderDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnForQuoteRsp: TraderRtnForQuoteRspDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnFromBankToFutureByFuture: TraderRtnFromBankToFutureByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnFromFutureToBankByFuture: TraderRtnFromFutureToBankByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnHedgeCfm: TraderRtnHedgeCfmDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnOffsetSetting: TraderRtnOffsetSettingDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnOptionSelfClose: TraderRtnOptionSelfCloseDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnQueryBankBalanceByFuture: TraderRtnQueryBankBalanceByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnQuote: TraderRtnQuoteDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnSpdApply: TraderRtnSpdApplyDelegate
 
 module private TraderNativeInterop =
     [<Literal>]
@@ -1217,9 +13720,7 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_authenticate")>]
     extern int reqAuthenticate(nativeint handle, NativeReqAuthenticate& request, int requestId)
 
-    [<DllImport(Library,
-                CallingConvention = CallingConvention.Cdecl,
-                EntryPoint = "ctp_trader_req_settlement_info_confirm")>]
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_settlement_info_confirm")>]
     extern int reqSettlementInfoConfirm(nativeint handle, NativeSettlementInfoConfirm& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_login")>]
@@ -1231,24 +13732,16 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trading_account")>]
     extern int reqQryTradingAccount(nativeint handle, NativeQryTradingAccount& request, int requestId)
 
-    [<DllImport(Library,
-                CallingConvention = CallingConvention.Cdecl,
-                EntryPoint = "ctp_trader_req_qry_investor_position")>]
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_position")>]
     extern int reqQryInvestorPosition(nativeint handle, NativeQryInvestorPosition& request, int requestId)
 
-    [<DllImport(Library,
-                CallingConvention = CallingConvention.Cdecl,
-                EntryPoint = "ctp_trader_req_qry_instrument_margin_rate")>]
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument_margin_rate")>]
     extern int reqQryInstrumentMarginRate(nativeint handle, NativeQryInstrumentMarginRate& request, int requestId)
 
-    [<DllImport(Library,
-                CallingConvention = CallingConvention.Cdecl,
-                EntryPoint = "ctp_trader_req_qry_exchange_margin_rate")>]
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exchange_margin_rate")>]
     extern int reqQryExchangeMarginRate(nativeint handle, NativeQryExchangeMarginRate& request, int requestId)
 
-    [<DllImport(Library,
-                CallingConvention = CallingConvention.Cdecl,
-                EntryPoint = "ctp_trader_req_qry_instrument_commission_rate")>]
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument_commission_rate")>]
     extern int reqQryInstrumentCommissionRate(nativeint handle, NativeQryInstrumentCommissionRate& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_order_insert")>]
@@ -1256,6 +13749,372 @@ module private TraderNativeInterop =
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_order_action")>]
     extern int reqOrderAction(nativeint handle, NativeInputOrderAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_get_trading_day")>]
+    extern nativeint getTradingDay(nativeint handle)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_get_front_info")>]
+    extern int getFrontInfo(nativeint handle, NativeFrontInfo& frontInfo)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_register_name_server")>]
+    extern int registerNameServer(nativeint handle, nativeint nsAddress)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_register_fens_user_info")>]
+    extern int registerFensUserInfo(nativeint handle, NativeFensUserInfo& request)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_register_user_system_info")>]
+    extern int registerUserSystemInfo(nativeint handle, NativeUserSystemInfo& request)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_submit_user_system_info")>]
+    extern int submitUserSystemInfo(nativeint handle, NativeUserSystemInfo& request)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_register_wechat_user_system_info")>]
+    extern int registerWechatUserSystemInfo(nativeint handle, NativeWechatUserSystemInfo& request)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_submit_wechat_user_system_info")>]
+    extern int submitWechatUserSystemInfo(nativeint handle, NativeWechatUserSystemInfo& request)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_password_update")>]
+    extern int reqUserPasswordUpdate(nativeint handle, NativeUserPasswordUpdate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_trading_account_password_update")>]
+    extern int reqTradingAccountPasswordUpdate(nativeint handle, NativeTradingAccountPasswordUpdate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_auth_method")>]
+    extern int reqUserAuthMethod(nativeint handle, NativeReqUserAuthMethod& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_gen_user_captcha")>]
+    extern int reqGenUserCaptcha(nativeint handle, NativeReqGenUserCaptcha& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_gen_user_text")>]
+    extern int reqGenUserText(nativeint handle, NativeReqGenUserText& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_login_with_captcha")>]
+    extern int reqUserLoginWithCaptcha(nativeint handle, NativeReqUserLoginWithCaptcha& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_login_with_text")>]
+    extern int reqUserLoginWithText(nativeint handle, NativeReqUserLoginWithText& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_login_with_otp")>]
+    extern int reqUserLoginWithOtp(nativeint handle, NativeReqUserLoginWithOtp& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_gen_sms_code")>]
+    extern int reqGenSmsCode(nativeint handle, NativeReqGenSmsCode& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_parked_order_insert")>]
+    extern int reqParkedOrderInsert(nativeint handle, NativeParkedOrder& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_parked_order_action")>]
+    extern int reqParkedOrderAction(nativeint handle, NativeParkedOrderAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_max_order_volume")>]
+    extern int reqQryMaxOrderVolume(nativeint handle, NativeQryMaxOrderVolume& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_remove_parked_order")>]
+    extern int reqRemoveParkedOrder(nativeint handle, NativeRemoveParkedOrder& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_remove_parked_order_action")>]
+    extern int reqRemoveParkedOrderAction(nativeint handle, NativeRemoveParkedOrderAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_exec_order_insert")>]
+    extern int reqExecOrderInsert(nativeint handle, NativeInputExecOrder& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_exec_order_action")>]
+    extern int reqExecOrderAction(nativeint handle, NativeInputExecOrderAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_for_quote_insert")>]
+    extern int reqForQuoteInsert(nativeint handle, NativeInputForQuote& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_quote_insert")>]
+    extern int reqQuoteInsert(nativeint handle, NativeInputQuote& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_quote_action")>]
+    extern int reqQuoteAction(nativeint handle, NativeInputQuoteAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_batch_order_action")>]
+    extern int reqBatchOrderAction(nativeint handle, NativeInputBatchOrderAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_option_self_close_insert")>]
+    extern int reqOptionSelfCloseInsert(nativeint handle, NativeInputOptionSelfClose& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_option_self_close_action")>]
+    extern int reqOptionSelfCloseAction(nativeint handle, NativeInputOptionSelfCloseAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_comb_action_insert")>]
+    extern int reqCombActionInsert(nativeint handle, NativeInputCombAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_offset_setting")>]
+    extern int reqOffsetSetting(nativeint handle, NativeInputOffsetSetting& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_cancel_offset_setting")>]
+    extern int reqCancelOffsetSetting(nativeint handle, NativeInputOffsetSetting& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_spd_apply")>]
+    extern int reqSpdApply(nativeint handle, NativeInputSpdApply& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_spd_apply_action")>]
+    extern int reqSpdApplyAction(nativeint handle, NativeInputSpdApplyAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_hedge_cfm")>]
+    extern int reqHedgeCfm(nativeint handle, NativeInputHedgeCfm& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_hedge_cfm_action")>]
+    extern int reqHedgeCfmAction(nativeint handle, NativeInputHedgeCfmAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_order")>]
+    extern int reqQryOrder(nativeint handle, NativeQryOrder& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trade")>]
+    extern int reqQryTrade(nativeint handle, NativeQryTrade& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor")>]
+    extern int reqQryInvestor(nativeint handle, NativeQryInvestor& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trading_code")>]
+    extern int reqQryTradingCode(nativeint handle, NativeQryTradingCode& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_user_session")>]
+    extern int reqQryUserSession(nativeint handle, NativeQryUserSession& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exchange")>]
+    extern int reqQryExchange(nativeint handle, NativeQryExchange& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_product")>]
+    extern int reqQryProduct(nativeint handle, NativeQryProduct& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument")>]
+    extern int reqQryInstrument(nativeint handle, NativeQryInstrument& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_depth_market_data")>]
+    extern int reqQryDepthMarketData(nativeint handle, NativeQryDepthMarketData& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trader_offer")>]
+    extern int reqQryTraderOffer(nativeint handle, NativeQryTraderOffer& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_settlement_info")>]
+    extern int reqQrySettlementInfo(nativeint handle, NativeQrySettlementInfo& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_transfer_bank")>]
+    extern int reqQryTransferBank(nativeint handle, NativeQryTransferBank& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_position_detail")>]
+    extern int reqQryInvestorPositionDetail(nativeint handle, NativeQryInvestorPositionDetail& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_notice")>]
+    extern int reqQryNotice(nativeint handle, NativeQryNotice& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_settlement_info_confirm")>]
+    extern int reqQrySettlementInfoConfirm(nativeint handle, NativeQrySettlementInfoConfirm& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_position_combine_detail")>]
+    extern int reqQryInvestorPositionCombineDetail(nativeint handle, NativeQryInvestorPositionCombineDetail& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_cfmmc_trading_account_key")>]
+    extern int reqQryCfmmcTradingAccountKey(nativeint handle, NativeQryCfmmcTradingAccountKey& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_e_warrant_offset")>]
+    extern int reqQryEWarrantOffset(nativeint handle, NativeQryEWarrantOffset& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_product_group_margin")>]
+    extern int reqQryInvestorProductGroupMargin(nativeint handle, NativeQryInvestorProductGroupMargin& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exchange_margin_rate_adjust")>]
+    extern int reqQryExchangeMarginRateAdjust(nativeint handle, NativeQryExchangeMarginRateAdjust& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exchange_rate")>]
+    extern int reqQryExchangeRate(nativeint handle, NativeQryExchangeRate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_ac_id_map")>]
+    extern int reqQrySecAgentAcIdMap(nativeint handle, NativeQrySecAgentAcIdMap& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_product_exch_rate")>]
+    extern int reqQryProductExchRate(nativeint handle, NativeQryProductExchRate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_product_group")>]
+    extern int reqQryProductGroup(nativeint handle, NativeQryProductGroup& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_mm_instrument_commission_rate")>]
+    extern int reqQryMmInstrumentCommissionRate(nativeint handle, NativeQryMmInstrumentCommissionRate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_mm_option_instr_comm_rate")>]
+    extern int reqQryMmOptionInstrCommRate(nativeint handle, NativeQryMmOptionInstrCommRate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument_order_comm_rate")>]
+    extern int reqQryInstrumentOrderCommRate(nativeint handle, NativeQryInstrumentOrderCommRate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_trading_account")>]
+    extern int reqQrySecAgentTradingAccount(nativeint handle, NativeQryTradingAccount& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_check_mode")>]
+    extern int reqQrySecAgentCheckMode(nativeint handle, NativeQrySecAgentCheckMode& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_trade_info")>]
+    extern int reqQrySecAgentTradeInfo(nativeint handle, NativeQrySecAgentTradeInfo& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_option_instr_trade_cost")>]
+    extern int reqQryOptionInstrTradeCost(nativeint handle, NativeQryOptionInstrTradeCost& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_option_instr_comm_rate")>]
+    extern int reqQryOptionInstrCommRate(nativeint handle, NativeQryOptionInstrCommRate& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exec_order")>]
+    extern int reqQryExecOrder(nativeint handle, NativeQryExecOrder& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_for_quote")>]
+    extern int reqQryForQuote(nativeint handle, NativeQryForQuote& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_quote")>]
+    extern int reqQryQuote(nativeint handle, NativeQryQuote& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_option_self_close")>]
+    extern int reqQryOptionSelfClose(nativeint handle, NativeQryOptionSelfClose& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_invest_unit")>]
+    extern int reqQryInvestUnit(nativeint handle, NativeQryInvestUnit& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_instrument_guard")>]
+    extern int reqQryCombInstrumentGuard(nativeint handle, NativeQryCombInstrumentGuard& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_action")>]
+    extern int reqQryCombAction(nativeint handle, NativeQryCombAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_transfer_serial")>]
+    extern int reqQryTransferSerial(nativeint handle, NativeQryTransferSerial& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_accountregister")>]
+    extern int reqQryAccountregister(nativeint handle, NativeQryAccountregister& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_contract_bank")>]
+    extern int reqQryContractBank(nativeint handle, NativeQryContractBank& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_parked_order")>]
+    extern int reqQryParkedOrder(nativeint handle, NativeQryParkedOrder& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_parked_order_action")>]
+    extern int reqQryParkedOrderAction(nativeint handle, NativeQryParkedOrderAction& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trading_notice")>]
+    extern int reqQryTradingNotice(nativeint handle, NativeQryTradingNotice& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_broker_trading_params")>]
+    extern int reqQryBrokerTradingParams(nativeint handle, NativeQryBrokerTradingParams& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_broker_trading_algos")>]
+    extern int reqQryBrokerTradingAlgos(nativeint handle, NativeQryBrokerTradingAlgos& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_query_cfmmc_trading_account_token")>]
+    extern int reqQueryCfmmcTradingAccountToken(nativeint handle, NativeQueryCfmmcTradingAccountToken& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_classified_instrument")>]
+    extern int reqQryClassifiedInstrument(nativeint handle, NativeQryClassifiedInstrument& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_promotion_param")>]
+    extern int reqQryCombPromotionParam(nativeint handle, NativeQryCombPromotionParam& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_risk_settle_invst_position")>]
+    extern int reqQryRiskSettleInvstPosition(nativeint handle, NativeQryRiskSettleInvstPosition& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_risk_settle_product_status")>]
+    extern int reqQryRiskSettleProductStatus(nativeint handle, NativeQryRiskSettleProductStatus& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_future_parameter")>]
+    extern int reqQrySpbmFutureParameter(nativeint handle, NativeQrySpbmFutureParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_option_parameter")>]
+    extern int reqQrySpbmOptionParameter(nativeint handle, NativeQrySpbmOptionParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_intra_parameter")>]
+    extern int reqQrySpbmIntraParameter(nativeint handle, NativeQrySpbmIntraParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_inter_parameter")>]
+    extern int reqQrySpbmInterParameter(nativeint handle, NativeQrySpbmInterParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_portf_definition")>]
+    extern int reqQrySpbmPortfDefinition(nativeint handle, NativeQrySpbmPortfDefinition& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_investor_portf_def")>]
+    extern int reqQrySpbmInvestorPortfDef(nativeint handle, NativeQrySpbmInvestorPortfDef& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_portf_margin_ratio")>]
+    extern int reqQryInvestorPortfMarginRatio(nativeint handle, NativeQryInvestorPortfMarginRatio& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_prod_spbm_detail")>]
+    extern int reqQryInvestorProdSpbmDetail(nativeint handle, NativeQryInvestorProdSpbmDetail& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_commodity_spmm_margin")>]
+    extern int reqQryInvestorCommoditySpmmMargin(nativeint handle, NativeQryInvestorCommoditySpmmMargin& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_commodity_group_spmm_margin")>]
+    extern int reqQryInvestorCommodityGroupSpmmMargin(nativeint handle, NativeQryInvestorCommodityGroupSpmmMargin& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spmm_inst_param")>]
+    extern int reqQrySpmmInstParam(nativeint handle, NativeQrySpmmInstParam& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spmm_product_param")>]
+    extern int reqQrySpmmProductParam(nativeint handle, NativeQrySpmmProductParam& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_add_on_inter_parameter")>]
+    extern int reqQrySpbmAddOnInterParameter(nativeint handle, NativeQrySpbmAddOnInterParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_comb_product_info")>]
+    extern int reqQryRcamsCombProductInfo(nativeint handle, NativeQryRcamsCombProductInfo& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_instr_parameter")>]
+    extern int reqQryRcamsInstrParameter(nativeint handle, NativeQryRcamsInstrParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_intra_parameter")>]
+    extern int reqQryRcamsIntraParameter(nativeint handle, NativeQryRcamsIntraParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_inter_parameter")>]
+    extern int reqQryRcamsInterParameter(nativeint handle, NativeQryRcamsInterParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_short_opt_adjust_param")>]
+    extern int reqQryRcamsShortOptAdjustParam(nativeint handle, NativeQryRcamsShortOptAdjustParam& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_investor_comb_position")>]
+    extern int reqQryRcamsInvestorCombPosition(nativeint handle, NativeQryRcamsInvestorCombPosition& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_prod_rcams_margin")>]
+    extern int reqQryInvestorProdRcamsMargin(nativeint handle, NativeQryInvestorProdRcamsMargin& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rule_instr_parameter")>]
+    extern int reqQryRuleInstrParameter(nativeint handle, NativeQryRuleInstrParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rule_intra_parameter")>]
+    extern int reqQryRuleIntraParameter(nativeint handle, NativeQryRuleIntraParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rule_inter_parameter")>]
+    extern int reqQryRuleInterParameter(nativeint handle, NativeQryRuleInterParameter& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_prod_rule_margin")>]
+    extern int reqQryInvestorProdRuleMargin(nativeint handle, NativeQryInvestorProdRuleMargin& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_portf_setting")>]
+    extern int reqQryInvestorPortfSetting(nativeint handle, NativeQryInvestorPortfSetting& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_info_comm_rec")>]
+    extern int reqQryInvestorInfoCommRec(nativeint handle, NativeQryInvestorInfoCommRec& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_leg")>]
+    extern int reqQryCombLeg(nativeint handle, NativeQryCombLeg& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_offset_setting")>]
+    extern int reqQryOffsetSetting(nativeint handle, NativeQryOffsetSetting& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spd_apply")>]
+    extern int reqQrySpdApply(nativeint handle, NativeQrySpdApply& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_hedge_cfm")>]
+    extern int reqQryHedgeCfm(nativeint handle, NativeQryHedgeCfm& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_from_bank_to_future_by_future")>]
+    extern int reqFromBankToFutureByFuture(nativeint handle, NativeReqTransfer& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_from_future_to_bank_by_future")>]
+    extern int reqFromFutureToBankByFuture(nativeint handle, NativeReqTransfer& request, int requestId)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_query_bank_account_money_by_future")>]
+    extern int reqQueryBankAccountMoneyByFuture(nativeint handle, NativeReqQueryAccount& request, int requestId)
 
 type private TraderApiSafeHandle private () =
     inherit SafeHandleZeroOrMinusOneIsInvalid(true)
@@ -1269,6 +14128,94 @@ type private TraderApiSafeHandle private () =
         BridgeResolver.ensureRegistered ()
         TraderNativeInterop.destroy this.handle
         true
+
+module private TraderBridgeGenerated =
+    let private getFieldSize (fieldInfo: System.Reflection.FieldInfo) =
+        fieldInfo.GetCustomAttributes(typeof<MarshalAsAttribute>, false)
+        |> Array.tryHead
+        |> Option.map (fun attribute -> (attribute :?> MarshalAsAttribute).SizeConst)
+
+    let private nativeFieldMap<'T> =
+        typeof<'T>.GetFields(System.Reflection.BindingFlags.Instance ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic)
+        |> Array.map (fun field -> field.Name, field)
+        |> dict
+
+    let private encodeStringField encoding size value =
+        if isNull value then
+            EncodingHelpers.encodeFixed encoding size None
+        else
+            EncodingHelpers.encodeFixed encoding size (Some value)
+
+    let mapNative<'Record, 'Native> encoding (value: 'Native) : 'Record =
+        let nativeFields = nativeFieldMap<'Native>
+        let values =
+            FSharpType.GetRecordFields typeof<'Record>
+            |> Array.map (fun field ->
+                let nativeField = nativeFields[field.Name]
+                let nativeValue = nativeField.GetValue(box value)
+
+                if field.PropertyType = typeof<string> then
+                    box (EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array))
+                elif field.PropertyType = typeof<char option> then
+                    box (EncodingHelpers.byteToChar (unbox<byte> nativeValue))
+                elif field.PropertyType = typeof<decimal> then
+                    box (NumericHelpers.priceOrInvalid (unbox<float> nativeValue))
+                elif field.PropertyType = typeof<int> then
+                    if nativeField.FieldType = typeof<int16> then
+                        box (int (unbox<int16> nativeValue))
+                    else
+                        nativeValue
+                else
+                    invalidOp $"Unsupported record field type '{field.PropertyType.FullName}' for generated trader bridge mapping."
+            )
+
+        FSharpValue.MakeRecord(typeof<'Record>, values) :?> 'Record
+
+    let private setFieldValue (boxedNative: obj) (fieldInfo: System.Reflection.FieldInfo) value =
+        fieldInfo.SetValue(boxedNative, value)
+
+    let private buildNativeInternal<'Record, 'Native when 'Native: struct> encoding requestIdOpt (record: 'Record) : 'Native =
+        let nativeFields = nativeFieldMap<'Native>
+        let recordFields =
+            FSharpType.GetRecordFields typeof<'Record>
+            |> Array.map (fun field -> field.Name, field)
+            |> dict
+
+        let boxedNative = box (System.Activator.CreateInstance<'Native>())
+
+        for KeyValue(_, nativeField) in nativeFields do
+            match recordFields.TryGetValue nativeField.Name with
+            | true, recordField ->
+                let recordValue = recordField.GetValue(box record)
+                let nativeValue =
+                    if nativeField.FieldType = typeof<byte array> then
+                        let size = getFieldSize nativeField |> Option.defaultWith (fun () -> invalidOp $"Missing MarshalAs size for field '{nativeField.Name}'.")
+                        box (encodeStringField encoding size (recordValue :?> string))
+                    elif nativeField.FieldType = typeof<byte> && recordField.PropertyType = typeof<char option> then
+                        box (EncodingHelpers.charToByte (recordValue :?> char option))
+                    elif nativeField.FieldType = typeof<float> && recordField.PropertyType = typeof<decimal> then
+                        box (float (unbox<decimal> recordValue))
+                    elif nativeField.FieldType = typeof<int16> && recordField.PropertyType = typeof<int> then
+                        box (int16 (unbox<int> recordValue))
+                    else
+                        recordValue
+                setFieldValue boxedNative nativeField nativeValue
+            | _ -> ()
+
+        match requestIdOpt with
+        | Some requestId ->
+            match nativeFields.TryGetValue "RequestId" with
+            | true, nativeField when nativeField.FieldType = typeof<int> -> setFieldValue boxedNative nativeField (box requestId)
+            | _ -> ()
+        | None -> ()
+
+        unbox<'Native> boxedNative
+
+    let buildNative<'Record, 'Native when 'Native: struct> encoding (record: 'Record) : 'Native =
+        buildNativeInternal<'Record, 'Native> encoding None record
+
+    let buildNativeWithRequestId<'Record, 'Native when 'Native: struct> encoding requestId (record: 'Record) : 'Native =
+        buildNativeInternal<'Record, 'Native> encoding (Some requestId) record
 
 module private TraderBridgeMapping =
     let private toDecimal value = NumericHelpers.priceOrInvalid value
@@ -1501,6 +14448,618 @@ module private TraderBridgeMapping =
           TradeTime = EncodingHelpers.decodeFixed encoding value.TradeTime
           TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay }
 
+    let accountregister encoding (value: NativeAccountregister) : Accountregister =
+        TraderBridgeGenerated.mapNative<Accountregister, NativeAccountregister> encoding value
+
+    let batchOrderAction encoding (value: NativeBatchOrderAction) : BatchOrderAction =
+        TraderBridgeGenerated.mapNative<BatchOrderAction, NativeBatchOrderAction> encoding value
+
+    let brokerTradingAlgos encoding (value: NativeBrokerTradingAlgos) : BrokerTradingAlgos =
+        TraderBridgeGenerated.mapNative<BrokerTradingAlgos, NativeBrokerTradingAlgos> encoding value
+
+    let brokerTradingParams encoding (value: NativeBrokerTradingParams) : BrokerTradingParams =
+        TraderBridgeGenerated.mapNative<BrokerTradingParams, NativeBrokerTradingParams> encoding value
+
+    let cancelOffsetSetting encoding (value: NativeCancelOffsetSetting) : CancelOffsetSetting =
+        TraderBridgeGenerated.mapNative<CancelOffsetSetting, NativeCancelOffsetSetting> encoding value
+
+    let cfmmcTradingAccountKey encoding (value: NativeCfmmcTradingAccountKey) : CfmmcTradingAccountKey =
+        TraderBridgeGenerated.mapNative<CfmmcTradingAccountKey, NativeCfmmcTradingAccountKey> encoding value
+
+    let combAction encoding (value: NativeCombAction) : CombAction =
+        TraderBridgeGenerated.mapNative<CombAction, NativeCombAction> encoding value
+
+    let combInstrumentGuard encoding (value: NativeCombInstrumentGuard) : CombInstrumentGuard =
+        TraderBridgeGenerated.mapNative<CombInstrumentGuard, NativeCombInstrumentGuard> encoding value
+
+    let combLeg encoding (value: NativeCombLeg) : CombLeg =
+        TraderBridgeGenerated.mapNative<CombLeg, NativeCombLeg> encoding value
+
+    let combPromotionParam encoding (value: NativeCombPromotionParam) : CombPromotionParam =
+        TraderBridgeGenerated.mapNative<CombPromotionParam, NativeCombPromotionParam> encoding value
+
+    let contractBank encoding (value: NativeContractBank) : ContractBank =
+        TraderBridgeGenerated.mapNative<ContractBank, NativeContractBank> encoding value
+
+    let depthMarketData encoding (value: NativeTraderDepthMarketData) : DepthMarketData =
+        TraderBridgeGenerated.mapNative<DepthMarketData, NativeTraderDepthMarketData> encoding value
+
+    let eWarrantOffset encoding (value: NativeEWarrantOffset) : EWarrantOffset =
+        TraderBridgeGenerated.mapNative<EWarrantOffset, NativeEWarrantOffset> encoding value
+
+    let exchange encoding (value: NativeExchange) : Exchange =
+        TraderBridgeGenerated.mapNative<Exchange, NativeExchange> encoding value
+
+    let exchangeMarginRateAdjust encoding (value: NativeExchangeMarginRateAdjust) : ExchangeMarginRateAdjust =
+        TraderBridgeGenerated.mapNative<ExchangeMarginRateAdjust, NativeExchangeMarginRateAdjust> encoding value
+
+    let exchangeRate encoding (value: NativeExchangeRate) : ExchangeRate =
+        TraderBridgeGenerated.mapNative<ExchangeRate, NativeExchangeRate> encoding value
+
+    let execOrder encoding (value: NativeExecOrder) : ExecOrder =
+        TraderBridgeGenerated.mapNative<ExecOrder, NativeExecOrder> encoding value
+
+    let execOrderAction encoding (value: NativeExecOrderAction) : ExecOrderAction =
+        TraderBridgeGenerated.mapNative<ExecOrderAction, NativeExecOrderAction> encoding value
+
+    let fensUserInfo encoding (value: NativeFensUserInfo) : FensUserInfo =
+        TraderBridgeGenerated.mapNative<FensUserInfo, NativeFensUserInfo> encoding value
+
+    let forQuote encoding (value: NativeForQuote) : ForQuote =
+        TraderBridgeGenerated.mapNative<ForQuote, NativeForQuote> encoding value
+
+    let forQuoteRsp encoding (value: NativeForQuoteRsp) : ForQuoteRsp =
+        TraderBridgeGenerated.mapNative<ForQuoteRsp, NativeForQuoteRsp> encoding value
+
+    let frontInfo encoding (value: NativeFrontInfo) : FrontInfo =
+        TraderBridgeGenerated.mapNative<FrontInfo, NativeFrontInfo> encoding value
+
+    let hedgeCfm encoding (value: NativeHedgeCfm) : HedgeCfm =
+        TraderBridgeGenerated.mapNative<HedgeCfm, NativeHedgeCfm> encoding value
+
+    let hedgeCfmAction encoding (value: NativeHedgeCfmAction) : HedgeCfmAction =
+        TraderBridgeGenerated.mapNative<HedgeCfmAction, NativeHedgeCfmAction> encoding value
+
+    let inputBatchOrderAction encoding (value: NativeInputBatchOrderAction) : InputBatchOrderAction =
+        TraderBridgeGenerated.mapNative<InputBatchOrderAction, NativeInputBatchOrderAction> encoding value
+
+    let inputCombAction encoding (value: NativeInputCombAction) : InputCombAction =
+        TraderBridgeGenerated.mapNative<InputCombAction, NativeInputCombAction> encoding value
+
+    let inputExecOrder encoding (value: NativeInputExecOrder) : InputExecOrder =
+        TraderBridgeGenerated.mapNative<InputExecOrder, NativeInputExecOrder> encoding value
+
+    let inputExecOrderAction encoding (value: NativeInputExecOrderAction) : InputExecOrderAction =
+        TraderBridgeGenerated.mapNative<InputExecOrderAction, NativeInputExecOrderAction> encoding value
+
+    let inputForQuote encoding (value: NativeInputForQuote) : InputForQuote =
+        TraderBridgeGenerated.mapNative<InputForQuote, NativeInputForQuote> encoding value
+
+    let inputHedgeCfm encoding (value: NativeInputHedgeCfm) : InputHedgeCfm =
+        TraderBridgeGenerated.mapNative<InputHedgeCfm, NativeInputHedgeCfm> encoding value
+
+    let inputHedgeCfmAction encoding (value: NativeInputHedgeCfmAction) : InputHedgeCfmAction =
+        TraderBridgeGenerated.mapNative<InputHedgeCfmAction, NativeInputHedgeCfmAction> encoding value
+
+    let inputOffsetSetting encoding (value: NativeInputOffsetSetting) : InputOffsetSetting =
+        TraderBridgeGenerated.mapNative<InputOffsetSetting, NativeInputOffsetSetting> encoding value
+
+    let inputOptionSelfClose encoding (value: NativeInputOptionSelfClose) : InputOptionSelfClose =
+        TraderBridgeGenerated.mapNative<InputOptionSelfClose, NativeInputOptionSelfClose> encoding value
+
+    let inputOptionSelfCloseAction encoding (value: NativeInputOptionSelfCloseAction) : InputOptionSelfCloseAction =
+        TraderBridgeGenerated.mapNative<InputOptionSelfCloseAction, NativeInputOptionSelfCloseAction> encoding value
+
+    let inputQuote encoding (value: NativeInputQuote) : InputQuote =
+        TraderBridgeGenerated.mapNative<InputQuote, NativeInputQuote> encoding value
+
+    let inputQuoteAction encoding (value: NativeInputQuoteAction) : InputQuoteAction =
+        TraderBridgeGenerated.mapNative<InputQuoteAction, NativeInputQuoteAction> encoding value
+
+    let inputSpdApply encoding (value: NativeInputSpdApply) : InputSpdApply =
+        TraderBridgeGenerated.mapNative<InputSpdApply, NativeInputSpdApply> encoding value
+
+    let inputSpdApplyAction encoding (value: NativeInputSpdApplyAction) : InputSpdApplyAction =
+        TraderBridgeGenerated.mapNative<InputSpdApplyAction, NativeInputSpdApplyAction> encoding value
+
+    let instrument encoding (value: NativeInstrument) : Instrument =
+        TraderBridgeGenerated.mapNative<Instrument, NativeInstrument> encoding value
+
+    let instrumentOrderCommRate encoding (value: NativeInstrumentOrderCommRate) : InstrumentOrderCommRate =
+        TraderBridgeGenerated.mapNative<InstrumentOrderCommRate, NativeInstrumentOrderCommRate> encoding value
+
+    let investUnit encoding (value: NativeInvestUnit) : InvestUnit =
+        TraderBridgeGenerated.mapNative<InvestUnit, NativeInvestUnit> encoding value
+
+    let investor encoding (value: NativeInvestor) : Investor =
+        TraderBridgeGenerated.mapNative<Investor, NativeInvestor> encoding value
+
+    let investorCommodityGroupSpmmMargin encoding (value: NativeInvestorCommodityGroupSpmmMargin) : InvestorCommodityGroupSpmmMargin =
+        TraderBridgeGenerated.mapNative<InvestorCommodityGroupSpmmMargin, NativeInvestorCommodityGroupSpmmMargin> encoding value
+
+    let investorCommoditySpmmMargin encoding (value: NativeInvestorCommoditySpmmMargin) : InvestorCommoditySpmmMargin =
+        TraderBridgeGenerated.mapNative<InvestorCommoditySpmmMargin, NativeInvestorCommoditySpmmMargin> encoding value
+
+    let investorInfoCommRec encoding (value: NativeInvestorInfoCommRec) : InvestorInfoCommRec =
+        TraderBridgeGenerated.mapNative<InvestorInfoCommRec, NativeInvestorInfoCommRec> encoding value
+
+    let investorPortfMarginRatio encoding (value: NativeInvestorPortfMarginRatio) : InvestorPortfMarginRatio =
+        TraderBridgeGenerated.mapNative<InvestorPortfMarginRatio, NativeInvestorPortfMarginRatio> encoding value
+
+    let investorPortfSetting encoding (value: NativeInvestorPortfSetting) : InvestorPortfSetting =
+        TraderBridgeGenerated.mapNative<InvestorPortfSetting, NativeInvestorPortfSetting> encoding value
+
+    let investorPositionCombineDetail encoding (value: NativeInvestorPositionCombineDetail) : InvestorPositionCombineDetail =
+        TraderBridgeGenerated.mapNative<InvestorPositionCombineDetail, NativeInvestorPositionCombineDetail> encoding value
+
+    let investorPositionDetail encoding (value: NativeInvestorPositionDetail) : InvestorPositionDetail =
+        TraderBridgeGenerated.mapNative<InvestorPositionDetail, NativeInvestorPositionDetail> encoding value
+
+    let investorProdRcamsMargin encoding (value: NativeInvestorProdRcamsMargin) : InvestorProdRcamsMargin =
+        TraderBridgeGenerated.mapNative<InvestorProdRcamsMargin, NativeInvestorProdRcamsMargin> encoding value
+
+    let investorProdRuleMargin encoding (value: NativeInvestorProdRuleMargin) : InvestorProdRuleMargin =
+        TraderBridgeGenerated.mapNative<InvestorProdRuleMargin, NativeInvestorProdRuleMargin> encoding value
+
+    let investorProdSpbmDetail encoding (value: NativeInvestorProdSpbmDetail) : InvestorProdSpbmDetail =
+        TraderBridgeGenerated.mapNative<InvestorProdSpbmDetail, NativeInvestorProdSpbmDetail> encoding value
+
+    let investorProductGroupMargin encoding (value: NativeInvestorProductGroupMargin) : InvestorProductGroupMargin =
+        TraderBridgeGenerated.mapNative<InvestorProductGroupMargin, NativeInvestorProductGroupMargin> encoding value
+
+    let mmInstrumentCommissionRate encoding (value: NativeMmInstrumentCommissionRate) : MmInstrumentCommissionRate =
+        TraderBridgeGenerated.mapNative<MmInstrumentCommissionRate, NativeMmInstrumentCommissionRate> encoding value
+
+    let mmOptionInstrCommRate encoding (value: NativeMmOptionInstrCommRate) : MmOptionInstrCommRate =
+        TraderBridgeGenerated.mapNative<MmOptionInstrCommRate, NativeMmOptionInstrCommRate> encoding value
+
+    let notice encoding (value: NativeNotice) : Notice =
+        TraderBridgeGenerated.mapNative<Notice, NativeNotice> encoding value
+
+    let notifyQueryAccount encoding (value: NativeNotifyQueryAccount) : NotifyQueryAccount =
+        TraderBridgeGenerated.mapNative<NotifyQueryAccount, NativeNotifyQueryAccount> encoding value
+
+    let offsetSetting encoding (value: NativeOffsetSetting) : OffsetSetting =
+        TraderBridgeGenerated.mapNative<OffsetSetting, NativeOffsetSetting> encoding value
+
+    let optionInstrCommRate encoding (value: NativeOptionInstrCommRate) : OptionInstrCommRate =
+        TraderBridgeGenerated.mapNative<OptionInstrCommRate, NativeOptionInstrCommRate> encoding value
+
+    let optionInstrTradeCost encoding (value: NativeOptionInstrTradeCost) : OptionInstrTradeCost =
+        TraderBridgeGenerated.mapNative<OptionInstrTradeCost, NativeOptionInstrTradeCost> encoding value
+
+    let optionSelfClose encoding (value: NativeOptionSelfClose) : OptionSelfClose =
+        TraderBridgeGenerated.mapNative<OptionSelfClose, NativeOptionSelfClose> encoding value
+
+    let optionSelfCloseAction encoding (value: NativeOptionSelfCloseAction) : OptionSelfCloseAction =
+        TraderBridgeGenerated.mapNative<OptionSelfCloseAction, NativeOptionSelfCloseAction> encoding value
+
+    let orderAction encoding (value: NativeOrderAction) : OrderAction =
+        TraderBridgeGenerated.mapNative<OrderAction, NativeOrderAction> encoding value
+
+    let parkedOrder encoding (value: NativeParkedOrder) : ParkedOrder =
+        TraderBridgeGenerated.mapNative<ParkedOrder, NativeParkedOrder> encoding value
+
+    let parkedOrderAction encoding (value: NativeParkedOrderAction) : ParkedOrderAction =
+        TraderBridgeGenerated.mapNative<ParkedOrderAction, NativeParkedOrderAction> encoding value
+
+    let product encoding (value: NativeProduct) : Product =
+        TraderBridgeGenerated.mapNative<Product, NativeProduct> encoding value
+
+    let productExchRate encoding (value: NativeProductExchRate) : ProductExchRate =
+        TraderBridgeGenerated.mapNative<ProductExchRate, NativeProductExchRate> encoding value
+
+    let productGroup encoding (value: NativeProductGroup) : ProductGroup =
+        TraderBridgeGenerated.mapNative<ProductGroup, NativeProductGroup> encoding value
+
+    let qryAccountregister encoding (value: NativeQryAccountregister) : QryAccountregister =
+        TraderBridgeGenerated.mapNative<QryAccountregister, NativeQryAccountregister> encoding value
+
+    let qryBrokerTradingAlgos encoding (value: NativeQryBrokerTradingAlgos) : QryBrokerTradingAlgos =
+        TraderBridgeGenerated.mapNative<QryBrokerTradingAlgos, NativeQryBrokerTradingAlgos> encoding value
+
+    let qryBrokerTradingParams encoding (value: NativeQryBrokerTradingParams) : QryBrokerTradingParams =
+        TraderBridgeGenerated.mapNative<QryBrokerTradingParams, NativeQryBrokerTradingParams> encoding value
+
+    let qryCfmmcTradingAccountKey encoding (value: NativeQryCfmmcTradingAccountKey) : QryCfmmcTradingAccountKey =
+        TraderBridgeGenerated.mapNative<QryCfmmcTradingAccountKey, NativeQryCfmmcTradingAccountKey> encoding value
+
+    let qryClassifiedInstrument encoding (value: NativeQryClassifiedInstrument) : QryClassifiedInstrument =
+        TraderBridgeGenerated.mapNative<QryClassifiedInstrument, NativeQryClassifiedInstrument> encoding value
+
+    let qryCombAction encoding (value: NativeQryCombAction) : QryCombAction =
+        TraderBridgeGenerated.mapNative<QryCombAction, NativeQryCombAction> encoding value
+
+    let qryCombInstrumentGuard encoding (value: NativeQryCombInstrumentGuard) : QryCombInstrumentGuard =
+        TraderBridgeGenerated.mapNative<QryCombInstrumentGuard, NativeQryCombInstrumentGuard> encoding value
+
+    let qryCombLeg encoding (value: NativeQryCombLeg) : QryCombLeg =
+        TraderBridgeGenerated.mapNative<QryCombLeg, NativeQryCombLeg> encoding value
+
+    let qryCombPromotionParam encoding (value: NativeQryCombPromotionParam) : QryCombPromotionParam =
+        TraderBridgeGenerated.mapNative<QryCombPromotionParam, NativeQryCombPromotionParam> encoding value
+
+    let qryContractBank encoding (value: NativeQryContractBank) : QryContractBank =
+        TraderBridgeGenerated.mapNative<QryContractBank, NativeQryContractBank> encoding value
+
+    let qryDepthMarketData encoding (value: NativeQryDepthMarketData) : QryDepthMarketData =
+        TraderBridgeGenerated.mapNative<QryDepthMarketData, NativeQryDepthMarketData> encoding value
+
+    let qryEWarrantOffset encoding (value: NativeQryEWarrantOffset) : QryEWarrantOffset =
+        TraderBridgeGenerated.mapNative<QryEWarrantOffset, NativeQryEWarrantOffset> encoding value
+
+    let qryExchange encoding (value: NativeQryExchange) : QryExchange =
+        TraderBridgeGenerated.mapNative<QryExchange, NativeQryExchange> encoding value
+
+    let qryExchangeMarginRateAdjust encoding (value: NativeQryExchangeMarginRateAdjust) : QryExchangeMarginRateAdjust =
+        TraderBridgeGenerated.mapNative<QryExchangeMarginRateAdjust, NativeQryExchangeMarginRateAdjust> encoding value
+
+    let qryExchangeRate encoding (value: NativeQryExchangeRate) : QryExchangeRate =
+        TraderBridgeGenerated.mapNative<QryExchangeRate, NativeQryExchangeRate> encoding value
+
+    let qryExecOrder encoding (value: NativeQryExecOrder) : QryExecOrder =
+        TraderBridgeGenerated.mapNative<QryExecOrder, NativeQryExecOrder> encoding value
+
+    let qryForQuote encoding (value: NativeQryForQuote) : QryForQuote =
+        TraderBridgeGenerated.mapNative<QryForQuote, NativeQryForQuote> encoding value
+
+    let qryHedgeCfm encoding (value: NativeQryHedgeCfm) : QryHedgeCfm =
+        TraderBridgeGenerated.mapNative<QryHedgeCfm, NativeQryHedgeCfm> encoding value
+
+    let qryInstrument encoding (value: NativeQryInstrument) : QryInstrument =
+        TraderBridgeGenerated.mapNative<QryInstrument, NativeQryInstrument> encoding value
+
+    let qryInstrumentOrderCommRate encoding (value: NativeQryInstrumentOrderCommRate) : QryInstrumentOrderCommRate =
+        TraderBridgeGenerated.mapNative<QryInstrumentOrderCommRate, NativeQryInstrumentOrderCommRate> encoding value
+
+    let qryInvestUnit encoding (value: NativeQryInvestUnit) : QryInvestUnit =
+        TraderBridgeGenerated.mapNative<QryInvestUnit, NativeQryInvestUnit> encoding value
+
+    let qryInvestor encoding (value: NativeQryInvestor) : QryInvestor =
+        TraderBridgeGenerated.mapNative<QryInvestor, NativeQryInvestor> encoding value
+
+    let qryInvestorCommodityGroupSpmmMargin encoding (value: NativeQryInvestorCommodityGroupSpmmMargin) : QryInvestorCommodityGroupSpmmMargin =
+        TraderBridgeGenerated.mapNative<QryInvestorCommodityGroupSpmmMargin, NativeQryInvestorCommodityGroupSpmmMargin> encoding value
+
+    let qryInvestorCommoditySpmmMargin encoding (value: NativeQryInvestorCommoditySpmmMargin) : QryInvestorCommoditySpmmMargin =
+        TraderBridgeGenerated.mapNative<QryInvestorCommoditySpmmMargin, NativeQryInvestorCommoditySpmmMargin> encoding value
+
+    let qryInvestorInfoCommRec encoding (value: NativeQryInvestorInfoCommRec) : QryInvestorInfoCommRec =
+        TraderBridgeGenerated.mapNative<QryInvestorInfoCommRec, NativeQryInvestorInfoCommRec> encoding value
+
+    let qryInvestorPortfMarginRatio encoding (value: NativeQryInvestorPortfMarginRatio) : QryInvestorPortfMarginRatio =
+        TraderBridgeGenerated.mapNative<QryInvestorPortfMarginRatio, NativeQryInvestorPortfMarginRatio> encoding value
+
+    let qryInvestorPortfSetting encoding (value: NativeQryInvestorPortfSetting) : QryInvestorPortfSetting =
+        TraderBridgeGenerated.mapNative<QryInvestorPortfSetting, NativeQryInvestorPortfSetting> encoding value
+
+    let qryInvestorPositionCombineDetail encoding (value: NativeQryInvestorPositionCombineDetail) : QryInvestorPositionCombineDetail =
+        TraderBridgeGenerated.mapNative<QryInvestorPositionCombineDetail, NativeQryInvestorPositionCombineDetail> encoding value
+
+    let qryInvestorPositionDetail encoding (value: NativeQryInvestorPositionDetail) : QryInvestorPositionDetail =
+        TraderBridgeGenerated.mapNative<QryInvestorPositionDetail, NativeQryInvestorPositionDetail> encoding value
+
+    let qryInvestorProdRcamsMargin encoding (value: NativeQryInvestorProdRcamsMargin) : QryInvestorProdRcamsMargin =
+        TraderBridgeGenerated.mapNative<QryInvestorProdRcamsMargin, NativeQryInvestorProdRcamsMargin> encoding value
+
+    let qryInvestorProdRuleMargin encoding (value: NativeQryInvestorProdRuleMargin) : QryInvestorProdRuleMargin =
+        TraderBridgeGenerated.mapNative<QryInvestorProdRuleMargin, NativeQryInvestorProdRuleMargin> encoding value
+
+    let qryInvestorProdSpbmDetail encoding (value: NativeQryInvestorProdSpbmDetail) : QryInvestorProdSpbmDetail =
+        TraderBridgeGenerated.mapNative<QryInvestorProdSpbmDetail, NativeQryInvestorProdSpbmDetail> encoding value
+
+    let qryInvestorProductGroupMargin encoding (value: NativeQryInvestorProductGroupMargin) : QryInvestorProductGroupMargin =
+        TraderBridgeGenerated.mapNative<QryInvestorProductGroupMargin, NativeQryInvestorProductGroupMargin> encoding value
+
+    let qryMaxOrderVolume encoding (value: NativeQryMaxOrderVolume) : QryMaxOrderVolume =
+        TraderBridgeGenerated.mapNative<QryMaxOrderVolume, NativeQryMaxOrderVolume> encoding value
+
+    let qryMmInstrumentCommissionRate encoding (value: NativeQryMmInstrumentCommissionRate) : QryMmInstrumentCommissionRate =
+        TraderBridgeGenerated.mapNative<QryMmInstrumentCommissionRate, NativeQryMmInstrumentCommissionRate> encoding value
+
+    let qryMmOptionInstrCommRate encoding (value: NativeQryMmOptionInstrCommRate) : QryMmOptionInstrCommRate =
+        TraderBridgeGenerated.mapNative<QryMmOptionInstrCommRate, NativeQryMmOptionInstrCommRate> encoding value
+
+    let qryNotice encoding (value: NativeQryNotice) : QryNotice =
+        TraderBridgeGenerated.mapNative<QryNotice, NativeQryNotice> encoding value
+
+    let qryOffsetSetting encoding (value: NativeQryOffsetSetting) : QryOffsetSetting =
+        TraderBridgeGenerated.mapNative<QryOffsetSetting, NativeQryOffsetSetting> encoding value
+
+    let qryOptionInstrCommRate encoding (value: NativeQryOptionInstrCommRate) : QryOptionInstrCommRate =
+        TraderBridgeGenerated.mapNative<QryOptionInstrCommRate, NativeQryOptionInstrCommRate> encoding value
+
+    let qryOptionInstrTradeCost encoding (value: NativeQryOptionInstrTradeCost) : QryOptionInstrTradeCost =
+        TraderBridgeGenerated.mapNative<QryOptionInstrTradeCost, NativeQryOptionInstrTradeCost> encoding value
+
+    let qryOptionSelfClose encoding (value: NativeQryOptionSelfClose) : QryOptionSelfClose =
+        TraderBridgeGenerated.mapNative<QryOptionSelfClose, NativeQryOptionSelfClose> encoding value
+
+    let qryOrder encoding (value: NativeQryOrder) : QryOrder =
+        TraderBridgeGenerated.mapNative<QryOrder, NativeQryOrder> encoding value
+
+    let qryParkedOrder encoding (value: NativeQryParkedOrder) : QryParkedOrder =
+        TraderBridgeGenerated.mapNative<QryParkedOrder, NativeQryParkedOrder> encoding value
+
+    let qryParkedOrderAction encoding (value: NativeQryParkedOrderAction) : QryParkedOrderAction =
+        TraderBridgeGenerated.mapNative<QryParkedOrderAction, NativeQryParkedOrderAction> encoding value
+
+    let qryProduct encoding (value: NativeQryProduct) : QryProduct =
+        TraderBridgeGenerated.mapNative<QryProduct, NativeQryProduct> encoding value
+
+    let qryProductExchRate encoding (value: NativeQryProductExchRate) : QryProductExchRate =
+        TraderBridgeGenerated.mapNative<QryProductExchRate, NativeQryProductExchRate> encoding value
+
+    let qryProductGroup encoding (value: NativeQryProductGroup) : QryProductGroup =
+        TraderBridgeGenerated.mapNative<QryProductGroup, NativeQryProductGroup> encoding value
+
+    let qryQuote encoding (value: NativeQryQuote) : QryQuote =
+        TraderBridgeGenerated.mapNative<QryQuote, NativeQryQuote> encoding value
+
+    let qryRcamsCombProductInfo encoding (value: NativeQryRcamsCombProductInfo) : QryRcamsCombProductInfo =
+        TraderBridgeGenerated.mapNative<QryRcamsCombProductInfo, NativeQryRcamsCombProductInfo> encoding value
+
+    let qryRcamsInstrParameter encoding (value: NativeQryRcamsInstrParameter) : QryRcamsInstrParameter =
+        TraderBridgeGenerated.mapNative<QryRcamsInstrParameter, NativeQryRcamsInstrParameter> encoding value
+
+    let qryRcamsInterParameter encoding (value: NativeQryRcamsInterParameter) : QryRcamsInterParameter =
+        TraderBridgeGenerated.mapNative<QryRcamsInterParameter, NativeQryRcamsInterParameter> encoding value
+
+    let qryRcamsIntraParameter encoding (value: NativeQryRcamsIntraParameter) : QryRcamsIntraParameter =
+        TraderBridgeGenerated.mapNative<QryRcamsIntraParameter, NativeQryRcamsIntraParameter> encoding value
+
+    let qryRcamsInvestorCombPosition encoding (value: NativeQryRcamsInvestorCombPosition) : QryRcamsInvestorCombPosition =
+        TraderBridgeGenerated.mapNative<QryRcamsInvestorCombPosition, NativeQryRcamsInvestorCombPosition> encoding value
+
+    let qryRcamsShortOptAdjustParam encoding (value: NativeQryRcamsShortOptAdjustParam) : QryRcamsShortOptAdjustParam =
+        TraderBridgeGenerated.mapNative<QryRcamsShortOptAdjustParam, NativeQryRcamsShortOptAdjustParam> encoding value
+
+    let qryRiskSettleInvstPosition encoding (value: NativeQryRiskSettleInvstPosition) : QryRiskSettleInvstPosition =
+        TraderBridgeGenerated.mapNative<QryRiskSettleInvstPosition, NativeQryRiskSettleInvstPosition> encoding value
+
+    let qryRiskSettleProductStatus encoding (value: NativeQryRiskSettleProductStatus) : QryRiskSettleProductStatus =
+        TraderBridgeGenerated.mapNative<QryRiskSettleProductStatus, NativeQryRiskSettleProductStatus> encoding value
+
+    let qryRuleInstrParameter encoding (value: NativeQryRuleInstrParameter) : QryRuleInstrParameter =
+        TraderBridgeGenerated.mapNative<QryRuleInstrParameter, NativeQryRuleInstrParameter> encoding value
+
+    let qryRuleInterParameter encoding (value: NativeQryRuleInterParameter) : QryRuleInterParameter =
+        TraderBridgeGenerated.mapNative<QryRuleInterParameter, NativeQryRuleInterParameter> encoding value
+
+    let qryRuleIntraParameter encoding (value: NativeQryRuleIntraParameter) : QryRuleIntraParameter =
+        TraderBridgeGenerated.mapNative<QryRuleIntraParameter, NativeQryRuleIntraParameter> encoding value
+
+    let qrySecAgentAcIdMap encoding (value: NativeQrySecAgentAcIdMap) : QrySecAgentAcIdMap =
+        TraderBridgeGenerated.mapNative<QrySecAgentAcIdMap, NativeQrySecAgentAcIdMap> encoding value
+
+    let qrySecAgentCheckMode encoding (value: NativeQrySecAgentCheckMode) : QrySecAgentCheckMode =
+        TraderBridgeGenerated.mapNative<QrySecAgentCheckMode, NativeQrySecAgentCheckMode> encoding value
+
+    let qrySecAgentTradeInfo encoding (value: NativeQrySecAgentTradeInfo) : QrySecAgentTradeInfo =
+        TraderBridgeGenerated.mapNative<QrySecAgentTradeInfo, NativeQrySecAgentTradeInfo> encoding value
+
+    let qrySettlementInfo encoding (value: NativeQrySettlementInfo) : QrySettlementInfo =
+        TraderBridgeGenerated.mapNative<QrySettlementInfo, NativeQrySettlementInfo> encoding value
+
+    let qrySettlementInfoConfirm encoding (value: NativeQrySettlementInfoConfirm) : QrySettlementInfoConfirm =
+        TraderBridgeGenerated.mapNative<QrySettlementInfoConfirm, NativeQrySettlementInfoConfirm> encoding value
+
+    let qrySpbmAddOnInterParameter encoding (value: NativeQrySpbmAddOnInterParameter) : QrySpbmAddOnInterParameter =
+        TraderBridgeGenerated.mapNative<QrySpbmAddOnInterParameter, NativeQrySpbmAddOnInterParameter> encoding value
+
+    let qrySpbmFutureParameter encoding (value: NativeQrySpbmFutureParameter) : QrySpbmFutureParameter =
+        TraderBridgeGenerated.mapNative<QrySpbmFutureParameter, NativeQrySpbmFutureParameter> encoding value
+
+    let qrySpbmInterParameter encoding (value: NativeQrySpbmInterParameter) : QrySpbmInterParameter =
+        TraderBridgeGenerated.mapNative<QrySpbmInterParameter, NativeQrySpbmInterParameter> encoding value
+
+    let qrySpbmIntraParameter encoding (value: NativeQrySpbmIntraParameter) : QrySpbmIntraParameter =
+        TraderBridgeGenerated.mapNative<QrySpbmIntraParameter, NativeQrySpbmIntraParameter> encoding value
+
+    let qrySpbmInvestorPortfDef encoding (value: NativeQrySpbmInvestorPortfDef) : QrySpbmInvestorPortfDef =
+        TraderBridgeGenerated.mapNative<QrySpbmInvestorPortfDef, NativeQrySpbmInvestorPortfDef> encoding value
+
+    let qrySpbmOptionParameter encoding (value: NativeQrySpbmOptionParameter) : QrySpbmOptionParameter =
+        TraderBridgeGenerated.mapNative<QrySpbmOptionParameter, NativeQrySpbmOptionParameter> encoding value
+
+    let qrySpbmPortfDefinition encoding (value: NativeQrySpbmPortfDefinition) : QrySpbmPortfDefinition =
+        TraderBridgeGenerated.mapNative<QrySpbmPortfDefinition, NativeQrySpbmPortfDefinition> encoding value
+
+    let qrySpdApply encoding (value: NativeQrySpdApply) : QrySpdApply =
+        TraderBridgeGenerated.mapNative<QrySpdApply, NativeQrySpdApply> encoding value
+
+    let qrySpmmInstParam encoding (value: NativeQrySpmmInstParam) : QrySpmmInstParam =
+        TraderBridgeGenerated.mapNative<QrySpmmInstParam, NativeQrySpmmInstParam> encoding value
+
+    let qrySpmmProductParam encoding (value: NativeQrySpmmProductParam) : QrySpmmProductParam =
+        TraderBridgeGenerated.mapNative<QrySpmmProductParam, NativeQrySpmmProductParam> encoding value
+
+    let qryTrade encoding (value: NativeQryTrade) : QryTrade =
+        TraderBridgeGenerated.mapNative<QryTrade, NativeQryTrade> encoding value
+
+    let qryTraderOffer encoding (value: NativeQryTraderOffer) : QryTraderOffer =
+        TraderBridgeGenerated.mapNative<QryTraderOffer, NativeQryTraderOffer> encoding value
+
+    let qryTradingCode encoding (value: NativeQryTradingCode) : QryTradingCode =
+        TraderBridgeGenerated.mapNative<QryTradingCode, NativeQryTradingCode> encoding value
+
+    let qryTradingNotice encoding (value: NativeQryTradingNotice) : QryTradingNotice =
+        TraderBridgeGenerated.mapNative<QryTradingNotice, NativeQryTradingNotice> encoding value
+
+    let qryTransferBank encoding (value: NativeQryTransferBank) : QryTransferBank =
+        TraderBridgeGenerated.mapNative<QryTransferBank, NativeQryTransferBank> encoding value
+
+    let qryTransferSerial encoding (value: NativeQryTransferSerial) : QryTransferSerial =
+        TraderBridgeGenerated.mapNative<QryTransferSerial, NativeQryTransferSerial> encoding value
+
+    let qryUserSession encoding (value: NativeQryUserSession) : QryUserSession =
+        TraderBridgeGenerated.mapNative<QryUserSession, NativeQryUserSession> encoding value
+
+    let queryCfmmcTradingAccountToken encoding (value: NativeQueryCfmmcTradingAccountToken) : QueryCfmmcTradingAccountToken =
+        TraderBridgeGenerated.mapNative<QueryCfmmcTradingAccountToken, NativeQueryCfmmcTradingAccountToken> encoding value
+
+    let quote encoding (value: NativeQuote) : Quote =
+        TraderBridgeGenerated.mapNative<Quote, NativeQuote> encoding value
+
+    let quoteAction encoding (value: NativeQuoteAction) : QuoteAction =
+        TraderBridgeGenerated.mapNative<QuoteAction, NativeQuoteAction> encoding value
+
+    let rcamsCombProductInfo encoding (value: NativeRcamsCombProductInfo) : RcamsCombProductInfo =
+        TraderBridgeGenerated.mapNative<RcamsCombProductInfo, NativeRcamsCombProductInfo> encoding value
+
+    let rcamsInstrParameter encoding (value: NativeRcamsInstrParameter) : RcamsInstrParameter =
+        TraderBridgeGenerated.mapNative<RcamsInstrParameter, NativeRcamsInstrParameter> encoding value
+
+    let rcamsInterParameter encoding (value: NativeRcamsInterParameter) : RcamsInterParameter =
+        TraderBridgeGenerated.mapNative<RcamsInterParameter, NativeRcamsInterParameter> encoding value
+
+    let rcamsIntraParameter encoding (value: NativeRcamsIntraParameter) : RcamsIntraParameter =
+        TraderBridgeGenerated.mapNative<RcamsIntraParameter, NativeRcamsIntraParameter> encoding value
+
+    let rcamsInvestorCombPosition encoding (value: NativeRcamsInvestorCombPosition) : RcamsInvestorCombPosition =
+        TraderBridgeGenerated.mapNative<RcamsInvestorCombPosition, NativeRcamsInvestorCombPosition> encoding value
+
+    let rcamsShortOptAdjustParam encoding (value: NativeRcamsShortOptAdjustParam) : RcamsShortOptAdjustParam =
+        TraderBridgeGenerated.mapNative<RcamsShortOptAdjustParam, NativeRcamsShortOptAdjustParam> encoding value
+
+    let removeParkedOrder encoding (value: NativeRemoveParkedOrder) : RemoveParkedOrder =
+        TraderBridgeGenerated.mapNative<RemoveParkedOrder, NativeRemoveParkedOrder> encoding value
+
+    let removeParkedOrderAction encoding (value: NativeRemoveParkedOrderAction) : RemoveParkedOrderAction =
+        TraderBridgeGenerated.mapNative<RemoveParkedOrderAction, NativeRemoveParkedOrderAction> encoding value
+
+    let reqGenSmsCode encoding (value: NativeReqGenSmsCode) : ReqGenSmsCode =
+        TraderBridgeGenerated.mapNative<ReqGenSmsCode, NativeReqGenSmsCode> encoding value
+
+    let reqGenUserCaptcha encoding (value: NativeReqGenUserCaptcha) : ReqGenUserCaptcha =
+        TraderBridgeGenerated.mapNative<ReqGenUserCaptcha, NativeReqGenUserCaptcha> encoding value
+
+    let reqGenUserText encoding (value: NativeReqGenUserText) : ReqGenUserText =
+        TraderBridgeGenerated.mapNative<ReqGenUserText, NativeReqGenUserText> encoding value
+
+    let reqQueryAccount encoding (value: NativeReqQueryAccount) : ReqQueryAccount =
+        TraderBridgeGenerated.mapNative<ReqQueryAccount, NativeReqQueryAccount> encoding value
+
+    let reqTransfer encoding (value: NativeReqTransfer) : ReqTransfer =
+        TraderBridgeGenerated.mapNative<ReqTransfer, NativeReqTransfer> encoding value
+
+    let reqUserAuthMethod encoding (value: NativeReqUserAuthMethod) : ReqUserAuthMethod =
+        TraderBridgeGenerated.mapNative<ReqUserAuthMethod, NativeReqUserAuthMethod> encoding value
+
+    let reqUserLoginWithCaptcha encoding (value: NativeReqUserLoginWithCaptcha) : ReqUserLoginWithCaptcha =
+        TraderBridgeGenerated.mapNative<ReqUserLoginWithCaptcha, NativeReqUserLoginWithCaptcha> encoding value
+
+    let reqUserLoginWithOtp encoding (value: NativeReqUserLoginWithOtp) : ReqUserLoginWithOtp =
+        TraderBridgeGenerated.mapNative<ReqUserLoginWithOtp, NativeReqUserLoginWithOtp> encoding value
+
+    let reqUserLoginWithText encoding (value: NativeReqUserLoginWithText) : ReqUserLoginWithText =
+        TraderBridgeGenerated.mapNative<ReqUserLoginWithText, NativeReqUserLoginWithText> encoding value
+
+    let riskSettleInvstPosition encoding (value: NativeRiskSettleInvstPosition) : RiskSettleInvstPosition =
+        TraderBridgeGenerated.mapNative<RiskSettleInvstPosition, NativeRiskSettleInvstPosition> encoding value
+
+    let riskSettleProductStatus encoding (value: NativeRiskSettleProductStatus) : RiskSettleProductStatus =
+        TraderBridgeGenerated.mapNative<RiskSettleProductStatus, NativeRiskSettleProductStatus> encoding value
+
+    let rspGenSmsCode encoding (value: NativeRspGenSmsCode) : RspGenSmsCode =
+        TraderBridgeGenerated.mapNative<RspGenSmsCode, NativeRspGenSmsCode> encoding value
+
+    let rspGenUserCaptcha encoding (value: NativeRspGenUserCaptcha) : RspGenUserCaptcha =
+        TraderBridgeGenerated.mapNative<RspGenUserCaptcha, NativeRspGenUserCaptcha> encoding value
+
+    let rspGenUserText encoding (value: NativeRspGenUserText) : RspGenUserText =
+        TraderBridgeGenerated.mapNative<RspGenUserText, NativeRspGenUserText> encoding value
+
+    let rspTransfer encoding (value: NativeRspTransfer) : RspTransfer =
+        TraderBridgeGenerated.mapNative<RspTransfer, NativeRspTransfer> encoding value
+
+    let rspUserAuthMethod encoding (value: NativeRspUserAuthMethod) : RspUserAuthMethod =
+        TraderBridgeGenerated.mapNative<RspUserAuthMethod, NativeRspUserAuthMethod> encoding value
+
+    let ruleInstrParameter encoding (value: NativeRuleInstrParameter) : RuleInstrParameter =
+        TraderBridgeGenerated.mapNative<RuleInstrParameter, NativeRuleInstrParameter> encoding value
+
+    let ruleInterParameter encoding (value: NativeRuleInterParameter) : RuleInterParameter =
+        TraderBridgeGenerated.mapNative<RuleInterParameter, NativeRuleInterParameter> encoding value
+
+    let ruleIntraParameter encoding (value: NativeRuleIntraParameter) : RuleIntraParameter =
+        TraderBridgeGenerated.mapNative<RuleIntraParameter, NativeRuleIntraParameter> encoding value
+
+    let secAgentAcIdMap encoding (value: NativeSecAgentAcIdMap) : SecAgentAcIdMap =
+        TraderBridgeGenerated.mapNative<SecAgentAcIdMap, NativeSecAgentAcIdMap> encoding value
+
+    let secAgentCheckMode encoding (value: NativeSecAgentCheckMode) : SecAgentCheckMode =
+        TraderBridgeGenerated.mapNative<SecAgentCheckMode, NativeSecAgentCheckMode> encoding value
+
+    let secAgentTradeInfo encoding (value: NativeSecAgentTradeInfo) : SecAgentTradeInfo =
+        TraderBridgeGenerated.mapNative<SecAgentTradeInfo, NativeSecAgentTradeInfo> encoding value
+
+    let settlementInfo encoding (value: NativeSettlementInfo) : SettlementInfo =
+        TraderBridgeGenerated.mapNative<SettlementInfo, NativeSettlementInfo> encoding value
+
+    let spbmAddOnInterParameter encoding (value: NativeSpbmAddOnInterParameter) : SpbmAddOnInterParameter =
+        TraderBridgeGenerated.mapNative<SpbmAddOnInterParameter, NativeSpbmAddOnInterParameter> encoding value
+
+    let spbmFutureParameter encoding (value: NativeSpbmFutureParameter) : SpbmFutureParameter =
+        TraderBridgeGenerated.mapNative<SpbmFutureParameter, NativeSpbmFutureParameter> encoding value
+
+    let spbmInterParameter encoding (value: NativeSpbmInterParameter) : SpbmInterParameter =
+        TraderBridgeGenerated.mapNative<SpbmInterParameter, NativeSpbmInterParameter> encoding value
+
+    let spbmIntraParameter encoding (value: NativeSpbmIntraParameter) : SpbmIntraParameter =
+        TraderBridgeGenerated.mapNative<SpbmIntraParameter, NativeSpbmIntraParameter> encoding value
+
+    let spbmInvestorPortfDef encoding (value: NativeSpbmInvestorPortfDef) : SpbmInvestorPortfDef =
+        TraderBridgeGenerated.mapNative<SpbmInvestorPortfDef, NativeSpbmInvestorPortfDef> encoding value
+
+    let spbmOptionParameter encoding (value: NativeSpbmOptionParameter) : SpbmOptionParameter =
+        TraderBridgeGenerated.mapNative<SpbmOptionParameter, NativeSpbmOptionParameter> encoding value
+
+    let spbmPortfDefinition encoding (value: NativeSpbmPortfDefinition) : SpbmPortfDefinition =
+        TraderBridgeGenerated.mapNative<SpbmPortfDefinition, NativeSpbmPortfDefinition> encoding value
+
+    let spdApply encoding (value: NativeSpdApply) : SpdApply =
+        TraderBridgeGenerated.mapNative<SpdApply, NativeSpdApply> encoding value
+
+    let spdApplyAction encoding (value: NativeSpdApplyAction) : SpdApplyAction =
+        TraderBridgeGenerated.mapNative<SpdApplyAction, NativeSpdApplyAction> encoding value
+
+    let spmmInstParam encoding (value: NativeSpmmInstParam) : SpmmInstParam =
+        TraderBridgeGenerated.mapNative<SpmmInstParam, NativeSpmmInstParam> encoding value
+
+    let spmmProductParam encoding (value: NativeSpmmProductParam) : SpmmProductParam =
+        TraderBridgeGenerated.mapNative<SpmmProductParam, NativeSpmmProductParam> encoding value
+
+    let traderOffer encoding (value: NativeTraderOffer) : TraderOffer =
+        TraderBridgeGenerated.mapNative<TraderOffer, NativeTraderOffer> encoding value
+
+    let tradingAccountPasswordUpdate encoding (value: NativeTradingAccountPasswordUpdate) : TradingAccountPasswordUpdate =
+        TraderBridgeGenerated.mapNative<TradingAccountPasswordUpdate, NativeTradingAccountPasswordUpdate> encoding value
+
+    let tradingCode encoding (value: NativeTradingCode) : TradingCode =
+        TraderBridgeGenerated.mapNative<TradingCode, NativeTradingCode> encoding value
+
+    let tradingNotice encoding (value: NativeTradingNotice) : TradingNotice =
+        TraderBridgeGenerated.mapNative<TradingNotice, NativeTradingNotice> encoding value
+
+    let transferBank encoding (value: NativeTransferBank) : TransferBank =
+        TraderBridgeGenerated.mapNative<TransferBank, NativeTransferBank> encoding value
+
+    let transferSerial encoding (value: NativeTransferSerial) : TransferSerial =
+        TraderBridgeGenerated.mapNative<TransferSerial, NativeTransferSerial> encoding value
+
+    let userPasswordUpdate encoding (value: NativeUserPasswordUpdate) : UserPasswordUpdate =
+        TraderBridgeGenerated.mapNative<UserPasswordUpdate, NativeUserPasswordUpdate> encoding value
+
+    let userSession encoding (value: NativeUserSession) : UserSession =
+        TraderBridgeGenerated.mapNative<UserSession, NativeUserSession> encoding value
+
+    let userSystemInfo encoding (value: NativeUserSystemInfo) : UserSystemInfo =
+        TraderBridgeGenerated.mapNative<UserSystemInfo, NativeUserSystemInfo> encoding value
+
+    let wechatUserSystemInfo encoding (value: NativeWechatUserSystemInfo) : WechatUserSystemInfo =
+        TraderBridgeGenerated.mapNative<WechatUserSystemInfo, NativeWechatUserSystemInfo> encoding value
+
 module private TraderBridgeBuilders =
     let reqAuthenticate encoding (request: AuthenticateRequest) =
         let mutable native = NativeReqAuthenticate()
@@ -1627,6 +15186,351 @@ module private TraderBridgeBuilders =
         native.OrderMemo <- EncodingHelpers.encodeFixed encoding 13 request.OrderMemo
         native
 
+    let fensUserInfo encoding (request: FensUserInfo) : NativeFensUserInfo =
+        TraderBridgeGenerated.buildNative<FensUserInfo, NativeFensUserInfo> encoding request
+
+    let inputBatchOrderAction encoding requestId (request: InputBatchOrderAction) : NativeInputBatchOrderAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputBatchOrderAction, NativeInputBatchOrderAction> encoding requestId request
+
+    let inputCombAction encoding (request: InputCombAction) : NativeInputCombAction =
+        TraderBridgeGenerated.buildNative<InputCombAction, NativeInputCombAction> encoding request
+
+    let inputExecOrder encoding requestId (request: InputExecOrder) : NativeInputExecOrder =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrder, NativeInputExecOrder> encoding requestId request
+
+    let inputExecOrderAction encoding requestId (request: InputExecOrderAction) : NativeInputExecOrderAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderAction, NativeInputExecOrderAction> encoding requestId request
+
+    let inputForQuote encoding (request: InputForQuote) : NativeInputForQuote =
+        TraderBridgeGenerated.buildNative<InputForQuote, NativeInputForQuote> encoding request
+
+    let inputHedgeCfm encoding requestId (request: InputHedgeCfm) : NativeInputHedgeCfm =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfm, NativeInputHedgeCfm> encoding requestId request
+
+    let inputHedgeCfmAction encoding requestId (request: InputHedgeCfmAction) : NativeInputHedgeCfmAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmAction, NativeInputHedgeCfmAction> encoding requestId request
+
+    let inputOffsetSetting encoding requestId (request: InputOffsetSetting) : NativeInputOffsetSetting =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOffsetSetting, NativeInputOffsetSetting> encoding requestId request
+
+    let inputOptionSelfClose encoding requestId (request: InputOptionSelfClose) : NativeInputOptionSelfClose =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfClose, NativeInputOptionSelfClose> encoding requestId request
+
+    let inputOptionSelfCloseAction encoding requestId (request: InputOptionSelfCloseAction) : NativeInputOptionSelfCloseAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfCloseAction, NativeInputOptionSelfCloseAction> encoding requestId request
+
+    let inputQuote encoding requestId (request: InputQuote) : NativeInputQuote =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputQuote, NativeInputQuote> encoding requestId request
+
+    let inputQuoteAction encoding requestId (request: InputQuoteAction) : NativeInputQuoteAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputQuoteAction, NativeInputQuoteAction> encoding requestId request
+
+    let inputSpdApply encoding requestId (request: InputSpdApply) : NativeInputSpdApply =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApply, NativeInputSpdApply> encoding requestId request
+
+    let inputSpdApplyAction encoding requestId (request: InputSpdApplyAction) : NativeInputSpdApplyAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyAction, NativeInputSpdApplyAction> encoding requestId request
+
+    let parkedOrder encoding requestId (request: ParkedOrder) : NativeParkedOrder =
+        TraderBridgeGenerated.buildNativeWithRequestId<ParkedOrder, NativeParkedOrder> encoding requestId request
+
+    let parkedOrderAction encoding requestId (request: ParkedOrderAction) : NativeParkedOrderAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<ParkedOrderAction, NativeParkedOrderAction> encoding requestId request
+
+    let qryAccountregister encoding (request: QryAccountregister) : NativeQryAccountregister =
+        TraderBridgeGenerated.buildNative<QryAccountregister, NativeQryAccountregister> encoding request
+
+    let qryBrokerTradingAlgos encoding (request: QryBrokerTradingAlgos) : NativeQryBrokerTradingAlgos =
+        TraderBridgeGenerated.buildNative<QryBrokerTradingAlgos, NativeQryBrokerTradingAlgos> encoding request
+
+    let qryBrokerTradingParams encoding (request: QryBrokerTradingParams) : NativeQryBrokerTradingParams =
+        TraderBridgeGenerated.buildNative<QryBrokerTradingParams, NativeQryBrokerTradingParams> encoding request
+
+    let qryCfmmcTradingAccountKey encoding (request: QryCfmmcTradingAccountKey) : NativeQryCfmmcTradingAccountKey =
+        TraderBridgeGenerated.buildNative<QryCfmmcTradingAccountKey, NativeQryCfmmcTradingAccountKey> encoding request
+
+    let qryClassifiedInstrument encoding (request: QryClassifiedInstrument) : NativeQryClassifiedInstrument =
+        TraderBridgeGenerated.buildNative<QryClassifiedInstrument, NativeQryClassifiedInstrument> encoding request
+
+    let qryCombAction encoding (request: QryCombAction) : NativeQryCombAction =
+        TraderBridgeGenerated.buildNative<QryCombAction, NativeQryCombAction> encoding request
+
+    let qryCombInstrumentGuard encoding (request: QryCombInstrumentGuard) : NativeQryCombInstrumentGuard =
+        TraderBridgeGenerated.buildNative<QryCombInstrumentGuard, NativeQryCombInstrumentGuard> encoding request
+
+    let qryCombLeg encoding (request: QryCombLeg) : NativeQryCombLeg =
+        TraderBridgeGenerated.buildNative<QryCombLeg, NativeQryCombLeg> encoding request
+
+    let qryCombPromotionParam encoding (request: QryCombPromotionParam) : NativeQryCombPromotionParam =
+        TraderBridgeGenerated.buildNative<QryCombPromotionParam, NativeQryCombPromotionParam> encoding request
+
+    let qryContractBank encoding (request: QryContractBank) : NativeQryContractBank =
+        TraderBridgeGenerated.buildNative<QryContractBank, NativeQryContractBank> encoding request
+
+    let qryDepthMarketData encoding (request: QryDepthMarketData) : NativeQryDepthMarketData =
+        TraderBridgeGenerated.buildNative<QryDepthMarketData, NativeQryDepthMarketData> encoding request
+
+    let qryEWarrantOffset encoding (request: QryEWarrantOffset) : NativeQryEWarrantOffset =
+        TraderBridgeGenerated.buildNative<QryEWarrantOffset, NativeQryEWarrantOffset> encoding request
+
+    let qryExchange encoding (request: QryExchange) : NativeQryExchange =
+        TraderBridgeGenerated.buildNative<QryExchange, NativeQryExchange> encoding request
+
+    let qryExchangeMarginRateAdjust encoding (request: QryExchangeMarginRateAdjust) : NativeQryExchangeMarginRateAdjust =
+        TraderBridgeGenerated.buildNative<QryExchangeMarginRateAdjust, NativeQryExchangeMarginRateAdjust> encoding request
+
+    let qryExchangeRate encoding (request: QryExchangeRate) : NativeQryExchangeRate =
+        TraderBridgeGenerated.buildNative<QryExchangeRate, NativeQryExchangeRate> encoding request
+
+    let qryExecOrder encoding (request: QryExecOrder) : NativeQryExecOrder =
+        TraderBridgeGenerated.buildNative<QryExecOrder, NativeQryExecOrder> encoding request
+
+    let qryForQuote encoding (request: QryForQuote) : NativeQryForQuote =
+        TraderBridgeGenerated.buildNative<QryForQuote, NativeQryForQuote> encoding request
+
+    let qryHedgeCfm encoding (request: QryHedgeCfm) : NativeQryHedgeCfm =
+        TraderBridgeGenerated.buildNative<QryHedgeCfm, NativeQryHedgeCfm> encoding request
+
+    let qryInstrument encoding (request: QryInstrument) : NativeQryInstrument =
+        TraderBridgeGenerated.buildNative<QryInstrument, NativeQryInstrument> encoding request
+
+    let qryInstrumentOrderCommRate encoding (request: QryInstrumentOrderCommRate) : NativeQryInstrumentOrderCommRate =
+        TraderBridgeGenerated.buildNative<QryInstrumentOrderCommRate, NativeQryInstrumentOrderCommRate> encoding request
+
+    let qryInvestUnit encoding (request: QryInvestUnit) : NativeQryInvestUnit =
+        TraderBridgeGenerated.buildNative<QryInvestUnit, NativeQryInvestUnit> encoding request
+
+    let qryInvestor encoding (request: QryInvestor) : NativeQryInvestor =
+        TraderBridgeGenerated.buildNative<QryInvestor, NativeQryInvestor> encoding request
+
+    let qryInvestorCommodityGroupSpmmMargin encoding (request: QryInvestorCommodityGroupSpmmMargin) : NativeQryInvestorCommodityGroupSpmmMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorCommodityGroupSpmmMargin, NativeQryInvestorCommodityGroupSpmmMargin> encoding request
+
+    let qryInvestorCommoditySpmmMargin encoding (request: QryInvestorCommoditySpmmMargin) : NativeQryInvestorCommoditySpmmMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorCommoditySpmmMargin, NativeQryInvestorCommoditySpmmMargin> encoding request
+
+    let qryInvestorInfoCommRec encoding (request: QryInvestorInfoCommRec) : NativeQryInvestorInfoCommRec =
+        TraderBridgeGenerated.buildNative<QryInvestorInfoCommRec, NativeQryInvestorInfoCommRec> encoding request
+
+    let qryInvestorPortfMarginRatio encoding (request: QryInvestorPortfMarginRatio) : NativeQryInvestorPortfMarginRatio =
+        TraderBridgeGenerated.buildNative<QryInvestorPortfMarginRatio, NativeQryInvestorPortfMarginRatio> encoding request
+
+    let qryInvestorPortfSetting encoding (request: QryInvestorPortfSetting) : NativeQryInvestorPortfSetting =
+        TraderBridgeGenerated.buildNative<QryInvestorPortfSetting, NativeQryInvestorPortfSetting> encoding request
+
+    let qryInvestorPositionCombineDetail encoding (request: QryInvestorPositionCombineDetail) : NativeQryInvestorPositionCombineDetail =
+        TraderBridgeGenerated.buildNative<QryInvestorPositionCombineDetail, NativeQryInvestorPositionCombineDetail> encoding request
+
+    let qryInvestorPositionDetail encoding (request: QryInvestorPositionDetail) : NativeQryInvestorPositionDetail =
+        TraderBridgeGenerated.buildNative<QryInvestorPositionDetail, NativeQryInvestorPositionDetail> encoding request
+
+    let qryInvestorProdRcamsMargin encoding (request: QryInvestorProdRcamsMargin) : NativeQryInvestorProdRcamsMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorProdRcamsMargin, NativeQryInvestorProdRcamsMargin> encoding request
+
+    let qryInvestorProdRuleMargin encoding (request: QryInvestorProdRuleMargin) : NativeQryInvestorProdRuleMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorProdRuleMargin, NativeQryInvestorProdRuleMargin> encoding request
+
+    let qryInvestorProdSpbmDetail encoding (request: QryInvestorProdSpbmDetail) : NativeQryInvestorProdSpbmDetail =
+        TraderBridgeGenerated.buildNative<QryInvestorProdSpbmDetail, NativeQryInvestorProdSpbmDetail> encoding request
+
+    let qryInvestorProductGroupMargin encoding (request: QryInvestorProductGroupMargin) : NativeQryInvestorProductGroupMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorProductGroupMargin, NativeQryInvestorProductGroupMargin> encoding request
+
+    let qryMaxOrderVolume encoding (request: QryMaxOrderVolume) : NativeQryMaxOrderVolume =
+        TraderBridgeGenerated.buildNative<QryMaxOrderVolume, NativeQryMaxOrderVolume> encoding request
+
+    let qryMmInstrumentCommissionRate encoding (request: QryMmInstrumentCommissionRate) : NativeQryMmInstrumentCommissionRate =
+        TraderBridgeGenerated.buildNative<QryMmInstrumentCommissionRate, NativeQryMmInstrumentCommissionRate> encoding request
+
+    let qryMmOptionInstrCommRate encoding (request: QryMmOptionInstrCommRate) : NativeQryMmOptionInstrCommRate =
+        TraderBridgeGenerated.buildNative<QryMmOptionInstrCommRate, NativeQryMmOptionInstrCommRate> encoding request
+
+    let qryNotice encoding (request: QryNotice) : NativeQryNotice =
+        TraderBridgeGenerated.buildNative<QryNotice, NativeQryNotice> encoding request
+
+    let qryOffsetSetting encoding (request: QryOffsetSetting) : NativeQryOffsetSetting =
+        TraderBridgeGenerated.buildNative<QryOffsetSetting, NativeQryOffsetSetting> encoding request
+
+    let qryOptionInstrCommRate encoding (request: QryOptionInstrCommRate) : NativeQryOptionInstrCommRate =
+        TraderBridgeGenerated.buildNative<QryOptionInstrCommRate, NativeQryOptionInstrCommRate> encoding request
+
+    let qryOptionInstrTradeCost encoding (request: QryOptionInstrTradeCost) : NativeQryOptionInstrTradeCost =
+        TraderBridgeGenerated.buildNative<QryOptionInstrTradeCost, NativeQryOptionInstrTradeCost> encoding request
+
+    let qryOptionSelfClose encoding (request: QryOptionSelfClose) : NativeQryOptionSelfClose =
+        TraderBridgeGenerated.buildNative<QryOptionSelfClose, NativeQryOptionSelfClose> encoding request
+
+    let qryOrder encoding (request: QryOrder) : NativeQryOrder =
+        TraderBridgeGenerated.buildNative<QryOrder, NativeQryOrder> encoding request
+
+    let qryParkedOrder encoding (request: QryParkedOrder) : NativeQryParkedOrder =
+        TraderBridgeGenerated.buildNative<QryParkedOrder, NativeQryParkedOrder> encoding request
+
+    let qryParkedOrderAction encoding (request: QryParkedOrderAction) : NativeQryParkedOrderAction =
+        TraderBridgeGenerated.buildNative<QryParkedOrderAction, NativeQryParkedOrderAction> encoding request
+
+    let qryProduct encoding (request: QryProduct) : NativeQryProduct =
+        TraderBridgeGenerated.buildNative<QryProduct, NativeQryProduct> encoding request
+
+    let qryProductExchRate encoding (request: QryProductExchRate) : NativeQryProductExchRate =
+        TraderBridgeGenerated.buildNative<QryProductExchRate, NativeQryProductExchRate> encoding request
+
+    let qryProductGroup encoding (request: QryProductGroup) : NativeQryProductGroup =
+        TraderBridgeGenerated.buildNative<QryProductGroup, NativeQryProductGroup> encoding request
+
+    let qryQuote encoding (request: QryQuote) : NativeQryQuote =
+        TraderBridgeGenerated.buildNative<QryQuote, NativeQryQuote> encoding request
+
+    let qryRcamsCombProductInfo encoding (request: QryRcamsCombProductInfo) : NativeQryRcamsCombProductInfo =
+        TraderBridgeGenerated.buildNative<QryRcamsCombProductInfo, NativeQryRcamsCombProductInfo> encoding request
+
+    let qryRcamsInstrParameter encoding (request: QryRcamsInstrParameter) : NativeQryRcamsInstrParameter =
+        TraderBridgeGenerated.buildNative<QryRcamsInstrParameter, NativeQryRcamsInstrParameter> encoding request
+
+    let qryRcamsInterParameter encoding (request: QryRcamsInterParameter) : NativeQryRcamsInterParameter =
+        TraderBridgeGenerated.buildNative<QryRcamsInterParameter, NativeQryRcamsInterParameter> encoding request
+
+    let qryRcamsIntraParameter encoding (request: QryRcamsIntraParameter) : NativeQryRcamsIntraParameter =
+        TraderBridgeGenerated.buildNative<QryRcamsIntraParameter, NativeQryRcamsIntraParameter> encoding request
+
+    let qryRcamsInvestorCombPosition encoding (request: QryRcamsInvestorCombPosition) : NativeQryRcamsInvestorCombPosition =
+        TraderBridgeGenerated.buildNative<QryRcamsInvestorCombPosition, NativeQryRcamsInvestorCombPosition> encoding request
+
+    let qryRcamsShortOptAdjustParam encoding (request: QryRcamsShortOptAdjustParam) : NativeQryRcamsShortOptAdjustParam =
+        TraderBridgeGenerated.buildNative<QryRcamsShortOptAdjustParam, NativeQryRcamsShortOptAdjustParam> encoding request
+
+    let qryRiskSettleInvstPosition encoding (request: QryRiskSettleInvstPosition) : NativeQryRiskSettleInvstPosition =
+        TraderBridgeGenerated.buildNative<QryRiskSettleInvstPosition, NativeQryRiskSettleInvstPosition> encoding request
+
+    let qryRiskSettleProductStatus encoding (request: QryRiskSettleProductStatus) : NativeQryRiskSettleProductStatus =
+        TraderBridgeGenerated.buildNative<QryRiskSettleProductStatus, NativeQryRiskSettleProductStatus> encoding request
+
+    let qryRuleInstrParameter encoding (request: QryRuleInstrParameter) : NativeQryRuleInstrParameter =
+        TraderBridgeGenerated.buildNative<QryRuleInstrParameter, NativeQryRuleInstrParameter> encoding request
+
+    let qryRuleInterParameter encoding (request: QryRuleInterParameter) : NativeQryRuleInterParameter =
+        TraderBridgeGenerated.buildNative<QryRuleInterParameter, NativeQryRuleInterParameter> encoding request
+
+    let qryRuleIntraParameter encoding (request: QryRuleIntraParameter) : NativeQryRuleIntraParameter =
+        TraderBridgeGenerated.buildNative<QryRuleIntraParameter, NativeQryRuleIntraParameter> encoding request
+
+    let qrySecAgentAcIdMap encoding (request: QrySecAgentAcIdMap) : NativeQrySecAgentAcIdMap =
+        TraderBridgeGenerated.buildNative<QrySecAgentAcIdMap, NativeQrySecAgentAcIdMap> encoding request
+
+    let qrySecAgentCheckMode encoding (request: QrySecAgentCheckMode) : NativeQrySecAgentCheckMode =
+        TraderBridgeGenerated.buildNative<QrySecAgentCheckMode, NativeQrySecAgentCheckMode> encoding request
+
+    let qrySecAgentTradeInfo encoding (request: QrySecAgentTradeInfo) : NativeQrySecAgentTradeInfo =
+        TraderBridgeGenerated.buildNative<QrySecAgentTradeInfo, NativeQrySecAgentTradeInfo> encoding request
+
+    let qrySettlementInfo encoding (request: QrySettlementInfo) : NativeQrySettlementInfo =
+        TraderBridgeGenerated.buildNative<QrySettlementInfo, NativeQrySettlementInfo> encoding request
+
+    let qrySettlementInfoConfirm encoding (request: QrySettlementInfoConfirm) : NativeQrySettlementInfoConfirm =
+        TraderBridgeGenerated.buildNative<QrySettlementInfoConfirm, NativeQrySettlementInfoConfirm> encoding request
+
+    let qrySpbmAddOnInterParameter encoding (request: QrySpbmAddOnInterParameter) : NativeQrySpbmAddOnInterParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmAddOnInterParameter, NativeQrySpbmAddOnInterParameter> encoding request
+
+    let qrySpbmFutureParameter encoding (request: QrySpbmFutureParameter) : NativeQrySpbmFutureParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmFutureParameter, NativeQrySpbmFutureParameter> encoding request
+
+    let qrySpbmInterParameter encoding (request: QrySpbmInterParameter) : NativeQrySpbmInterParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmInterParameter, NativeQrySpbmInterParameter> encoding request
+
+    let qrySpbmIntraParameter encoding (request: QrySpbmIntraParameter) : NativeQrySpbmIntraParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmIntraParameter, NativeQrySpbmIntraParameter> encoding request
+
+    let qrySpbmInvestorPortfDef encoding (request: QrySpbmInvestorPortfDef) : NativeQrySpbmInvestorPortfDef =
+        TraderBridgeGenerated.buildNative<QrySpbmInvestorPortfDef, NativeQrySpbmInvestorPortfDef> encoding request
+
+    let qrySpbmOptionParameter encoding (request: QrySpbmOptionParameter) : NativeQrySpbmOptionParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmOptionParameter, NativeQrySpbmOptionParameter> encoding request
+
+    let qrySpbmPortfDefinition encoding (request: QrySpbmPortfDefinition) : NativeQrySpbmPortfDefinition =
+        TraderBridgeGenerated.buildNative<QrySpbmPortfDefinition, NativeQrySpbmPortfDefinition> encoding request
+
+    let qrySpdApply encoding (request: QrySpdApply) : NativeQrySpdApply =
+        TraderBridgeGenerated.buildNative<QrySpdApply, NativeQrySpdApply> encoding request
+
+    let qrySpmmInstParam encoding (request: QrySpmmInstParam) : NativeQrySpmmInstParam =
+        TraderBridgeGenerated.buildNative<QrySpmmInstParam, NativeQrySpmmInstParam> encoding request
+
+    let qrySpmmProductParam encoding (request: QrySpmmProductParam) : NativeQrySpmmProductParam =
+        TraderBridgeGenerated.buildNative<QrySpmmProductParam, NativeQrySpmmProductParam> encoding request
+
+    let qryTrade encoding (request: QryTrade) : NativeQryTrade =
+        TraderBridgeGenerated.buildNative<QryTrade, NativeQryTrade> encoding request
+
+    let qryTraderOffer encoding (request: QryTraderOffer) : NativeQryTraderOffer =
+        TraderBridgeGenerated.buildNative<QryTraderOffer, NativeQryTraderOffer> encoding request
+
+    let qryTradingCode encoding (request: QryTradingCode) : NativeQryTradingCode =
+        TraderBridgeGenerated.buildNative<QryTradingCode, NativeQryTradingCode> encoding request
+
+    let qryTradingNotice encoding (request: QryTradingNotice) : NativeQryTradingNotice =
+        TraderBridgeGenerated.buildNative<QryTradingNotice, NativeQryTradingNotice> encoding request
+
+    let qryTransferBank encoding (request: QryTransferBank) : NativeQryTransferBank =
+        TraderBridgeGenerated.buildNative<QryTransferBank, NativeQryTransferBank> encoding request
+
+    let qryTransferSerial encoding (request: QryTransferSerial) : NativeQryTransferSerial =
+        TraderBridgeGenerated.buildNative<QryTransferSerial, NativeQryTransferSerial> encoding request
+
+    let qryUserSession encoding (request: QryUserSession) : NativeQryUserSession =
+        TraderBridgeGenerated.buildNative<QryUserSession, NativeQryUserSession> encoding request
+
+    let queryCfmmcTradingAccountToken encoding (request: QueryCfmmcTradingAccountToken) : NativeQueryCfmmcTradingAccountToken =
+        TraderBridgeGenerated.buildNative<QueryCfmmcTradingAccountToken, NativeQueryCfmmcTradingAccountToken> encoding request
+
+    let removeParkedOrder encoding (request: RemoveParkedOrder) : NativeRemoveParkedOrder =
+        TraderBridgeGenerated.buildNative<RemoveParkedOrder, NativeRemoveParkedOrder> encoding request
+
+    let removeParkedOrderAction encoding (request: RemoveParkedOrderAction) : NativeRemoveParkedOrderAction =
+        TraderBridgeGenerated.buildNative<RemoveParkedOrderAction, NativeRemoveParkedOrderAction> encoding request
+
+    let reqGenSmsCode encoding (request: ReqGenSmsCode) : NativeReqGenSmsCode =
+        TraderBridgeGenerated.buildNative<ReqGenSmsCode, NativeReqGenSmsCode> encoding request
+
+    let reqGenUserCaptcha encoding (request: ReqGenUserCaptcha) : NativeReqGenUserCaptcha =
+        TraderBridgeGenerated.buildNative<ReqGenUserCaptcha, NativeReqGenUserCaptcha> encoding request
+
+    let reqGenUserText encoding (request: ReqGenUserText) : NativeReqGenUserText =
+        TraderBridgeGenerated.buildNative<ReqGenUserText, NativeReqGenUserText> encoding request
+
+    let reqQueryAccount encoding requestId (request: ReqQueryAccount) : NativeReqQueryAccount =
+        TraderBridgeGenerated.buildNativeWithRequestId<ReqQueryAccount, NativeReqQueryAccount> encoding requestId request
+
+    let reqTransfer encoding requestId (request: ReqTransfer) : NativeReqTransfer =
+        TraderBridgeGenerated.buildNativeWithRequestId<ReqTransfer, NativeReqTransfer> encoding requestId request
+
+    let reqUserAuthMethod encoding (request: ReqUserAuthMethod) : NativeReqUserAuthMethod =
+        TraderBridgeGenerated.buildNative<ReqUserAuthMethod, NativeReqUserAuthMethod> encoding request
+
+    let reqUserLoginWithCaptcha encoding (request: ReqUserLoginWithCaptcha) : NativeReqUserLoginWithCaptcha =
+        TraderBridgeGenerated.buildNative<ReqUserLoginWithCaptcha, NativeReqUserLoginWithCaptcha> encoding request
+
+    let reqUserLoginWithOtp encoding (request: ReqUserLoginWithOtp) : NativeReqUserLoginWithOtp =
+        TraderBridgeGenerated.buildNative<ReqUserLoginWithOtp, NativeReqUserLoginWithOtp> encoding request
+
+    let reqUserLoginWithText encoding (request: ReqUserLoginWithText) : NativeReqUserLoginWithText =
+        TraderBridgeGenerated.buildNative<ReqUserLoginWithText, NativeReqUserLoginWithText> encoding request
+
+    let tradingAccountPasswordUpdate encoding (request: TradingAccountPasswordUpdate) : NativeTradingAccountPasswordUpdate =
+        TraderBridgeGenerated.buildNative<TradingAccountPasswordUpdate, NativeTradingAccountPasswordUpdate> encoding request
+
+    let userLogoutResponse encoding (request: UserLogoutResponse) : NativeUserLogout =
+        TraderBridgeGenerated.buildNative<UserLogoutResponse, NativeUserLogout> encoding request
+
+    let userPasswordUpdate encoding (request: UserPasswordUpdate) : NativeUserPasswordUpdate =
+        TraderBridgeGenerated.buildNative<UserPasswordUpdate, NativeUserPasswordUpdate> encoding request
+
+    let userSystemInfo encoding (request: UserSystemInfo) : NativeUserSystemInfo =
+        TraderBridgeGenerated.buildNative<UserSystemInfo, NativeUserSystemInfo> encoding request
+
+    let wechatUserSystemInfo encoding (request: WechatUserSystemInfo) : NativeWechatUserSystemInfo =
+        TraderBridgeGenerated.buildNative<WechatUserSystemInfo, NativeWechatUserSystemInfo> encoding request
+
 module private TraderBridgeHelpers =
     let toTraderHandle (ptr: nativeint) =
         if ptr = 0n then
@@ -1650,12 +15554,12 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
         TraderRtnPrivateSeqNoDelegate(fun seqNo _ ->
             callbacks.RtnPrivateSeqNo |> Option.iter (fun handler -> handler seqNo))
 
-    let onRspAuthenticate =
-        TraderRspAuthenticateDelegate(fun authPtr rspInfoPtr requestId isLast _ ->
+    let rspAuthenticate =
+        TraderRspAuthenticateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspAuthenticate
             |> Option.iter (fun handler ->
-                let auth =
-                    authPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeRspAuthenticate>
                     |> Option.map (TraderBridgeMapping.authenticate encodings.InboundEncoding)
 
@@ -1664,14 +15568,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler auth rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspSettlementInfoConfirm =
-        TraderRspSettlementInfoConfirmDelegate(fun confirmPtr rspInfoPtr requestId isLast _ ->
+    let rspSettlementInfoConfirm =
+        TraderRspSettlementInfoConfirmDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspSettlementInfoConfirm
             |> Option.iter (fun handler ->
-                let confirm =
-                    confirmPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeSettlementInfoConfirm>
                     |> Option.map (TraderBridgeMapping.settlementInfoConfirm encodings.InboundEncoding)
 
@@ -1680,14 +15584,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler confirm rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspUserLogin =
-        TraderRspUserLoginDelegate(fun loginPtr rspInfoPtr requestId isLast _ ->
+    let rspUserLogin =
+        TraderRspUserLoginDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspUserLogin
             |> Option.iter (fun handler ->
-                let login =
-                    loginPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeRspUserLogin>
                     |> Option.map (BridgeMapping.userLogin encodings.InboundEncoding)
 
@@ -1696,14 +15600,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler login rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspUserLogout =
-        TraderRspUserLogoutDelegate(fun logoutPtr rspInfoPtr requestId isLast _ ->
+    let rspUserLogout =
+        TraderRspUserLogoutDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspUserLogout
             |> Option.iter (fun handler ->
-                let logout =
-                    logoutPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeUserLogout>
                     |> Option.map (BridgeMapping.userLogout encodings.InboundEncoding)
 
@@ -1712,9 +15616,9 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler logout rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspError =
+    let rspError =
         TraderRspErrorDelegate(fun rspInfoPtr requestId isLast _ ->
             callbacks.RspError
             |> Option.iter (fun handler ->
@@ -1725,12 +15629,12 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
 
                 handler rspInfo requestId (isLast <> 0)))
 
-    let onRspQryTradingAccount =
-        TraderRspQryTradingAccountDelegate(fun accountPtr rspInfoPtr requestId isLast _ ->
+    let rspQryTradingAccount =
+        TraderRspQryTradingAccountDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspQryTradingAccount
             |> Option.iter (fun handler ->
-                let account =
-                    accountPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeTradingAccount>
                     |> Option.map (TraderBridgeMapping.tradingAccount encodings.InboundEncoding)
 
@@ -1739,14 +15643,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler account rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspQryInvestorPosition =
-        TraderRspQryInvestorPositionDelegate(fun positionPtr rspInfoPtr requestId isLast _ ->
+    let rspQryInvestorPosition =
+        TraderRspQryInvestorPositionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspQryInvestorPosition
             |> Option.iter (fun handler ->
-                let position =
-                    positionPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeInvestorPosition>
                     |> Option.map (TraderBridgeMapping.investorPosition encodings.InboundEncoding)
 
@@ -1755,14 +15659,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler position rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspQryInstrumentMarginRate =
-        TraderRspQryInstrumentMarginRateDelegate(fun marginRatePtr rspInfoPtr requestId isLast _ ->
+    let rspQryInstrumentMarginRate =
+        TraderRspQryInstrumentMarginRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspQryInstrumentMarginRate
             |> Option.iter (fun handler ->
-                let marginRate =
-                    marginRatePtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeInstrumentMarginRate>
                     |> Option.map (TraderBridgeMapping.instrumentMarginRate encodings.InboundEncoding)
 
@@ -1771,14 +15675,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler marginRate rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspQryExchangeMarginRate =
-        TraderRspQryExchangeMarginRateDelegate(fun marginRatePtr rspInfoPtr requestId isLast _ ->
+    let rspQryExchangeMarginRate =
+        TraderRspQryExchangeMarginRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspQryExchangeMarginRate
             |> Option.iter (fun handler ->
-                let marginRate =
-                    marginRatePtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeExchangeMarginRate>
                     |> Option.map (TraderBridgeMapping.exchangeMarginRate encodings.InboundEncoding)
 
@@ -1787,14 +15691,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler marginRate rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspQryInstrumentCommissionRate =
-        TraderRspQryInstrumentCommissionRateDelegate(fun commissionRatePtr rspInfoPtr requestId isLast _ ->
+    let rspQryInstrumentCommissionRate =
+        TraderRspQryInstrumentCommissionRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspQryInstrumentCommissionRate
             |> Option.iter (fun handler ->
-                let commissionRate =
-                    commissionRatePtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeInstrumentCommissionRate>
                     |> Option.map (TraderBridgeMapping.instrumentCommissionRate encodings.InboundEncoding)
 
@@ -1803,14 +15707,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler commissionRate rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspOrderInsert =
-        TraderRspOrderInsertDelegate(fun orderPtr rspInfoPtr requestId isLast _ ->
+    let rspOrderInsert =
+        TraderRspOrderInsertDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspOrderInsert
             |> Option.iter (fun handler ->
-                let order =
-                    orderPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeInputOrder>
                     |> Option.map (TraderBridgeMapping.inputOrderRequest encodings.InboundEncoding)
 
@@ -1819,14 +15723,14 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler order rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRspOrderAction =
-        TraderRspOrderActionDelegate(fun actionPtr rspInfoPtr requestId isLast _ ->
+    let rspOrderAction =
+        TraderRspOrderActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
             callbacks.RspOrderAction
             |> Option.iter (fun handler ->
-                let action =
-                    actionPtr
+                let item =
+                    itemPtr
                     |> EncodingHelpers.ptrToOption<NativeInputOrderAction>
                     |> Option.map (TraderBridgeMapping.inputOrderActionRequest encodings.InboundEncoding)
 
@@ -1835,45 +15739,2371 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                     |> EncodingHelpers.ptrToOption<NativeRspInfo>
                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
 
-                handler action rspInfo requestId (isLast <> 0)))
+                handler item rspInfo requestId (isLast <> 0)))
 
-    let onRtnOrder =
-        TraderRtnOrderDelegate(fun orderPtr _ ->
+    let rtnOrder =
+        TraderRtnOrderDelegate(fun itemPtr _ ->
             callbacks.RtnOrder
             |> Option.iter (fun handler ->
-                match EncodingHelpers.ptrToOption<NativeOrder> orderPtr with
-                | Some order -> handler (TraderBridgeMapping.orderUpdate encodings.InboundEncoding order)
+                match EncodingHelpers.ptrToOption<NativeOrder> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.orderUpdate encodings.InboundEncoding item)
                 | None -> ()))
 
-    let onRtnTrade =
-        TraderRtnTradeDelegate(fun tradePtr _ ->
+    let rtnTrade =
+        TraderRtnTradeDelegate(fun itemPtr _ ->
             callbacks.RtnTrade
             |> Option.iter (fun handler ->
-                match EncodingHelpers.ptrToOption<NativeTrade> tradePtr with
-                | Some trade -> handler (TraderBridgeMapping.tradeUpdate encodings.InboundEncoding trade)
+                match EncodingHelpers.ptrToOption<NativeTrade> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.tradeUpdate encodings.InboundEncoding item)
+                | None -> ()))
+
+    let errRtnBankToFutureByFuture =
+        TraderErrRtnBankToFutureByFutureDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnBankToFutureByFuture
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeReqTransfer>
+                    |> Option.map (TraderBridgeMapping.reqTransfer encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnBatchOrderAction =
+        TraderErrRtnBatchOrderActionDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnBatchOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeBatchOrderAction>
+                    |> Option.map (TraderBridgeMapping.batchOrderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnCancelOffsetSetting =
+        TraderErrRtnCancelOffsetSettingDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnCancelOffsetSetting
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeCancelOffsetSetting>
+                    |> Option.map (TraderBridgeMapping.cancelOffsetSetting encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnCombActionInsert =
+        TraderErrRtnCombActionInsertDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnCombActionInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputCombAction>
+                    |> Option.map (TraderBridgeMapping.inputCombAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnExecOrderAction =
+        TraderErrRtnExecOrderActionDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnExecOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeExecOrderAction>
+                    |> Option.map (TraderBridgeMapping.execOrderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnExecOrderInsert =
+        TraderErrRtnExecOrderInsertDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnExecOrderInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputExecOrder>
+                    |> Option.map (TraderBridgeMapping.inputExecOrder encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnForQuoteInsert =
+        TraderErrRtnForQuoteInsertDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnForQuoteInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputForQuote>
+                    |> Option.map (TraderBridgeMapping.inputForQuote encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnFutureToBankByFuture =
+        TraderErrRtnFutureToBankByFutureDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnFutureToBankByFuture
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeReqTransfer>
+                    |> Option.map (TraderBridgeMapping.reqTransfer encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnHedgeCfm =
+        TraderErrRtnHedgeCfmDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnHedgeCfm
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputHedgeCfm>
+                    |> Option.map (TraderBridgeMapping.inputHedgeCfm encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnHedgeCfmAction =
+        TraderErrRtnHedgeCfmActionDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnHedgeCfmAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeHedgeCfmAction>
+                    |> Option.map (TraderBridgeMapping.hedgeCfmAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnOffsetSetting =
+        TraderErrRtnOffsetSettingDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnOffsetSetting
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputOffsetSetting>
+                    |> Option.map (TraderBridgeMapping.inputOffsetSetting encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnOptionSelfCloseAction =
+        TraderErrRtnOptionSelfCloseActionDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnOptionSelfCloseAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeOptionSelfCloseAction>
+                    |> Option.map (TraderBridgeMapping.optionSelfCloseAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnOptionSelfCloseInsert =
+        TraderErrRtnOptionSelfCloseInsertDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnOptionSelfCloseInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputOptionSelfClose>
+                    |> Option.map (TraderBridgeMapping.inputOptionSelfClose encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnOrderAction =
+        TraderErrRtnOrderActionDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeOrderAction>
+                    |> Option.map (TraderBridgeMapping.orderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnOrderInsert =
+        TraderErrRtnOrderInsertDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnOrderInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputOrder>
+                    |> Option.map (TraderBridgeMapping.inputOrderRequest encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnQueryBankBalanceByFuture =
+        TraderErrRtnQueryBankBalanceByFutureDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnQueryBankBalanceByFuture
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeReqQueryAccount>
+                    |> Option.map (TraderBridgeMapping.reqQueryAccount encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnQuoteAction =
+        TraderErrRtnQuoteActionDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnQuoteAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeQuoteAction>
+                    |> Option.map (TraderBridgeMapping.quoteAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnQuoteInsert =
+        TraderErrRtnQuoteInsertDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnQuoteInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputQuote>
+                    |> Option.map (TraderBridgeMapping.inputQuote encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnSpdApply =
+        TraderErrRtnSpdApplyDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnSpdApply
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputSpdApply>
+                    |> Option.map (TraderBridgeMapping.inputSpdApply encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let errRtnSpdApplyAction =
+        TraderErrRtnSpdApplyActionDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnSpdApplyAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpdApplyAction>
+                    |> Option.map (TraderBridgeMapping.spdApplyAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo))
+
+    let rspBatchOrderAction =
+        TraderRspBatchOrderActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspBatchOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputBatchOrderAction>
+                    |> Option.map (TraderBridgeMapping.inputBatchOrderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspCancelOffsetSetting =
+        TraderRspCancelOffsetSettingDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspCancelOffsetSetting
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputOffsetSetting>
+                    |> Option.map (TraderBridgeMapping.inputOffsetSetting encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspCombActionInsert =
+        TraderRspCombActionInsertDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspCombActionInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputCombAction>
+                    |> Option.map (TraderBridgeMapping.inputCombAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspExecOrderAction =
+        TraderRspExecOrderActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspExecOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputExecOrderAction>
+                    |> Option.map (TraderBridgeMapping.inputExecOrderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspExecOrderInsert =
+        TraderRspExecOrderInsertDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspExecOrderInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputExecOrder>
+                    |> Option.map (TraderBridgeMapping.inputExecOrder encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspForQuoteInsert =
+        TraderRspForQuoteInsertDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspForQuoteInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputForQuote>
+                    |> Option.map (TraderBridgeMapping.inputForQuote encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspFromBankToFutureByFuture =
+        TraderRspFromBankToFutureByFutureDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspFromBankToFutureByFuture
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeReqTransfer>
+                    |> Option.map (TraderBridgeMapping.reqTransfer encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspFromFutureToBankByFuture =
+        TraderRspFromFutureToBankByFutureDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspFromFutureToBankByFuture
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeReqTransfer>
+                    |> Option.map (TraderBridgeMapping.reqTransfer encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspGenSmsCode =
+        TraderRspGenSmsCodeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspGenSmsCode
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspGenSmsCode>
+                    |> Option.map (TraderBridgeMapping.rspGenSmsCode encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspGenUserCaptcha =
+        TraderRspGenUserCaptchaDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspGenUserCaptcha
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspGenUserCaptcha>
+                    |> Option.map (TraderBridgeMapping.rspGenUserCaptcha encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspGenUserText =
+        TraderRspGenUserTextDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspGenUserText
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspGenUserText>
+                    |> Option.map (TraderBridgeMapping.rspGenUserText encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspHedgeCfm =
+        TraderRspHedgeCfmDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspHedgeCfm
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputHedgeCfm>
+                    |> Option.map (TraderBridgeMapping.inputHedgeCfm encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspHedgeCfmAction =
+        TraderRspHedgeCfmActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspHedgeCfmAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputHedgeCfmAction>
+                    |> Option.map (TraderBridgeMapping.inputHedgeCfmAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspOffsetSetting =
+        TraderRspOffsetSettingDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspOffsetSetting
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputOffsetSetting>
+                    |> Option.map (TraderBridgeMapping.inputOffsetSetting encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspOptionSelfCloseAction =
+        TraderRspOptionSelfCloseActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspOptionSelfCloseAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputOptionSelfCloseAction>
+                    |> Option.map (TraderBridgeMapping.inputOptionSelfCloseAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspOptionSelfCloseInsert =
+        TraderRspOptionSelfCloseInsertDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspOptionSelfCloseInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputOptionSelfClose>
+                    |> Option.map (TraderBridgeMapping.inputOptionSelfClose encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspParkedOrderAction =
+        TraderRspParkedOrderActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspParkedOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeParkedOrderAction>
+                    |> Option.map (TraderBridgeMapping.parkedOrderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspParkedOrderInsert =
+        TraderRspParkedOrderInsertDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspParkedOrderInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeParkedOrder>
+                    |> Option.map (TraderBridgeMapping.parkedOrder encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryAccountregister =
+        TraderRspQryAccountregisterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryAccountregister
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeAccountregister>
+                    |> Option.map (TraderBridgeMapping.accountregister encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryBrokerTradingAlgos =
+        TraderRspQryBrokerTradingAlgosDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryBrokerTradingAlgos
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeBrokerTradingAlgos>
+                    |> Option.map (TraderBridgeMapping.brokerTradingAlgos encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryBrokerTradingParams =
+        TraderRspQryBrokerTradingParamsDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryBrokerTradingParams
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeBrokerTradingParams>
+                    |> Option.map (TraderBridgeMapping.brokerTradingParams encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryCfmmcTradingAccountKey =
+        TraderRspQryCfmmcTradingAccountKeyDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryCfmmcTradingAccountKey
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeCfmmcTradingAccountKey>
+                    |> Option.map (TraderBridgeMapping.cfmmcTradingAccountKey encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryClassifiedInstrument =
+        TraderRspQryClassifiedInstrumentDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryClassifiedInstrument
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInstrument>
+                    |> Option.map (TraderBridgeMapping.instrument encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryCombAction =
+        TraderRspQryCombActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryCombAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeCombAction>
+                    |> Option.map (TraderBridgeMapping.combAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryCombInstrumentGuard =
+        TraderRspQryCombInstrumentGuardDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryCombInstrumentGuard
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeCombInstrumentGuard>
+                    |> Option.map (TraderBridgeMapping.combInstrumentGuard encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryCombLeg =
+        TraderRspQryCombLegDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryCombLeg
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeCombLeg>
+                    |> Option.map (TraderBridgeMapping.combLeg encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryCombPromotionParam =
+        TraderRspQryCombPromotionParamDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryCombPromotionParam
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeCombPromotionParam>
+                    |> Option.map (TraderBridgeMapping.combPromotionParam encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryContractBank =
+        TraderRspQryContractBankDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryContractBank
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeContractBank>
+                    |> Option.map (TraderBridgeMapping.contractBank encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryDepthMarketData =
+        TraderRspQryDepthMarketDataDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryDepthMarketData
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTraderDepthMarketData>
+                    |> Option.map (TraderBridgeMapping.depthMarketData encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryEWarrantOffset =
+        TraderRspQryEWarrantOffsetDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryEWarrantOffset
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeEWarrantOffset>
+                    |> Option.map (TraderBridgeMapping.eWarrantOffset encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryExchange =
+        TraderRspQryExchangeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryExchange
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeExchange>
+                    |> Option.map (TraderBridgeMapping.exchange encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryExchangeMarginRateAdjust =
+        TraderRspQryExchangeMarginRateAdjustDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryExchangeMarginRateAdjust
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeExchangeMarginRateAdjust>
+                    |> Option.map (TraderBridgeMapping.exchangeMarginRateAdjust encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryExchangeRate =
+        TraderRspQryExchangeRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryExchangeRate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeExchangeRate>
+                    |> Option.map (TraderBridgeMapping.exchangeRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryExecOrder =
+        TraderRspQryExecOrderDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryExecOrder
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeExecOrder>
+                    |> Option.map (TraderBridgeMapping.execOrder encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryForQuote =
+        TraderRspQryForQuoteDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryForQuote
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeForQuote>
+                    |> Option.map (TraderBridgeMapping.forQuote encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryHedgeCfm =
+        TraderRspQryHedgeCfmDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryHedgeCfm
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeHedgeCfm>
+                    |> Option.map (TraderBridgeMapping.hedgeCfm encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInstrument =
+        TraderRspQryInstrumentDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInstrument
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInstrument>
+                    |> Option.map (TraderBridgeMapping.instrument encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInstrumentOrderCommRate =
+        TraderRspQryInstrumentOrderCommRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInstrumentOrderCommRate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInstrumentOrderCommRate>
+                    |> Option.map (TraderBridgeMapping.instrumentOrderCommRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestUnit =
+        TraderRspQryInvestUnitDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestUnit
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestUnit>
+                    |> Option.map (TraderBridgeMapping.investUnit encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestor =
+        TraderRspQryInvestorDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestor
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestor>
+                    |> Option.map (TraderBridgeMapping.investor encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorCommodityGroupSpmmMargin =
+        TraderRspQryInvestorCommodityGroupSpmmMarginDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorCommodityGroupSpmmMargin
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorCommodityGroupSpmmMargin>
+                    |> Option.map (TraderBridgeMapping.investorCommodityGroupSpmmMargin encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorCommoditySpmmMargin =
+        TraderRspQryInvestorCommoditySpmmMarginDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorCommoditySpmmMargin
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorCommoditySpmmMargin>
+                    |> Option.map (TraderBridgeMapping.investorCommoditySpmmMargin encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorInfoCommRec =
+        TraderRspQryInvestorInfoCommRecDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorInfoCommRec
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorInfoCommRec>
+                    |> Option.map (TraderBridgeMapping.investorInfoCommRec encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorPortfMarginRatio =
+        TraderRspQryInvestorPortfMarginRatioDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorPortfMarginRatio
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorPortfMarginRatio>
+                    |> Option.map (TraderBridgeMapping.investorPortfMarginRatio encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorPortfSetting =
+        TraderRspQryInvestorPortfSettingDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorPortfSetting
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorPortfSetting>
+                    |> Option.map (TraderBridgeMapping.investorPortfSetting encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorPositionCombineDetail =
+        TraderRspQryInvestorPositionCombineDetailDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorPositionCombineDetail
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorPositionCombineDetail>
+                    |> Option.map (TraderBridgeMapping.investorPositionCombineDetail encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorPositionDetail =
+        TraderRspQryInvestorPositionDetailDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorPositionDetail
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorPositionDetail>
+                    |> Option.map (TraderBridgeMapping.investorPositionDetail encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorProdRcamsMargin =
+        TraderRspQryInvestorProdRcamsMarginDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorProdRcamsMargin
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorProdRcamsMargin>
+                    |> Option.map (TraderBridgeMapping.investorProdRcamsMargin encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorProdRuleMargin =
+        TraderRspQryInvestorProdRuleMarginDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorProdRuleMargin
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorProdRuleMargin>
+                    |> Option.map (TraderBridgeMapping.investorProdRuleMargin encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorProdSpbmDetail =
+        TraderRspQryInvestorProdSpbmDetailDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorProdSpbmDetail
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorProdSpbmDetail>
+                    |> Option.map (TraderBridgeMapping.investorProdSpbmDetail encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryInvestorProductGroupMargin =
+        TraderRspQryInvestorProductGroupMarginDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryInvestorProductGroupMargin
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInvestorProductGroupMargin>
+                    |> Option.map (TraderBridgeMapping.investorProductGroupMargin encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryMmInstrumentCommissionRate =
+        TraderRspQryMmInstrumentCommissionRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryMmInstrumentCommissionRate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeMmInstrumentCommissionRate>
+                    |> Option.map (TraderBridgeMapping.mmInstrumentCommissionRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryMmOptionInstrCommRate =
+        TraderRspQryMmOptionInstrCommRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryMmOptionInstrCommRate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeMmOptionInstrCommRate>
+                    |> Option.map (TraderBridgeMapping.mmOptionInstrCommRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryMaxOrderVolume =
+        TraderRspQryMaxOrderVolumeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryMaxOrderVolume
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeQryMaxOrderVolume>
+                    |> Option.map (TraderBridgeMapping.qryMaxOrderVolume encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryNotice =
+        TraderRspQryNoticeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryNotice
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeNotice>
+                    |> Option.map (TraderBridgeMapping.notice encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryOffsetSetting =
+        TraderRspQryOffsetSettingDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryOffsetSetting
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeOffsetSetting>
+                    |> Option.map (TraderBridgeMapping.offsetSetting encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryOptionInstrCommRate =
+        TraderRspQryOptionInstrCommRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryOptionInstrCommRate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeOptionInstrCommRate>
+                    |> Option.map (TraderBridgeMapping.optionInstrCommRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryOptionInstrTradeCost =
+        TraderRspQryOptionInstrTradeCostDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryOptionInstrTradeCost
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeOptionInstrTradeCost>
+                    |> Option.map (TraderBridgeMapping.optionInstrTradeCost encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryOptionSelfClose =
+        TraderRspQryOptionSelfCloseDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryOptionSelfClose
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeOptionSelfClose>
+                    |> Option.map (TraderBridgeMapping.optionSelfClose encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryOrder =
+        TraderRspQryOrderDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryOrder
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeOrder>
+                    |> Option.map (TraderBridgeMapping.orderUpdate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryParkedOrder =
+        TraderRspQryParkedOrderDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryParkedOrder
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeParkedOrder>
+                    |> Option.map (TraderBridgeMapping.parkedOrder encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryParkedOrderAction =
+        TraderRspQryParkedOrderActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryParkedOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeParkedOrderAction>
+                    |> Option.map (TraderBridgeMapping.parkedOrderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryProduct =
+        TraderRspQryProductDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryProduct
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeProduct>
+                    |> Option.map (TraderBridgeMapping.product encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryProductExchRate =
+        TraderRspQryProductExchRateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryProductExchRate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeProductExchRate>
+                    |> Option.map (TraderBridgeMapping.productExchRate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryProductGroup =
+        TraderRspQryProductGroupDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryProductGroup
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeProductGroup>
+                    |> Option.map (TraderBridgeMapping.productGroup encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryQuote =
+        TraderRspQryQuoteDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryQuote
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeQuote>
+                    |> Option.map (TraderBridgeMapping.quote encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRcamsCombProductInfo =
+        TraderRspQryRcamsCombProductInfoDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRcamsCombProductInfo
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRcamsCombProductInfo>
+                    |> Option.map (TraderBridgeMapping.rcamsCombProductInfo encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRcamsInstrParameter =
+        TraderRspQryRcamsInstrParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRcamsInstrParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRcamsInstrParameter>
+                    |> Option.map (TraderBridgeMapping.rcamsInstrParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRcamsInterParameter =
+        TraderRspQryRcamsInterParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRcamsInterParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRcamsInterParameter>
+                    |> Option.map (TraderBridgeMapping.rcamsInterParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRcamsIntraParameter =
+        TraderRspQryRcamsIntraParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRcamsIntraParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRcamsIntraParameter>
+                    |> Option.map (TraderBridgeMapping.rcamsIntraParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRcamsInvestorCombPosition =
+        TraderRspQryRcamsInvestorCombPositionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRcamsInvestorCombPosition
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRcamsInvestorCombPosition>
+                    |> Option.map (TraderBridgeMapping.rcamsInvestorCombPosition encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRcamsShortOptAdjustParam =
+        TraderRspQryRcamsShortOptAdjustParamDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRcamsShortOptAdjustParam
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRcamsShortOptAdjustParam>
+                    |> Option.map (TraderBridgeMapping.rcamsShortOptAdjustParam encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRuleInstrParameter =
+        TraderRspQryRuleInstrParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRuleInstrParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRuleInstrParameter>
+                    |> Option.map (TraderBridgeMapping.ruleInstrParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRuleInterParameter =
+        TraderRspQryRuleInterParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRuleInterParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRuleInterParameter>
+                    |> Option.map (TraderBridgeMapping.ruleInterParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRuleIntraParameter =
+        TraderRspQryRuleIntraParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRuleIntraParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRuleIntraParameter>
+                    |> Option.map (TraderBridgeMapping.ruleIntraParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRiskSettleInvstPosition =
+        TraderRspQryRiskSettleInvstPositionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRiskSettleInvstPosition
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRiskSettleInvstPosition>
+                    |> Option.map (TraderBridgeMapping.riskSettleInvstPosition encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryRiskSettleProductStatus =
+        TraderRspQryRiskSettleProductStatusDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryRiskSettleProductStatus
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRiskSettleProductStatus>
+                    |> Option.map (TraderBridgeMapping.riskSettleProductStatus encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpbmAddOnInterParameter =
+        TraderRspQrySpbmAddOnInterParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpbmAddOnInterParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpbmAddOnInterParameter>
+                    |> Option.map (TraderBridgeMapping.spbmAddOnInterParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpbmFutureParameter =
+        TraderRspQrySpbmFutureParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpbmFutureParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpbmFutureParameter>
+                    |> Option.map (TraderBridgeMapping.spbmFutureParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpbmInterParameter =
+        TraderRspQrySpbmInterParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpbmInterParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpbmInterParameter>
+                    |> Option.map (TraderBridgeMapping.spbmInterParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpbmIntraParameter =
+        TraderRspQrySpbmIntraParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpbmIntraParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpbmIntraParameter>
+                    |> Option.map (TraderBridgeMapping.spbmIntraParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpbmInvestorPortfDef =
+        TraderRspQrySpbmInvestorPortfDefDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpbmInvestorPortfDef
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpbmInvestorPortfDef>
+                    |> Option.map (TraderBridgeMapping.spbmInvestorPortfDef encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpbmOptionParameter =
+        TraderRspQrySpbmOptionParameterDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpbmOptionParameter
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpbmOptionParameter>
+                    |> Option.map (TraderBridgeMapping.spbmOptionParameter encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpbmPortfDefinition =
+        TraderRspQrySpbmPortfDefinitionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpbmPortfDefinition
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpbmPortfDefinition>
+                    |> Option.map (TraderBridgeMapping.spbmPortfDefinition encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpmmInstParam =
+        TraderRspQrySpmmInstParamDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpmmInstParam
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpmmInstParam>
+                    |> Option.map (TraderBridgeMapping.spmmInstParam encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpmmProductParam =
+        TraderRspQrySpmmProductParamDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpmmProductParam
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpmmProductParam>
+                    |> Option.map (TraderBridgeMapping.spmmProductParam encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySecAgentAcIdMap =
+        TraderRspQrySecAgentAcIdMapDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySecAgentAcIdMap
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSecAgentAcIdMap>
+                    |> Option.map (TraderBridgeMapping.secAgentAcIdMap encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySecAgentCheckMode =
+        TraderRspQrySecAgentCheckModeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySecAgentCheckMode
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSecAgentCheckMode>
+                    |> Option.map (TraderBridgeMapping.secAgentCheckMode encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySecAgentTradeInfo =
+        TraderRspQrySecAgentTradeInfoDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySecAgentTradeInfo
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSecAgentTradeInfo>
+                    |> Option.map (TraderBridgeMapping.secAgentTradeInfo encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySecAgentTradingAccount =
+        TraderRspQrySecAgentTradingAccountDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySecAgentTradingAccount
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTradingAccount>
+                    |> Option.map (TraderBridgeMapping.tradingAccount encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySettlementInfo =
+        TraderRspQrySettlementInfoDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySettlementInfo
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSettlementInfo>
+                    |> Option.map (TraderBridgeMapping.settlementInfo encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySettlementInfoConfirm =
+        TraderRspQrySettlementInfoConfirmDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySettlementInfoConfirm
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSettlementInfoConfirm>
+                    |> Option.map (TraderBridgeMapping.settlementInfoConfirm encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQrySpdApply =
+        TraderRspQrySpdApplyDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQrySpdApply
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpdApply>
+                    |> Option.map (TraderBridgeMapping.spdApply encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryTrade =
+        TraderRspQryTradeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryTrade
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTrade>
+                    |> Option.map (TraderBridgeMapping.tradeUpdate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryTraderOffer =
+        TraderRspQryTraderOfferDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryTraderOffer
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTraderOffer>
+                    |> Option.map (TraderBridgeMapping.traderOffer encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryTradingCode =
+        TraderRspQryTradingCodeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryTradingCode
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTradingCode>
+                    |> Option.map (TraderBridgeMapping.tradingCode encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryTradingNotice =
+        TraderRspQryTradingNoticeDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryTradingNotice
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTradingNotice>
+                    |> Option.map (TraderBridgeMapping.tradingNotice encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryTransferBank =
+        TraderRspQryTransferBankDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryTransferBank
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTransferBank>
+                    |> Option.map (TraderBridgeMapping.transferBank encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryTransferSerial =
+        TraderRspQryTransferSerialDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryTransferSerial
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTransferSerial>
+                    |> Option.map (TraderBridgeMapping.transferSerial encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQryUserSession =
+        TraderRspQryUserSessionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryUserSession
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeUserSession>
+                    |> Option.map (TraderBridgeMapping.userSession encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQueryBankAccountMoneyByFuture =
+        TraderRspQueryBankAccountMoneyByFutureDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQueryBankAccountMoneyByFuture
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeReqQueryAccount>
+                    |> Option.map (TraderBridgeMapping.reqQueryAccount encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQueryCfmmcTradingAccountToken =
+        TraderRspQueryCfmmcTradingAccountTokenDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQueryCfmmcTradingAccountToken
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeQueryCfmmcTradingAccountToken>
+                    |> Option.map (TraderBridgeMapping.queryCfmmcTradingAccountToken encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQuoteAction =
+        TraderRspQuoteActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQuoteAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputQuoteAction>
+                    |> Option.map (TraderBridgeMapping.inputQuoteAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspQuoteInsert =
+        TraderRspQuoteInsertDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQuoteInsert
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputQuote>
+                    |> Option.map (TraderBridgeMapping.inputQuote encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspRemoveParkedOrder =
+        TraderRspRemoveParkedOrderDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspRemoveParkedOrder
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRemoveParkedOrder>
+                    |> Option.map (TraderBridgeMapping.removeParkedOrder encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspRemoveParkedOrderAction =
+        TraderRspRemoveParkedOrderActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspRemoveParkedOrderAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRemoveParkedOrderAction>
+                    |> Option.map (TraderBridgeMapping.removeParkedOrderAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspSpdApply =
+        TraderRspSpdApplyDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspSpdApply
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputSpdApply>
+                    |> Option.map (TraderBridgeMapping.inputSpdApply encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspSpdApplyAction =
+        TraderRspSpdApplyActionDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspSpdApplyAction
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeInputSpdApplyAction>
+                    |> Option.map (TraderBridgeMapping.inputSpdApplyAction encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspTradingAccountPasswordUpdate =
+        TraderRspTradingAccountPasswordUpdateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspTradingAccountPasswordUpdate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeTradingAccountPasswordUpdate>
+                    |> Option.map (TraderBridgeMapping.tradingAccountPasswordUpdate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspUserAuthMethod =
+        TraderRspUserAuthMethodDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspUserAuthMethod
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspUserAuthMethod>
+                    |> Option.map (TraderBridgeMapping.rspUserAuthMethod encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rspUserPasswordUpdate =
+        TraderRspUserPasswordUpdateDelegate(fun itemPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspUserPasswordUpdate
+            |> Option.iter (fun handler ->
+                let item =
+                    itemPtr
+                    |> EncodingHelpers.ptrToOption<NativeUserPasswordUpdate>
+                    |> Option.map (TraderBridgeMapping.userPasswordUpdate encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler item rspInfo requestId (isLast <> 0)))
+
+    let rtnCombAction =
+        TraderRtnCombActionDelegate(fun itemPtr _ ->
+            callbacks.RtnCombAction
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeCombAction> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.combAction encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnExecOrder =
+        TraderRtnExecOrderDelegate(fun itemPtr _ ->
+            callbacks.RtnExecOrder
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeExecOrder> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.execOrder encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnForQuoteRsp =
+        TraderRtnForQuoteRspDelegate(fun itemPtr _ ->
+            callbacks.RtnForQuoteRsp
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeForQuoteRsp> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.forQuoteRsp encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnFromBankToFutureByFuture =
+        TraderRtnFromBankToFutureByFutureDelegate(fun itemPtr _ ->
+            callbacks.RtnFromBankToFutureByFuture
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspTransfer> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.rspTransfer encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnFromFutureToBankByFuture =
+        TraderRtnFromFutureToBankByFutureDelegate(fun itemPtr _ ->
+            callbacks.RtnFromFutureToBankByFuture
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspTransfer> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.rspTransfer encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnHedgeCfm =
+        TraderRtnHedgeCfmDelegate(fun itemPtr _ ->
+            callbacks.RtnHedgeCfm
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeHedgeCfm> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.hedgeCfm encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnOffsetSetting =
+        TraderRtnOffsetSettingDelegate(fun itemPtr _ ->
+            callbacks.RtnOffsetSetting
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeOffsetSetting> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.offsetSetting encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnOptionSelfClose =
+        TraderRtnOptionSelfCloseDelegate(fun itemPtr _ ->
+            callbacks.RtnOptionSelfClose
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeOptionSelfClose> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.optionSelfClose encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnQueryBankBalanceByFuture =
+        TraderRtnQueryBankBalanceByFutureDelegate(fun itemPtr _ ->
+            callbacks.RtnQueryBankBalanceByFuture
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeNotifyQueryAccount> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.notifyQueryAccount encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnQuote =
+        TraderRtnQuoteDelegate(fun itemPtr _ ->
+            callbacks.RtnQuote
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeQuote> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.quote encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnSpdApply =
+        TraderRtnSpdApplyDelegate(fun itemPtr _ ->
+            callbacks.RtnSpdApply
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeSpdApply> itemPtr with
+                | Some item -> handler (TraderBridgeMapping.spdApply encodings.InboundEncoding item)
                 | None -> ()))
 
     let mutable native = NativeTraderSpi()
 
     do
-        native.OnFrontConnected <- onFrontConnected
-        native.OnFrontDisconnected <- onFrontDisconnected
-        native.OnHeartBeatWarning <- onHeartBeatWarning
-        native.OnRtnPrivateSeqNo <- onRtnPrivateSeqNo
-        native.OnRspAuthenticate <- onRspAuthenticate
-        native.OnRspSettlementInfoConfirm <- onRspSettlementInfoConfirm
-        native.OnRspUserLogin <- onRspUserLogin
-        native.OnRspUserLogout <- onRspUserLogout
-        native.OnRspError <- onRspError
-        native.OnRspQryTradingAccount <- onRspQryTradingAccount
-        native.OnRspQryInvestorPosition <- onRspQryInvestorPosition
-        native.OnRspQryInstrumentMarginRate <- onRspQryInstrumentMarginRate
-        native.OnRspQryExchangeMarginRate <- onRspQryExchangeMarginRate
-        native.OnRspQryInstrumentCommissionRate <- onRspQryInstrumentCommissionRate
-        native.OnRspOrderInsert <- onRspOrderInsert
-        native.OnRspOrderAction <- onRspOrderAction
-        native.OnRtnOrder <- onRtnOrder
-        native.OnRtnTrade <- onRtnTrade
+        native.FrontConnected <- onFrontConnected
+        native.FrontDisconnected <- onFrontDisconnected
+        native.HeartBeatWarning <- onHeartBeatWarning
+        native.RtnPrivateSeqNo <- onRtnPrivateSeqNo
+        native.RspAuthenticate <- rspAuthenticate
+        native.RspSettlementInfoConfirm <- rspSettlementInfoConfirm
+        native.RspUserLogin <- rspUserLogin
+        native.RspUserLogout <- rspUserLogout
+        native.RspError <- rspError
+        native.RspQryTradingAccount <- rspQryTradingAccount
+        native.RspQryInvestorPosition <- rspQryInvestorPosition
+        native.RspQryInstrumentMarginRate <- rspQryInstrumentMarginRate
+        native.RspQryExchangeMarginRate <- rspQryExchangeMarginRate
+        native.RspQryInstrumentCommissionRate <- rspQryInstrumentCommissionRate
+        native.RspOrderInsert <- rspOrderInsert
+        native.RspOrderAction <- rspOrderAction
+        native.RtnOrder <- rtnOrder
+        native.RtnTrade <- rtnTrade
+        native.ErrRtnBankToFutureByFuture <- errRtnBankToFutureByFuture
+        native.ErrRtnBatchOrderAction <- errRtnBatchOrderAction
+        native.ErrRtnCancelOffsetSetting <- errRtnCancelOffsetSetting
+        native.ErrRtnCombActionInsert <- errRtnCombActionInsert
+        native.ErrRtnExecOrderAction <- errRtnExecOrderAction
+        native.ErrRtnExecOrderInsert <- errRtnExecOrderInsert
+        native.ErrRtnForQuoteInsert <- errRtnForQuoteInsert
+        native.ErrRtnFutureToBankByFuture <- errRtnFutureToBankByFuture
+        native.ErrRtnHedgeCfm <- errRtnHedgeCfm
+        native.ErrRtnHedgeCfmAction <- errRtnHedgeCfmAction
+        native.ErrRtnOffsetSetting <- errRtnOffsetSetting
+        native.ErrRtnOptionSelfCloseAction <- errRtnOptionSelfCloseAction
+        native.ErrRtnOptionSelfCloseInsert <- errRtnOptionSelfCloseInsert
+        native.ErrRtnOrderAction <- errRtnOrderAction
+        native.ErrRtnOrderInsert <- errRtnOrderInsert
+        native.ErrRtnQueryBankBalanceByFuture <- errRtnQueryBankBalanceByFuture
+        native.ErrRtnQuoteAction <- errRtnQuoteAction
+        native.ErrRtnQuoteInsert <- errRtnQuoteInsert
+        native.ErrRtnSpdApply <- errRtnSpdApply
+        native.ErrRtnSpdApplyAction <- errRtnSpdApplyAction
+        native.RspBatchOrderAction <- rspBatchOrderAction
+        native.RspCancelOffsetSetting <- rspCancelOffsetSetting
+        native.RspCombActionInsert <- rspCombActionInsert
+        native.RspExecOrderAction <- rspExecOrderAction
+        native.RspExecOrderInsert <- rspExecOrderInsert
+        native.RspForQuoteInsert <- rspForQuoteInsert
+        native.RspFromBankToFutureByFuture <- rspFromBankToFutureByFuture
+        native.RspFromFutureToBankByFuture <- rspFromFutureToBankByFuture
+        native.RspGenSmsCode <- rspGenSmsCode
+        native.RspGenUserCaptcha <- rspGenUserCaptcha
+        native.RspGenUserText <- rspGenUserText
+        native.RspHedgeCfm <- rspHedgeCfm
+        native.RspHedgeCfmAction <- rspHedgeCfmAction
+        native.RspOffsetSetting <- rspOffsetSetting
+        native.RspOptionSelfCloseAction <- rspOptionSelfCloseAction
+        native.RspOptionSelfCloseInsert <- rspOptionSelfCloseInsert
+        native.RspParkedOrderAction <- rspParkedOrderAction
+        native.RspParkedOrderInsert <- rspParkedOrderInsert
+        native.RspQryAccountregister <- rspQryAccountregister
+        native.RspQryBrokerTradingAlgos <- rspQryBrokerTradingAlgos
+        native.RspQryBrokerTradingParams <- rspQryBrokerTradingParams
+        native.RspQryCfmmcTradingAccountKey <- rspQryCfmmcTradingAccountKey
+        native.RspQryClassifiedInstrument <- rspQryClassifiedInstrument
+        native.RspQryCombAction <- rspQryCombAction
+        native.RspQryCombInstrumentGuard <- rspQryCombInstrumentGuard
+        native.RspQryCombLeg <- rspQryCombLeg
+        native.RspQryCombPromotionParam <- rspQryCombPromotionParam
+        native.RspQryContractBank <- rspQryContractBank
+        native.RspQryDepthMarketData <- rspQryDepthMarketData
+        native.RspQryEWarrantOffset <- rspQryEWarrantOffset
+        native.RspQryExchange <- rspQryExchange
+        native.RspQryExchangeMarginRateAdjust <- rspQryExchangeMarginRateAdjust
+        native.RspQryExchangeRate <- rspQryExchangeRate
+        native.RspQryExecOrder <- rspQryExecOrder
+        native.RspQryForQuote <- rspQryForQuote
+        native.RspQryHedgeCfm <- rspQryHedgeCfm
+        native.RspQryInstrument <- rspQryInstrument
+        native.RspQryInstrumentOrderCommRate <- rspQryInstrumentOrderCommRate
+        native.RspQryInvestUnit <- rspQryInvestUnit
+        native.RspQryInvestor <- rspQryInvestor
+        native.RspQryInvestorCommodityGroupSpmmMargin <- rspQryInvestorCommodityGroupSpmmMargin
+        native.RspQryInvestorCommoditySpmmMargin <- rspQryInvestorCommoditySpmmMargin
+        native.RspQryInvestorInfoCommRec <- rspQryInvestorInfoCommRec
+        native.RspQryInvestorPortfMarginRatio <- rspQryInvestorPortfMarginRatio
+        native.RspQryInvestorPortfSetting <- rspQryInvestorPortfSetting
+        native.RspQryInvestorPositionCombineDetail <- rspQryInvestorPositionCombineDetail
+        native.RspQryInvestorPositionDetail <- rspQryInvestorPositionDetail
+        native.RspQryInvestorProdRcamsMargin <- rspQryInvestorProdRcamsMargin
+        native.RspQryInvestorProdRuleMargin <- rspQryInvestorProdRuleMargin
+        native.RspQryInvestorProdSpbmDetail <- rspQryInvestorProdSpbmDetail
+        native.RspQryInvestorProductGroupMargin <- rspQryInvestorProductGroupMargin
+        native.RspQryMmInstrumentCommissionRate <- rspQryMmInstrumentCommissionRate
+        native.RspQryMmOptionInstrCommRate <- rspQryMmOptionInstrCommRate
+        native.RspQryMaxOrderVolume <- rspQryMaxOrderVolume
+        native.RspQryNotice <- rspQryNotice
+        native.RspQryOffsetSetting <- rspQryOffsetSetting
+        native.RspQryOptionInstrCommRate <- rspQryOptionInstrCommRate
+        native.RspQryOptionInstrTradeCost <- rspQryOptionInstrTradeCost
+        native.RspQryOptionSelfClose <- rspQryOptionSelfClose
+        native.RspQryOrder <- rspQryOrder
+        native.RspQryParkedOrder <- rspQryParkedOrder
+        native.RspQryParkedOrderAction <- rspQryParkedOrderAction
+        native.RspQryProduct <- rspQryProduct
+        native.RspQryProductExchRate <- rspQryProductExchRate
+        native.RspQryProductGroup <- rspQryProductGroup
+        native.RspQryQuote <- rspQryQuote
+        native.RspQryRcamsCombProductInfo <- rspQryRcamsCombProductInfo
+        native.RspQryRcamsInstrParameter <- rspQryRcamsInstrParameter
+        native.RspQryRcamsInterParameter <- rspQryRcamsInterParameter
+        native.RspQryRcamsIntraParameter <- rspQryRcamsIntraParameter
+        native.RspQryRcamsInvestorCombPosition <- rspQryRcamsInvestorCombPosition
+        native.RspQryRcamsShortOptAdjustParam <- rspQryRcamsShortOptAdjustParam
+        native.RspQryRuleInstrParameter <- rspQryRuleInstrParameter
+        native.RspQryRuleInterParameter <- rspQryRuleInterParameter
+        native.RspQryRuleIntraParameter <- rspQryRuleIntraParameter
+        native.RspQryRiskSettleInvstPosition <- rspQryRiskSettleInvstPosition
+        native.RspQryRiskSettleProductStatus <- rspQryRiskSettleProductStatus
+        native.RspQrySpbmAddOnInterParameter <- rspQrySpbmAddOnInterParameter
+        native.RspQrySpbmFutureParameter <- rspQrySpbmFutureParameter
+        native.RspQrySpbmInterParameter <- rspQrySpbmInterParameter
+        native.RspQrySpbmIntraParameter <- rspQrySpbmIntraParameter
+        native.RspQrySpbmInvestorPortfDef <- rspQrySpbmInvestorPortfDef
+        native.RspQrySpbmOptionParameter <- rspQrySpbmOptionParameter
+        native.RspQrySpbmPortfDefinition <- rspQrySpbmPortfDefinition
+        native.RspQrySpmmInstParam <- rspQrySpmmInstParam
+        native.RspQrySpmmProductParam <- rspQrySpmmProductParam
+        native.RspQrySecAgentAcIdMap <- rspQrySecAgentAcIdMap
+        native.RspQrySecAgentCheckMode <- rspQrySecAgentCheckMode
+        native.RspQrySecAgentTradeInfo <- rspQrySecAgentTradeInfo
+        native.RspQrySecAgentTradingAccount <- rspQrySecAgentTradingAccount
+        native.RspQrySettlementInfo <- rspQrySettlementInfo
+        native.RspQrySettlementInfoConfirm <- rspQrySettlementInfoConfirm
+        native.RspQrySpdApply <- rspQrySpdApply
+        native.RspQryTrade <- rspQryTrade
+        native.RspQryTraderOffer <- rspQryTraderOffer
+        native.RspQryTradingCode <- rspQryTradingCode
+        native.RspQryTradingNotice <- rspQryTradingNotice
+        native.RspQryTransferBank <- rspQryTransferBank
+        native.RspQryTransferSerial <- rspQryTransferSerial
+        native.RspQryUserSession <- rspQryUserSession
+        native.RspQueryBankAccountMoneyByFuture <- rspQueryBankAccountMoneyByFuture
+        native.RspQueryCfmmcTradingAccountToken <- rspQueryCfmmcTradingAccountToken
+        native.RspQuoteAction <- rspQuoteAction
+        native.RspQuoteInsert <- rspQuoteInsert
+        native.RspRemoveParkedOrder <- rspRemoveParkedOrder
+        native.RspRemoveParkedOrderAction <- rspRemoveParkedOrderAction
+        native.RspSpdApply <- rspSpdApply
+        native.RspSpdApplyAction <- rspSpdApplyAction
+        native.RspTradingAccountPasswordUpdate <- rspTradingAccountPasswordUpdate
+        native.RspUserAuthMethod <- rspUserAuthMethod
+        native.RspUserPasswordUpdate <- rspUserPasswordUpdate
+        native.RtnCombAction <- rtnCombAction
+        native.RtnExecOrder <- rtnExecOrder
+        native.RtnForQuoteRsp <- rtnForQuoteRsp
+        native.RtnFromBankToFutureByFuture <- rtnFromBankToFutureByFuture
+        native.RtnFromFutureToBankByFuture <- rtnFromFutureToBankByFuture
+        native.RtnHedgeCfm <- rtnHedgeCfm
+        native.RtnOffsetSetting <- rtnOffsetSetting
+        native.RtnOptionSelfClose <- rtnOptionSelfClose
+        native.RtnQueryBankBalanceByFuture <- rtnQueryBankBalanceByFuture
+        native.RtnQuote <- rtnQuote
+        native.RtnSpdApply <- rtnSpdApply
 
     member _.Native = native
 
@@ -1970,6 +18200,498 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
     member this.ReqOrderAction(request: InputOrderActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputOrderAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqOrderAction (this.Handle, &native, requestId)
+
+    member this.GetTradingDay() =
+        TraderNativeInterop.getTradingDay this.Handle |> BridgeHelpers.ptrToAnsiString
+
+    member this.GetFrontInfo() =
+        let mutable native = NativeFrontInfo()
+        TraderNativeInterop.getFrontInfo (this.Handle, &native)
+        |> BridgeHelpers.throwOnNonZero
+        <| "ctp_trader_get_front_info"
+        TraderBridgeMapping.frontInfo encodings.InboundEncoding native
+
+    member this.RegisterNameServer(nsAddress: string) =
+        BridgeHelpers.withEncodedCString encodings.OutboundEncoding (Some nsAddress) (fun ptr ->
+            TraderNativeInterop.registerNameServer (this.Handle, ptr))
+        |> BridgeHelpers.throwOnNonZero
+        <| "ctp_trader_register_name_server"
+
+    member this.RegisterFensUserInfo(request: FensUserInfo) =
+        let mutable native = TraderBridgeBuilders.fensUserInfo encodings.OutboundEncoding request
+        TraderNativeInterop.registerFensUserInfo (this.Handle, &native)
+
+    member this.RegisterUserSystemInfo(request: UserSystemInfo) =
+        let mutable native = TraderBridgeBuilders.userSystemInfo encodings.OutboundEncoding request
+        TraderNativeInterop.registerUserSystemInfo (this.Handle, &native)
+
+    member this.SubmitUserSystemInfo(request: UserSystemInfo) =
+        let mutable native = TraderBridgeBuilders.userSystemInfo encodings.OutboundEncoding request
+        TraderNativeInterop.submitUserSystemInfo (this.Handle, &native)
+
+    member this.RegisterWechatUserSystemInfo(request: WechatUserSystemInfo) =
+        let mutable native = TraderBridgeBuilders.wechatUserSystemInfo encodings.OutboundEncoding request
+        TraderNativeInterop.registerWechatUserSystemInfo (this.Handle, &native)
+
+    member this.SubmitWechatUserSystemInfo(request: WechatUserSystemInfo) =
+        let mutable native = TraderBridgeBuilders.wechatUserSystemInfo encodings.OutboundEncoding request
+        TraderNativeInterop.submitWechatUserSystemInfo (this.Handle, &native)
+
+    member this.ReqUserPasswordUpdate(request: UserPasswordUpdate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.userPasswordUpdate encodings.OutboundEncoding request
+        TraderNativeInterop.reqUserPasswordUpdate (this.Handle, &native, requestId)
+
+    member this.ReqTradingAccountPasswordUpdate(request: TradingAccountPasswordUpdate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.tradingAccountPasswordUpdate encodings.OutboundEncoding request
+        TraderNativeInterop.reqTradingAccountPasswordUpdate (this.Handle, &native, requestId)
+
+    member this.ReqUserAuthMethod(request: ReqUserAuthMethod, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqUserAuthMethod encodings.OutboundEncoding request
+        TraderNativeInterop.reqUserAuthMethod (this.Handle, &native, requestId)
+
+    member this.ReqGenUserCaptcha(request: ReqGenUserCaptcha, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqGenUserCaptcha encodings.OutboundEncoding request
+        TraderNativeInterop.reqGenUserCaptcha (this.Handle, &native, requestId)
+
+    member this.ReqGenUserText(request: ReqGenUserText, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqGenUserText encodings.OutboundEncoding request
+        TraderNativeInterop.reqGenUserText (this.Handle, &native, requestId)
+
+    member this.ReqUserLoginWithCaptcha(request: ReqUserLoginWithCaptcha, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqUserLoginWithCaptcha encodings.OutboundEncoding request
+        TraderNativeInterop.reqUserLoginWithCaptcha (this.Handle, &native, requestId)
+
+    member this.ReqUserLoginWithText(request: ReqUserLoginWithText, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqUserLoginWithText encodings.OutboundEncoding request
+        TraderNativeInterop.reqUserLoginWithText (this.Handle, &native, requestId)
+
+    member this.ReqUserLoginWithOtp(request: ReqUserLoginWithOtp, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqUserLoginWithOtp encodings.OutboundEncoding request
+        TraderNativeInterop.reqUserLoginWithOtp (this.Handle, &native, requestId)
+
+    member this.ReqGenSmsCode(request: ReqGenSmsCode, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqGenSmsCode encodings.OutboundEncoding request
+        TraderNativeInterop.reqGenSmsCode (this.Handle, &native, requestId)
+
+    member this.ReqParkedOrderInsert(request: ParkedOrder, requestId: int) =
+        let mutable native = TraderBridgeBuilders.parkedOrder encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqParkedOrderInsert (this.Handle, &native, requestId)
+
+    member this.ReqParkedOrderAction(request: ParkedOrderAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.parkedOrderAction encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqParkedOrderAction (this.Handle, &native, requestId)
+
+    member this.ReqQryMaxOrderVolume(request: QryMaxOrderVolume, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryMaxOrderVolume encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryMaxOrderVolume (this.Handle, &native, requestId)
+
+    member this.ReqRemoveParkedOrder(request: RemoveParkedOrder, requestId: int) =
+        let mutable native = TraderBridgeBuilders.removeParkedOrder encodings.OutboundEncoding request
+        TraderNativeInterop.reqRemoveParkedOrder (this.Handle, &native, requestId)
+
+    member this.ReqRemoveParkedOrderAction(request: RemoveParkedOrderAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.removeParkedOrderAction encodings.OutboundEncoding request
+        TraderNativeInterop.reqRemoveParkedOrderAction (this.Handle, &native, requestId)
+
+    member this.ReqExecOrderInsert(request: InputExecOrder, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputExecOrder encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqExecOrderInsert (this.Handle, &native, requestId)
+
+    member this.ReqExecOrderAction(request: InputExecOrderAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputExecOrderAction encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqExecOrderAction (this.Handle, &native, requestId)
+
+    member this.ReqForQuoteInsert(request: InputForQuote, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputForQuote encodings.OutboundEncoding request
+        TraderNativeInterop.reqForQuoteInsert (this.Handle, &native, requestId)
+
+    member this.ReqQuoteInsert(request: InputQuote, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputQuote encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqQuoteInsert (this.Handle, &native, requestId)
+
+    member this.ReqQuoteAction(request: InputQuoteAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputQuoteAction encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqQuoteAction (this.Handle, &native, requestId)
+
+    member this.ReqBatchOrderAction(request: InputBatchOrderAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputBatchOrderAction encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqBatchOrderAction (this.Handle, &native, requestId)
+
+    member this.ReqOptionSelfCloseInsert(request: InputOptionSelfClose, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputOptionSelfClose encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqOptionSelfCloseInsert (this.Handle, &native, requestId)
+
+    member this.ReqOptionSelfCloseAction(request: InputOptionSelfCloseAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputOptionSelfCloseAction encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqOptionSelfCloseAction (this.Handle, &native, requestId)
+
+    member this.ReqCombActionInsert(request: InputCombAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputCombAction encodings.OutboundEncoding request
+        TraderNativeInterop.reqCombActionInsert (this.Handle, &native, requestId)
+
+    member this.ReqOffsetSetting(request: InputOffsetSetting, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqOffsetSetting (this.Handle, &native, requestId)
+
+    member this.ReqCancelOffsetSetting(request: InputOffsetSetting, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqCancelOffsetSetting (this.Handle, &native, requestId)
+
+    member this.ReqSpdApply(request: InputSpdApply, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputSpdApply encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqSpdApply (this.Handle, &native, requestId)
+
+    member this.ReqSpdApplyAction(request: InputSpdApplyAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputSpdApplyAction encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqSpdApplyAction (this.Handle, &native, requestId)
+
+    member this.ReqHedgeCfm(request: InputHedgeCfm, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputHedgeCfm encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqHedgeCfm (this.Handle, &native, requestId)
+
+    member this.ReqHedgeCfmAction(request: InputHedgeCfmAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.inputHedgeCfmAction encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqHedgeCfmAction (this.Handle, &native, requestId)
+
+    member this.ReqQryOrder(request: QryOrder, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryOrder encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryOrder (this.Handle, &native, requestId)
+
+    member this.ReqQryTrade(request: QryTrade, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryTrade encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryTrade (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestor(request: QryInvestor, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestor encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestor (this.Handle, &native, requestId)
+
+    member this.ReqQryTradingCode(request: QryTradingCode, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryTradingCode encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryTradingCode (this.Handle, &native, requestId)
+
+    member this.ReqQryUserSession(request: QryUserSession, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryUserSession encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryUserSession (this.Handle, &native, requestId)
+
+    member this.ReqQryExchange(request: QryExchange, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryExchange encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryExchange (this.Handle, &native, requestId)
+
+    member this.ReqQryProduct(request: QryProduct, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryProduct encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryProduct (this.Handle, &native, requestId)
+
+    member this.ReqQryInstrument(request: QryInstrument, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInstrument encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInstrument (this.Handle, &native, requestId)
+
+    member this.ReqQryDepthMarketData(request: QryDepthMarketData, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryDepthMarketData encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryDepthMarketData (this.Handle, &native, requestId)
+
+    member this.ReqQryTraderOffer(request: QryTraderOffer, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryTraderOffer encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryTraderOffer (this.Handle, &native, requestId)
+
+    member this.ReqQrySettlementInfo(request: QrySettlementInfo, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySettlementInfo encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySettlementInfo (this.Handle, &native, requestId)
+
+    member this.ReqQryTransferBank(request: QryTransferBank, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryTransferBank encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryTransferBank (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorPositionDetail(request: QryInvestorPositionDetail, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorPositionDetail encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorPositionDetail (this.Handle, &native, requestId)
+
+    member this.ReqQryNotice(request: QryNotice, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryNotice encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryNotice (this.Handle, &native, requestId)
+
+    member this.ReqQrySettlementInfoConfirm(request: QrySettlementInfoConfirm, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySettlementInfoConfirm encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySettlementInfoConfirm (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorPositionCombineDetail(request: QryInvestorPositionCombineDetail, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorPositionCombineDetail encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorPositionCombineDetail (this.Handle, &native, requestId)
+
+    member this.ReqQryCfmmcTradingAccountKey(request: QryCfmmcTradingAccountKey, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryCfmmcTradingAccountKey encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryCfmmcTradingAccountKey (this.Handle, &native, requestId)
+
+    member this.ReqQryEWarrantOffset(request: QryEWarrantOffset, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryEWarrantOffset encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryEWarrantOffset (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorProductGroupMargin(request: QryInvestorProductGroupMargin, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorProductGroupMargin encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorProductGroupMargin (this.Handle, &native, requestId)
+
+    member this.ReqQryExchangeMarginRateAdjust(request: QryExchangeMarginRateAdjust, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryExchangeMarginRateAdjust encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryExchangeMarginRateAdjust (this.Handle, &native, requestId)
+
+    member this.ReqQryExchangeRate(request: QryExchangeRate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryExchangeRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryExchangeRate (this.Handle, &native, requestId)
+
+    member this.ReqQrySecAgentAcIdMap(request: QrySecAgentAcIdMap, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySecAgentAcIdMap encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySecAgentAcIdMap (this.Handle, &native, requestId)
+
+    member this.ReqQryProductExchRate(request: QryProductExchRate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryProductExchRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryProductExchRate (this.Handle, &native, requestId)
+
+    member this.ReqQryProductGroup(request: QryProductGroup, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryProductGroup encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryProductGroup (this.Handle, &native, requestId)
+
+    member this.ReqQryMmInstrumentCommissionRate(request: QryMmInstrumentCommissionRate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryMmInstrumentCommissionRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryMmInstrumentCommissionRate (this.Handle, &native, requestId)
+
+    member this.ReqQryMmOptionInstrCommRate(request: QryMmOptionInstrCommRate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryMmOptionInstrCommRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryMmOptionInstrCommRate (this.Handle, &native, requestId)
+
+    member this.ReqQryInstrumentOrderCommRate(request: QryInstrumentOrderCommRate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInstrumentOrderCommRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInstrumentOrderCommRate (this.Handle, &native, requestId)
+
+    member this.ReqQrySecAgentTradingAccount(request: QueryTradingAccountRequest, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryTradingAccount encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySecAgentTradingAccount (this.Handle, &native, requestId)
+
+    member this.ReqQrySecAgentCheckMode(request: QrySecAgentCheckMode, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySecAgentCheckMode encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySecAgentCheckMode (this.Handle, &native, requestId)
+
+    member this.ReqQrySecAgentTradeInfo(request: QrySecAgentTradeInfo, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySecAgentTradeInfo encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySecAgentTradeInfo (this.Handle, &native, requestId)
+
+    member this.ReqQryOptionInstrTradeCost(request: QryOptionInstrTradeCost, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryOptionInstrTradeCost encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryOptionInstrTradeCost (this.Handle, &native, requestId)
+
+    member this.ReqQryOptionInstrCommRate(request: QryOptionInstrCommRate, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryOptionInstrCommRate encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryOptionInstrCommRate (this.Handle, &native, requestId)
+
+    member this.ReqQryExecOrder(request: QryExecOrder, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryExecOrder encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryExecOrder (this.Handle, &native, requestId)
+
+    member this.ReqQryForQuote(request: QryForQuote, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryForQuote encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryForQuote (this.Handle, &native, requestId)
+
+    member this.ReqQryQuote(request: QryQuote, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryQuote encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryQuote (this.Handle, &native, requestId)
+
+    member this.ReqQryOptionSelfClose(request: QryOptionSelfClose, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryOptionSelfClose encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryOptionSelfClose (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestUnit(request: QryInvestUnit, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestUnit encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestUnit (this.Handle, &native, requestId)
+
+    member this.ReqQryCombInstrumentGuard(request: QryCombInstrumentGuard, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryCombInstrumentGuard encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryCombInstrumentGuard (this.Handle, &native, requestId)
+
+    member this.ReqQryCombAction(request: QryCombAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryCombAction encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryCombAction (this.Handle, &native, requestId)
+
+    member this.ReqQryTransferSerial(request: QryTransferSerial, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryTransferSerial encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryTransferSerial (this.Handle, &native, requestId)
+
+    member this.ReqQryAccountregister(request: QryAccountregister, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryAccountregister encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryAccountregister (this.Handle, &native, requestId)
+
+    member this.ReqQryContractBank(request: QryContractBank, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryContractBank encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryContractBank (this.Handle, &native, requestId)
+
+    member this.ReqQryParkedOrder(request: QryParkedOrder, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryParkedOrder encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryParkedOrder (this.Handle, &native, requestId)
+
+    member this.ReqQryParkedOrderAction(request: QryParkedOrderAction, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryParkedOrderAction encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryParkedOrderAction (this.Handle, &native, requestId)
+
+    member this.ReqQryTradingNotice(request: QryTradingNotice, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryTradingNotice encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryTradingNotice (this.Handle, &native, requestId)
+
+    member this.ReqQryBrokerTradingParams(request: QryBrokerTradingParams, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryBrokerTradingParams encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryBrokerTradingParams (this.Handle, &native, requestId)
+
+    member this.ReqQryBrokerTradingAlgos(request: QryBrokerTradingAlgos, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryBrokerTradingAlgos encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryBrokerTradingAlgos (this.Handle, &native, requestId)
+
+    member this.ReqQueryCfmmcTradingAccountToken(request: QueryCfmmcTradingAccountToken, requestId: int) =
+        let mutable native = TraderBridgeBuilders.queryCfmmcTradingAccountToken encodings.OutboundEncoding request
+        TraderNativeInterop.reqQueryCfmmcTradingAccountToken (this.Handle, &native, requestId)
+
+    member this.ReqQryClassifiedInstrument(request: QryClassifiedInstrument, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryClassifiedInstrument encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryClassifiedInstrument (this.Handle, &native, requestId)
+
+    member this.ReqQryCombPromotionParam(request: QryCombPromotionParam, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryCombPromotionParam encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryCombPromotionParam (this.Handle, &native, requestId)
+
+    member this.ReqQryRiskSettleInvstPosition(request: QryRiskSettleInvstPosition, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRiskSettleInvstPosition encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRiskSettleInvstPosition (this.Handle, &native, requestId)
+
+    member this.ReqQryRiskSettleProductStatus(request: QryRiskSettleProductStatus, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRiskSettleProductStatus encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRiskSettleProductStatus (this.Handle, &native, requestId)
+
+    member this.ReqQrySpbmFutureParameter(request: QrySpbmFutureParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpbmFutureParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpbmFutureParameter (this.Handle, &native, requestId)
+
+    member this.ReqQrySpbmOptionParameter(request: QrySpbmOptionParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpbmOptionParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpbmOptionParameter (this.Handle, &native, requestId)
+
+    member this.ReqQrySpbmIntraParameter(request: QrySpbmIntraParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpbmIntraParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpbmIntraParameter (this.Handle, &native, requestId)
+
+    member this.ReqQrySpbmInterParameter(request: QrySpbmInterParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpbmInterParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpbmInterParameter (this.Handle, &native, requestId)
+
+    member this.ReqQrySpbmPortfDefinition(request: QrySpbmPortfDefinition, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpbmPortfDefinition encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpbmPortfDefinition (this.Handle, &native, requestId)
+
+    member this.ReqQrySpbmInvestorPortfDef(request: QrySpbmInvestorPortfDef, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpbmInvestorPortfDef encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpbmInvestorPortfDef (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorPortfMarginRatio(request: QryInvestorPortfMarginRatio, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorPortfMarginRatio encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorPortfMarginRatio (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorProdSpbmDetail(request: QryInvestorProdSpbmDetail, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorProdSpbmDetail encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorProdSpbmDetail (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorCommoditySpmmMargin(request: QryInvestorCommoditySpmmMargin, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorCommoditySpmmMargin encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorCommoditySpmmMargin (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorCommodityGroupSpmmMargin(request: QryInvestorCommodityGroupSpmmMargin, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorCommodityGroupSpmmMargin encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorCommodityGroupSpmmMargin (this.Handle, &native, requestId)
+
+    member this.ReqQrySpmmInstParam(request: QrySpmmInstParam, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpmmInstParam encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpmmInstParam (this.Handle, &native, requestId)
+
+    member this.ReqQrySpmmProductParam(request: QrySpmmProductParam, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpmmProductParam encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpmmProductParam (this.Handle, &native, requestId)
+
+    member this.ReqQrySpbmAddOnInterParameter(request: QrySpbmAddOnInterParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpbmAddOnInterParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpbmAddOnInterParameter (this.Handle, &native, requestId)
+
+    member this.ReqQryRcamsCombProductInfo(request: QryRcamsCombProductInfo, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRcamsCombProductInfo encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRcamsCombProductInfo (this.Handle, &native, requestId)
+
+    member this.ReqQryRcamsInstrParameter(request: QryRcamsInstrParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRcamsInstrParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRcamsInstrParameter (this.Handle, &native, requestId)
+
+    member this.ReqQryRcamsIntraParameter(request: QryRcamsIntraParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRcamsIntraParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRcamsIntraParameter (this.Handle, &native, requestId)
+
+    member this.ReqQryRcamsInterParameter(request: QryRcamsInterParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRcamsInterParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRcamsInterParameter (this.Handle, &native, requestId)
+
+    member this.ReqQryRcamsShortOptAdjustParam(request: QryRcamsShortOptAdjustParam, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRcamsShortOptAdjustParam encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRcamsShortOptAdjustParam (this.Handle, &native, requestId)
+
+    member this.ReqQryRcamsInvestorCombPosition(request: QryRcamsInvestorCombPosition, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRcamsInvestorCombPosition encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRcamsInvestorCombPosition (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorProdRcamsMargin(request: QryInvestorProdRcamsMargin, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorProdRcamsMargin encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorProdRcamsMargin (this.Handle, &native, requestId)
+
+    member this.ReqQryRuleInstrParameter(request: QryRuleInstrParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRuleInstrParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRuleInstrParameter (this.Handle, &native, requestId)
+
+    member this.ReqQryRuleIntraParameter(request: QryRuleIntraParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRuleIntraParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRuleIntraParameter (this.Handle, &native, requestId)
+
+    member this.ReqQryRuleInterParameter(request: QryRuleInterParameter, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryRuleInterParameter encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryRuleInterParameter (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorProdRuleMargin(request: QryInvestorProdRuleMargin, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorProdRuleMargin encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorProdRuleMargin (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorPortfSetting(request: QryInvestorPortfSetting, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorPortfSetting encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorPortfSetting (this.Handle, &native, requestId)
+
+    member this.ReqQryInvestorInfoCommRec(request: QryInvestorInfoCommRec, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryInvestorInfoCommRec encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryInvestorInfoCommRec (this.Handle, &native, requestId)
+
+    member this.ReqQryCombLeg(request: QryCombLeg, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryCombLeg encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryCombLeg (this.Handle, &native, requestId)
+
+    member this.ReqQryOffsetSetting(request: QryOffsetSetting, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryOffsetSetting encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryOffsetSetting (this.Handle, &native, requestId)
+
+    member this.ReqQrySpdApply(request: QrySpdApply, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qrySpdApply encodings.OutboundEncoding request
+        TraderNativeInterop.reqQrySpdApply (this.Handle, &native, requestId)
+
+    member this.ReqQryHedgeCfm(request: QryHedgeCfm, requestId: int) =
+        let mutable native = TraderBridgeBuilders.qryHedgeCfm encodings.OutboundEncoding request
+        TraderNativeInterop.reqQryHedgeCfm (this.Handle, &native, requestId)
+
+    member this.ReqFromBankToFutureByFuture(request: ReqTransfer, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqTransfer encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqFromBankToFutureByFuture (this.Handle, &native, requestId)
+
+    member this.ReqFromFutureToBankByFuture(request: ReqTransfer, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqTransfer encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqFromFutureToBankByFuture (this.Handle, &native, requestId)
+
+    member this.ReqQueryBankAccountMoneyByFuture(request: ReqQueryAccount, requestId: int) =
+        let mutable native = TraderBridgeBuilders.reqQueryAccount encodings.OutboundEncoding requestId request
+        TraderNativeInterop.reqQueryBankAccountMoneyByFuture (this.Handle, &native, requestId)
 
     interface IDisposable with
         member _.Dispose() = handle.Dispose()

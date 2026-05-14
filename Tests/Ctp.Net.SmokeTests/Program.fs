@@ -290,6 +290,22 @@ type TraderSmokeTests() =
 
         instrumentCommissionRateResult |> Helper.expectOk |> ignore
 
+        let! instrumentsResult =
+            let rq =
+                { Reserve1 = ""
+                  ExchangeId = ""
+                  Reserve2 = ""
+                  Reserve3 = ""
+                  InstrumentId = ""
+                  ExchangeInstId = ""
+                  ProductId = "" }
+
+            client.QueryInstrumentAsync rq |> Async.StartAsTask
+
+        match instrumentsResult with
+        | Ok s -> Assert.True(s.Length > 0)
+        | Error rsp -> failwith $"Expected queried instruments but got Error({rsp.ErrorId}: {rsp.ErrorMessage})."
+
         let! logoutResult = client.LogoutAsync() |> Async.StartAsTask
         logoutResult |> Helper.expectOk |> ignore
     }
