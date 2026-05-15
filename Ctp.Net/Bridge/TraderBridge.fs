@@ -105,7 +105,7 @@ type InputOrderRequest =
       InvestorId: string
       InstrumentId: string
       OrderRef: string
-      UserId: string
+      UserId: string option
       OrderPriceType: char
       Direction: char
       CombOffsetFlag: string
@@ -123,7 +123,7 @@ type InputOrderRequest =
       BusinessUnit: string option
       UserForceClose: bool
       IsSwapOrder: bool
-      ExchangeId: string option
+      ExchangeId: string
       InvestUnitId: string option
       AccountId: string option
       CurrencyId: string option
@@ -139,14 +139,14 @@ type InputOrderActionRequest =
       OrderRef: string
       FrontId: int
       SessionId: int
-      ExchangeId: string option
-      OrderSysId: string option
+      ExchangeId: string
+      OrderSysId: string
       ActionFlag: char
       LimitPrice: decimal
       VolumeChange: int
-      UserId: string option
+      UserId: string
       InvestUnitId: string option
-      InstrumentId: string option
+      InstrumentId: string
       MacAddress: string option
       IpAddress: string option
       OrderMemo: string option }
@@ -207,7 +207,7 @@ type AuthenticateRequest =
 type QueryTradingAccountRequest =
     { BrokerId: string
       InvestorId: string
-      CurrencyId: string option
+      CurrencyId: string
       BizType: char option
       AccountId: string option }
 
@@ -216,7 +216,8 @@ type QueryInvestorPositionRequest =
       InvestorId: string
       ExchangeId: string option
       InvestUnitId: string option
-      InstrumentId: string option }
+      InstrumentId: string
+      Reserve1: string option }
 
 type QueryInstrumentMarginRateRequest =
     { BrokerId: string
@@ -224,20 +225,23 @@ type QueryInstrumentMarginRateRequest =
       HedgeFlag: char
       ExchangeId: string option
       InvestUnitId: string option
-      InstrumentId: string }
+      InstrumentId: string
+      Reserve1: string option }
 
 type QueryExchangeMarginRateRequest =
     { BrokerId: string
       HedgeFlag: char
       ExchangeId: string option
-      InstrumentId: string }
+      InstrumentId: string
+      Reserve1: string option }
 
 type QueryInstrumentCommissionRateRequest =
     { BrokerId: string
       InvestorId: string
       ExchangeId: string option
       InvestUnitId: string option
-      InstrumentId: string }
+      InstrumentId: string
+      Reserve1: string option }
 
 type Accountregister =
     { 
@@ -652,116 +656,116 @@ type HedgeCfmAction =
       MacAddress: string }
 
 type InputBatchOrderActionRequest =
-    { 
-      BrokerId: string;
+    {
+      BrokerId: string option;
       InvestorId: string;
       OrderActionRef: int;
       RequestId: int;
       FrontId: int;
       SessionId: int;
-      ExchangeId: string;
-      UserId: string;
-      InvestUnitId: string;
-      Reserve1: string;
-      MacAddress: string;
-      IpAddress: string }
+      ExchangeId: string option;
+      UserId: string option;
+      InvestUnitId: string option;
+      Reserve1: string option;
+      MacAddress: string option;
+      IpAddress: string option }
 
 type InputCombActionRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      CombActionRef: string;
-      UserId: string;
-      Direction: char option;
+      Reserve1: string option;
+      CombActionRef: string option;
+      UserId: string option;
+      Direction: char;
       Volume: int;
       CombDirection: char option;
       HedgeFlag: char option;
       ExchangeId: string;
-      Reserve2: string;
-      MacAddress: string;
-      InvestUnitId: string;
+      Reserve2: string option;
+      MacAddress: string option;
+      InvestUnitId: string option;
       FrontId: int;
       SessionId: int;
       InstrumentId: string;
-      IpAddress: string }
+      IpAddress: string option }
 
 type InputExecOrderRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      ExecOrderRef: string;
-      UserId: string;
+      Reserve1: string option;
+      ExecOrderRef: string option;
+      UserId: string option;
       Volume: int;
       RequestId: int;
-      BusinessUnit: string;
-      OffsetFlag: char option;
+      BusinessUnit: string option;
+      OffsetFlag: char;
       HedgeFlag: char option;
-      ActionType: char option;
+      ActionType: char;
       PosiDirection: char option;
       ReservePositionFlag: char option;
-      CloseFlag: char option;
-      ExchangeId: string;
-      InvestUnitId: string;
-      AccountId: string;
-      CurrencyId: string;
-      ClientId: string;
-      Reserve2: string;
-      MacAddress: string;
+      CloseFlag: char;
+      ExchangeId: string option;
+      InvestUnitId: string option;
+      AccountId: string option;
+      CurrencyId: string option;
+      ClientId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
       InstrumentId: string;
-      IpAddress: string }
+      IpAddress: string option }
 
 type InputExecOrderActionRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ExecOrderActionRef: int;
-      ExecOrderRef: string;
+      ExecOrderRef: string option;
       RequestId: int;
       FrontId: int;
       SessionId: int;
       ExchangeId: string;
       ExecOrderSysId: string;
       ActionFlag: char option;
-      UserId: string;
-      Reserve1: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
-      InstrumentId: string;
-      IpAddress: string }
+      UserId: string option;
+      Reserve1: string option;
+      InvestUnitId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
+      InstrumentId: string option;
+      IpAddress: string option }
 
 type InputForQuoteRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      ForQuoteRef: string;
-      UserId: string;
-      ExchangeId: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
+      Reserve1: string option;
+      ForQuoteRef: string option;
+      UserId: string option;
+      ExchangeId: string option;
+      InvestUnitId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
       InstrumentId: string;
-      IpAddress: string }
+      IpAddress: string option }
 
 type InputHedgeCfmRequest =
-    { 
+    {
       BrokerId: string;
       UserId: string;
       InvestorId: string;
       ExchangeId: string;
       InstrumentId: string;
       Volume: int;
-      Direction: char option;
+      Direction: char;
       RequestId: int;
-      OrderRef: string;
-      IpAddress: string;
-      MacAddress: string }
+      OrderRef: string option;
+      IpAddress: string option;
+      MacAddress: string option }
 
 type InputHedgeCfmActionRequest =
-    { 
+    {
       BrokerId: string;
       UserId: string;
       InvestorId: string;
@@ -771,101 +775,101 @@ type InputHedgeCfmActionRequest =
       FrontId: int;
       SessionId: int;
       RequestId: int;
-      IpAddress: string;
-      MacAddress: string }
+      IpAddress: string option;
+      MacAddress: string option }
 
 type InputOffsetSettingRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       InstrumentId: string;
       UnderlyingInstrId: string;
       ProductId: string;
-      OffsetType: char option;
+      OffsetType: char;
       Volume: int;
       IsOffset: int;
       RequestId: int;
       UserId: string;
       ExchangeId: string;
-      IpAddress: string;
-      MacAddress: string }
+      IpAddress: string option;
+      MacAddress: string option }
 
 type InputOptionSelfCloseRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      OptionSelfCloseRef: string;
-      UserId: string;
+      Reserve1: string option;
+      OptionSelfCloseRef: string option;
+      UserId: string option;
       Volume: int;
       RequestId: int;
-      BusinessUnit: string;
-      HedgeFlag: char option;
+      BusinessUnit: string option;
+      HedgeFlag: char;
       OptSelfCloseFlag: char option;
       ExchangeId: string;
-      InvestUnitId: string;
-      AccountId: string;
-      CurrencyId: string;
-      ClientId: string;
-      Reserve2: string;
-      MacAddress: string;
+      InvestUnitId: string option;
+      AccountId: string option;
+      CurrencyId: string option;
+      ClientId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
       InstrumentId: string;
-      IpAddress: string }
+      IpAddress: string option }
 
 type InputOptionSelfCloseActionRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       OptionSelfCloseActionRef: int;
-      OptionSelfCloseRef: string;
+      OptionSelfCloseRef: string option;
       RequestId: int;
       FrontId: int;
       SessionId: int;
       ExchangeId: string;
       OptionSelfCloseSysId: string;
-      ActionFlag: char option;
-      UserId: string;
-      Reserve1: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
-      InstrumentId: string;
-      IpAddress: string }
+      ActionFlag: char;
+      UserId: string option;
+      Reserve1: string option;
+      InvestUnitId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
+      InstrumentId: string option;
+      IpAddress: string option }
 
 type InputQuoteRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      QuoteRef: string;
-      UserId: string;
+      Reserve1: string option;
+      QuoteRef: string option;
+      UserId: string option;
       AskPrice: decimal;
       BidPrice: decimal;
       AskVolume: int;
       BidVolume: int;
       RequestId: int;
-      BusinessUnit: string;
-      AskOffsetFlag: char option;
-      BidOffsetFlag: char option;
+      BusinessUnit: string option;
+      AskOffsetFlag: char;
+      BidOffsetFlag: char;
       AskHedgeFlag: char option;
       BidHedgeFlag: char option;
-      AskOrderRef: string;
-      BidOrderRef: string;
-      ForQuoteSysId: string;
-      ExchangeId: string;
-      InvestUnitId: string;
-      ClientId: string;
-      Reserve2: string;
-      MacAddress: string;
+      AskOrderRef: string option;
+      BidOrderRef: string option;
+      ForQuoteSysId: string option;
+      ExchangeId: string option;
+      InvestUnitId: string option;
+      ClientId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
       InstrumentId: string;
-      IpAddress: string;
-      ReplaceSysId: string;
+      IpAddress: string option;
+      ReplaceSysId: string option;
       TimeCondition: char option;
-      OrderMemo: string;
+      OrderMemo: string option;
       SessionReqSeq: int }
 
 type InputQuoteActionRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       QuoteActionRef: int;
@@ -875,20 +879,20 @@ type InputQuoteActionRequest =
       SessionId: int;
       ExchangeId: string;
       QuoteSysId: string;
-      ActionFlag: char option;
-      UserId: string;
-      Reserve1: string;
-      InvestUnitId: string;
-      ClientId: string;
-      Reserve2: string;
-      MacAddress: string;
+      ActionFlag: char;
+      UserId: string option;
+      Reserve1: string option;
+      InvestUnitId: string option;
+      ClientId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
       InstrumentId: string;
-      IpAddress: string;
-      OrderMemo: string;
+      IpAddress: string option;
+      OrderMemo: string option;
       SessionReqSeq: int }
 
 type InputSpdApplyRequest =
-    { 
+    {
       BrokerId: string;
       UserId: string;
       InvestorId: string;
@@ -896,15 +900,15 @@ type InputSpdApplyRequest =
       FirstLegInstrumentId: string;
       SecondLegInstrumentId: string;
       Volume: int;
-      Direction: char option;
-      CmbType: char option;
+      Direction: char;
+      CmbType: char;
       RequestId: int;
-      OrderRef: string;
-      IpAddress: string;
-      MacAddress: string }
+      OrderRef: string option;
+      IpAddress: string option;
+      MacAddress: string option }
 
 type InputSpdApplyActionRequest =
-    { 
+    {
       BrokerId: string;
       UserId: string;
       InvestorId: string;
@@ -914,8 +918,8 @@ type InputSpdApplyActionRequest =
       FrontId: int;
       SessionId: int;
       RequestId: int;
-      IpAddress: string;
-      MacAddress: string }
+      IpAddress: string option;
+      MacAddress: string option }
 
 type Instrument =
     { 
@@ -1523,47 +1527,47 @@ type OrderAction =
       SessionReqSeq: int }
 
 type ParkedOrder =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       OrderRef: string;
-      UserId: string;
+      UserId: string option;
       OrderPriceType: char option;
-      Direction: char option;
+      Direction: char;
       CombOffsetFlag: string;
       CombHedgeFlag: string;
       LimitPrice: decimal;
       VolumeTotalOriginal: int;
       TimeCondition: char option;
-      GtdDate: string;
+      GtdDate: string option;
       VolumeCondition: char option;
       MinVolume: int;
       ContingentCondition: char option;
       StopPrice: decimal;
       ForceCloseReason: char option;
       IsAutoSuspend: int;
-      BusinessUnit: string;
+      BusinessUnit: string option;
       RequestId: int;
       UserForceClose: int;
-      ExchangeId: string;
+      ExchangeId: string option;
       ParkedOrderId: string;
       UserType: char option;
       Status: char option;
       ErrorId: int;
       ErrorMsg: string;
       IsSwapOrder: int;
-      AccountId: string;
-      CurrencyId: string;
-      ClientId: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
+      AccountId: string option;
+      CurrencyId: string option;
+      ClientId: string option;
+      InvestUnitId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
       InstrumentId: string;
-      IpAddress: string }
+      IpAddress: string option }
 
 type ParkedOrderAction =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       OrderActionRef: int;
@@ -1571,23 +1575,23 @@ type ParkedOrderAction =
       RequestId: int;
       FrontId: int;
       SessionId: int;
-      ExchangeId: string;
+      ExchangeId: string option;
       OrderSysId: string;
-      ActionFlag: char option;
+      ActionFlag: char;
       LimitPrice: decimal;
       VolumeChange: int;
-      UserId: string;
-      Reserve1: string;
+      UserId: string option;
+      Reserve1: string option;
       ParkedOrderActionId: string;
       UserType: char option;
       Status: char option;
       ErrorId: int;
       ErrorMsg: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
+      InvestUnitId: string option;
+      Reserve2: string option;
+      MacAddress: string option;
       InstrumentId: string;
-      IpAddress: string }
+      IpAddress: string option }
 
 type Product =
     { 
@@ -1630,110 +1634,110 @@ type ProductGroup =
       ProductGroupId: string }
 
 type QryAccountregisterRequest =
-    { 
-      BrokerId: string;
-      AccountId: string;
-      BankId: string;
-      BankBranchId: string;
-      CurrencyId: string }
+    {
+      BrokerId: string option;
+      AccountId: string option;
+      BankId: string option;
+      BankBranchId: string option;
+      CurrencyId: string option }
 
 type QryBrokerTradingAlgosRequest =
-    { 
+    {
       BrokerId: string;
       ExchangeId: string;
-      Reserve1: string;
+      Reserve1: string option;
       InstrumentId: string }
 
 type QryBrokerTradingParamsRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       CurrencyId: string;
-      AccountId: string }
+      AccountId: string option }
 
 type QryCfmmcTradingAccountKeyRequest =
-    { 
-      BrokerId: string;
-      InvestorId: string }
+    {
+      BrokerId: string option;
+      InvestorId: string option }
 
 type QryClassifiedInstrumentRequest =
-    { 
-      InstrumentId: string;
-      ExchangeId: string;
-      ExchangeInstId: string;
-      ProductId: string;
-      TradingType: char option;
-      ClassType: char option }
+    {
+      InstrumentId: string option;
+      ExchangeId: string option;
+      ExchangeInstId: string option;
+      ProductId: string option;
+      TradingType: char;
+      ClassType: char }
 
 type QryCombActionRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
-      InvestUnitId: string;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryCombInstrumentGuardRequest =
-    { 
-      BrokerId: string;
-      Reserve1: string;
+    {
+      BrokerId: string option;
+      Reserve1: string option;
       ExchangeId: string;
-      InstrumentId: string }
+      InstrumentId: string option }
 
 type QryCombLeg =
-    { 
+    {
       LegInstrumentId: string }
 
 type QryCombPromotionParamRequest =
-    { 
-      ExchangeId: string;
-      InstrumentId: string }
+    {
+      ExchangeId: string option;
+      InstrumentId: string option }
 
 type QryContractBankRequest =
-    { 
+    {
       BrokerId: string;
       BankId: string;
       BankBrchId: string }
 
 type QryDepthMarketDataRequest =
-    { 
-      Reserve1: string;
-      ExchangeId: string;
+    {
+      Reserve1: string option;
+      ExchangeId: string option;
       InstrumentId: string;
-      ProductClass: char option }
+      ProductClass: char }
 
 type QryEWarrantOffsetRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ExchangeId: string;
-      Reserve1: string;
-      InvestUnitId: string;
+      Reserve1: string option;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryExchangeRequest =
-    { 
+    {
       ExchangeId: string }
 
 type QryExchangeMarginRateAdjustRequest =
-    { 
+    {
       BrokerId: string;
-      Reserve1: string;
-      HedgeFlag: char option;
+      Reserve1: string option;
+      HedgeFlag: char;
       InstrumentId: string }
 
 type QryExchangeRate =
-    { 
+    {
       BrokerId: string;
       FromCurrencyId: string;
       ToCurrencyId: string }
 
 type QryExecOrderRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
       ExecOrderSysId: string;
       InsertTimeStart: string;
@@ -1741,18 +1745,18 @@ type QryExecOrderRequest =
       InstrumentId: string }
 
 type QryForQuoteRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
       InsertTimeStart: string;
       InsertTimeEnd: string;
-      InvestUnitId: string;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryHedgeCfmRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ExchangeId: string;
@@ -1760,139 +1764,139 @@ type QryHedgeCfmRequest =
       InstrumentId: string }
 
 type QryInstrumentRequest =
-    { 
-      Reserve1: string;
+    {
+      Reserve1: string option;
       ExchangeId: string;
-      Reserve2: string;
-      Reserve3: string;
+      Reserve2: string option;
+      Reserve3: string option;
       InstrumentId: string;
       ExchangeInstId: string;
       ProductId: string }
 
 type QryInstrumentOrderCommRateRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       InstrumentId: string }
 
 type QryInvestUnitRequest =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      InvestUnitId: string }
+    {
+      BrokerId: string option;
+      InvestorId: string option;
+      InvestUnitId: string option }
 
 type QryInvestorRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string }
 
 type QryInvestorCommodityGroupSpmmMarginRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       CommodityGroupId: string }
 
 type QryInvestorCommoditySpmmMarginRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       CommodityId: string }
 
 type QryInvestorInfoCommRecRequest =
-    { 
+    {
       InvestorId: string;
       InstrumentId: string;
       BrokerId: string }
 
 type QryInvestorPortfMarginRatioRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ExchangeId: string;
-      ProductGroupId: string }
+      ProductGroupId: string option }
 
 type QryInvestorPortfSettingRequest =
-    { 
+    {
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string }
 
 type QryInvestorPositionCombineDetailRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      ExchangeId: string;
-      InvestUnitId: string;
+      Reserve1: string option;
+      ExchangeId: string option;
+      InvestUnitId: string option;
       CombInstrumentId: string }
 
 type QryInvestorPositionDetailRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      ExchangeId: string;
-      InvestUnitId: string;
+      Reserve1: string option;
+      ExchangeId: string option;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryInvestorProdRcamsMarginRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       CombProductId: string;
       ProductGroupId: string }
 
 type QryInvestorProdRuleMarginRequest =
-    { 
+    {
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string;
       ProdFamilyCode: string;
-      CommodityGroupId: int }
+      CommodityGroupId: string }
 
 type QryInvestorProdSpbmDetailRequest =
-    { 
+    {
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string;
       ProdFamilyCode: string }
 
 type QryInvestorProductGroupMarginRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       HedgeFlag: char option;
-      ExchangeId: string;
-      InvestUnitId: string;
+      ExchangeId: string option;
+      InvestUnitId: string option;
       ProductGroupId: string }
 
 type QryMaxOrderVolumeRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      Direction: char option;
-      OffsetFlag: char option;
-      HedgeFlag: char option;
-      MaxVolume: int;
-      ExchangeId: string;
-      InvestUnitId: string;
+      Reserve1: string option;
+      Direction: char;
+      OffsetFlag: char;
+      HedgeFlag: char;
+      MaxVolume: int option;
+      ExchangeId: string option;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryMmInstrumentCommissionRateRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       InstrumentId: string }
 
 type QryMmOptionInstrCommRateRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       InstrumentId: string }
 
 type QryNoticeRequest =
@@ -1900,38 +1904,38 @@ type QryNoticeRequest =
       BrokerId: string }
 
 type QryOffsetSettingRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ProductId: string;
-      OffsetType: char option }
+      OffsetType: char }
 
 type QryOptionInstrCommRateRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      ExchangeId: string;
-      InvestUnitId: string;
+      Reserve1: string option;
+      ExchangeId: string option;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryOptionInstrTradeCostRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      HedgeFlag: char option;
+      Reserve1: string option;
+      HedgeFlag: char;
       InputPrice: decimal;
       UnderlyingPrice: decimal;
-      ExchangeId: string;
-      InvestUnitId: string;
+      ExchangeId: string option;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryOptionSelfCloseRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
       OptionSelfCloseSysId: string;
       InsertTimeStart: string;
@@ -1939,126 +1943,126 @@ type QryOptionSelfCloseRequest =
       InstrumentId: string }
 
 type QryOrderRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
       OrderSysId: string;
       InsertTimeStart: string;
       InsertTimeEnd: string;
-      InvestUnitId: string;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryParkedOrderRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
-      InvestUnitId: string;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryParkedOrderActionRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
-      InvestUnitId: string;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryProductRequest =
-    { 
-      Reserve1: string;
+    {
+      Reserve1: string option;
       ProductClass: char option;
-      ExchangeId: string;
+      ExchangeId: string option;
       ProductId: string }
 
 type QryProductExchRateRequest =
-    { 
-      Reserve1: string;
-      ExchangeId: string;
+    {
+      Reserve1: string option;
+      ExchangeId: string option;
       ProductId: string }
 
 type QryProductGroupRequest =
-    { 
-      Reserve1: string;
+    {
+      Reserve1: string option;
       ExchangeId: string;
       ProductId: string }
 
 type QryQuoteRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
+      Reserve1: string option;
       ExchangeId: string;
       QuoteSysId: string;
       InsertTimeStart: string;
       InsertTimeEnd: string;
-      InvestUnitId: string;
+      InvestUnitId: string option;
       InstrumentId: string }
 
 type QryRcamsCombProductInfoRequest =
-    { 
+    {
       ProductId: string;
       CombProductId: string;
       ProductGroupId: string }
 
 type QryRcamsInstrParameterRequest =
-    { 
+    {
       ProductId: string }
 
 type QryRcamsInterParameterRequest =
-    { 
+    {
       ProductGroupId: string;
       CombProduct1: string;
       CombProduct2: string }
 
 type QryRcamsIntraParameterRequest =
-    { 
+    {
       CombProductId: string }
 
 type QryRcamsInvestorCombPositionRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       InstrumentId: string;
       CombInstrumentId: string }
 
 type QryRcamsShortOptAdjustParamRequest =
-    { 
+    {
       CombProductId: string }
 
 type QryRiskSettleInvstPositionRequest =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string }
+    {
+      BrokerId: string option;
+      InvestorId: string option;
+      InstrumentId: string option }
 
 type QryRiskSettleProductStatusRequest =
-    { 
-      ProductId: string }
+    {
+      ProductId: string option }
 
 type QryRuleInstrParameterRequest =
-    { 
+    {
       ExchangeId: string;
       InstrumentId: string }
 
 type QryRuleInterParameterRequest =
-    { 
+    {
       ExchangeId: string;
       Leg1ProdFamilyCode: string;
-      Leg2ProdFamilyCode: string;
-      CommodityGroupId: int }
+      Leg2ProdFamilyCode: string option;
+      CommodityGroupId: string }
 
 type QryRuleIntraParameterRequest =
-    { 
+    {
       ExchangeId: string;
       ProdFamilyCode: string }
 
 type QrySecAgentAcIdMapRequest =
-    { 
+    {
       BrokerId: string;
       UserId: string;
       AccountId: string;
@@ -2070,68 +2074,68 @@ type QrySecAgentCheckModeRequest =
       InvestorId: string }
 
 type QrySecAgentTradeInfoRequest =
-    { 
+    {
       BrokerId: string;
       BrokerSecAgentId: string }
 
 type QrySettlementInfoRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       TradingDay: string;
-      AccountId: string;
-      CurrencyId: string }
+      AccountId: string option;
+      CurrencyId: string option }
 
 type QrySettlementInfoConfirmRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      AccountId: string;
-      CurrencyId: string }
+      AccountId: string option;
+      CurrencyId: string option }
 
 type QrySpbmAddOnInterParameterRequest =
-    { 
+    {
       ExchangeId: string;
       Leg1ProdFamilyCode: string;
       Leg2ProdFamilyCode: string }
 
 type QrySpbmFutureParameterRequest =
-    { 
+    {
       ExchangeId: string;
       InstrumentId: string;
       ProdFamilyCode: string }
 
 type QrySpbmInterParameterRequest =
-    { 
+    {
       ExchangeId: string;
       Leg1ProdFamilyCode: string;
       Leg2ProdFamilyCode: string }
 
 type QrySpbmIntraParameterRequest =
-    { 
+    {
       ExchangeId: string;
       ProdFamilyCode: string }
 
 type QrySpbmInvestorPortfDefRequest =
-    { 
+    {
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string }
 
 type QrySpbmOptionParameterRequest =
-    { 
+    {
       ExchangeId: string;
       InstrumentId: string;
       ProdFamilyCode: string }
 
 type QrySpbmPortfDefinitionRequest =
-    { 
+    {
       ExchangeId: string;
-      PortfolioDefId: int;
+      PortfolioDefId: string;
       ProdFamilyCode: string }
 
 type QrySpdApplyRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ExchangeId: string;
@@ -2140,53 +2144,53 @@ type QrySpdApplyRequest =
       SecondLegInstrumentId: string }
 
 type QrySpmmInstParamRequest =
-    { 
+    {
       InstrumentId: string }
 
 type QrySpmmProductParamRequest =
-    { 
+    {
       ProductId: string }
 
 type QryTradeRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      Reserve1: string;
-      ExchangeId: string;
-      TradeId: string;
-      TradeTimeStart: string;
-      TradeTimeEnd: string;
-      InvestUnitId: string;
-      InstrumentId: string }
+      Reserve1: string option;
+      ExchangeId: string option;
+      TradeId: string option;
+      TradeTimeStart: string option;
+      TradeTimeEnd: string option;
+      InvestUnitId: string option;
+      InstrumentId: string option }
 
 type QryTraderOfferRequest =
-    { 
-      ExchangeId: string;
-      ParticipantId: string;
-      TraderId: string }
+    {
+      ExchangeId: string option;
+      ParticipantId: string option;
+      TraderId: string option }
 
 type QryTradingCodeRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ExchangeId: string;
       ClientId: string;
-      ClientIdType: char option;
-      InvestUnitId: string }
+      ClientIdType: char;
+      InvestUnitId: string option }
 
 type QryTradingNoticeRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      InvestUnitId: string }
+      InvestUnitId: string option }
 
 type QryTransferBankRequest =
-    { 
-      BankId: string;
-      BankBrchId: string }
+    {
+      BankId: string option;
+      BankBrchId: string option }
 
 type QryTransferSerialRequest =
-    { 
+    {
       BrokerId: string;
       AccountId: string;
       BankId: string;
@@ -2200,10 +2204,10 @@ type QryUserSessionRequest =
       UserId: string }
 
 type QueryCfmmcTradingAccountTokenRequest =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
-      InvestUnitId: string }
+      InvestUnitId: string option }
 
 type Quote =
     { 
@@ -2355,36 +2359,36 @@ type RcamsShortOptAdjustParam =
       AdjustValue: decimal }
 
 type RemoveParkedOrder =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ParkedOrderId: string;
-      InvestUnitId: string }
+      InvestUnitId: string option }
 
 type RemoveParkedOrderAction =
-    { 
+    {
       BrokerId: string;
       InvestorId: string;
       ParkedOrderActionId: string;
-      InvestUnitId: string }
+      InvestUnitId: string option }
 
 type GenSmsCodeRequest =
-    { 
+    {
       BrokerId: string;
       UserId: string;
       Mobile: string }
 
 type GenUserCaptchaRequest =
-    { 
-      TradingDay: string;
-      BrokerId: string;
-      UserId: string }
+    {
+      TradingDay: string option;
+      BrokerId: string option;
+      UserId: string option }
 
 type GenUserTextRequest =
-    { 
-      TradingDay: string;
-      BrokerId: string;
-      UserId: string }
+    {
+      TradingDay: string option;
+      BrokerId: string option;
+      UserId: string option }
 
 type ReqQueryAccount =
     { 
@@ -2474,58 +2478,58 @@ type TransferRequest =
       LongCustomerName: string }
 
 type UserAuthMethodRequest =
-    { 
-      TradingDay: string;
-      BrokerId: string;
-      UserId: string }
+    {
+      TradingDay: string option;
+      BrokerId: string option;
+      UserId: string option }
 
 type UserLoginWithCaptchaRequest =
-    { 
-      TradingDay: string;
+    {
+      TradingDay: string option;
       BrokerId: string;
       UserId: string;
       Password: string;
-      UserProductInfo: string;
-      InterfaceProductInfo: string;
-      ProtocolInfo: string;
-      MacAddress: string;
-      Reserve1: string;
-      LoginRemark: string;
+      UserProductInfo: string option;
+      InterfaceProductInfo: string option;
+      ProtocolInfo: string option;
+      MacAddress: string option;
+      Reserve1: string option;
+      LoginRemark: string option;
       Captcha: string;
-      ClientIpPort: int;
-      ClientIpAddress: string }
+      ClientIpPort: int option;
+      ClientIpAddress: string option }
 
 type UserLoginWithOtpRequest =
-    { 
-      TradingDay: string;
+    {
+      TradingDay: string option;
       BrokerId: string;
       UserId: string;
       Password: string;
-      UserProductInfo: string;
-      InterfaceProductInfo: string;
-      ProtocolInfo: string;
-      MacAddress: string;
-      Reserve1: string;
-      LoginRemark: string;
+      UserProductInfo: string option;
+      InterfaceProductInfo: string option;
+      ProtocolInfo: string option;
+      MacAddress: string option;
+      Reserve1: string option;
+      LoginRemark: string option;
       OtpPassword: string;
-      ClientIpPort: int;
-      ClientIpAddress: string }
+      ClientIpPort: int option;
+      ClientIpAddress: string option }
 
 type UserLoginWithTextRequest =
-    { 
-      TradingDay: string;
+    {
+      TradingDay: string option;
       BrokerId: string;
       UserId: string;
       Password: string;
-      UserProductInfo: string;
-      InterfaceProductInfo: string;
-      ProtocolInfo: string;
-      MacAddress: string;
-      Reserve1: string;
-      LoginRemark: string;
+      UserProductInfo: string option;
+      InterfaceProductInfo: string option;
+      ProtocolInfo: string option;
+      MacAddress: string option;
+      Reserve1: string option;
+      LoginRemark: string option;
       Text: string;
-      ClientIpPort: int;
-      ClientIpAddress: string }
+      ClientIpPort: int option;
+      ClientIpAddress: string option }
 
 type RiskSettleInvstPosition =
     { 
@@ -2893,7 +2897,7 @@ type TraderOffer =
       OrderCancelAlg: char option }
 
 type TradingAccountPasswordUpdate =
-    { 
+    {
       BrokerId: string;
       AccountId: string;
       OldPassword: string;
@@ -14154,7 +14158,10 @@ module private TraderBridgeGenerated =
                 let nativeField = nativeFields[field.Name]
                 let nativeValue = nativeField.GetValue(box value)
 
-                if field.PropertyType = typeof<string> then
+                if field.PropertyType = typeof<string option> then
+                    let decoded = EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array)
+                    box (EncodingHelpers.normalize (Some decoded))
+                elif field.PropertyType = typeof<string> then
                     box (EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array))
                 elif field.PropertyType = typeof<char option> then
                     box (EncodingHelpers.byteToChar (unbox<byte> nativeValue))
@@ -14190,7 +14197,10 @@ module private TraderBridgeGenerated =
                 let nativeValue =
                     if nativeField.FieldType = typeof<byte array> then
                         let size = getFieldSize nativeField |> Option.defaultWith (fun () -> invalidOp $"Missing MarshalAs size for field '{nativeField.Name}'.")
-                        box (encodeStringField encoding size (recordValue :?> string))
+                        if recordField.PropertyType = typeof<string option> then
+                            box (EncodingHelpers.encodeFixed encoding size (recordValue :?> string option))
+                        else
+                            box (encodeStringField encoding size (recordValue :?> string))
                     elif nativeField.FieldType = typeof<byte> && recordField.PropertyType = typeof<char option> then
                         box (EncodingHelpers.charToByte (recordValue :?> char option))
                     elif nativeField.FieldType = typeof<float> && recordField.PropertyType = typeof<decimal> then
@@ -14320,7 +14330,7 @@ module private TraderBridgeMapping =
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           OrderRef = EncodingHelpers.decodeFixed encoding value.OrderRef
-          UserId = EncodingHelpers.decodeFixed encoding value.UserId
+          UserId = Some(EncodingHelpers.decodeFixed encoding value.UserId) |> EncodingHelpers.normalize
           OrderPriceType = char value.OrderPriceType
           Direction = char value.Direction
           CombOffsetFlag = EncodingHelpers.decodeFixed encoding value.CombOffsetFlag
@@ -14342,9 +14352,7 @@ module private TraderBridgeMapping =
             |> EncodingHelpers.normalize
           UserForceClose = value.UserForceClose <> 0
           IsSwapOrder = value.IsSwapOrder <> 0
-          ExchangeId =
-            Some(EncodingHelpers.decodeFixed encoding value.ExchangeId)
-            |> EncodingHelpers.normalize
+          ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
           InvestUnitId =
             Some(EncodingHelpers.decodeFixed encoding value.InvestUnitId)
             |> EncodingHelpers.normalize
@@ -14374,24 +14382,16 @@ module private TraderBridgeMapping =
           OrderRef = EncodingHelpers.decodeFixed encoding value.OrderRef
           FrontId = value.FrontId
           SessionId = value.SessionId
-          ExchangeId =
-            Some(EncodingHelpers.decodeFixed encoding value.ExchangeId)
-            |> EncodingHelpers.normalize
-          OrderSysId =
-            Some(EncodingHelpers.decodeFixed encoding value.OrderSysId)
-            |> EncodingHelpers.normalize
+          ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
+          OrderSysId = EncodingHelpers.decodeFixed encoding value.OrderSysId
           ActionFlag = char value.ActionFlag
           LimitPrice = toDecimal value.LimitPrice
           VolumeChange = value.VolumeChange
-          UserId =
-            Some(EncodingHelpers.decodeFixed encoding value.UserId)
-            |> EncodingHelpers.normalize
+          UserId = EncodingHelpers.decodeFixed encoding value.UserId
           InvestUnitId =
             Some(EncodingHelpers.decodeFixed encoding value.InvestUnitId)
             |> EncodingHelpers.normalize
-          InstrumentId =
-            Some(EncodingHelpers.decodeFixed encoding value.InstrumentId)
-            |> EncodingHelpers.normalize
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           MacAddress =
             Some(EncodingHelpers.decodeFixed encoding value.MacAddress)
             |> EncodingHelpers.normalize
@@ -15085,7 +15085,7 @@ module private TraderBridgeBuilders =
         let mutable native = NativeQryTradingAccount()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
-        native.CurrencyId <- EncodingHelpers.encodeFixed encoding 4 request.CurrencyId
+        native.CurrencyId <- EncodingHelpers.encodeFixed encoding 4 (Some request.CurrencyId)
         native.BizType <- EncodingHelpers.charToByte request.BizType
         native.AccountId <- EncodingHelpers.encodeFixed encoding 13 request.AccountId
         native
@@ -15096,7 +15096,7 @@ module private TraderBridgeBuilders =
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
-        native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 request.InstrumentId
+        native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native
 
     let qryInstrumentMarginRate encoding (request: QueryInstrumentMarginRateRequest) : NativeQryInstrumentMarginRate =
@@ -15135,7 +15135,7 @@ module private TraderBridgeBuilders =
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native.OrderRef <- EncodingHelpers.encodeFixed encoding 13 (Some request.OrderRef)
-        native.UserId <- EncodingHelpers.encodeFixed encoding 16 (Some request.UserId)
+        native.UserId <- EncodingHelpers.encodeFixed encoding 16 request.UserId
         native.OrderPriceType <- byte request.OrderPriceType
         native.Direction <- byte request.Direction
         native.CombOffsetFlag <- EncodingHelpers.encodeFixed encoding 5 (Some request.CombOffsetFlag)
@@ -15154,7 +15154,7 @@ module private TraderBridgeBuilders =
         native.RequestId <- requestId
         native.UserForceClose <- if request.UserForceClose then 1 else 0
         native.IsSwapOrder <- if request.IsSwapOrder then 1 else 0
-        native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
+        native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 (Some request.ExchangeId)
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
         native.AccountId <- EncodingHelpers.encodeFixed encoding 13 request.AccountId
         native.CurrencyId <- EncodingHelpers.encodeFixed encoding 4 request.CurrencyId
@@ -15173,15 +15173,15 @@ module private TraderBridgeBuilders =
         native.RequestId <- requestId
         native.FrontId <- request.FrontId
         native.SessionId <- request.SessionId
-        native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
-        native.OrderSysId <- EncodingHelpers.encodeFixed encoding 21 request.OrderSysId
+        native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 (Some request.ExchangeId)
+        native.OrderSysId <- EncodingHelpers.encodeFixed encoding 21 (Some request.OrderSysId)
         native.ActionFlag <- byte request.ActionFlag
         native.LimitPrice <- float request.LimitPrice
         native.VolumeChange <- request.VolumeChange
-        native.UserId <- EncodingHelpers.encodeFixed encoding 16 request.UserId
+        native.UserId <- EncodingHelpers.encodeFixed encoding 16 (Some request.UserId)
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
         native.MacAddress <- EncodingHelpers.encodeFixed encoding 21 request.MacAddress
-        native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 request.InstrumentId
+        native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native.IpAddress <- EncodingHelpers.encodeFixed encoding 33 request.IpAddress
         native.OrderMemo <- EncodingHelpers.encodeFixed encoding 13 request.OrderMemo
         native

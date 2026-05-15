@@ -267,7 +267,7 @@ type TraderSmokeTests() =
         let! confirmed = client.SettlementInfoConfirmAsync() |> Async.StartAsTask
         confirmed |> Helper.expectOk |> ignore
 
-        let! accountResult = client.QueryTradingAccountAsync() |> Async.StartAsTask
+        let! accountResult = client.QueryTradingAccountAsync("") |> Async.StartAsTask
         accountResult |> Helper.expectOk |> ignore
 
         let speculationHedgeFlag = '1'
@@ -291,16 +291,7 @@ type TraderSmokeTests() =
         instrumentCommissionRateResult |> Helper.expectOk |> ignore
 
         let! instrumentsResult =
-            let rq =
-                { Reserve1 = ""
-                  ExchangeId = ""
-                  Reserve2 = ""
-                  Reserve3 = ""
-                  InstrumentId = ""
-                  ExchangeInstId = ""
-                  ProductId = "" }
-
-            client.QueryInstrumentAsync rq |> Async.StartAsTask
+            client.QueryInstrumentAsync("", "", "", "") |> Async.StartAsTask
 
         match instrumentsResult with
         | Ok s -> Assert.True(s.Length > 0)
