@@ -542,11 +542,11 @@ type MdApi(flowPath: string option, useUdp: bool, useMulticast: bool, production
 
     member this.Join() = MdNativeInterop.join (this.Handle)
 
-    member this.ReqUserLogin(request: RequestUserLogin, requestId: int) =
+    member this.ReqUserLogin(request: UserLoginRequest, requestId: int) =
         let mutable native = BridgeBuilders.reqUserLogin encodings.OutboundEncoding request
         MdNativeInterop.reqUserLogin (this.Handle, &native, requestId)
 
-    member this.ReqUserLogout(request: RequestUserLogout, requestId: int) =
+    member this.ReqUserLogout(request: UserLogoutRequest, requestId: int) =
         let mutable native = BridgeBuilders.reqUserLogout encodings.OutboundEncoding request
         MdNativeInterop.reqUserLogout (this.Handle, &native, requestId)
 

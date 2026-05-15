@@ -45,13 +45,13 @@ type EncodingTests() =
 
     [<Fact>]
     member _.``user login request keeps broker and user ids``() =
-        let login = RequestUserLogin.Create("9999", "demo", "secret")
+        let login = UserLoginRequest.Create("9999", "demo", "secret")
         Assert.Equal("9999", login.BrokerId)
         Assert.Equal("demo", login.UserId)
 
     [<Fact>]
     member _.``user logout request keeps broker and user ids``() =
-        let logout = RequestUserLogout.Create("9999", "demo")
+        let logout = UserLogoutRequest.Create("9999", "demo")
         Assert.Equal("9999", logout.BrokerId)
         Assert.Equal("demo", logout.UserId)
 

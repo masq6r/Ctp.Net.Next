@@ -62,11 +62,11 @@ type ConnectError =
 
 module internal OptionHelpers =
     let createUserLoginRequest (options: CtpOptions) =
-        let request = RequestUserLogin.Create(options.BrokerId, options.UserId, options.Password)
+        let request = UserLoginRequest.Create(options.BrokerId, options.UserId, options.Password)
 
         { request with UserProductInfo = options.UserProductInfo }
 
-    let createUserLogoutRequest (options: CtpOptions) = RequestUserLogout.Create(options.BrokerId, options.UserId)
+    let createUserLogoutRequest (options: CtpOptions) = UserLogoutRequest.Create(options.BrokerId, options.UserId)
 
     let createAuthenticateRequest (options: CtpOptions) =
         { BrokerId = options.BrokerId

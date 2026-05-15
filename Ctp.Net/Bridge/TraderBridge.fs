@@ -651,7 +651,7 @@ type HedgeCfmAction =
       IpAddress: string;
       MacAddress: string }
 
-type InputBatchOrderAction =
+type InputBatchOrderActionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -666,7 +666,7 @@ type InputBatchOrderAction =
       MacAddress: string;
       IpAddress: string }
 
-type InputCombAction =
+type InputCombActionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -686,7 +686,7 @@ type InputCombAction =
       InstrumentId: string;
       IpAddress: string }
 
-type InputExecOrder =
+type InputExecOrderRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -712,7 +712,7 @@ type InputExecOrder =
       InstrumentId: string;
       IpAddress: string }
 
-type InputExecOrderAction =
+type InputExecOrderActionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -732,7 +732,7 @@ type InputExecOrderAction =
       InstrumentId: string;
       IpAddress: string }
 
-type InputForQuote =
+type InputForQuoteRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -746,7 +746,7 @@ type InputForQuote =
       InstrumentId: string;
       IpAddress: string }
 
-type InputHedgeCfm =
+type InputHedgeCfmRequest =
     { 
       BrokerId: string;
       UserId: string;
@@ -760,7 +760,7 @@ type InputHedgeCfm =
       IpAddress: string;
       MacAddress: string }
 
-type InputHedgeCfmAction =
+type InputHedgeCfmActionRequest =
     { 
       BrokerId: string;
       UserId: string;
@@ -774,7 +774,7 @@ type InputHedgeCfmAction =
       IpAddress: string;
       MacAddress: string }
 
-type InputOffsetSetting =
+type InputOffsetSettingRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -790,7 +790,7 @@ type InputOffsetSetting =
       IpAddress: string;
       MacAddress: string }
 
-type InputOptionSelfClose =
+type InputOptionSelfCloseRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -812,7 +812,7 @@ type InputOptionSelfClose =
       InstrumentId: string;
       IpAddress: string }
 
-type InputOptionSelfCloseAction =
+type InputOptionSelfCloseActionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -832,7 +832,7 @@ type InputOptionSelfCloseAction =
       InstrumentId: string;
       IpAddress: string }
 
-type InputQuote =
+type InputQuoteRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -864,7 +864,7 @@ type InputQuote =
       OrderMemo: string;
       SessionReqSeq: int }
 
-type InputQuoteAction =
+type InputQuoteActionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -887,7 +887,7 @@ type InputQuoteAction =
       OrderMemo: string;
       SessionReqSeq: int }
 
-type InputSpdApply =
+type InputSpdApplyRequest =
     { 
       BrokerId: string;
       UserId: string;
@@ -903,7 +903,7 @@ type InputSpdApply =
       IpAddress: string;
       MacAddress: string }
 
-type InputSpdApplyAction =
+type InputSpdApplyActionRequest =
     { 
       BrokerId: string;
       UserId: string;
@@ -1629,7 +1629,7 @@ type ProductGroup =
       ProductId: string;
       ProductGroupId: string }
 
-type QryAccountregister =
+type QryAccountregisterRequest =
     { 
       BrokerId: string;
       AccountId: string;
@@ -1637,26 +1637,26 @@ type QryAccountregister =
       BankBranchId: string;
       CurrencyId: string }
 
-type QryBrokerTradingAlgos =
+type QryBrokerTradingAlgosRequest =
     { 
       BrokerId: string;
       ExchangeId: string;
       Reserve1: string;
       InstrumentId: string }
 
-type QryBrokerTradingParams =
+type QryBrokerTradingParamsRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       CurrencyId: string;
       AccountId: string }
 
-type QryCfmmcTradingAccountKey =
+type QryCfmmcTradingAccountKeyRequest =
     { 
       BrokerId: string;
       InvestorId: string }
 
-type QryClassifiedInstrument =
+type QryClassifiedInstrumentRequest =
     { 
       InstrumentId: string;
       ExchangeId: string;
@@ -1665,7 +1665,7 @@ type QryClassifiedInstrument =
       TradingType: char option;
       ClassType: char option }
 
-type QryCombAction =
+type QryCombActionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1674,7 +1674,7 @@ type QryCombAction =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryCombInstrumentGuard =
+type QryCombInstrumentGuardRequest =
     { 
       BrokerId: string;
       Reserve1: string;
@@ -1685,25 +1685,25 @@ type QryCombLeg =
     { 
       LegInstrumentId: string }
 
-type QryCombPromotionParam =
+type QryCombPromotionParamRequest =
     { 
       ExchangeId: string;
       InstrumentId: string }
 
-type QryContractBank =
+type QryContractBankRequest =
     { 
       BrokerId: string;
       BankId: string;
       BankBrchId: string }
 
-type QryDepthMarketData =
+type QryDepthMarketDataRequest =
     { 
       Reserve1: string;
       ExchangeId: string;
       InstrumentId: string;
       ProductClass: char option }
 
-type QryEWarrantOffset =
+type QryEWarrantOffsetRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1712,11 +1712,11 @@ type QryEWarrantOffset =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryExchange =
+type QryExchangeRequest =
     { 
       ExchangeId: string }
 
-type QryExchangeMarginRateAdjust =
+type QryExchangeMarginRateAdjustRequest =
     { 
       BrokerId: string;
       Reserve1: string;
@@ -1729,7 +1729,7 @@ type QryExchangeRate =
       FromCurrencyId: string;
       ToCurrencyId: string }
 
-type QryExecOrder =
+type QryExecOrderRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1740,7 +1740,7 @@ type QryExecOrder =
       InsertTimeEnd: string;
       InstrumentId: string }
 
-type QryForQuote =
+type QryForQuoteRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1751,7 +1751,7 @@ type QryForQuote =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryHedgeCfm =
+type QryHedgeCfmRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1759,7 +1759,7 @@ type QryHedgeCfm =
       OrderSysId: string;
       InstrumentId: string }
 
-type QryInstrument =
+type QryInstrumentRequest =
     { 
       Reserve1: string;
       ExchangeId: string;
@@ -1769,56 +1769,56 @@ type QryInstrument =
       ExchangeInstId: string;
       ProductId: string }
 
-type QryInstrumentOrderCommRate =
+type QryInstrumentOrderCommRateRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       Reserve1: string;
       InstrumentId: string }
 
-type QryInvestUnit =
+type QryInvestUnitRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       InvestUnitId: string }
 
-type QryInvestor =
+type QryInvestorRequest =
     { 
       BrokerId: string;
       InvestorId: string }
 
-type QryInvestorCommodityGroupSpmmMargin =
+type QryInvestorCommodityGroupSpmmMarginRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       CommodityGroupId: string }
 
-type QryInvestorCommoditySpmmMargin =
+type QryInvestorCommoditySpmmMarginRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       CommodityId: string }
 
-type QryInvestorInfoCommRec =
+type QryInvestorInfoCommRecRequest =
     { 
       InvestorId: string;
       InstrumentId: string;
       BrokerId: string }
 
-type QryInvestorPortfMarginRatio =
+type QryInvestorPortfMarginRatioRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       ExchangeId: string;
       ProductGroupId: string }
 
-type QryInvestorPortfSetting =
+type QryInvestorPortfSettingRequest =
     { 
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string }
 
-type QryInvestorPositionCombineDetail =
+type QryInvestorPositionCombineDetailRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1827,7 +1827,7 @@ type QryInvestorPositionCombineDetail =
       InvestUnitId: string;
       CombInstrumentId: string }
 
-type QryInvestorPositionDetail =
+type QryInvestorPositionDetailRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1836,14 +1836,14 @@ type QryInvestorPositionDetail =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryInvestorProdRcamsMargin =
+type QryInvestorProdRcamsMarginRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       CombProductId: string;
       ProductGroupId: string }
 
-type QryInvestorProdRuleMargin =
+type QryInvestorProdRuleMarginRequest =
     { 
       ExchangeId: string;
       BrokerId: string;
@@ -1851,14 +1851,14 @@ type QryInvestorProdRuleMargin =
       ProdFamilyCode: string;
       CommodityGroupId: int }
 
-type QryInvestorProdSpbmDetail =
+type QryInvestorProdSpbmDetailRequest =
     { 
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string;
       ProdFamilyCode: string }
 
-type QryInvestorProductGroupMargin =
+type QryInvestorProductGroupMarginRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1868,7 +1868,7 @@ type QryInvestorProductGroupMargin =
       InvestUnitId: string;
       ProductGroupId: string }
 
-type QryMaxOrderVolume =
+type QryMaxOrderVolumeRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1881,32 +1881,32 @@ type QryMaxOrderVolume =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryMmInstrumentCommissionRate =
+type QryMmInstrumentCommissionRateRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       Reserve1: string;
       InstrumentId: string }
 
-type QryMmOptionInstrCommRate =
+type QryMmOptionInstrCommRateRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       Reserve1: string;
       InstrumentId: string }
 
-type QryNotice =
+type QryNoticeRequest =
     { 
       BrokerId: string }
 
-type QryOffsetSetting =
+type QryOffsetSettingRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       ProductId: string;
       OffsetType: char option }
 
-type QryOptionInstrCommRate =
+type QryOptionInstrCommRateRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1915,7 +1915,7 @@ type QryOptionInstrCommRate =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryOptionInstrTradeCost =
+type QryOptionInstrTradeCostRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1927,7 +1927,7 @@ type QryOptionInstrTradeCost =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryOptionSelfClose =
+type QryOptionSelfCloseRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1938,7 +1938,7 @@ type QryOptionSelfClose =
       InsertTimeEnd: string;
       InstrumentId: string }
 
-type QryOrder =
+type QryOrderRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1950,7 +1950,7 @@ type QryOrder =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryParkedOrder =
+type QryParkedOrderRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1959,7 +1959,7 @@ type QryParkedOrder =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryParkedOrderAction =
+type QryParkedOrderActionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1968,26 +1968,26 @@ type QryParkedOrderAction =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryProduct =
+type QryProductRequest =
     { 
       Reserve1: string;
       ProductClass: char option;
       ExchangeId: string;
       ProductId: string }
 
-type QryProductExchRate =
+type QryProductExchRateRequest =
     { 
       Reserve1: string;
       ExchangeId: string;
       ProductId: string }
 
-type QryProductGroup =
+type QryProductGroupRequest =
     { 
       Reserve1: string;
       ExchangeId: string;
       ProductId: string }
 
-type QryQuote =
+type QryQuoteRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -1999,82 +1999,82 @@ type QryQuote =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryRcamsCombProductInfo =
+type QryRcamsCombProductInfoRequest =
     { 
       ProductId: string;
       CombProductId: string;
       ProductGroupId: string }
 
-type QryRcamsInstrParameter =
+type QryRcamsInstrParameterRequest =
     { 
       ProductId: string }
 
-type QryRcamsInterParameter =
+type QryRcamsInterParameterRequest =
     { 
       ProductGroupId: string;
       CombProduct1: string;
       CombProduct2: string }
 
-type QryRcamsIntraParameter =
+type QryRcamsIntraParameterRequest =
     { 
       CombProductId: string }
 
-type QryRcamsInvestorCombPosition =
+type QryRcamsInvestorCombPositionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       InstrumentId: string;
       CombInstrumentId: string }
 
-type QryRcamsShortOptAdjustParam =
+type QryRcamsShortOptAdjustParamRequest =
     { 
       CombProductId: string }
 
-type QryRiskSettleInvstPosition =
+type QryRiskSettleInvstPositionRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       InstrumentId: string }
 
-type QryRiskSettleProductStatus =
+type QryRiskSettleProductStatusRequest =
     { 
       ProductId: string }
 
-type QryRuleInstrParameter =
+type QryRuleInstrParameterRequest =
     { 
       ExchangeId: string;
       InstrumentId: string }
 
-type QryRuleInterParameter =
+type QryRuleInterParameterRequest =
     { 
       ExchangeId: string;
       Leg1ProdFamilyCode: string;
       Leg2ProdFamilyCode: string;
       CommodityGroupId: int }
 
-type QryRuleIntraParameter =
+type QryRuleIntraParameterRequest =
     { 
       ExchangeId: string;
       ProdFamilyCode: string }
 
-type QrySecAgentAcIdMap =
+type QrySecAgentAcIdMapRequest =
     { 
       BrokerId: string;
       UserId: string;
       AccountId: string;
       CurrencyId: string }
 
-type QrySecAgentCheckMode =
+type QrySecAgentCheckModeRequest =
     { 
       BrokerId: string;
       InvestorId: string }
 
-type QrySecAgentTradeInfo =
+type QrySecAgentTradeInfoRequest =
     { 
       BrokerId: string;
       BrokerSecAgentId: string }
 
-type QrySettlementInfo =
+type QrySettlementInfoRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -2082,55 +2082,55 @@ type QrySettlementInfo =
       AccountId: string;
       CurrencyId: string }
 
-type QrySettlementInfoConfirm =
+type QrySettlementInfoConfirmRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       AccountId: string;
       CurrencyId: string }
 
-type QrySpbmAddOnInterParameter =
+type QrySpbmAddOnInterParameterRequest =
     { 
       ExchangeId: string;
       Leg1ProdFamilyCode: string;
       Leg2ProdFamilyCode: string }
 
-type QrySpbmFutureParameter =
+type QrySpbmFutureParameterRequest =
     { 
       ExchangeId: string;
       InstrumentId: string;
       ProdFamilyCode: string }
 
-type QrySpbmInterParameter =
+type QrySpbmInterParameterRequest =
     { 
       ExchangeId: string;
       Leg1ProdFamilyCode: string;
       Leg2ProdFamilyCode: string }
 
-type QrySpbmIntraParameter =
+type QrySpbmIntraParameterRequest =
     { 
       ExchangeId: string;
       ProdFamilyCode: string }
 
-type QrySpbmInvestorPortfDef =
+type QrySpbmInvestorPortfDefRequest =
     { 
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string }
 
-type QrySpbmOptionParameter =
+type QrySpbmOptionParameterRequest =
     { 
       ExchangeId: string;
       InstrumentId: string;
       ProdFamilyCode: string }
 
-type QrySpbmPortfDefinition =
+type QrySpbmPortfDefinitionRequest =
     { 
       ExchangeId: string;
       PortfolioDefId: int;
       ProdFamilyCode: string }
 
-type QrySpdApply =
+type QrySpdApplyRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -2139,15 +2139,15 @@ type QrySpdApply =
       FirstLegInstrumentId: string;
       SecondLegInstrumentId: string }
 
-type QrySpmmInstParam =
+type QrySpmmInstParamRequest =
     { 
       InstrumentId: string }
 
-type QrySpmmProductParam =
+type QrySpmmProductParamRequest =
     { 
       ProductId: string }
 
-type QryTrade =
+type QryTradeRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -2159,13 +2159,13 @@ type QryTrade =
       InvestUnitId: string;
       InstrumentId: string }
 
-type QryTraderOffer =
+type QryTraderOfferRequest =
     { 
       ExchangeId: string;
       ParticipantId: string;
       TraderId: string }
 
-type QryTradingCode =
+type QryTradingCodeRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -2174,32 +2174,32 @@ type QryTradingCode =
       ClientIdType: char option;
       InvestUnitId: string }
 
-type QryTradingNotice =
+type QryTradingNoticeRequest =
     { 
       BrokerId: string;
       InvestorId: string;
       InvestUnitId: string }
 
-type QryTransferBank =
+type QryTransferBankRequest =
     { 
       BankId: string;
       BankBrchId: string }
 
-type QryTransferSerial =
+type QryTransferSerialRequest =
     { 
       BrokerId: string;
       AccountId: string;
       BankId: string;
       CurrencyId: string }
 
-type QryUserSession =
+type QryUserSessionRequest =
     { 
       FrontId: int;
       SessionId: int;
       BrokerId: string;
       UserId: string }
 
-type QueryCfmmcTradingAccountToken =
+type QueryCfmmcTradingAccountTokenRequest =
     { 
       BrokerId: string;
       InvestorId: string;
@@ -2368,19 +2368,19 @@ type RemoveParkedOrderAction =
       ParkedOrderActionId: string;
       InvestUnitId: string }
 
-type ReqGenSmsCode =
+type GenSmsCodeRequest =
     { 
       BrokerId: string;
       UserId: string;
       Mobile: string }
 
-type ReqGenUserCaptcha =
+type GenUserCaptchaRequest =
     { 
       TradingDay: string;
       BrokerId: string;
       UserId: string }
 
-type ReqGenUserText =
+type GenUserTextRequest =
     { 
       TradingDay: string;
       BrokerId: string;
@@ -2426,7 +2426,7 @@ type ReqQueryAccount =
       TId: int;
       LongCustomerName: string }
 
-type ReqTransfer =
+type TransferRequest =
     { 
       TradeCode: string;
       BankId: string;
@@ -2473,13 +2473,13 @@ type ReqTransfer =
       TransferStatus: char option;
       LongCustomerName: string }
 
-type ReqUserAuthMethod =
+type UserAuthMethodRequest =
     { 
       TradingDay: string;
       BrokerId: string;
       UserId: string }
 
-type ReqUserLoginWithCaptcha =
+type UserLoginWithCaptchaRequest =
     { 
       TradingDay: string;
       BrokerId: string;
@@ -2495,7 +2495,7 @@ type ReqUserLoginWithCaptcha =
       ClientIpPort: int;
       ClientIpAddress: string }
 
-type ReqUserLoginWithOtp =
+type UserLoginWithOtpRequest =
     { 
       TradingDay: string;
       BrokerId: string;
@@ -2511,7 +2511,7 @@ type ReqUserLoginWithOtp =
       ClientIpPort: int;
       ClientIpAddress: string }
 
-type ReqUserLoginWithText =
+type UserLoginWithTextRequest =
     { 
       TradingDay: string;
       BrokerId: string;
@@ -3031,42 +3031,42 @@ type TraderCallbacks =
       RspOrderAction: (InputOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
       RtnOrder: (OrderUpdate -> unit) option
       RtnTrade: (TradeUpdate -> unit) option
-      ErrRtnBankToFutureByFuture: (ReqTransfer option -> RspInfo option -> unit) option
+      ErrRtnBankToFutureByFuture: (TransferRequest option -> RspInfo option -> unit) option
       ErrRtnBatchOrderAction: (BatchOrderAction option -> RspInfo option -> unit) option
       ErrRtnCancelOffsetSetting: (CancelOffsetSetting option -> RspInfo option -> unit) option
-      ErrRtnCombActionInsert: (InputCombAction option -> RspInfo option -> unit) option
+      ErrRtnCombActionInsert: (InputCombActionRequest option -> RspInfo option -> unit) option
       ErrRtnExecOrderAction: (ExecOrderAction option -> RspInfo option -> unit) option
-      ErrRtnExecOrderInsert: (InputExecOrder option -> RspInfo option -> unit) option
-      ErrRtnForQuoteInsert: (InputForQuote option -> RspInfo option -> unit) option
-      ErrRtnFutureToBankByFuture: (ReqTransfer option -> RspInfo option -> unit) option
-      ErrRtnHedgeCfm: (InputHedgeCfm option -> RspInfo option -> unit) option
+      ErrRtnExecOrderInsert: (InputExecOrderRequest option -> RspInfo option -> unit) option
+      ErrRtnForQuoteInsert: (InputForQuoteRequest option -> RspInfo option -> unit) option
+      ErrRtnFutureToBankByFuture: (TransferRequest option -> RspInfo option -> unit) option
+      ErrRtnHedgeCfm: (InputHedgeCfmRequest option -> RspInfo option -> unit) option
       ErrRtnHedgeCfmAction: (HedgeCfmAction option -> RspInfo option -> unit) option
-      ErrRtnOffsetSetting: (InputOffsetSetting option -> RspInfo option -> unit) option
+      ErrRtnOffsetSetting: (InputOffsetSettingRequest option -> RspInfo option -> unit) option
       ErrRtnOptionSelfCloseAction: (OptionSelfCloseAction option -> RspInfo option -> unit) option
-      ErrRtnOptionSelfCloseInsert: (InputOptionSelfClose option -> RspInfo option -> unit) option
+      ErrRtnOptionSelfCloseInsert: (InputOptionSelfCloseRequest option -> RspInfo option -> unit) option
       ErrRtnOrderAction: (OrderAction option -> RspInfo option -> unit) option
       ErrRtnOrderInsert: (InputOrderRequest option -> RspInfo option -> unit) option
       ErrRtnQueryBankBalanceByFuture: (ReqQueryAccount option -> RspInfo option -> unit) option
       ErrRtnQuoteAction: (QuoteAction option -> RspInfo option -> unit) option
-      ErrRtnQuoteInsert: (InputQuote option -> RspInfo option -> unit) option
-      ErrRtnSpdApply: (InputSpdApply option -> RspInfo option -> unit) option
+      ErrRtnQuoteInsert: (InputQuoteRequest option -> RspInfo option -> unit) option
+      ErrRtnSpdApply: (InputSpdApplyRequest option -> RspInfo option -> unit) option
       ErrRtnSpdApplyAction: (SpdApplyAction option -> RspInfo option -> unit) option
-      RspBatchOrderAction: (InputBatchOrderAction option -> RspInfo option -> int -> bool -> unit) option
-      RspCancelOffsetSetting: (InputOffsetSetting option -> RspInfo option -> int -> bool -> unit) option
-      RspCombActionInsert: (InputCombAction option -> RspInfo option -> int -> bool -> unit) option
-      RspExecOrderAction: (InputExecOrderAction option -> RspInfo option -> int -> bool -> unit) option
-      RspExecOrderInsert: (InputExecOrder option -> RspInfo option -> int -> bool -> unit) option
-      RspForQuoteInsert: (InputForQuote option -> RspInfo option -> int -> bool -> unit) option
-      RspFromBankToFutureByFuture: (ReqTransfer option -> RspInfo option -> int -> bool -> unit) option
-      RspFromFutureToBankByFuture: (ReqTransfer option -> RspInfo option -> int -> bool -> unit) option
+      RspBatchOrderAction: (InputBatchOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspCancelOffsetSetting: (InputOffsetSettingRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspCombActionInsert: (InputCombActionRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspExecOrderAction: (InputExecOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspExecOrderInsert: (InputExecOrderRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspForQuoteInsert: (InputForQuoteRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspFromBankToFutureByFuture: (TransferRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspFromFutureToBankByFuture: (TransferRequest option -> RspInfo option -> int -> bool -> unit) option
       RspGenSmsCode: (RspGenSmsCode option -> RspInfo option -> int -> bool -> unit) option
       RspGenUserCaptcha: (RspGenUserCaptcha option -> RspInfo option -> int -> bool -> unit) option
       RspGenUserText: (RspGenUserText option -> RspInfo option -> int -> bool -> unit) option
-      RspHedgeCfm: (InputHedgeCfm option -> RspInfo option -> int -> bool -> unit) option
-      RspHedgeCfmAction: (InputHedgeCfmAction option -> RspInfo option -> int -> bool -> unit) option
-      RspOffsetSetting: (InputOffsetSetting option -> RspInfo option -> int -> bool -> unit) option
-      RspOptionSelfCloseAction: (InputOptionSelfCloseAction option -> RspInfo option -> int -> bool -> unit) option
-      RspOptionSelfCloseInsert: (InputOptionSelfClose option -> RspInfo option -> int -> bool -> unit) option
+      RspHedgeCfm: (InputHedgeCfmRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspHedgeCfmAction: (InputHedgeCfmActionRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspOffsetSetting: (InputOffsetSettingRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspOptionSelfCloseAction: (InputOptionSelfCloseActionRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspOptionSelfCloseInsert: (InputOptionSelfCloseRequest option -> RspInfo option -> int -> bool -> unit) option
       RspParkedOrderAction: (ParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
       RspParkedOrderInsert: (ParkedOrder option -> RspInfo option -> int -> bool -> unit) option
       RspQryAccountregister: (Accountregister option -> RspInfo option -> int -> bool -> unit) option
@@ -3104,7 +3104,7 @@ type TraderCallbacks =
       RspQryInvestorProductGroupMargin: (InvestorProductGroupMargin option -> RspInfo option -> int -> bool -> unit) option
       RspQryMmInstrumentCommissionRate: (MmInstrumentCommissionRate option -> RspInfo option -> int -> bool -> unit) option
       RspQryMmOptionInstrCommRate: (MmOptionInstrCommRate option -> RspInfo option -> int -> bool -> unit) option
-      RspQryMaxOrderVolume: (QryMaxOrderVolume option -> RspInfo option -> int -> bool -> unit) option
+      RspQryMaxOrderVolume: (QryMaxOrderVolumeRequest option -> RspInfo option -> int -> bool -> unit) option
       RspQryNotice: (Notice option -> RspInfo option -> int -> bool -> unit) option
       RspQryOffsetSetting: (OffsetSetting option -> RspInfo option -> int -> bool -> unit) option
       RspQryOptionInstrCommRate: (OptionInstrCommRate option -> RspInfo option -> int -> bool -> unit) option
@@ -3152,13 +3152,13 @@ type TraderCallbacks =
       RspQryTransferSerial: (TransferSerial option -> RspInfo option -> int -> bool -> unit) option
       RspQryUserSession: (UserSession option -> RspInfo option -> int -> bool -> unit) option
       RspQueryBankAccountMoneyByFuture: (ReqQueryAccount option -> RspInfo option -> int -> bool -> unit) option
-      RspQueryCfmmcTradingAccountToken: (QueryCfmmcTradingAccountToken option -> RspInfo option -> int -> bool -> unit) option
-      RspQuoteAction: (InputQuoteAction option -> RspInfo option -> int -> bool -> unit) option
-      RspQuoteInsert: (InputQuote option -> RspInfo option -> int -> bool -> unit) option
+      RspQueryCfmmcTradingAccountToken: (QueryCfmmcTradingAccountTokenRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspQuoteAction: (InputQuoteActionRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspQuoteInsert: (InputQuoteRequest option -> RspInfo option -> int -> bool -> unit) option
       RspRemoveParkedOrder: (RemoveParkedOrder option -> RspInfo option -> int -> bool -> unit) option
       RspRemoveParkedOrderAction: (RemoveParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
-      RspSpdApply: (InputSpdApply option -> RspInfo option -> int -> bool -> unit) option
-      RspSpdApplyAction: (InputSpdApplyAction option -> RspInfo option -> int -> bool -> unit) option
+      RspSpdApply: (InputSpdApplyRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspSpdApplyAction: (InputSpdApplyActionRequest option -> RspInfo option -> int -> bool -> unit) option
       RspTradingAccountPasswordUpdate: (TradingAccountPasswordUpdate option -> RspInfo option -> int -> bool -> unit) option
       RspUserAuthMethod: (RspUserAuthMethod option -> RspInfo option -> int -> bool -> unit) option
       RspUserPasswordUpdate: (UserPasswordUpdate option -> RspInfo option -> int -> bool -> unit) option
@@ -14520,47 +14520,47 @@ module private TraderBridgeMapping =
     let hedgeCfmAction encoding (value: NativeHedgeCfmAction) : HedgeCfmAction =
         TraderBridgeGenerated.mapNative<HedgeCfmAction, NativeHedgeCfmAction> encoding value
 
-    let inputBatchOrderAction encoding (value: NativeInputBatchOrderAction) : InputBatchOrderAction =
-        TraderBridgeGenerated.mapNative<InputBatchOrderAction, NativeInputBatchOrderAction> encoding value
+    let inputBatchOrderAction encoding (value: NativeInputBatchOrderAction) : InputBatchOrderActionRequest =
+        TraderBridgeGenerated.mapNative<InputBatchOrderActionRequest, NativeInputBatchOrderAction> encoding value
 
-    let inputCombAction encoding (value: NativeInputCombAction) : InputCombAction =
-        TraderBridgeGenerated.mapNative<InputCombAction, NativeInputCombAction> encoding value
+    let inputCombAction encoding (value: NativeInputCombAction) : InputCombActionRequest =
+        TraderBridgeGenerated.mapNative<InputCombActionRequest, NativeInputCombAction> encoding value
 
-    let inputExecOrder encoding (value: NativeInputExecOrder) : InputExecOrder =
-        TraderBridgeGenerated.mapNative<InputExecOrder, NativeInputExecOrder> encoding value
+    let inputExecOrder encoding (value: NativeInputExecOrder) : InputExecOrderRequest =
+        TraderBridgeGenerated.mapNative<InputExecOrderRequest, NativeInputExecOrder> encoding value
 
-    let inputExecOrderAction encoding (value: NativeInputExecOrderAction) : InputExecOrderAction =
-        TraderBridgeGenerated.mapNative<InputExecOrderAction, NativeInputExecOrderAction> encoding value
+    let inputExecOrderAction encoding (value: NativeInputExecOrderAction) : InputExecOrderActionRequest =
+        TraderBridgeGenerated.mapNative<InputExecOrderActionRequest, NativeInputExecOrderAction> encoding value
 
-    let inputForQuote encoding (value: NativeInputForQuote) : InputForQuote =
-        TraderBridgeGenerated.mapNative<InputForQuote, NativeInputForQuote> encoding value
+    let inputForQuote encoding (value: NativeInputForQuote) : InputForQuoteRequest =
+        TraderBridgeGenerated.mapNative<InputForQuoteRequest, NativeInputForQuote> encoding value
 
-    let inputHedgeCfm encoding (value: NativeInputHedgeCfm) : InputHedgeCfm =
-        TraderBridgeGenerated.mapNative<InputHedgeCfm, NativeInputHedgeCfm> encoding value
+    let inputHedgeCfm encoding (value: NativeInputHedgeCfm) : InputHedgeCfmRequest =
+        TraderBridgeGenerated.mapNative<InputHedgeCfmRequest, NativeInputHedgeCfm> encoding value
 
-    let inputHedgeCfmAction encoding (value: NativeInputHedgeCfmAction) : InputHedgeCfmAction =
-        TraderBridgeGenerated.mapNative<InputHedgeCfmAction, NativeInputHedgeCfmAction> encoding value
+    let inputHedgeCfmAction encoding (value: NativeInputHedgeCfmAction) : InputHedgeCfmActionRequest =
+        TraderBridgeGenerated.mapNative<InputHedgeCfmActionRequest, NativeInputHedgeCfmAction> encoding value
 
-    let inputOffsetSetting encoding (value: NativeInputOffsetSetting) : InputOffsetSetting =
-        TraderBridgeGenerated.mapNative<InputOffsetSetting, NativeInputOffsetSetting> encoding value
+    let inputOffsetSetting encoding (value: NativeInputOffsetSetting) : InputOffsetSettingRequest =
+        TraderBridgeGenerated.mapNative<InputOffsetSettingRequest, NativeInputOffsetSetting> encoding value
 
-    let inputOptionSelfClose encoding (value: NativeInputOptionSelfClose) : InputOptionSelfClose =
-        TraderBridgeGenerated.mapNative<InputOptionSelfClose, NativeInputOptionSelfClose> encoding value
+    let inputOptionSelfClose encoding (value: NativeInputOptionSelfClose) : InputOptionSelfCloseRequest =
+        TraderBridgeGenerated.mapNative<InputOptionSelfCloseRequest, NativeInputOptionSelfClose> encoding value
 
-    let inputOptionSelfCloseAction encoding (value: NativeInputOptionSelfCloseAction) : InputOptionSelfCloseAction =
-        TraderBridgeGenerated.mapNative<InputOptionSelfCloseAction, NativeInputOptionSelfCloseAction> encoding value
+    let inputOptionSelfCloseAction encoding (value: NativeInputOptionSelfCloseAction) : InputOptionSelfCloseActionRequest =
+        TraderBridgeGenerated.mapNative<InputOptionSelfCloseActionRequest, NativeInputOptionSelfCloseAction> encoding value
 
-    let inputQuote encoding (value: NativeInputQuote) : InputQuote =
-        TraderBridgeGenerated.mapNative<InputQuote, NativeInputQuote> encoding value
+    let inputQuote encoding (value: NativeInputQuote) : InputQuoteRequest =
+        TraderBridgeGenerated.mapNative<InputQuoteRequest, NativeInputQuote> encoding value
 
-    let inputQuoteAction encoding (value: NativeInputQuoteAction) : InputQuoteAction =
-        TraderBridgeGenerated.mapNative<InputQuoteAction, NativeInputQuoteAction> encoding value
+    let inputQuoteAction encoding (value: NativeInputQuoteAction) : InputQuoteActionRequest =
+        TraderBridgeGenerated.mapNative<InputQuoteActionRequest, NativeInputQuoteAction> encoding value
 
-    let inputSpdApply encoding (value: NativeInputSpdApply) : InputSpdApply =
-        TraderBridgeGenerated.mapNative<InputSpdApply, NativeInputSpdApply> encoding value
+    let inputSpdApply encoding (value: NativeInputSpdApply) : InputSpdApplyRequest =
+        TraderBridgeGenerated.mapNative<InputSpdApplyRequest, NativeInputSpdApply> encoding value
 
-    let inputSpdApplyAction encoding (value: NativeInputSpdApplyAction) : InputSpdApplyAction =
-        TraderBridgeGenerated.mapNative<InputSpdApplyAction, NativeInputSpdApplyAction> encoding value
+    let inputSpdApplyAction encoding (value: NativeInputSpdApplyAction) : InputSpdApplyActionRequest =
+        TraderBridgeGenerated.mapNative<InputSpdApplyActionRequest, NativeInputSpdApplyAction> encoding value
 
     let instrument encoding (value: NativeInstrument) : Instrument =
         TraderBridgeGenerated.mapNative<Instrument, NativeInstrument> encoding value
@@ -14652,251 +14652,251 @@ module private TraderBridgeMapping =
     let productGroup encoding (value: NativeProductGroup) : ProductGroup =
         TraderBridgeGenerated.mapNative<ProductGroup, NativeProductGroup> encoding value
 
-    let qryAccountregister encoding (value: NativeQryAccountregister) : QryAccountregister =
-        TraderBridgeGenerated.mapNative<QryAccountregister, NativeQryAccountregister> encoding value
+    let qryAccountregister encoding (value: NativeQryAccountregister) : QryAccountregisterRequest =
+        TraderBridgeGenerated.mapNative<QryAccountregisterRequest, NativeQryAccountregister> encoding value
 
-    let qryBrokerTradingAlgos encoding (value: NativeQryBrokerTradingAlgos) : QryBrokerTradingAlgos =
-        TraderBridgeGenerated.mapNative<QryBrokerTradingAlgos, NativeQryBrokerTradingAlgos> encoding value
+    let qryBrokerTradingAlgos encoding (value: NativeQryBrokerTradingAlgos) : QryBrokerTradingAlgosRequest =
+        TraderBridgeGenerated.mapNative<QryBrokerTradingAlgosRequest, NativeQryBrokerTradingAlgos> encoding value
 
-    let qryBrokerTradingParams encoding (value: NativeQryBrokerTradingParams) : QryBrokerTradingParams =
-        TraderBridgeGenerated.mapNative<QryBrokerTradingParams, NativeQryBrokerTradingParams> encoding value
+    let qryBrokerTradingParams encoding (value: NativeQryBrokerTradingParams) : QryBrokerTradingParamsRequest =
+        TraderBridgeGenerated.mapNative<QryBrokerTradingParamsRequest, NativeQryBrokerTradingParams> encoding value
 
-    let qryCfmmcTradingAccountKey encoding (value: NativeQryCfmmcTradingAccountKey) : QryCfmmcTradingAccountKey =
-        TraderBridgeGenerated.mapNative<QryCfmmcTradingAccountKey, NativeQryCfmmcTradingAccountKey> encoding value
+    let qryCfmmcTradingAccountKey encoding (value: NativeQryCfmmcTradingAccountKey) : QryCfmmcTradingAccountKeyRequest =
+        TraderBridgeGenerated.mapNative<QryCfmmcTradingAccountKeyRequest, NativeQryCfmmcTradingAccountKey> encoding value
 
-    let qryClassifiedInstrument encoding (value: NativeQryClassifiedInstrument) : QryClassifiedInstrument =
-        TraderBridgeGenerated.mapNative<QryClassifiedInstrument, NativeQryClassifiedInstrument> encoding value
+    let qryClassifiedInstrument encoding (value: NativeQryClassifiedInstrument) : QryClassifiedInstrumentRequest =
+        TraderBridgeGenerated.mapNative<QryClassifiedInstrumentRequest, NativeQryClassifiedInstrument> encoding value
 
-    let qryCombAction encoding (value: NativeQryCombAction) : QryCombAction =
-        TraderBridgeGenerated.mapNative<QryCombAction, NativeQryCombAction> encoding value
+    let qryCombAction encoding (value: NativeQryCombAction) : QryCombActionRequest =
+        TraderBridgeGenerated.mapNative<QryCombActionRequest, NativeQryCombAction> encoding value
 
-    let qryCombInstrumentGuard encoding (value: NativeQryCombInstrumentGuard) : QryCombInstrumentGuard =
-        TraderBridgeGenerated.mapNative<QryCombInstrumentGuard, NativeQryCombInstrumentGuard> encoding value
+    let qryCombInstrumentGuard encoding (value: NativeQryCombInstrumentGuard) : QryCombInstrumentGuardRequest =
+        TraderBridgeGenerated.mapNative<QryCombInstrumentGuardRequest, NativeQryCombInstrumentGuard> encoding value
 
     let qryCombLeg encoding (value: NativeQryCombLeg) : QryCombLeg =
         TraderBridgeGenerated.mapNative<QryCombLeg, NativeQryCombLeg> encoding value
 
-    let qryCombPromotionParam encoding (value: NativeQryCombPromotionParam) : QryCombPromotionParam =
-        TraderBridgeGenerated.mapNative<QryCombPromotionParam, NativeQryCombPromotionParam> encoding value
+    let qryCombPromotionParam encoding (value: NativeQryCombPromotionParam) : QryCombPromotionParamRequest =
+        TraderBridgeGenerated.mapNative<QryCombPromotionParamRequest, NativeQryCombPromotionParam> encoding value
 
-    let qryContractBank encoding (value: NativeQryContractBank) : QryContractBank =
-        TraderBridgeGenerated.mapNative<QryContractBank, NativeQryContractBank> encoding value
+    let qryContractBank encoding (value: NativeQryContractBank) : QryContractBankRequest =
+        TraderBridgeGenerated.mapNative<QryContractBankRequest, NativeQryContractBank> encoding value
 
-    let qryDepthMarketData encoding (value: NativeQryDepthMarketData) : QryDepthMarketData =
-        TraderBridgeGenerated.mapNative<QryDepthMarketData, NativeQryDepthMarketData> encoding value
+    let qryDepthMarketData encoding (value: NativeQryDepthMarketData) : QryDepthMarketDataRequest =
+        TraderBridgeGenerated.mapNative<QryDepthMarketDataRequest, NativeQryDepthMarketData> encoding value
 
-    let qryEWarrantOffset encoding (value: NativeQryEWarrantOffset) : QryEWarrantOffset =
-        TraderBridgeGenerated.mapNative<QryEWarrantOffset, NativeQryEWarrantOffset> encoding value
+    let qryEWarrantOffset encoding (value: NativeQryEWarrantOffset) : QryEWarrantOffsetRequest =
+        TraderBridgeGenerated.mapNative<QryEWarrantOffsetRequest, NativeQryEWarrantOffset> encoding value
 
-    let qryExchange encoding (value: NativeQryExchange) : QryExchange =
-        TraderBridgeGenerated.mapNative<QryExchange, NativeQryExchange> encoding value
+    let qryExchange encoding (value: NativeQryExchange) : QryExchangeRequest =
+        TraderBridgeGenerated.mapNative<QryExchangeRequest, NativeQryExchange> encoding value
 
-    let qryExchangeMarginRateAdjust encoding (value: NativeQryExchangeMarginRateAdjust) : QryExchangeMarginRateAdjust =
-        TraderBridgeGenerated.mapNative<QryExchangeMarginRateAdjust, NativeQryExchangeMarginRateAdjust> encoding value
+    let qryExchangeMarginRateAdjust encoding (value: NativeQryExchangeMarginRateAdjust) : QryExchangeMarginRateAdjustRequest =
+        TraderBridgeGenerated.mapNative<QryExchangeMarginRateAdjustRequest, NativeQryExchangeMarginRateAdjust> encoding value
 
     let qryExchangeRate encoding (value: NativeQryExchangeRate) : QryExchangeRate =
         TraderBridgeGenerated.mapNative<QryExchangeRate, NativeQryExchangeRate> encoding value
 
-    let qryExecOrder encoding (value: NativeQryExecOrder) : QryExecOrder =
-        TraderBridgeGenerated.mapNative<QryExecOrder, NativeQryExecOrder> encoding value
+    let qryExecOrder encoding (value: NativeQryExecOrder) : QryExecOrderRequest =
+        TraderBridgeGenerated.mapNative<QryExecOrderRequest, NativeQryExecOrder> encoding value
 
-    let qryForQuote encoding (value: NativeQryForQuote) : QryForQuote =
-        TraderBridgeGenerated.mapNative<QryForQuote, NativeQryForQuote> encoding value
+    let qryForQuote encoding (value: NativeQryForQuote) : QryForQuoteRequest =
+        TraderBridgeGenerated.mapNative<QryForQuoteRequest, NativeQryForQuote> encoding value
 
-    let qryHedgeCfm encoding (value: NativeQryHedgeCfm) : QryHedgeCfm =
-        TraderBridgeGenerated.mapNative<QryHedgeCfm, NativeQryHedgeCfm> encoding value
+    let qryHedgeCfm encoding (value: NativeQryHedgeCfm) : QryHedgeCfmRequest =
+        TraderBridgeGenerated.mapNative<QryHedgeCfmRequest, NativeQryHedgeCfm> encoding value
 
-    let qryInstrument encoding (value: NativeQryInstrument) : QryInstrument =
-        TraderBridgeGenerated.mapNative<QryInstrument, NativeQryInstrument> encoding value
+    let qryInstrument encoding (value: NativeQryInstrument) : QryInstrumentRequest =
+        TraderBridgeGenerated.mapNative<QryInstrumentRequest, NativeQryInstrument> encoding value
 
-    let qryInstrumentOrderCommRate encoding (value: NativeQryInstrumentOrderCommRate) : QryInstrumentOrderCommRate =
-        TraderBridgeGenerated.mapNative<QryInstrumentOrderCommRate, NativeQryInstrumentOrderCommRate> encoding value
+    let qryInstrumentOrderCommRate encoding (value: NativeQryInstrumentOrderCommRate) : QryInstrumentOrderCommRateRequest =
+        TraderBridgeGenerated.mapNative<QryInstrumentOrderCommRateRequest, NativeQryInstrumentOrderCommRate> encoding value
 
-    let qryInvestUnit encoding (value: NativeQryInvestUnit) : QryInvestUnit =
-        TraderBridgeGenerated.mapNative<QryInvestUnit, NativeQryInvestUnit> encoding value
+    let qryInvestUnit encoding (value: NativeQryInvestUnit) : QryInvestUnitRequest =
+        TraderBridgeGenerated.mapNative<QryInvestUnitRequest, NativeQryInvestUnit> encoding value
 
-    let qryInvestor encoding (value: NativeQryInvestor) : QryInvestor =
-        TraderBridgeGenerated.mapNative<QryInvestor, NativeQryInvestor> encoding value
+    let qryInvestor encoding (value: NativeQryInvestor) : QryInvestorRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorRequest, NativeQryInvestor> encoding value
 
-    let qryInvestorCommodityGroupSpmmMargin encoding (value: NativeQryInvestorCommodityGroupSpmmMargin) : QryInvestorCommodityGroupSpmmMargin =
-        TraderBridgeGenerated.mapNative<QryInvestorCommodityGroupSpmmMargin, NativeQryInvestorCommodityGroupSpmmMargin> encoding value
+    let qryInvestorCommodityGroupSpmmMargin encoding (value: NativeQryInvestorCommodityGroupSpmmMargin) : QryInvestorCommodityGroupSpmmMarginRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorCommodityGroupSpmmMarginRequest, NativeQryInvestorCommodityGroupSpmmMargin> encoding value
 
-    let qryInvestorCommoditySpmmMargin encoding (value: NativeQryInvestorCommoditySpmmMargin) : QryInvestorCommoditySpmmMargin =
-        TraderBridgeGenerated.mapNative<QryInvestorCommoditySpmmMargin, NativeQryInvestorCommoditySpmmMargin> encoding value
+    let qryInvestorCommoditySpmmMargin encoding (value: NativeQryInvestorCommoditySpmmMargin) : QryInvestorCommoditySpmmMarginRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorCommoditySpmmMarginRequest, NativeQryInvestorCommoditySpmmMargin> encoding value
 
-    let qryInvestorInfoCommRec encoding (value: NativeQryInvestorInfoCommRec) : QryInvestorInfoCommRec =
-        TraderBridgeGenerated.mapNative<QryInvestorInfoCommRec, NativeQryInvestorInfoCommRec> encoding value
+    let qryInvestorInfoCommRec encoding (value: NativeQryInvestorInfoCommRec) : QryInvestorInfoCommRecRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorInfoCommRecRequest, NativeQryInvestorInfoCommRec> encoding value
 
-    let qryInvestorPortfMarginRatio encoding (value: NativeQryInvestorPortfMarginRatio) : QryInvestorPortfMarginRatio =
-        TraderBridgeGenerated.mapNative<QryInvestorPortfMarginRatio, NativeQryInvestorPortfMarginRatio> encoding value
+    let qryInvestorPortfMarginRatio encoding (value: NativeQryInvestorPortfMarginRatio) : QryInvestorPortfMarginRatioRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorPortfMarginRatioRequest, NativeQryInvestorPortfMarginRatio> encoding value
 
-    let qryInvestorPortfSetting encoding (value: NativeQryInvestorPortfSetting) : QryInvestorPortfSetting =
-        TraderBridgeGenerated.mapNative<QryInvestorPortfSetting, NativeQryInvestorPortfSetting> encoding value
+    let qryInvestorPortfSetting encoding (value: NativeQryInvestorPortfSetting) : QryInvestorPortfSettingRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorPortfSettingRequest, NativeQryInvestorPortfSetting> encoding value
 
-    let qryInvestorPositionCombineDetail encoding (value: NativeQryInvestorPositionCombineDetail) : QryInvestorPositionCombineDetail =
-        TraderBridgeGenerated.mapNative<QryInvestorPositionCombineDetail, NativeQryInvestorPositionCombineDetail> encoding value
+    let qryInvestorPositionCombineDetail encoding (value: NativeQryInvestorPositionCombineDetail) : QryInvestorPositionCombineDetailRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorPositionCombineDetailRequest, NativeQryInvestorPositionCombineDetail> encoding value
 
-    let qryInvestorPositionDetail encoding (value: NativeQryInvestorPositionDetail) : QryInvestorPositionDetail =
-        TraderBridgeGenerated.mapNative<QryInvestorPositionDetail, NativeQryInvestorPositionDetail> encoding value
+    let qryInvestorPositionDetail encoding (value: NativeQryInvestorPositionDetail) : QryInvestorPositionDetailRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorPositionDetailRequest, NativeQryInvestorPositionDetail> encoding value
 
-    let qryInvestorProdRcamsMargin encoding (value: NativeQryInvestorProdRcamsMargin) : QryInvestorProdRcamsMargin =
-        TraderBridgeGenerated.mapNative<QryInvestorProdRcamsMargin, NativeQryInvestorProdRcamsMargin> encoding value
+    let qryInvestorProdRcamsMargin encoding (value: NativeQryInvestorProdRcamsMargin) : QryInvestorProdRcamsMarginRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorProdRcamsMarginRequest, NativeQryInvestorProdRcamsMargin> encoding value
 
-    let qryInvestorProdRuleMargin encoding (value: NativeQryInvestorProdRuleMargin) : QryInvestorProdRuleMargin =
-        TraderBridgeGenerated.mapNative<QryInvestorProdRuleMargin, NativeQryInvestorProdRuleMargin> encoding value
+    let qryInvestorProdRuleMargin encoding (value: NativeQryInvestorProdRuleMargin) : QryInvestorProdRuleMarginRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorProdRuleMarginRequest, NativeQryInvestorProdRuleMargin> encoding value
 
-    let qryInvestorProdSpbmDetail encoding (value: NativeQryInvestorProdSpbmDetail) : QryInvestorProdSpbmDetail =
-        TraderBridgeGenerated.mapNative<QryInvestorProdSpbmDetail, NativeQryInvestorProdSpbmDetail> encoding value
+    let qryInvestorProdSpbmDetail encoding (value: NativeQryInvestorProdSpbmDetail) : QryInvestorProdSpbmDetailRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorProdSpbmDetailRequest, NativeQryInvestorProdSpbmDetail> encoding value
 
-    let qryInvestorProductGroupMargin encoding (value: NativeQryInvestorProductGroupMargin) : QryInvestorProductGroupMargin =
-        TraderBridgeGenerated.mapNative<QryInvestorProductGroupMargin, NativeQryInvestorProductGroupMargin> encoding value
+    let qryInvestorProductGroupMargin encoding (value: NativeQryInvestorProductGroupMargin) : QryInvestorProductGroupMarginRequest =
+        TraderBridgeGenerated.mapNative<QryInvestorProductGroupMarginRequest, NativeQryInvestorProductGroupMargin> encoding value
 
-    let qryMaxOrderVolume encoding (value: NativeQryMaxOrderVolume) : QryMaxOrderVolume =
-        TraderBridgeGenerated.mapNative<QryMaxOrderVolume, NativeQryMaxOrderVolume> encoding value
+    let qryMaxOrderVolume encoding (value: NativeQryMaxOrderVolume) : QryMaxOrderVolumeRequest =
+        TraderBridgeGenerated.mapNative<QryMaxOrderVolumeRequest, NativeQryMaxOrderVolume> encoding value
 
-    let qryMmInstrumentCommissionRate encoding (value: NativeQryMmInstrumentCommissionRate) : QryMmInstrumentCommissionRate =
-        TraderBridgeGenerated.mapNative<QryMmInstrumentCommissionRate, NativeQryMmInstrumentCommissionRate> encoding value
+    let qryMmInstrumentCommissionRate encoding (value: NativeQryMmInstrumentCommissionRate) : QryMmInstrumentCommissionRateRequest =
+        TraderBridgeGenerated.mapNative<QryMmInstrumentCommissionRateRequest, NativeQryMmInstrumentCommissionRate> encoding value
 
-    let qryMmOptionInstrCommRate encoding (value: NativeQryMmOptionInstrCommRate) : QryMmOptionInstrCommRate =
-        TraderBridgeGenerated.mapNative<QryMmOptionInstrCommRate, NativeQryMmOptionInstrCommRate> encoding value
+    let qryMmOptionInstrCommRate encoding (value: NativeQryMmOptionInstrCommRate) : QryMmOptionInstrCommRateRequest =
+        TraderBridgeGenerated.mapNative<QryMmOptionInstrCommRateRequest, NativeQryMmOptionInstrCommRate> encoding value
 
-    let qryNotice encoding (value: NativeQryNotice) : QryNotice =
-        TraderBridgeGenerated.mapNative<QryNotice, NativeQryNotice> encoding value
+    let qryNotice encoding (value: NativeQryNotice) : QryNoticeRequest =
+        TraderBridgeGenerated.mapNative<QryNoticeRequest, NativeQryNotice> encoding value
 
-    let qryOffsetSetting encoding (value: NativeQryOffsetSetting) : QryOffsetSetting =
-        TraderBridgeGenerated.mapNative<QryOffsetSetting, NativeQryOffsetSetting> encoding value
+    let qryOffsetSetting encoding (value: NativeQryOffsetSetting) : QryOffsetSettingRequest =
+        TraderBridgeGenerated.mapNative<QryOffsetSettingRequest, NativeQryOffsetSetting> encoding value
 
-    let qryOptionInstrCommRate encoding (value: NativeQryOptionInstrCommRate) : QryOptionInstrCommRate =
-        TraderBridgeGenerated.mapNative<QryOptionInstrCommRate, NativeQryOptionInstrCommRate> encoding value
+    let qryOptionInstrCommRate encoding (value: NativeQryOptionInstrCommRate) : QryOptionInstrCommRateRequest =
+        TraderBridgeGenerated.mapNative<QryOptionInstrCommRateRequest, NativeQryOptionInstrCommRate> encoding value
 
-    let qryOptionInstrTradeCost encoding (value: NativeQryOptionInstrTradeCost) : QryOptionInstrTradeCost =
-        TraderBridgeGenerated.mapNative<QryOptionInstrTradeCost, NativeQryOptionInstrTradeCost> encoding value
+    let qryOptionInstrTradeCost encoding (value: NativeQryOptionInstrTradeCost) : QryOptionInstrTradeCostRequest =
+        TraderBridgeGenerated.mapNative<QryOptionInstrTradeCostRequest, NativeQryOptionInstrTradeCost> encoding value
 
-    let qryOptionSelfClose encoding (value: NativeQryOptionSelfClose) : QryOptionSelfClose =
-        TraderBridgeGenerated.mapNative<QryOptionSelfClose, NativeQryOptionSelfClose> encoding value
+    let qryOptionSelfClose encoding (value: NativeQryOptionSelfClose) : QryOptionSelfCloseRequest =
+        TraderBridgeGenerated.mapNative<QryOptionSelfCloseRequest, NativeQryOptionSelfClose> encoding value
 
-    let qryOrder encoding (value: NativeQryOrder) : QryOrder =
-        TraderBridgeGenerated.mapNative<QryOrder, NativeQryOrder> encoding value
+    let qryOrder encoding (value: NativeQryOrder) : QryOrderRequest =
+        TraderBridgeGenerated.mapNative<QryOrderRequest, NativeQryOrder> encoding value
 
-    let qryParkedOrder encoding (value: NativeQryParkedOrder) : QryParkedOrder =
-        TraderBridgeGenerated.mapNative<QryParkedOrder, NativeQryParkedOrder> encoding value
+    let qryParkedOrder encoding (value: NativeQryParkedOrder) : QryParkedOrderRequest =
+        TraderBridgeGenerated.mapNative<QryParkedOrderRequest, NativeQryParkedOrder> encoding value
 
-    let qryParkedOrderAction encoding (value: NativeQryParkedOrderAction) : QryParkedOrderAction =
-        TraderBridgeGenerated.mapNative<QryParkedOrderAction, NativeQryParkedOrderAction> encoding value
+    let qryParkedOrderAction encoding (value: NativeQryParkedOrderAction) : QryParkedOrderActionRequest =
+        TraderBridgeGenerated.mapNative<QryParkedOrderActionRequest, NativeQryParkedOrderAction> encoding value
 
-    let qryProduct encoding (value: NativeQryProduct) : QryProduct =
-        TraderBridgeGenerated.mapNative<QryProduct, NativeQryProduct> encoding value
+    let qryProduct encoding (value: NativeQryProduct) : QryProductRequest =
+        TraderBridgeGenerated.mapNative<QryProductRequest, NativeQryProduct> encoding value
 
-    let qryProductExchRate encoding (value: NativeQryProductExchRate) : QryProductExchRate =
-        TraderBridgeGenerated.mapNative<QryProductExchRate, NativeQryProductExchRate> encoding value
+    let qryProductExchRate encoding (value: NativeQryProductExchRate) : QryProductExchRateRequest =
+        TraderBridgeGenerated.mapNative<QryProductExchRateRequest, NativeQryProductExchRate> encoding value
 
-    let qryProductGroup encoding (value: NativeQryProductGroup) : QryProductGroup =
-        TraderBridgeGenerated.mapNative<QryProductGroup, NativeQryProductGroup> encoding value
+    let qryProductGroup encoding (value: NativeQryProductGroup) : QryProductGroupRequest =
+        TraderBridgeGenerated.mapNative<QryProductGroupRequest, NativeQryProductGroup> encoding value
 
-    let qryQuote encoding (value: NativeQryQuote) : QryQuote =
-        TraderBridgeGenerated.mapNative<QryQuote, NativeQryQuote> encoding value
+    let qryQuote encoding (value: NativeQryQuote) : QryQuoteRequest =
+        TraderBridgeGenerated.mapNative<QryQuoteRequest, NativeQryQuote> encoding value
 
-    let qryRcamsCombProductInfo encoding (value: NativeQryRcamsCombProductInfo) : QryRcamsCombProductInfo =
-        TraderBridgeGenerated.mapNative<QryRcamsCombProductInfo, NativeQryRcamsCombProductInfo> encoding value
+    let qryRcamsCombProductInfo encoding (value: NativeQryRcamsCombProductInfo) : QryRcamsCombProductInfoRequest =
+        TraderBridgeGenerated.mapNative<QryRcamsCombProductInfoRequest, NativeQryRcamsCombProductInfo> encoding value
 
-    let qryRcamsInstrParameter encoding (value: NativeQryRcamsInstrParameter) : QryRcamsInstrParameter =
-        TraderBridgeGenerated.mapNative<QryRcamsInstrParameter, NativeQryRcamsInstrParameter> encoding value
+    let qryRcamsInstrParameter encoding (value: NativeQryRcamsInstrParameter) : QryRcamsInstrParameterRequest =
+        TraderBridgeGenerated.mapNative<QryRcamsInstrParameterRequest, NativeQryRcamsInstrParameter> encoding value
 
-    let qryRcamsInterParameter encoding (value: NativeQryRcamsInterParameter) : QryRcamsInterParameter =
-        TraderBridgeGenerated.mapNative<QryRcamsInterParameter, NativeQryRcamsInterParameter> encoding value
+    let qryRcamsInterParameter encoding (value: NativeQryRcamsInterParameter) : QryRcamsInterParameterRequest =
+        TraderBridgeGenerated.mapNative<QryRcamsInterParameterRequest, NativeQryRcamsInterParameter> encoding value
 
-    let qryRcamsIntraParameter encoding (value: NativeQryRcamsIntraParameter) : QryRcamsIntraParameter =
-        TraderBridgeGenerated.mapNative<QryRcamsIntraParameter, NativeQryRcamsIntraParameter> encoding value
+    let qryRcamsIntraParameter encoding (value: NativeQryRcamsIntraParameter) : QryRcamsIntraParameterRequest =
+        TraderBridgeGenerated.mapNative<QryRcamsIntraParameterRequest, NativeQryRcamsIntraParameter> encoding value
 
-    let qryRcamsInvestorCombPosition encoding (value: NativeQryRcamsInvestorCombPosition) : QryRcamsInvestorCombPosition =
-        TraderBridgeGenerated.mapNative<QryRcamsInvestorCombPosition, NativeQryRcamsInvestorCombPosition> encoding value
+    let qryRcamsInvestorCombPosition encoding (value: NativeQryRcamsInvestorCombPosition) : QryRcamsInvestorCombPositionRequest =
+        TraderBridgeGenerated.mapNative<QryRcamsInvestorCombPositionRequest, NativeQryRcamsInvestorCombPosition> encoding value
 
-    let qryRcamsShortOptAdjustParam encoding (value: NativeQryRcamsShortOptAdjustParam) : QryRcamsShortOptAdjustParam =
-        TraderBridgeGenerated.mapNative<QryRcamsShortOptAdjustParam, NativeQryRcamsShortOptAdjustParam> encoding value
+    let qryRcamsShortOptAdjustParam encoding (value: NativeQryRcamsShortOptAdjustParam) : QryRcamsShortOptAdjustParamRequest =
+        TraderBridgeGenerated.mapNative<QryRcamsShortOptAdjustParamRequest, NativeQryRcamsShortOptAdjustParam> encoding value
 
-    let qryRiskSettleInvstPosition encoding (value: NativeQryRiskSettleInvstPosition) : QryRiskSettleInvstPosition =
-        TraderBridgeGenerated.mapNative<QryRiskSettleInvstPosition, NativeQryRiskSettleInvstPosition> encoding value
+    let qryRiskSettleInvstPosition encoding (value: NativeQryRiskSettleInvstPosition) : QryRiskSettleInvstPositionRequest =
+        TraderBridgeGenerated.mapNative<QryRiskSettleInvstPositionRequest, NativeQryRiskSettleInvstPosition> encoding value
 
-    let qryRiskSettleProductStatus encoding (value: NativeQryRiskSettleProductStatus) : QryRiskSettleProductStatus =
-        TraderBridgeGenerated.mapNative<QryRiskSettleProductStatus, NativeQryRiskSettleProductStatus> encoding value
+    let qryRiskSettleProductStatus encoding (value: NativeQryRiskSettleProductStatus) : QryRiskSettleProductStatusRequest =
+        TraderBridgeGenerated.mapNative<QryRiskSettleProductStatusRequest, NativeQryRiskSettleProductStatus> encoding value
 
-    let qryRuleInstrParameter encoding (value: NativeQryRuleInstrParameter) : QryRuleInstrParameter =
-        TraderBridgeGenerated.mapNative<QryRuleInstrParameter, NativeQryRuleInstrParameter> encoding value
+    let qryRuleInstrParameter encoding (value: NativeQryRuleInstrParameter) : QryRuleInstrParameterRequest =
+        TraderBridgeGenerated.mapNative<QryRuleInstrParameterRequest, NativeQryRuleInstrParameter> encoding value
 
-    let qryRuleInterParameter encoding (value: NativeQryRuleInterParameter) : QryRuleInterParameter =
-        TraderBridgeGenerated.mapNative<QryRuleInterParameter, NativeQryRuleInterParameter> encoding value
+    let qryRuleInterParameter encoding (value: NativeQryRuleInterParameter) : QryRuleInterParameterRequest =
+        TraderBridgeGenerated.mapNative<QryRuleInterParameterRequest, NativeQryRuleInterParameter> encoding value
 
-    let qryRuleIntraParameter encoding (value: NativeQryRuleIntraParameter) : QryRuleIntraParameter =
-        TraderBridgeGenerated.mapNative<QryRuleIntraParameter, NativeQryRuleIntraParameter> encoding value
+    let qryRuleIntraParameter encoding (value: NativeQryRuleIntraParameter) : QryRuleIntraParameterRequest =
+        TraderBridgeGenerated.mapNative<QryRuleIntraParameterRequest, NativeQryRuleIntraParameter> encoding value
 
-    let qrySecAgentAcIdMap encoding (value: NativeQrySecAgentAcIdMap) : QrySecAgentAcIdMap =
-        TraderBridgeGenerated.mapNative<QrySecAgentAcIdMap, NativeQrySecAgentAcIdMap> encoding value
+    let qrySecAgentAcIdMap encoding (value: NativeQrySecAgentAcIdMap) : QrySecAgentAcIdMapRequest =
+        TraderBridgeGenerated.mapNative<QrySecAgentAcIdMapRequest, NativeQrySecAgentAcIdMap> encoding value
 
-    let qrySecAgentCheckMode encoding (value: NativeQrySecAgentCheckMode) : QrySecAgentCheckMode =
-        TraderBridgeGenerated.mapNative<QrySecAgentCheckMode, NativeQrySecAgentCheckMode> encoding value
+    let qrySecAgentCheckMode encoding (value: NativeQrySecAgentCheckMode) : QrySecAgentCheckModeRequest =
+        TraderBridgeGenerated.mapNative<QrySecAgentCheckModeRequest, NativeQrySecAgentCheckMode> encoding value
 
-    let qrySecAgentTradeInfo encoding (value: NativeQrySecAgentTradeInfo) : QrySecAgentTradeInfo =
-        TraderBridgeGenerated.mapNative<QrySecAgentTradeInfo, NativeQrySecAgentTradeInfo> encoding value
+    let qrySecAgentTradeInfo encoding (value: NativeQrySecAgentTradeInfo) : QrySecAgentTradeInfoRequest =
+        TraderBridgeGenerated.mapNative<QrySecAgentTradeInfoRequest, NativeQrySecAgentTradeInfo> encoding value
 
-    let qrySettlementInfo encoding (value: NativeQrySettlementInfo) : QrySettlementInfo =
-        TraderBridgeGenerated.mapNative<QrySettlementInfo, NativeQrySettlementInfo> encoding value
+    let qrySettlementInfo encoding (value: NativeQrySettlementInfo) : QrySettlementInfoRequest =
+        TraderBridgeGenerated.mapNative<QrySettlementInfoRequest, NativeQrySettlementInfo> encoding value
 
-    let qrySettlementInfoConfirm encoding (value: NativeQrySettlementInfoConfirm) : QrySettlementInfoConfirm =
-        TraderBridgeGenerated.mapNative<QrySettlementInfoConfirm, NativeQrySettlementInfoConfirm> encoding value
+    let qrySettlementInfoConfirm encoding (value: NativeQrySettlementInfoConfirm) : QrySettlementInfoConfirmRequest =
+        TraderBridgeGenerated.mapNative<QrySettlementInfoConfirmRequest, NativeQrySettlementInfoConfirm> encoding value
 
-    let qrySpbmAddOnInterParameter encoding (value: NativeQrySpbmAddOnInterParameter) : QrySpbmAddOnInterParameter =
-        TraderBridgeGenerated.mapNative<QrySpbmAddOnInterParameter, NativeQrySpbmAddOnInterParameter> encoding value
+    let qrySpbmAddOnInterParameter encoding (value: NativeQrySpbmAddOnInterParameter) : QrySpbmAddOnInterParameterRequest =
+        TraderBridgeGenerated.mapNative<QrySpbmAddOnInterParameterRequest, NativeQrySpbmAddOnInterParameter> encoding value
 
-    let qrySpbmFutureParameter encoding (value: NativeQrySpbmFutureParameter) : QrySpbmFutureParameter =
-        TraderBridgeGenerated.mapNative<QrySpbmFutureParameter, NativeQrySpbmFutureParameter> encoding value
+    let qrySpbmFutureParameter encoding (value: NativeQrySpbmFutureParameter) : QrySpbmFutureParameterRequest =
+        TraderBridgeGenerated.mapNative<QrySpbmFutureParameterRequest, NativeQrySpbmFutureParameter> encoding value
 
-    let qrySpbmInterParameter encoding (value: NativeQrySpbmInterParameter) : QrySpbmInterParameter =
-        TraderBridgeGenerated.mapNative<QrySpbmInterParameter, NativeQrySpbmInterParameter> encoding value
+    let qrySpbmInterParameter encoding (value: NativeQrySpbmInterParameter) : QrySpbmInterParameterRequest =
+        TraderBridgeGenerated.mapNative<QrySpbmInterParameterRequest, NativeQrySpbmInterParameter> encoding value
 
-    let qrySpbmIntraParameter encoding (value: NativeQrySpbmIntraParameter) : QrySpbmIntraParameter =
-        TraderBridgeGenerated.mapNative<QrySpbmIntraParameter, NativeQrySpbmIntraParameter> encoding value
+    let qrySpbmIntraParameter encoding (value: NativeQrySpbmIntraParameter) : QrySpbmIntraParameterRequest =
+        TraderBridgeGenerated.mapNative<QrySpbmIntraParameterRequest, NativeQrySpbmIntraParameter> encoding value
 
-    let qrySpbmInvestorPortfDef encoding (value: NativeQrySpbmInvestorPortfDef) : QrySpbmInvestorPortfDef =
-        TraderBridgeGenerated.mapNative<QrySpbmInvestorPortfDef, NativeQrySpbmInvestorPortfDef> encoding value
+    let qrySpbmInvestorPortfDef encoding (value: NativeQrySpbmInvestorPortfDef) : QrySpbmInvestorPortfDefRequest =
+        TraderBridgeGenerated.mapNative<QrySpbmInvestorPortfDefRequest, NativeQrySpbmInvestorPortfDef> encoding value
 
-    let qrySpbmOptionParameter encoding (value: NativeQrySpbmOptionParameter) : QrySpbmOptionParameter =
-        TraderBridgeGenerated.mapNative<QrySpbmOptionParameter, NativeQrySpbmOptionParameter> encoding value
+    let qrySpbmOptionParameter encoding (value: NativeQrySpbmOptionParameter) : QrySpbmOptionParameterRequest =
+        TraderBridgeGenerated.mapNative<QrySpbmOptionParameterRequest, NativeQrySpbmOptionParameter> encoding value
 
-    let qrySpbmPortfDefinition encoding (value: NativeQrySpbmPortfDefinition) : QrySpbmPortfDefinition =
-        TraderBridgeGenerated.mapNative<QrySpbmPortfDefinition, NativeQrySpbmPortfDefinition> encoding value
+    let qrySpbmPortfDefinition encoding (value: NativeQrySpbmPortfDefinition) : QrySpbmPortfDefinitionRequest =
+        TraderBridgeGenerated.mapNative<QrySpbmPortfDefinitionRequest, NativeQrySpbmPortfDefinition> encoding value
 
-    let qrySpdApply encoding (value: NativeQrySpdApply) : QrySpdApply =
-        TraderBridgeGenerated.mapNative<QrySpdApply, NativeQrySpdApply> encoding value
+    let qrySpdApply encoding (value: NativeQrySpdApply) : QrySpdApplyRequest =
+        TraderBridgeGenerated.mapNative<QrySpdApplyRequest, NativeQrySpdApply> encoding value
 
-    let qrySpmmInstParam encoding (value: NativeQrySpmmInstParam) : QrySpmmInstParam =
-        TraderBridgeGenerated.mapNative<QrySpmmInstParam, NativeQrySpmmInstParam> encoding value
+    let qrySpmmInstParam encoding (value: NativeQrySpmmInstParam) : QrySpmmInstParamRequest =
+        TraderBridgeGenerated.mapNative<QrySpmmInstParamRequest, NativeQrySpmmInstParam> encoding value
 
-    let qrySpmmProductParam encoding (value: NativeQrySpmmProductParam) : QrySpmmProductParam =
-        TraderBridgeGenerated.mapNative<QrySpmmProductParam, NativeQrySpmmProductParam> encoding value
+    let qrySpmmProductParam encoding (value: NativeQrySpmmProductParam) : QrySpmmProductParamRequest =
+        TraderBridgeGenerated.mapNative<QrySpmmProductParamRequest, NativeQrySpmmProductParam> encoding value
 
-    let qryTrade encoding (value: NativeQryTrade) : QryTrade =
-        TraderBridgeGenerated.mapNative<QryTrade, NativeQryTrade> encoding value
+    let qryTrade encoding (value: NativeQryTrade) : QryTradeRequest =
+        TraderBridgeGenerated.mapNative<QryTradeRequest, NativeQryTrade> encoding value
 
-    let qryTraderOffer encoding (value: NativeQryTraderOffer) : QryTraderOffer =
-        TraderBridgeGenerated.mapNative<QryTraderOffer, NativeQryTraderOffer> encoding value
+    let qryTraderOffer encoding (value: NativeQryTraderOffer) : QryTraderOfferRequest =
+        TraderBridgeGenerated.mapNative<QryTraderOfferRequest, NativeQryTraderOffer> encoding value
 
-    let qryTradingCode encoding (value: NativeQryTradingCode) : QryTradingCode =
-        TraderBridgeGenerated.mapNative<QryTradingCode, NativeQryTradingCode> encoding value
+    let qryTradingCode encoding (value: NativeQryTradingCode) : QryTradingCodeRequest =
+        TraderBridgeGenerated.mapNative<QryTradingCodeRequest, NativeQryTradingCode> encoding value
 
-    let qryTradingNotice encoding (value: NativeQryTradingNotice) : QryTradingNotice =
-        TraderBridgeGenerated.mapNative<QryTradingNotice, NativeQryTradingNotice> encoding value
+    let qryTradingNotice encoding (value: NativeQryTradingNotice) : QryTradingNoticeRequest =
+        TraderBridgeGenerated.mapNative<QryTradingNoticeRequest, NativeQryTradingNotice> encoding value
 
-    let qryTransferBank encoding (value: NativeQryTransferBank) : QryTransferBank =
-        TraderBridgeGenerated.mapNative<QryTransferBank, NativeQryTransferBank> encoding value
+    let qryTransferBank encoding (value: NativeQryTransferBank) : QryTransferBankRequest =
+        TraderBridgeGenerated.mapNative<QryTransferBankRequest, NativeQryTransferBank> encoding value
 
-    let qryTransferSerial encoding (value: NativeQryTransferSerial) : QryTransferSerial =
-        TraderBridgeGenerated.mapNative<QryTransferSerial, NativeQryTransferSerial> encoding value
+    let qryTransferSerial encoding (value: NativeQryTransferSerial) : QryTransferSerialRequest =
+        TraderBridgeGenerated.mapNative<QryTransferSerialRequest, NativeQryTransferSerial> encoding value
 
-    let qryUserSession encoding (value: NativeQryUserSession) : QryUserSession =
-        TraderBridgeGenerated.mapNative<QryUserSession, NativeQryUserSession> encoding value
+    let qryUserSession encoding (value: NativeQryUserSession) : QryUserSessionRequest =
+        TraderBridgeGenerated.mapNative<QryUserSessionRequest, NativeQryUserSession> encoding value
 
-    let queryCfmmcTradingAccountToken encoding (value: NativeQueryCfmmcTradingAccountToken) : QueryCfmmcTradingAccountToken =
-        TraderBridgeGenerated.mapNative<QueryCfmmcTradingAccountToken, NativeQueryCfmmcTradingAccountToken> encoding value
+    let queryCfmmcTradingAccountToken encoding (value: NativeQueryCfmmcTradingAccountToken) : QueryCfmmcTradingAccountTokenRequest =
+        TraderBridgeGenerated.mapNative<QueryCfmmcTradingAccountTokenRequest, NativeQueryCfmmcTradingAccountToken> encoding value
 
     let quote encoding (value: NativeQuote) : Quote =
         TraderBridgeGenerated.mapNative<Quote, NativeQuote> encoding value
@@ -14928,32 +14928,32 @@ module private TraderBridgeMapping =
     let removeParkedOrderAction encoding (value: NativeRemoveParkedOrderAction) : RemoveParkedOrderAction =
         TraderBridgeGenerated.mapNative<RemoveParkedOrderAction, NativeRemoveParkedOrderAction> encoding value
 
-    let reqGenSmsCode encoding (value: NativeReqGenSmsCode) : ReqGenSmsCode =
-        TraderBridgeGenerated.mapNative<ReqGenSmsCode, NativeReqGenSmsCode> encoding value
+    let reqGenSmsCode encoding (value: NativeReqGenSmsCode) : GenSmsCodeRequest =
+        TraderBridgeGenerated.mapNative<GenSmsCodeRequest, NativeReqGenSmsCode> encoding value
 
-    let reqGenUserCaptcha encoding (value: NativeReqGenUserCaptcha) : ReqGenUserCaptcha =
-        TraderBridgeGenerated.mapNative<ReqGenUserCaptcha, NativeReqGenUserCaptcha> encoding value
+    let reqGenUserCaptcha encoding (value: NativeReqGenUserCaptcha) : GenUserCaptchaRequest =
+        TraderBridgeGenerated.mapNative<GenUserCaptchaRequest, NativeReqGenUserCaptcha> encoding value
 
-    let reqGenUserText encoding (value: NativeReqGenUserText) : ReqGenUserText =
-        TraderBridgeGenerated.mapNative<ReqGenUserText, NativeReqGenUserText> encoding value
+    let reqGenUserText encoding (value: NativeReqGenUserText) : GenUserTextRequest =
+        TraderBridgeGenerated.mapNative<GenUserTextRequest, NativeReqGenUserText> encoding value
 
     let reqQueryAccount encoding (value: NativeReqQueryAccount) : ReqQueryAccount =
         TraderBridgeGenerated.mapNative<ReqQueryAccount, NativeReqQueryAccount> encoding value
 
-    let reqTransfer encoding (value: NativeReqTransfer) : ReqTransfer =
-        TraderBridgeGenerated.mapNative<ReqTransfer, NativeReqTransfer> encoding value
+    let reqTransfer encoding (value: NativeReqTransfer) : TransferRequest =
+        TraderBridgeGenerated.mapNative<TransferRequest, NativeReqTransfer> encoding value
 
-    let reqUserAuthMethod encoding (value: NativeReqUserAuthMethod) : ReqUserAuthMethod =
-        TraderBridgeGenerated.mapNative<ReqUserAuthMethod, NativeReqUserAuthMethod> encoding value
+    let reqUserAuthMethod encoding (value: NativeReqUserAuthMethod) : UserAuthMethodRequest =
+        TraderBridgeGenerated.mapNative<UserAuthMethodRequest, NativeReqUserAuthMethod> encoding value
 
-    let reqUserLoginWithCaptcha encoding (value: NativeReqUserLoginWithCaptcha) : ReqUserLoginWithCaptcha =
-        TraderBridgeGenerated.mapNative<ReqUserLoginWithCaptcha, NativeReqUserLoginWithCaptcha> encoding value
+    let reqUserLoginWithCaptcha encoding (value: NativeReqUserLoginWithCaptcha) : UserLoginWithCaptchaRequest =
+        TraderBridgeGenerated.mapNative<UserLoginWithCaptchaRequest, NativeReqUserLoginWithCaptcha> encoding value
 
-    let reqUserLoginWithOtp encoding (value: NativeReqUserLoginWithOtp) : ReqUserLoginWithOtp =
-        TraderBridgeGenerated.mapNative<ReqUserLoginWithOtp, NativeReqUserLoginWithOtp> encoding value
+    let reqUserLoginWithOtp encoding (value: NativeReqUserLoginWithOtp) : UserLoginWithOtpRequest =
+        TraderBridgeGenerated.mapNative<UserLoginWithOtpRequest, NativeReqUserLoginWithOtp> encoding value
 
-    let reqUserLoginWithText encoding (value: NativeReqUserLoginWithText) : ReqUserLoginWithText =
-        TraderBridgeGenerated.mapNative<ReqUserLoginWithText, NativeReqUserLoginWithText> encoding value
+    let reqUserLoginWithText encoding (value: NativeReqUserLoginWithText) : UserLoginWithTextRequest =
+        TraderBridgeGenerated.mapNative<UserLoginWithTextRequest, NativeReqUserLoginWithText> encoding value
 
     let riskSettleInvstPosition encoding (value: NativeRiskSettleInvstPosition) : RiskSettleInvstPosition =
         TraderBridgeGenerated.mapNative<RiskSettleInvstPosition, NativeRiskSettleInvstPosition> encoding value
@@ -15189,47 +15189,47 @@ module private TraderBridgeBuilders =
     let fensUserInfo encoding (request: FensUserInfo) : NativeFensUserInfo =
         TraderBridgeGenerated.buildNative<FensUserInfo, NativeFensUserInfo> encoding request
 
-    let inputBatchOrderAction encoding requestId (request: InputBatchOrderAction) : NativeInputBatchOrderAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputBatchOrderAction, NativeInputBatchOrderAction> encoding requestId request
+    let inputBatchOrderAction encoding requestId (request: InputBatchOrderActionRequest) : NativeInputBatchOrderAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputBatchOrderActionRequest, NativeInputBatchOrderAction> encoding requestId request
 
-    let inputCombAction encoding (request: InputCombAction) : NativeInputCombAction =
-        TraderBridgeGenerated.buildNative<InputCombAction, NativeInputCombAction> encoding request
+    let inputCombAction encoding (request: InputCombActionRequest) : NativeInputCombAction =
+        TraderBridgeGenerated.buildNative<InputCombActionRequest, NativeInputCombAction> encoding request
 
-    let inputExecOrder encoding requestId (request: InputExecOrder) : NativeInputExecOrder =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrder, NativeInputExecOrder> encoding requestId request
+    let inputExecOrder encoding requestId (request: InputExecOrderRequest) : NativeInputExecOrder =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderRequest, NativeInputExecOrder> encoding requestId request
 
-    let inputExecOrderAction encoding requestId (request: InputExecOrderAction) : NativeInputExecOrderAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderAction, NativeInputExecOrderAction> encoding requestId request
+    let inputExecOrderAction encoding requestId (request: InputExecOrderActionRequest) : NativeInputExecOrderAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderActionRequest, NativeInputExecOrderAction> encoding requestId request
 
-    let inputForQuote encoding (request: InputForQuote) : NativeInputForQuote =
-        TraderBridgeGenerated.buildNative<InputForQuote, NativeInputForQuote> encoding request
+    let inputForQuote encoding (request: InputForQuoteRequest) : NativeInputForQuote =
+        TraderBridgeGenerated.buildNative<InputForQuoteRequest, NativeInputForQuote> encoding request
 
-    let inputHedgeCfm encoding requestId (request: InputHedgeCfm) : NativeInputHedgeCfm =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfm, NativeInputHedgeCfm> encoding requestId request
+    let inputHedgeCfm encoding requestId (request: InputHedgeCfmRequest) : NativeInputHedgeCfm =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmRequest, NativeInputHedgeCfm> encoding requestId request
 
-    let inputHedgeCfmAction encoding requestId (request: InputHedgeCfmAction) : NativeInputHedgeCfmAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmAction, NativeInputHedgeCfmAction> encoding requestId request
+    let inputHedgeCfmAction encoding requestId (request: InputHedgeCfmActionRequest) : NativeInputHedgeCfmAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmActionRequest, NativeInputHedgeCfmAction> encoding requestId request
 
-    let inputOffsetSetting encoding requestId (request: InputOffsetSetting) : NativeInputOffsetSetting =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputOffsetSetting, NativeInputOffsetSetting> encoding requestId request
+    let inputOffsetSetting encoding requestId (request: InputOffsetSettingRequest) : NativeInputOffsetSetting =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOffsetSettingRequest, NativeInputOffsetSetting> encoding requestId request
 
-    let inputOptionSelfClose encoding requestId (request: InputOptionSelfClose) : NativeInputOptionSelfClose =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfClose, NativeInputOptionSelfClose> encoding requestId request
+    let inputOptionSelfClose encoding requestId (request: InputOptionSelfCloseRequest) : NativeInputOptionSelfClose =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfCloseRequest, NativeInputOptionSelfClose> encoding requestId request
 
-    let inputOptionSelfCloseAction encoding requestId (request: InputOptionSelfCloseAction) : NativeInputOptionSelfCloseAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfCloseAction, NativeInputOptionSelfCloseAction> encoding requestId request
+    let inputOptionSelfCloseAction encoding requestId (request: InputOptionSelfCloseActionRequest) : NativeInputOptionSelfCloseAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfCloseActionRequest, NativeInputOptionSelfCloseAction> encoding requestId request
 
-    let inputQuote encoding requestId (request: InputQuote) : NativeInputQuote =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputQuote, NativeInputQuote> encoding requestId request
+    let inputQuote encoding requestId (request: InputQuoteRequest) : NativeInputQuote =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputQuoteRequest, NativeInputQuote> encoding requestId request
 
-    let inputQuoteAction encoding requestId (request: InputQuoteAction) : NativeInputQuoteAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputQuoteAction, NativeInputQuoteAction> encoding requestId request
+    let inputQuoteAction encoding requestId (request: InputQuoteActionRequest) : NativeInputQuoteAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputQuoteActionRequest, NativeInputQuoteAction> encoding requestId request
 
-    let inputSpdApply encoding requestId (request: InputSpdApply) : NativeInputSpdApply =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApply, NativeInputSpdApply> encoding requestId request
+    let inputSpdApply encoding requestId (request: InputSpdApplyRequest) : NativeInputSpdApply =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyRequest, NativeInputSpdApply> encoding requestId request
 
-    let inputSpdApplyAction encoding requestId (request: InputSpdApplyAction) : NativeInputSpdApplyAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyAction, NativeInputSpdApplyAction> encoding requestId request
+    let inputSpdApplyAction encoding requestId (request: InputSpdApplyActionRequest) : NativeInputSpdApplyAction =
+        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyActionRequest, NativeInputSpdApplyAction> encoding requestId request
 
     let parkedOrder encoding requestId (request: ParkedOrder) : NativeParkedOrder =
         TraderBridgeGenerated.buildNativeWithRequestId<ParkedOrder, NativeParkedOrder> encoding requestId request
@@ -15237,251 +15237,251 @@ module private TraderBridgeBuilders =
     let parkedOrderAction encoding requestId (request: ParkedOrderAction) : NativeParkedOrderAction =
         TraderBridgeGenerated.buildNativeWithRequestId<ParkedOrderAction, NativeParkedOrderAction> encoding requestId request
 
-    let qryAccountregister encoding (request: QryAccountregister) : NativeQryAccountregister =
-        TraderBridgeGenerated.buildNative<QryAccountregister, NativeQryAccountregister> encoding request
+    let qryAccountregister encoding (request: QryAccountregisterRequest) : NativeQryAccountregister =
+        TraderBridgeGenerated.buildNative<QryAccountregisterRequest, NativeQryAccountregister> encoding request
 
-    let qryBrokerTradingAlgos encoding (request: QryBrokerTradingAlgos) : NativeQryBrokerTradingAlgos =
-        TraderBridgeGenerated.buildNative<QryBrokerTradingAlgos, NativeQryBrokerTradingAlgos> encoding request
+    let qryBrokerTradingAlgos encoding (request: QryBrokerTradingAlgosRequest) : NativeQryBrokerTradingAlgos =
+        TraderBridgeGenerated.buildNative<QryBrokerTradingAlgosRequest, NativeQryBrokerTradingAlgos> encoding request
 
-    let qryBrokerTradingParams encoding (request: QryBrokerTradingParams) : NativeQryBrokerTradingParams =
-        TraderBridgeGenerated.buildNative<QryBrokerTradingParams, NativeQryBrokerTradingParams> encoding request
+    let qryBrokerTradingParams encoding (request: QryBrokerTradingParamsRequest) : NativeQryBrokerTradingParams =
+        TraderBridgeGenerated.buildNative<QryBrokerTradingParamsRequest, NativeQryBrokerTradingParams> encoding request
 
-    let qryCfmmcTradingAccountKey encoding (request: QryCfmmcTradingAccountKey) : NativeQryCfmmcTradingAccountKey =
-        TraderBridgeGenerated.buildNative<QryCfmmcTradingAccountKey, NativeQryCfmmcTradingAccountKey> encoding request
+    let qryCfmmcTradingAccountKey encoding (request: QryCfmmcTradingAccountKeyRequest) : NativeQryCfmmcTradingAccountKey =
+        TraderBridgeGenerated.buildNative<QryCfmmcTradingAccountKeyRequest, NativeQryCfmmcTradingAccountKey> encoding request
 
-    let qryClassifiedInstrument encoding (request: QryClassifiedInstrument) : NativeQryClassifiedInstrument =
-        TraderBridgeGenerated.buildNative<QryClassifiedInstrument, NativeQryClassifiedInstrument> encoding request
+    let qryClassifiedInstrument encoding (request: QryClassifiedInstrumentRequest) : NativeQryClassifiedInstrument =
+        TraderBridgeGenerated.buildNative<QryClassifiedInstrumentRequest, NativeQryClassifiedInstrument> encoding request
 
-    let qryCombAction encoding (request: QryCombAction) : NativeQryCombAction =
-        TraderBridgeGenerated.buildNative<QryCombAction, NativeQryCombAction> encoding request
+    let qryCombAction encoding (request: QryCombActionRequest) : NativeQryCombAction =
+        TraderBridgeGenerated.buildNative<QryCombActionRequest, NativeQryCombAction> encoding request
 
-    let qryCombInstrumentGuard encoding (request: QryCombInstrumentGuard) : NativeQryCombInstrumentGuard =
-        TraderBridgeGenerated.buildNative<QryCombInstrumentGuard, NativeQryCombInstrumentGuard> encoding request
+    let qryCombInstrumentGuard encoding (request: QryCombInstrumentGuardRequest) : NativeQryCombInstrumentGuard =
+        TraderBridgeGenerated.buildNative<QryCombInstrumentGuardRequest, NativeQryCombInstrumentGuard> encoding request
 
     let qryCombLeg encoding (request: QryCombLeg) : NativeQryCombLeg =
         TraderBridgeGenerated.buildNative<QryCombLeg, NativeQryCombLeg> encoding request
 
-    let qryCombPromotionParam encoding (request: QryCombPromotionParam) : NativeQryCombPromotionParam =
-        TraderBridgeGenerated.buildNative<QryCombPromotionParam, NativeQryCombPromotionParam> encoding request
+    let qryCombPromotionParam encoding (request: QryCombPromotionParamRequest) : NativeQryCombPromotionParam =
+        TraderBridgeGenerated.buildNative<QryCombPromotionParamRequest, NativeQryCombPromotionParam> encoding request
 
-    let qryContractBank encoding (request: QryContractBank) : NativeQryContractBank =
-        TraderBridgeGenerated.buildNative<QryContractBank, NativeQryContractBank> encoding request
+    let qryContractBank encoding (request: QryContractBankRequest) : NativeQryContractBank =
+        TraderBridgeGenerated.buildNative<QryContractBankRequest, NativeQryContractBank> encoding request
 
-    let qryDepthMarketData encoding (request: QryDepthMarketData) : NativeQryDepthMarketData =
-        TraderBridgeGenerated.buildNative<QryDepthMarketData, NativeQryDepthMarketData> encoding request
+    let qryDepthMarketData encoding (request: QryDepthMarketDataRequest) : NativeQryDepthMarketData =
+        TraderBridgeGenerated.buildNative<QryDepthMarketDataRequest, NativeQryDepthMarketData> encoding request
 
-    let qryEWarrantOffset encoding (request: QryEWarrantOffset) : NativeQryEWarrantOffset =
-        TraderBridgeGenerated.buildNative<QryEWarrantOffset, NativeQryEWarrantOffset> encoding request
+    let qryEWarrantOffset encoding (request: QryEWarrantOffsetRequest) : NativeQryEWarrantOffset =
+        TraderBridgeGenerated.buildNative<QryEWarrantOffsetRequest, NativeQryEWarrantOffset> encoding request
 
-    let qryExchange encoding (request: QryExchange) : NativeQryExchange =
-        TraderBridgeGenerated.buildNative<QryExchange, NativeQryExchange> encoding request
+    let qryExchange encoding (request: QryExchangeRequest) : NativeQryExchange =
+        TraderBridgeGenerated.buildNative<QryExchangeRequest, NativeQryExchange> encoding request
 
-    let qryExchangeMarginRateAdjust encoding (request: QryExchangeMarginRateAdjust) : NativeQryExchangeMarginRateAdjust =
-        TraderBridgeGenerated.buildNative<QryExchangeMarginRateAdjust, NativeQryExchangeMarginRateAdjust> encoding request
+    let qryExchangeMarginRateAdjust encoding (request: QryExchangeMarginRateAdjustRequest) : NativeQryExchangeMarginRateAdjust =
+        TraderBridgeGenerated.buildNative<QryExchangeMarginRateAdjustRequest, NativeQryExchangeMarginRateAdjust> encoding request
 
     let qryExchangeRate encoding (request: QryExchangeRate) : NativeQryExchangeRate =
         TraderBridgeGenerated.buildNative<QryExchangeRate, NativeQryExchangeRate> encoding request
 
-    let qryExecOrder encoding (request: QryExecOrder) : NativeQryExecOrder =
-        TraderBridgeGenerated.buildNative<QryExecOrder, NativeQryExecOrder> encoding request
+    let qryExecOrder encoding (request: QryExecOrderRequest) : NativeQryExecOrder =
+        TraderBridgeGenerated.buildNative<QryExecOrderRequest, NativeQryExecOrder> encoding request
 
-    let qryForQuote encoding (request: QryForQuote) : NativeQryForQuote =
-        TraderBridgeGenerated.buildNative<QryForQuote, NativeQryForQuote> encoding request
+    let qryForQuote encoding (request: QryForQuoteRequest) : NativeQryForQuote =
+        TraderBridgeGenerated.buildNative<QryForQuoteRequest, NativeQryForQuote> encoding request
 
-    let qryHedgeCfm encoding (request: QryHedgeCfm) : NativeQryHedgeCfm =
-        TraderBridgeGenerated.buildNative<QryHedgeCfm, NativeQryHedgeCfm> encoding request
+    let qryHedgeCfm encoding (request: QryHedgeCfmRequest) : NativeQryHedgeCfm =
+        TraderBridgeGenerated.buildNative<QryHedgeCfmRequest, NativeQryHedgeCfm> encoding request
 
-    let qryInstrument encoding (request: QryInstrument) : NativeQryInstrument =
-        TraderBridgeGenerated.buildNative<QryInstrument, NativeQryInstrument> encoding request
+    let qryInstrument encoding (request: QryInstrumentRequest) : NativeQryInstrument =
+        TraderBridgeGenerated.buildNative<QryInstrumentRequest, NativeQryInstrument> encoding request
 
-    let qryInstrumentOrderCommRate encoding (request: QryInstrumentOrderCommRate) : NativeQryInstrumentOrderCommRate =
-        TraderBridgeGenerated.buildNative<QryInstrumentOrderCommRate, NativeQryInstrumentOrderCommRate> encoding request
+    let qryInstrumentOrderCommRate encoding (request: QryInstrumentOrderCommRateRequest) : NativeQryInstrumentOrderCommRate =
+        TraderBridgeGenerated.buildNative<QryInstrumentOrderCommRateRequest, NativeQryInstrumentOrderCommRate> encoding request
 
-    let qryInvestUnit encoding (request: QryInvestUnit) : NativeQryInvestUnit =
-        TraderBridgeGenerated.buildNative<QryInvestUnit, NativeQryInvestUnit> encoding request
+    let qryInvestUnit encoding (request: QryInvestUnitRequest) : NativeQryInvestUnit =
+        TraderBridgeGenerated.buildNative<QryInvestUnitRequest, NativeQryInvestUnit> encoding request
 
-    let qryInvestor encoding (request: QryInvestor) : NativeQryInvestor =
-        TraderBridgeGenerated.buildNative<QryInvestor, NativeQryInvestor> encoding request
+    let qryInvestor encoding (request: QryInvestorRequest) : NativeQryInvestor =
+        TraderBridgeGenerated.buildNative<QryInvestorRequest, NativeQryInvestor> encoding request
 
-    let qryInvestorCommodityGroupSpmmMargin encoding (request: QryInvestorCommodityGroupSpmmMargin) : NativeQryInvestorCommodityGroupSpmmMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorCommodityGroupSpmmMargin, NativeQryInvestorCommodityGroupSpmmMargin> encoding request
+    let qryInvestorCommodityGroupSpmmMargin encoding (request: QryInvestorCommodityGroupSpmmMarginRequest) : NativeQryInvestorCommodityGroupSpmmMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorCommodityGroupSpmmMarginRequest, NativeQryInvestorCommodityGroupSpmmMargin> encoding request
 
-    let qryInvestorCommoditySpmmMargin encoding (request: QryInvestorCommoditySpmmMargin) : NativeQryInvestorCommoditySpmmMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorCommoditySpmmMargin, NativeQryInvestorCommoditySpmmMargin> encoding request
+    let qryInvestorCommoditySpmmMargin encoding (request: QryInvestorCommoditySpmmMarginRequest) : NativeQryInvestorCommoditySpmmMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorCommoditySpmmMarginRequest, NativeQryInvestorCommoditySpmmMargin> encoding request
 
-    let qryInvestorInfoCommRec encoding (request: QryInvestorInfoCommRec) : NativeQryInvestorInfoCommRec =
-        TraderBridgeGenerated.buildNative<QryInvestorInfoCommRec, NativeQryInvestorInfoCommRec> encoding request
+    let qryInvestorInfoCommRec encoding (request: QryInvestorInfoCommRecRequest) : NativeQryInvestorInfoCommRec =
+        TraderBridgeGenerated.buildNative<QryInvestorInfoCommRecRequest, NativeQryInvestorInfoCommRec> encoding request
 
-    let qryInvestorPortfMarginRatio encoding (request: QryInvestorPortfMarginRatio) : NativeQryInvestorPortfMarginRatio =
-        TraderBridgeGenerated.buildNative<QryInvestorPortfMarginRatio, NativeQryInvestorPortfMarginRatio> encoding request
+    let qryInvestorPortfMarginRatio encoding (request: QryInvestorPortfMarginRatioRequest) : NativeQryInvestorPortfMarginRatio =
+        TraderBridgeGenerated.buildNative<QryInvestorPortfMarginRatioRequest, NativeQryInvestorPortfMarginRatio> encoding request
 
-    let qryInvestorPortfSetting encoding (request: QryInvestorPortfSetting) : NativeQryInvestorPortfSetting =
-        TraderBridgeGenerated.buildNative<QryInvestorPortfSetting, NativeQryInvestorPortfSetting> encoding request
+    let qryInvestorPortfSetting encoding (request: QryInvestorPortfSettingRequest) : NativeQryInvestorPortfSetting =
+        TraderBridgeGenerated.buildNative<QryInvestorPortfSettingRequest, NativeQryInvestorPortfSetting> encoding request
 
-    let qryInvestorPositionCombineDetail encoding (request: QryInvestorPositionCombineDetail) : NativeQryInvestorPositionCombineDetail =
-        TraderBridgeGenerated.buildNative<QryInvestorPositionCombineDetail, NativeQryInvestorPositionCombineDetail> encoding request
+    let qryInvestorPositionCombineDetail encoding (request: QryInvestorPositionCombineDetailRequest) : NativeQryInvestorPositionCombineDetail =
+        TraderBridgeGenerated.buildNative<QryInvestorPositionCombineDetailRequest, NativeQryInvestorPositionCombineDetail> encoding request
 
-    let qryInvestorPositionDetail encoding (request: QryInvestorPositionDetail) : NativeQryInvestorPositionDetail =
-        TraderBridgeGenerated.buildNative<QryInvestorPositionDetail, NativeQryInvestorPositionDetail> encoding request
+    let qryInvestorPositionDetail encoding (request: QryInvestorPositionDetailRequest) : NativeQryInvestorPositionDetail =
+        TraderBridgeGenerated.buildNative<QryInvestorPositionDetailRequest, NativeQryInvestorPositionDetail> encoding request
 
-    let qryInvestorProdRcamsMargin encoding (request: QryInvestorProdRcamsMargin) : NativeQryInvestorProdRcamsMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorProdRcamsMargin, NativeQryInvestorProdRcamsMargin> encoding request
+    let qryInvestorProdRcamsMargin encoding (request: QryInvestorProdRcamsMarginRequest) : NativeQryInvestorProdRcamsMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorProdRcamsMarginRequest, NativeQryInvestorProdRcamsMargin> encoding request
 
-    let qryInvestorProdRuleMargin encoding (request: QryInvestorProdRuleMargin) : NativeQryInvestorProdRuleMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorProdRuleMargin, NativeQryInvestorProdRuleMargin> encoding request
+    let qryInvestorProdRuleMargin encoding (request: QryInvestorProdRuleMarginRequest) : NativeQryInvestorProdRuleMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorProdRuleMarginRequest, NativeQryInvestorProdRuleMargin> encoding request
 
-    let qryInvestorProdSpbmDetail encoding (request: QryInvestorProdSpbmDetail) : NativeQryInvestorProdSpbmDetail =
-        TraderBridgeGenerated.buildNative<QryInvestorProdSpbmDetail, NativeQryInvestorProdSpbmDetail> encoding request
+    let qryInvestorProdSpbmDetail encoding (request: QryInvestorProdSpbmDetailRequest) : NativeQryInvestorProdSpbmDetail =
+        TraderBridgeGenerated.buildNative<QryInvestorProdSpbmDetailRequest, NativeQryInvestorProdSpbmDetail> encoding request
 
-    let qryInvestorProductGroupMargin encoding (request: QryInvestorProductGroupMargin) : NativeQryInvestorProductGroupMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorProductGroupMargin, NativeQryInvestorProductGroupMargin> encoding request
+    let qryInvestorProductGroupMargin encoding (request: QryInvestorProductGroupMarginRequest) : NativeQryInvestorProductGroupMargin =
+        TraderBridgeGenerated.buildNative<QryInvestorProductGroupMarginRequest, NativeQryInvestorProductGroupMargin> encoding request
 
-    let qryMaxOrderVolume encoding (request: QryMaxOrderVolume) : NativeQryMaxOrderVolume =
-        TraderBridgeGenerated.buildNative<QryMaxOrderVolume, NativeQryMaxOrderVolume> encoding request
+    let qryMaxOrderVolume encoding (request: QryMaxOrderVolumeRequest) : NativeQryMaxOrderVolume =
+        TraderBridgeGenerated.buildNative<QryMaxOrderVolumeRequest, NativeQryMaxOrderVolume> encoding request
 
-    let qryMmInstrumentCommissionRate encoding (request: QryMmInstrumentCommissionRate) : NativeQryMmInstrumentCommissionRate =
-        TraderBridgeGenerated.buildNative<QryMmInstrumentCommissionRate, NativeQryMmInstrumentCommissionRate> encoding request
+    let qryMmInstrumentCommissionRate encoding (request: QryMmInstrumentCommissionRateRequest) : NativeQryMmInstrumentCommissionRate =
+        TraderBridgeGenerated.buildNative<QryMmInstrumentCommissionRateRequest, NativeQryMmInstrumentCommissionRate> encoding request
 
-    let qryMmOptionInstrCommRate encoding (request: QryMmOptionInstrCommRate) : NativeQryMmOptionInstrCommRate =
-        TraderBridgeGenerated.buildNative<QryMmOptionInstrCommRate, NativeQryMmOptionInstrCommRate> encoding request
+    let qryMmOptionInstrCommRate encoding (request: QryMmOptionInstrCommRateRequest) : NativeQryMmOptionInstrCommRate =
+        TraderBridgeGenerated.buildNative<QryMmOptionInstrCommRateRequest, NativeQryMmOptionInstrCommRate> encoding request
 
-    let qryNotice encoding (request: QryNotice) : NativeQryNotice =
-        TraderBridgeGenerated.buildNative<QryNotice, NativeQryNotice> encoding request
+    let qryNotice encoding (request: QryNoticeRequest) : NativeQryNotice =
+        TraderBridgeGenerated.buildNative<QryNoticeRequest, NativeQryNotice> encoding request
 
-    let qryOffsetSetting encoding (request: QryOffsetSetting) : NativeQryOffsetSetting =
-        TraderBridgeGenerated.buildNative<QryOffsetSetting, NativeQryOffsetSetting> encoding request
+    let qryOffsetSetting encoding (request: QryOffsetSettingRequest) : NativeQryOffsetSetting =
+        TraderBridgeGenerated.buildNative<QryOffsetSettingRequest, NativeQryOffsetSetting> encoding request
 
-    let qryOptionInstrCommRate encoding (request: QryOptionInstrCommRate) : NativeQryOptionInstrCommRate =
-        TraderBridgeGenerated.buildNative<QryOptionInstrCommRate, NativeQryOptionInstrCommRate> encoding request
+    let qryOptionInstrCommRate encoding (request: QryOptionInstrCommRateRequest) : NativeQryOptionInstrCommRate =
+        TraderBridgeGenerated.buildNative<QryOptionInstrCommRateRequest, NativeQryOptionInstrCommRate> encoding request
 
-    let qryOptionInstrTradeCost encoding (request: QryOptionInstrTradeCost) : NativeQryOptionInstrTradeCost =
-        TraderBridgeGenerated.buildNative<QryOptionInstrTradeCost, NativeQryOptionInstrTradeCost> encoding request
+    let qryOptionInstrTradeCost encoding (request: QryOptionInstrTradeCostRequest) : NativeQryOptionInstrTradeCost =
+        TraderBridgeGenerated.buildNative<QryOptionInstrTradeCostRequest, NativeQryOptionInstrTradeCost> encoding request
 
-    let qryOptionSelfClose encoding (request: QryOptionSelfClose) : NativeQryOptionSelfClose =
-        TraderBridgeGenerated.buildNative<QryOptionSelfClose, NativeQryOptionSelfClose> encoding request
+    let qryOptionSelfClose encoding (request: QryOptionSelfCloseRequest) : NativeQryOptionSelfClose =
+        TraderBridgeGenerated.buildNative<QryOptionSelfCloseRequest, NativeQryOptionSelfClose> encoding request
 
-    let qryOrder encoding (request: QryOrder) : NativeQryOrder =
-        TraderBridgeGenerated.buildNative<QryOrder, NativeQryOrder> encoding request
+    let qryOrder encoding (request: QryOrderRequest) : NativeQryOrder =
+        TraderBridgeGenerated.buildNative<QryOrderRequest, NativeQryOrder> encoding request
 
-    let qryParkedOrder encoding (request: QryParkedOrder) : NativeQryParkedOrder =
-        TraderBridgeGenerated.buildNative<QryParkedOrder, NativeQryParkedOrder> encoding request
+    let qryParkedOrder encoding (request: QryParkedOrderRequest) : NativeQryParkedOrder =
+        TraderBridgeGenerated.buildNative<QryParkedOrderRequest, NativeQryParkedOrder> encoding request
 
-    let qryParkedOrderAction encoding (request: QryParkedOrderAction) : NativeQryParkedOrderAction =
-        TraderBridgeGenerated.buildNative<QryParkedOrderAction, NativeQryParkedOrderAction> encoding request
+    let qryParkedOrderAction encoding (request: QryParkedOrderActionRequest) : NativeQryParkedOrderAction =
+        TraderBridgeGenerated.buildNative<QryParkedOrderActionRequest, NativeQryParkedOrderAction> encoding request
 
-    let qryProduct encoding (request: QryProduct) : NativeQryProduct =
-        TraderBridgeGenerated.buildNative<QryProduct, NativeQryProduct> encoding request
+    let qryProduct encoding (request: QryProductRequest) : NativeQryProduct =
+        TraderBridgeGenerated.buildNative<QryProductRequest, NativeQryProduct> encoding request
 
-    let qryProductExchRate encoding (request: QryProductExchRate) : NativeQryProductExchRate =
-        TraderBridgeGenerated.buildNative<QryProductExchRate, NativeQryProductExchRate> encoding request
+    let qryProductExchRate encoding (request: QryProductExchRateRequest) : NativeQryProductExchRate =
+        TraderBridgeGenerated.buildNative<QryProductExchRateRequest, NativeQryProductExchRate> encoding request
 
-    let qryProductGroup encoding (request: QryProductGroup) : NativeQryProductGroup =
-        TraderBridgeGenerated.buildNative<QryProductGroup, NativeQryProductGroup> encoding request
+    let qryProductGroup encoding (request: QryProductGroupRequest) : NativeQryProductGroup =
+        TraderBridgeGenerated.buildNative<QryProductGroupRequest, NativeQryProductGroup> encoding request
 
-    let qryQuote encoding (request: QryQuote) : NativeQryQuote =
-        TraderBridgeGenerated.buildNative<QryQuote, NativeQryQuote> encoding request
+    let qryQuote encoding (request: QryQuoteRequest) : NativeQryQuote =
+        TraderBridgeGenerated.buildNative<QryQuoteRequest, NativeQryQuote> encoding request
 
-    let qryRcamsCombProductInfo encoding (request: QryRcamsCombProductInfo) : NativeQryRcamsCombProductInfo =
-        TraderBridgeGenerated.buildNative<QryRcamsCombProductInfo, NativeQryRcamsCombProductInfo> encoding request
+    let qryRcamsCombProductInfo encoding (request: QryRcamsCombProductInfoRequest) : NativeQryRcamsCombProductInfo =
+        TraderBridgeGenerated.buildNative<QryRcamsCombProductInfoRequest, NativeQryRcamsCombProductInfo> encoding request
 
-    let qryRcamsInstrParameter encoding (request: QryRcamsInstrParameter) : NativeQryRcamsInstrParameter =
-        TraderBridgeGenerated.buildNative<QryRcamsInstrParameter, NativeQryRcamsInstrParameter> encoding request
+    let qryRcamsInstrParameter encoding (request: QryRcamsInstrParameterRequest) : NativeQryRcamsInstrParameter =
+        TraderBridgeGenerated.buildNative<QryRcamsInstrParameterRequest, NativeQryRcamsInstrParameter> encoding request
 
-    let qryRcamsInterParameter encoding (request: QryRcamsInterParameter) : NativeQryRcamsInterParameter =
-        TraderBridgeGenerated.buildNative<QryRcamsInterParameter, NativeQryRcamsInterParameter> encoding request
+    let qryRcamsInterParameter encoding (request: QryRcamsInterParameterRequest) : NativeQryRcamsInterParameter =
+        TraderBridgeGenerated.buildNative<QryRcamsInterParameterRequest, NativeQryRcamsInterParameter> encoding request
 
-    let qryRcamsIntraParameter encoding (request: QryRcamsIntraParameter) : NativeQryRcamsIntraParameter =
-        TraderBridgeGenerated.buildNative<QryRcamsIntraParameter, NativeQryRcamsIntraParameter> encoding request
+    let qryRcamsIntraParameter encoding (request: QryRcamsIntraParameterRequest) : NativeQryRcamsIntraParameter =
+        TraderBridgeGenerated.buildNative<QryRcamsIntraParameterRequest, NativeQryRcamsIntraParameter> encoding request
 
-    let qryRcamsInvestorCombPosition encoding (request: QryRcamsInvestorCombPosition) : NativeQryRcamsInvestorCombPosition =
-        TraderBridgeGenerated.buildNative<QryRcamsInvestorCombPosition, NativeQryRcamsInvestorCombPosition> encoding request
+    let qryRcamsInvestorCombPosition encoding (request: QryRcamsInvestorCombPositionRequest) : NativeQryRcamsInvestorCombPosition =
+        TraderBridgeGenerated.buildNative<QryRcamsInvestorCombPositionRequest, NativeQryRcamsInvestorCombPosition> encoding request
 
-    let qryRcamsShortOptAdjustParam encoding (request: QryRcamsShortOptAdjustParam) : NativeQryRcamsShortOptAdjustParam =
-        TraderBridgeGenerated.buildNative<QryRcamsShortOptAdjustParam, NativeQryRcamsShortOptAdjustParam> encoding request
+    let qryRcamsShortOptAdjustParam encoding (request: QryRcamsShortOptAdjustParamRequest) : NativeQryRcamsShortOptAdjustParam =
+        TraderBridgeGenerated.buildNative<QryRcamsShortOptAdjustParamRequest, NativeQryRcamsShortOptAdjustParam> encoding request
 
-    let qryRiskSettleInvstPosition encoding (request: QryRiskSettleInvstPosition) : NativeQryRiskSettleInvstPosition =
-        TraderBridgeGenerated.buildNative<QryRiskSettleInvstPosition, NativeQryRiskSettleInvstPosition> encoding request
+    let qryRiskSettleInvstPosition encoding (request: QryRiskSettleInvstPositionRequest) : NativeQryRiskSettleInvstPosition =
+        TraderBridgeGenerated.buildNative<QryRiskSettleInvstPositionRequest, NativeQryRiskSettleInvstPosition> encoding request
 
-    let qryRiskSettleProductStatus encoding (request: QryRiskSettleProductStatus) : NativeQryRiskSettleProductStatus =
-        TraderBridgeGenerated.buildNative<QryRiskSettleProductStatus, NativeQryRiskSettleProductStatus> encoding request
+    let qryRiskSettleProductStatus encoding (request: QryRiskSettleProductStatusRequest) : NativeQryRiskSettleProductStatus =
+        TraderBridgeGenerated.buildNative<QryRiskSettleProductStatusRequest, NativeQryRiskSettleProductStatus> encoding request
 
-    let qryRuleInstrParameter encoding (request: QryRuleInstrParameter) : NativeQryRuleInstrParameter =
-        TraderBridgeGenerated.buildNative<QryRuleInstrParameter, NativeQryRuleInstrParameter> encoding request
+    let qryRuleInstrParameter encoding (request: QryRuleInstrParameterRequest) : NativeQryRuleInstrParameter =
+        TraderBridgeGenerated.buildNative<QryRuleInstrParameterRequest, NativeQryRuleInstrParameter> encoding request
 
-    let qryRuleInterParameter encoding (request: QryRuleInterParameter) : NativeQryRuleInterParameter =
-        TraderBridgeGenerated.buildNative<QryRuleInterParameter, NativeQryRuleInterParameter> encoding request
+    let qryRuleInterParameter encoding (request: QryRuleInterParameterRequest) : NativeQryRuleInterParameter =
+        TraderBridgeGenerated.buildNative<QryRuleInterParameterRequest, NativeQryRuleInterParameter> encoding request
 
-    let qryRuleIntraParameter encoding (request: QryRuleIntraParameter) : NativeQryRuleIntraParameter =
-        TraderBridgeGenerated.buildNative<QryRuleIntraParameter, NativeQryRuleIntraParameter> encoding request
+    let qryRuleIntraParameter encoding (request: QryRuleIntraParameterRequest) : NativeQryRuleIntraParameter =
+        TraderBridgeGenerated.buildNative<QryRuleIntraParameterRequest, NativeQryRuleIntraParameter> encoding request
 
-    let qrySecAgentAcIdMap encoding (request: QrySecAgentAcIdMap) : NativeQrySecAgentAcIdMap =
-        TraderBridgeGenerated.buildNative<QrySecAgentAcIdMap, NativeQrySecAgentAcIdMap> encoding request
+    let qrySecAgentAcIdMap encoding (request: QrySecAgentAcIdMapRequest) : NativeQrySecAgentAcIdMap =
+        TraderBridgeGenerated.buildNative<QrySecAgentAcIdMapRequest, NativeQrySecAgentAcIdMap> encoding request
 
-    let qrySecAgentCheckMode encoding (request: QrySecAgentCheckMode) : NativeQrySecAgentCheckMode =
-        TraderBridgeGenerated.buildNative<QrySecAgentCheckMode, NativeQrySecAgentCheckMode> encoding request
+    let qrySecAgentCheckMode encoding (request: QrySecAgentCheckModeRequest) : NativeQrySecAgentCheckMode =
+        TraderBridgeGenerated.buildNative<QrySecAgentCheckModeRequest, NativeQrySecAgentCheckMode> encoding request
 
-    let qrySecAgentTradeInfo encoding (request: QrySecAgentTradeInfo) : NativeQrySecAgentTradeInfo =
-        TraderBridgeGenerated.buildNative<QrySecAgentTradeInfo, NativeQrySecAgentTradeInfo> encoding request
+    let qrySecAgentTradeInfo encoding (request: QrySecAgentTradeInfoRequest) : NativeQrySecAgentTradeInfo =
+        TraderBridgeGenerated.buildNative<QrySecAgentTradeInfoRequest, NativeQrySecAgentTradeInfo> encoding request
 
-    let qrySettlementInfo encoding (request: QrySettlementInfo) : NativeQrySettlementInfo =
-        TraderBridgeGenerated.buildNative<QrySettlementInfo, NativeQrySettlementInfo> encoding request
+    let qrySettlementInfo encoding (request: QrySettlementInfoRequest) : NativeQrySettlementInfo =
+        TraderBridgeGenerated.buildNative<QrySettlementInfoRequest, NativeQrySettlementInfo> encoding request
 
-    let qrySettlementInfoConfirm encoding (request: QrySettlementInfoConfirm) : NativeQrySettlementInfoConfirm =
-        TraderBridgeGenerated.buildNative<QrySettlementInfoConfirm, NativeQrySettlementInfoConfirm> encoding request
+    let qrySettlementInfoConfirm encoding (request: QrySettlementInfoConfirmRequest) : NativeQrySettlementInfoConfirm =
+        TraderBridgeGenerated.buildNative<QrySettlementInfoConfirmRequest, NativeQrySettlementInfoConfirm> encoding request
 
-    let qrySpbmAddOnInterParameter encoding (request: QrySpbmAddOnInterParameter) : NativeQrySpbmAddOnInterParameter =
-        TraderBridgeGenerated.buildNative<QrySpbmAddOnInterParameter, NativeQrySpbmAddOnInterParameter> encoding request
+    let qrySpbmAddOnInterParameter encoding (request: QrySpbmAddOnInterParameterRequest) : NativeQrySpbmAddOnInterParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmAddOnInterParameterRequest, NativeQrySpbmAddOnInterParameter> encoding request
 
-    let qrySpbmFutureParameter encoding (request: QrySpbmFutureParameter) : NativeQrySpbmFutureParameter =
-        TraderBridgeGenerated.buildNative<QrySpbmFutureParameter, NativeQrySpbmFutureParameter> encoding request
+    let qrySpbmFutureParameter encoding (request: QrySpbmFutureParameterRequest) : NativeQrySpbmFutureParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmFutureParameterRequest, NativeQrySpbmFutureParameter> encoding request
 
-    let qrySpbmInterParameter encoding (request: QrySpbmInterParameter) : NativeQrySpbmInterParameter =
-        TraderBridgeGenerated.buildNative<QrySpbmInterParameter, NativeQrySpbmInterParameter> encoding request
+    let qrySpbmInterParameter encoding (request: QrySpbmInterParameterRequest) : NativeQrySpbmInterParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmInterParameterRequest, NativeQrySpbmInterParameter> encoding request
 
-    let qrySpbmIntraParameter encoding (request: QrySpbmIntraParameter) : NativeQrySpbmIntraParameter =
-        TraderBridgeGenerated.buildNative<QrySpbmIntraParameter, NativeQrySpbmIntraParameter> encoding request
+    let qrySpbmIntraParameter encoding (request: QrySpbmIntraParameterRequest) : NativeQrySpbmIntraParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmIntraParameterRequest, NativeQrySpbmIntraParameter> encoding request
 
-    let qrySpbmInvestorPortfDef encoding (request: QrySpbmInvestorPortfDef) : NativeQrySpbmInvestorPortfDef =
-        TraderBridgeGenerated.buildNative<QrySpbmInvestorPortfDef, NativeQrySpbmInvestorPortfDef> encoding request
+    let qrySpbmInvestorPortfDef encoding (request: QrySpbmInvestorPortfDefRequest) : NativeQrySpbmInvestorPortfDef =
+        TraderBridgeGenerated.buildNative<QrySpbmInvestorPortfDefRequest, NativeQrySpbmInvestorPortfDef> encoding request
 
-    let qrySpbmOptionParameter encoding (request: QrySpbmOptionParameter) : NativeQrySpbmOptionParameter =
-        TraderBridgeGenerated.buildNative<QrySpbmOptionParameter, NativeQrySpbmOptionParameter> encoding request
+    let qrySpbmOptionParameter encoding (request: QrySpbmOptionParameterRequest) : NativeQrySpbmOptionParameter =
+        TraderBridgeGenerated.buildNative<QrySpbmOptionParameterRequest, NativeQrySpbmOptionParameter> encoding request
 
-    let qrySpbmPortfDefinition encoding (request: QrySpbmPortfDefinition) : NativeQrySpbmPortfDefinition =
-        TraderBridgeGenerated.buildNative<QrySpbmPortfDefinition, NativeQrySpbmPortfDefinition> encoding request
+    let qrySpbmPortfDefinition encoding (request: QrySpbmPortfDefinitionRequest) : NativeQrySpbmPortfDefinition =
+        TraderBridgeGenerated.buildNative<QrySpbmPortfDefinitionRequest, NativeQrySpbmPortfDefinition> encoding request
 
-    let qrySpdApply encoding (request: QrySpdApply) : NativeQrySpdApply =
-        TraderBridgeGenerated.buildNative<QrySpdApply, NativeQrySpdApply> encoding request
+    let qrySpdApply encoding (request: QrySpdApplyRequest) : NativeQrySpdApply =
+        TraderBridgeGenerated.buildNative<QrySpdApplyRequest, NativeQrySpdApply> encoding request
 
-    let qrySpmmInstParam encoding (request: QrySpmmInstParam) : NativeQrySpmmInstParam =
-        TraderBridgeGenerated.buildNative<QrySpmmInstParam, NativeQrySpmmInstParam> encoding request
+    let qrySpmmInstParam encoding (request: QrySpmmInstParamRequest) : NativeQrySpmmInstParam =
+        TraderBridgeGenerated.buildNative<QrySpmmInstParamRequest, NativeQrySpmmInstParam> encoding request
 
-    let qrySpmmProductParam encoding (request: QrySpmmProductParam) : NativeQrySpmmProductParam =
-        TraderBridgeGenerated.buildNative<QrySpmmProductParam, NativeQrySpmmProductParam> encoding request
+    let qrySpmmProductParam encoding (request: QrySpmmProductParamRequest) : NativeQrySpmmProductParam =
+        TraderBridgeGenerated.buildNative<QrySpmmProductParamRequest, NativeQrySpmmProductParam> encoding request
 
-    let qryTrade encoding (request: QryTrade) : NativeQryTrade =
-        TraderBridgeGenerated.buildNative<QryTrade, NativeQryTrade> encoding request
+    let qryTrade encoding (request: QryTradeRequest) : NativeQryTrade =
+        TraderBridgeGenerated.buildNative<QryTradeRequest, NativeQryTrade> encoding request
 
-    let qryTraderOffer encoding (request: QryTraderOffer) : NativeQryTraderOffer =
-        TraderBridgeGenerated.buildNative<QryTraderOffer, NativeQryTraderOffer> encoding request
+    let qryTraderOffer encoding (request: QryTraderOfferRequest) : NativeQryTraderOffer =
+        TraderBridgeGenerated.buildNative<QryTraderOfferRequest, NativeQryTraderOffer> encoding request
 
-    let qryTradingCode encoding (request: QryTradingCode) : NativeQryTradingCode =
-        TraderBridgeGenerated.buildNative<QryTradingCode, NativeQryTradingCode> encoding request
+    let qryTradingCode encoding (request: QryTradingCodeRequest) : NativeQryTradingCode =
+        TraderBridgeGenerated.buildNative<QryTradingCodeRequest, NativeQryTradingCode> encoding request
 
-    let qryTradingNotice encoding (request: QryTradingNotice) : NativeQryTradingNotice =
-        TraderBridgeGenerated.buildNative<QryTradingNotice, NativeQryTradingNotice> encoding request
+    let qryTradingNotice encoding (request: QryTradingNoticeRequest) : NativeQryTradingNotice =
+        TraderBridgeGenerated.buildNative<QryTradingNoticeRequest, NativeQryTradingNotice> encoding request
 
-    let qryTransferBank encoding (request: QryTransferBank) : NativeQryTransferBank =
-        TraderBridgeGenerated.buildNative<QryTransferBank, NativeQryTransferBank> encoding request
+    let qryTransferBank encoding (request: QryTransferBankRequest) : NativeQryTransferBank =
+        TraderBridgeGenerated.buildNative<QryTransferBankRequest, NativeQryTransferBank> encoding request
 
-    let qryTransferSerial encoding (request: QryTransferSerial) : NativeQryTransferSerial =
-        TraderBridgeGenerated.buildNative<QryTransferSerial, NativeQryTransferSerial> encoding request
+    let qryTransferSerial encoding (request: QryTransferSerialRequest) : NativeQryTransferSerial =
+        TraderBridgeGenerated.buildNative<QryTransferSerialRequest, NativeQryTransferSerial> encoding request
 
-    let qryUserSession encoding (request: QryUserSession) : NativeQryUserSession =
-        TraderBridgeGenerated.buildNative<QryUserSession, NativeQryUserSession> encoding request
+    let qryUserSession encoding (request: QryUserSessionRequest) : NativeQryUserSession =
+        TraderBridgeGenerated.buildNative<QryUserSessionRequest, NativeQryUserSession> encoding request
 
-    let queryCfmmcTradingAccountToken encoding (request: QueryCfmmcTradingAccountToken) : NativeQueryCfmmcTradingAccountToken =
-        TraderBridgeGenerated.buildNative<QueryCfmmcTradingAccountToken, NativeQueryCfmmcTradingAccountToken> encoding request
+    let queryCfmmcTradingAccountToken encoding (request: QueryCfmmcTradingAccountTokenRequest) : NativeQueryCfmmcTradingAccountToken =
+        TraderBridgeGenerated.buildNative<QueryCfmmcTradingAccountTokenRequest, NativeQueryCfmmcTradingAccountToken> encoding request
 
     let removeParkedOrder encoding (request: RemoveParkedOrder) : NativeRemoveParkedOrder =
         TraderBridgeGenerated.buildNative<RemoveParkedOrder, NativeRemoveParkedOrder> encoding request
@@ -15489,32 +15489,32 @@ module private TraderBridgeBuilders =
     let removeParkedOrderAction encoding (request: RemoveParkedOrderAction) : NativeRemoveParkedOrderAction =
         TraderBridgeGenerated.buildNative<RemoveParkedOrderAction, NativeRemoveParkedOrderAction> encoding request
 
-    let reqGenSmsCode encoding (request: ReqGenSmsCode) : NativeReqGenSmsCode =
-        TraderBridgeGenerated.buildNative<ReqGenSmsCode, NativeReqGenSmsCode> encoding request
+    let reqGenSmsCode encoding (request: GenSmsCodeRequest) : NativeReqGenSmsCode =
+        TraderBridgeGenerated.buildNative<GenSmsCodeRequest, NativeReqGenSmsCode> encoding request
 
-    let reqGenUserCaptcha encoding (request: ReqGenUserCaptcha) : NativeReqGenUserCaptcha =
-        TraderBridgeGenerated.buildNative<ReqGenUserCaptcha, NativeReqGenUserCaptcha> encoding request
+    let reqGenUserCaptcha encoding (request: GenUserCaptchaRequest) : NativeReqGenUserCaptcha =
+        TraderBridgeGenerated.buildNative<GenUserCaptchaRequest, NativeReqGenUserCaptcha> encoding request
 
-    let reqGenUserText encoding (request: ReqGenUserText) : NativeReqGenUserText =
-        TraderBridgeGenerated.buildNative<ReqGenUserText, NativeReqGenUserText> encoding request
+    let reqGenUserText encoding (request: GenUserTextRequest) : NativeReqGenUserText =
+        TraderBridgeGenerated.buildNative<GenUserTextRequest, NativeReqGenUserText> encoding request
 
     let reqQueryAccount encoding requestId (request: ReqQueryAccount) : NativeReqQueryAccount =
         TraderBridgeGenerated.buildNativeWithRequestId<ReqQueryAccount, NativeReqQueryAccount> encoding requestId request
 
-    let reqTransfer encoding requestId (request: ReqTransfer) : NativeReqTransfer =
-        TraderBridgeGenerated.buildNativeWithRequestId<ReqTransfer, NativeReqTransfer> encoding requestId request
+    let reqTransfer encoding requestId (request: TransferRequest) : NativeReqTransfer =
+        TraderBridgeGenerated.buildNativeWithRequestId<TransferRequest, NativeReqTransfer> encoding requestId request
 
-    let reqUserAuthMethod encoding (request: ReqUserAuthMethod) : NativeReqUserAuthMethod =
-        TraderBridgeGenerated.buildNative<ReqUserAuthMethod, NativeReqUserAuthMethod> encoding request
+    let reqUserAuthMethod encoding (request: UserAuthMethodRequest) : NativeReqUserAuthMethod =
+        TraderBridgeGenerated.buildNative<UserAuthMethodRequest, NativeReqUserAuthMethod> encoding request
 
-    let reqUserLoginWithCaptcha encoding (request: ReqUserLoginWithCaptcha) : NativeReqUserLoginWithCaptcha =
-        TraderBridgeGenerated.buildNative<ReqUserLoginWithCaptcha, NativeReqUserLoginWithCaptcha> encoding request
+    let reqUserLoginWithCaptcha encoding (request: UserLoginWithCaptchaRequest) : NativeReqUserLoginWithCaptcha =
+        TraderBridgeGenerated.buildNative<UserLoginWithCaptchaRequest, NativeReqUserLoginWithCaptcha> encoding request
 
-    let reqUserLoginWithOtp encoding (request: ReqUserLoginWithOtp) : NativeReqUserLoginWithOtp =
-        TraderBridgeGenerated.buildNative<ReqUserLoginWithOtp, NativeReqUserLoginWithOtp> encoding request
+    let reqUserLoginWithOtp encoding (request: UserLoginWithOtpRequest) : NativeReqUserLoginWithOtp =
+        TraderBridgeGenerated.buildNative<UserLoginWithOtpRequest, NativeReqUserLoginWithOtp> encoding request
 
-    let reqUserLoginWithText encoding (request: ReqUserLoginWithText) : NativeReqUserLoginWithText =
-        TraderBridgeGenerated.buildNative<ReqUserLoginWithText, NativeReqUserLoginWithText> encoding request
+    let reqUserLoginWithText encoding (request: UserLoginWithTextRequest) : NativeReqUserLoginWithText =
+        TraderBridgeGenerated.buildNative<UserLoginWithTextRequest, NativeReqUserLoginWithText> encoding request
 
     let tradingAccountPasswordUpdate encoding (request: TradingAccountPasswordUpdate) : NativeTradingAccountPasswordUpdate =
         TraderBridgeGenerated.buildNative<TradingAccountPasswordUpdate, NativeTradingAccountPasswordUpdate> encoding request
@@ -18165,11 +18165,11 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.settlementInfoConfirm encodings.OutboundEncoding request
         TraderNativeInterop.reqSettlementInfoConfirm (this.Handle, &native, requestId)
 
-    member this.ReqUserLogin(request: RequestUserLogin, requestId: int) =
+    member this.ReqUserLogin(request: UserLoginRequest, requestId: int) =
         let mutable native = BridgeBuilders.reqUserLogin encodings.OutboundEncoding request
         TraderNativeInterop.reqUserLogin (this.Handle, &native, requestId)
 
-    member this.ReqUserLogout(request: RequestUserLogout, requestId: int) =
+    member this.ReqUserLogout(request: UserLogoutRequest, requestId: int) =
         let mutable native = BridgeBuilders.reqUserLogout encodings.OutboundEncoding request
         TraderNativeInterop.reqUserLogout (this.Handle, &native, requestId)
 
@@ -18245,31 +18245,31 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.tradingAccountPasswordUpdate encodings.OutboundEncoding request
         TraderNativeInterop.reqTradingAccountPasswordUpdate (this.Handle, &native, requestId)
 
-    member this.ReqUserAuthMethod(request: ReqUserAuthMethod, requestId: int) =
+    member this.ReqUserAuthMethod(request: UserAuthMethodRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqUserAuthMethod encodings.OutboundEncoding request
         TraderNativeInterop.reqUserAuthMethod (this.Handle, &native, requestId)
 
-    member this.ReqGenUserCaptcha(request: ReqGenUserCaptcha, requestId: int) =
+    member this.ReqGenUserCaptcha(request: GenUserCaptchaRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqGenUserCaptcha encodings.OutboundEncoding request
         TraderNativeInterop.reqGenUserCaptcha (this.Handle, &native, requestId)
 
-    member this.ReqGenUserText(request: ReqGenUserText, requestId: int) =
+    member this.ReqGenUserText(request: GenUserTextRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqGenUserText encodings.OutboundEncoding request
         TraderNativeInterop.reqGenUserText (this.Handle, &native, requestId)
 
-    member this.ReqUserLoginWithCaptcha(request: ReqUserLoginWithCaptcha, requestId: int) =
+    member this.ReqUserLoginWithCaptcha(request: UserLoginWithCaptchaRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqUserLoginWithCaptcha encodings.OutboundEncoding request
         TraderNativeInterop.reqUserLoginWithCaptcha (this.Handle, &native, requestId)
 
-    member this.ReqUserLoginWithText(request: ReqUserLoginWithText, requestId: int) =
+    member this.ReqUserLoginWithText(request: UserLoginWithTextRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqUserLoginWithText encodings.OutboundEncoding request
         TraderNativeInterop.reqUserLoginWithText (this.Handle, &native, requestId)
 
-    member this.ReqUserLoginWithOtp(request: ReqUserLoginWithOtp, requestId: int) =
+    member this.ReqUserLoginWithOtp(request: UserLoginWithOtpRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqUserLoginWithOtp encodings.OutboundEncoding request
         TraderNativeInterop.reqUserLoginWithOtp (this.Handle, &native, requestId)
 
-    member this.ReqGenSmsCode(request: ReqGenSmsCode, requestId: int) =
+    member this.ReqGenSmsCode(request: GenSmsCodeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqGenSmsCode encodings.OutboundEncoding request
         TraderNativeInterop.reqGenSmsCode (this.Handle, &native, requestId)
 
@@ -18281,7 +18281,7 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.parkedOrderAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqParkedOrderAction (this.Handle, &native, requestId)
 
-    member this.ReqQryMaxOrderVolume(request: QryMaxOrderVolume, requestId: int) =
+    member this.ReqQryMaxOrderVolume(request: QryMaxOrderVolumeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryMaxOrderVolume encodings.OutboundEncoding request
         TraderNativeInterop.reqQryMaxOrderVolume (this.Handle, &native, requestId)
 
@@ -18293,143 +18293,143 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.removeParkedOrderAction encodings.OutboundEncoding request
         TraderNativeInterop.reqRemoveParkedOrderAction (this.Handle, &native, requestId)
 
-    member this.ReqExecOrderInsert(request: InputExecOrder, requestId: int) =
+    member this.ReqExecOrderInsert(request: InputExecOrderRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputExecOrder encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqExecOrderInsert (this.Handle, &native, requestId)
 
-    member this.ReqExecOrderAction(request: InputExecOrderAction, requestId: int) =
+    member this.ReqExecOrderAction(request: InputExecOrderActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputExecOrderAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqExecOrderAction (this.Handle, &native, requestId)
 
-    member this.ReqForQuoteInsert(request: InputForQuote, requestId: int) =
+    member this.ReqForQuoteInsert(request: InputForQuoteRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputForQuote encodings.OutboundEncoding request
         TraderNativeInterop.reqForQuoteInsert (this.Handle, &native, requestId)
 
-    member this.ReqQuoteInsert(request: InputQuote, requestId: int) =
+    member this.ReqQuoteInsert(request: InputQuoteRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputQuote encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqQuoteInsert (this.Handle, &native, requestId)
 
-    member this.ReqQuoteAction(request: InputQuoteAction, requestId: int) =
+    member this.ReqQuoteAction(request: InputQuoteActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputQuoteAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqQuoteAction (this.Handle, &native, requestId)
 
-    member this.ReqBatchOrderAction(request: InputBatchOrderAction, requestId: int) =
+    member this.ReqBatchOrderAction(request: InputBatchOrderActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputBatchOrderAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqBatchOrderAction (this.Handle, &native, requestId)
 
-    member this.ReqOptionSelfCloseInsert(request: InputOptionSelfClose, requestId: int) =
+    member this.ReqOptionSelfCloseInsert(request: InputOptionSelfCloseRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputOptionSelfClose encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqOptionSelfCloseInsert (this.Handle, &native, requestId)
 
-    member this.ReqOptionSelfCloseAction(request: InputOptionSelfCloseAction, requestId: int) =
+    member this.ReqOptionSelfCloseAction(request: InputOptionSelfCloseActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputOptionSelfCloseAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqOptionSelfCloseAction (this.Handle, &native, requestId)
 
-    member this.ReqCombActionInsert(request: InputCombAction, requestId: int) =
+    member this.ReqCombActionInsert(request: InputCombActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputCombAction encodings.OutboundEncoding request
         TraderNativeInterop.reqCombActionInsert (this.Handle, &native, requestId)
 
-    member this.ReqOffsetSetting(request: InputOffsetSetting, requestId: int) =
+    member this.ReqOffsetSetting(request: InputOffsetSettingRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqOffsetSetting (this.Handle, &native, requestId)
 
-    member this.ReqCancelOffsetSetting(request: InputOffsetSetting, requestId: int) =
+    member this.ReqCancelOffsetSetting(request: InputOffsetSettingRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqCancelOffsetSetting (this.Handle, &native, requestId)
 
-    member this.ReqSpdApply(request: InputSpdApply, requestId: int) =
+    member this.ReqSpdApply(request: InputSpdApplyRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputSpdApply encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqSpdApply (this.Handle, &native, requestId)
 
-    member this.ReqSpdApplyAction(request: InputSpdApplyAction, requestId: int) =
+    member this.ReqSpdApplyAction(request: InputSpdApplyActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputSpdApplyAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqSpdApplyAction (this.Handle, &native, requestId)
 
-    member this.ReqHedgeCfm(request: InputHedgeCfm, requestId: int) =
+    member this.ReqHedgeCfm(request: InputHedgeCfmRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputHedgeCfm encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqHedgeCfm (this.Handle, &native, requestId)
 
-    member this.ReqHedgeCfmAction(request: InputHedgeCfmAction, requestId: int) =
+    member this.ReqHedgeCfmAction(request: InputHedgeCfmActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.inputHedgeCfmAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqHedgeCfmAction (this.Handle, &native, requestId)
 
-    member this.ReqQryOrder(request: QryOrder, requestId: int) =
+    member this.ReqQryOrder(request: QryOrderRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryOrder encodings.OutboundEncoding request
         TraderNativeInterop.reqQryOrder (this.Handle, &native, requestId)
 
-    member this.ReqQryTrade(request: QryTrade, requestId: int) =
+    member this.ReqQryTrade(request: QryTradeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryTrade encodings.OutboundEncoding request
         TraderNativeInterop.reqQryTrade (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestor(request: QryInvestor, requestId: int) =
+    member this.ReqQryInvestor(request: QryInvestorRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestor encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestor (this.Handle, &native, requestId)
 
-    member this.ReqQryTradingCode(request: QryTradingCode, requestId: int) =
+    member this.ReqQryTradingCode(request: QryTradingCodeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryTradingCode encodings.OutboundEncoding request
         TraderNativeInterop.reqQryTradingCode (this.Handle, &native, requestId)
 
-    member this.ReqQryUserSession(request: QryUserSession, requestId: int) =
+    member this.ReqQryUserSession(request: QryUserSessionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryUserSession encodings.OutboundEncoding request
         TraderNativeInterop.reqQryUserSession (this.Handle, &native, requestId)
 
-    member this.ReqQryExchange(request: QryExchange, requestId: int) =
+    member this.ReqQryExchange(request: QryExchangeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryExchange encodings.OutboundEncoding request
         TraderNativeInterop.reqQryExchange (this.Handle, &native, requestId)
 
-    member this.ReqQryProduct(request: QryProduct, requestId: int) =
+    member this.ReqQryProduct(request: QryProductRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryProduct encodings.OutboundEncoding request
         TraderNativeInterop.reqQryProduct (this.Handle, &native, requestId)
 
-    member this.ReqQryInstrument(request: QryInstrument, requestId: int) =
+    member this.ReqQryInstrument(request: QryInstrumentRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInstrument encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInstrument (this.Handle, &native, requestId)
 
-    member this.ReqQryDepthMarketData(request: QryDepthMarketData, requestId: int) =
+    member this.ReqQryDepthMarketData(request: QryDepthMarketDataRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryDepthMarketData encodings.OutboundEncoding request
         TraderNativeInterop.reqQryDepthMarketData (this.Handle, &native, requestId)
 
-    member this.ReqQryTraderOffer(request: QryTraderOffer, requestId: int) =
+    member this.ReqQryTraderOffer(request: QryTraderOfferRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryTraderOffer encodings.OutboundEncoding request
         TraderNativeInterop.reqQryTraderOffer (this.Handle, &native, requestId)
 
-    member this.ReqQrySettlementInfo(request: QrySettlementInfo, requestId: int) =
+    member this.ReqQrySettlementInfo(request: QrySettlementInfoRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySettlementInfo encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySettlementInfo (this.Handle, &native, requestId)
 
-    member this.ReqQryTransferBank(request: QryTransferBank, requestId: int) =
+    member this.ReqQryTransferBank(request: QryTransferBankRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryTransferBank encodings.OutboundEncoding request
         TraderNativeInterop.reqQryTransferBank (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorPositionDetail(request: QryInvestorPositionDetail, requestId: int) =
+    member this.ReqQryInvestorPositionDetail(request: QryInvestorPositionDetailRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorPositionDetail encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorPositionDetail (this.Handle, &native, requestId)
 
-    member this.ReqQryNotice(request: QryNotice, requestId: int) =
+    member this.ReqQryNotice(request: QryNoticeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryNotice encodings.OutboundEncoding request
         TraderNativeInterop.reqQryNotice (this.Handle, &native, requestId)
 
-    member this.ReqQrySettlementInfoConfirm(request: QrySettlementInfoConfirm, requestId: int) =
+    member this.ReqQrySettlementInfoConfirm(request: QrySettlementInfoConfirmRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySettlementInfoConfirm encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySettlementInfoConfirm (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorPositionCombineDetail(request: QryInvestorPositionCombineDetail, requestId: int) =
+    member this.ReqQryInvestorPositionCombineDetail(request: QryInvestorPositionCombineDetailRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorPositionCombineDetail encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorPositionCombineDetail (this.Handle, &native, requestId)
 
-    member this.ReqQryCfmmcTradingAccountKey(request: QryCfmmcTradingAccountKey, requestId: int) =
+    member this.ReqQryCfmmcTradingAccountKey(request: QryCfmmcTradingAccountKeyRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryCfmmcTradingAccountKey encodings.OutboundEncoding request
         TraderNativeInterop.reqQryCfmmcTradingAccountKey (this.Handle, &native, requestId)
 
-    member this.ReqQryEWarrantOffset(request: QryEWarrantOffset, requestId: int) =
+    member this.ReqQryEWarrantOffset(request: QryEWarrantOffsetRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryEWarrantOffset encodings.OutboundEncoding request
         TraderNativeInterop.reqQryEWarrantOffset (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorProductGroupMargin(request: QryInvestorProductGroupMargin, requestId: int) =
+    member this.ReqQryInvestorProductGroupMargin(request: QryInvestorProductGroupMarginRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorProductGroupMargin encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorProductGroupMargin (this.Handle, &native, requestId)
 
-    member this.ReqQryExchangeMarginRateAdjust(request: QryExchangeMarginRateAdjust, requestId: int) =
+    member this.ReqQryExchangeMarginRateAdjust(request: QryExchangeMarginRateAdjustRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryExchangeMarginRateAdjust encodings.OutboundEncoding request
         TraderNativeInterop.reqQryExchangeMarginRateAdjust (this.Handle, &native, requestId)
 
@@ -18437,27 +18437,27 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.qryExchangeRate encodings.OutboundEncoding request
         TraderNativeInterop.reqQryExchangeRate (this.Handle, &native, requestId)
 
-    member this.ReqQrySecAgentAcIdMap(request: QrySecAgentAcIdMap, requestId: int) =
+    member this.ReqQrySecAgentAcIdMap(request: QrySecAgentAcIdMapRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySecAgentAcIdMap encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySecAgentAcIdMap (this.Handle, &native, requestId)
 
-    member this.ReqQryProductExchRate(request: QryProductExchRate, requestId: int) =
+    member this.ReqQryProductExchRate(request: QryProductExchRateRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryProductExchRate encodings.OutboundEncoding request
         TraderNativeInterop.reqQryProductExchRate (this.Handle, &native, requestId)
 
-    member this.ReqQryProductGroup(request: QryProductGroup, requestId: int) =
+    member this.ReqQryProductGroup(request: QryProductGroupRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryProductGroup encodings.OutboundEncoding request
         TraderNativeInterop.reqQryProductGroup (this.Handle, &native, requestId)
 
-    member this.ReqQryMmInstrumentCommissionRate(request: QryMmInstrumentCommissionRate, requestId: int) =
+    member this.ReqQryMmInstrumentCommissionRate(request: QryMmInstrumentCommissionRateRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryMmInstrumentCommissionRate encodings.OutboundEncoding request
         TraderNativeInterop.reqQryMmInstrumentCommissionRate (this.Handle, &native, requestId)
 
-    member this.ReqQryMmOptionInstrCommRate(request: QryMmOptionInstrCommRate, requestId: int) =
+    member this.ReqQryMmOptionInstrCommRate(request: QryMmOptionInstrCommRateRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryMmOptionInstrCommRate encodings.OutboundEncoding request
         TraderNativeInterop.reqQryMmOptionInstrCommRate (this.Handle, &native, requestId)
 
-    member this.ReqQryInstrumentOrderCommRate(request: QryInstrumentOrderCommRate, requestId: int) =
+    member this.ReqQryInstrumentOrderCommRate(request: QryInstrumentOrderCommRateRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInstrumentOrderCommRate encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInstrumentOrderCommRate (this.Handle, &native, requestId)
 
@@ -18465,203 +18465,203 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.qryTradingAccount encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySecAgentTradingAccount (this.Handle, &native, requestId)
 
-    member this.ReqQrySecAgentCheckMode(request: QrySecAgentCheckMode, requestId: int) =
+    member this.ReqQrySecAgentCheckMode(request: QrySecAgentCheckModeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySecAgentCheckMode encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySecAgentCheckMode (this.Handle, &native, requestId)
 
-    member this.ReqQrySecAgentTradeInfo(request: QrySecAgentTradeInfo, requestId: int) =
+    member this.ReqQrySecAgentTradeInfo(request: QrySecAgentTradeInfoRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySecAgentTradeInfo encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySecAgentTradeInfo (this.Handle, &native, requestId)
 
-    member this.ReqQryOptionInstrTradeCost(request: QryOptionInstrTradeCost, requestId: int) =
+    member this.ReqQryOptionInstrTradeCost(request: QryOptionInstrTradeCostRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryOptionInstrTradeCost encodings.OutboundEncoding request
         TraderNativeInterop.reqQryOptionInstrTradeCost (this.Handle, &native, requestId)
 
-    member this.ReqQryOptionInstrCommRate(request: QryOptionInstrCommRate, requestId: int) =
+    member this.ReqQryOptionInstrCommRate(request: QryOptionInstrCommRateRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryOptionInstrCommRate encodings.OutboundEncoding request
         TraderNativeInterop.reqQryOptionInstrCommRate (this.Handle, &native, requestId)
 
-    member this.ReqQryExecOrder(request: QryExecOrder, requestId: int) =
+    member this.ReqQryExecOrder(request: QryExecOrderRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryExecOrder encodings.OutboundEncoding request
         TraderNativeInterop.reqQryExecOrder (this.Handle, &native, requestId)
 
-    member this.ReqQryForQuote(request: QryForQuote, requestId: int) =
+    member this.ReqQryForQuote(request: QryForQuoteRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryForQuote encodings.OutboundEncoding request
         TraderNativeInterop.reqQryForQuote (this.Handle, &native, requestId)
 
-    member this.ReqQryQuote(request: QryQuote, requestId: int) =
+    member this.ReqQryQuote(request: QryQuoteRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryQuote encodings.OutboundEncoding request
         TraderNativeInterop.reqQryQuote (this.Handle, &native, requestId)
 
-    member this.ReqQryOptionSelfClose(request: QryOptionSelfClose, requestId: int) =
+    member this.ReqQryOptionSelfClose(request: QryOptionSelfCloseRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryOptionSelfClose encodings.OutboundEncoding request
         TraderNativeInterop.reqQryOptionSelfClose (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestUnit(request: QryInvestUnit, requestId: int) =
+    member this.ReqQryInvestUnit(request: QryInvestUnitRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestUnit encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestUnit (this.Handle, &native, requestId)
 
-    member this.ReqQryCombInstrumentGuard(request: QryCombInstrumentGuard, requestId: int) =
+    member this.ReqQryCombInstrumentGuard(request: QryCombInstrumentGuardRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryCombInstrumentGuard encodings.OutboundEncoding request
         TraderNativeInterop.reqQryCombInstrumentGuard (this.Handle, &native, requestId)
 
-    member this.ReqQryCombAction(request: QryCombAction, requestId: int) =
+    member this.ReqQryCombAction(request: QryCombActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryCombAction encodings.OutboundEncoding request
         TraderNativeInterop.reqQryCombAction (this.Handle, &native, requestId)
 
-    member this.ReqQryTransferSerial(request: QryTransferSerial, requestId: int) =
+    member this.ReqQryTransferSerial(request: QryTransferSerialRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryTransferSerial encodings.OutboundEncoding request
         TraderNativeInterop.reqQryTransferSerial (this.Handle, &native, requestId)
 
-    member this.ReqQryAccountregister(request: QryAccountregister, requestId: int) =
+    member this.ReqQryAccountregister(request: QryAccountregisterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryAccountregister encodings.OutboundEncoding request
         TraderNativeInterop.reqQryAccountregister (this.Handle, &native, requestId)
 
-    member this.ReqQryContractBank(request: QryContractBank, requestId: int) =
+    member this.ReqQryContractBank(request: QryContractBankRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryContractBank encodings.OutboundEncoding request
         TraderNativeInterop.reqQryContractBank (this.Handle, &native, requestId)
 
-    member this.ReqQryParkedOrder(request: QryParkedOrder, requestId: int) =
+    member this.ReqQryParkedOrder(request: QryParkedOrderRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryParkedOrder encodings.OutboundEncoding request
         TraderNativeInterop.reqQryParkedOrder (this.Handle, &native, requestId)
 
-    member this.ReqQryParkedOrderAction(request: QryParkedOrderAction, requestId: int) =
+    member this.ReqQryParkedOrderAction(request: QryParkedOrderActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryParkedOrderAction encodings.OutboundEncoding request
         TraderNativeInterop.reqQryParkedOrderAction (this.Handle, &native, requestId)
 
-    member this.ReqQryTradingNotice(request: QryTradingNotice, requestId: int) =
+    member this.ReqQryTradingNotice(request: QryTradingNoticeRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryTradingNotice encodings.OutboundEncoding request
         TraderNativeInterop.reqQryTradingNotice (this.Handle, &native, requestId)
 
-    member this.ReqQryBrokerTradingParams(request: QryBrokerTradingParams, requestId: int) =
+    member this.ReqQryBrokerTradingParams(request: QryBrokerTradingParamsRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryBrokerTradingParams encodings.OutboundEncoding request
         TraderNativeInterop.reqQryBrokerTradingParams (this.Handle, &native, requestId)
 
-    member this.ReqQryBrokerTradingAlgos(request: QryBrokerTradingAlgos, requestId: int) =
+    member this.ReqQryBrokerTradingAlgos(request: QryBrokerTradingAlgosRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryBrokerTradingAlgos encodings.OutboundEncoding request
         TraderNativeInterop.reqQryBrokerTradingAlgos (this.Handle, &native, requestId)
 
-    member this.ReqQueryCfmmcTradingAccountToken(request: QueryCfmmcTradingAccountToken, requestId: int) =
+    member this.ReqQueryCfmmcTradingAccountToken(request: QueryCfmmcTradingAccountTokenRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.queryCfmmcTradingAccountToken encodings.OutboundEncoding request
         TraderNativeInterop.reqQueryCfmmcTradingAccountToken (this.Handle, &native, requestId)
 
-    member this.ReqQryClassifiedInstrument(request: QryClassifiedInstrument, requestId: int) =
+    member this.ReqQryClassifiedInstrument(request: QryClassifiedInstrumentRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryClassifiedInstrument encodings.OutboundEncoding request
         TraderNativeInterop.reqQryClassifiedInstrument (this.Handle, &native, requestId)
 
-    member this.ReqQryCombPromotionParam(request: QryCombPromotionParam, requestId: int) =
+    member this.ReqQryCombPromotionParam(request: QryCombPromotionParamRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryCombPromotionParam encodings.OutboundEncoding request
         TraderNativeInterop.reqQryCombPromotionParam (this.Handle, &native, requestId)
 
-    member this.ReqQryRiskSettleInvstPosition(request: QryRiskSettleInvstPosition, requestId: int) =
+    member this.ReqQryRiskSettleInvstPosition(request: QryRiskSettleInvstPositionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRiskSettleInvstPosition encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRiskSettleInvstPosition (this.Handle, &native, requestId)
 
-    member this.ReqQryRiskSettleProductStatus(request: QryRiskSettleProductStatus, requestId: int) =
+    member this.ReqQryRiskSettleProductStatus(request: QryRiskSettleProductStatusRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRiskSettleProductStatus encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRiskSettleProductStatus (this.Handle, &native, requestId)
 
-    member this.ReqQrySpbmFutureParameter(request: QrySpbmFutureParameter, requestId: int) =
+    member this.ReqQrySpbmFutureParameter(request: QrySpbmFutureParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpbmFutureParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpbmFutureParameter (this.Handle, &native, requestId)
 
-    member this.ReqQrySpbmOptionParameter(request: QrySpbmOptionParameter, requestId: int) =
+    member this.ReqQrySpbmOptionParameter(request: QrySpbmOptionParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpbmOptionParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpbmOptionParameter (this.Handle, &native, requestId)
 
-    member this.ReqQrySpbmIntraParameter(request: QrySpbmIntraParameter, requestId: int) =
+    member this.ReqQrySpbmIntraParameter(request: QrySpbmIntraParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpbmIntraParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpbmIntraParameter (this.Handle, &native, requestId)
 
-    member this.ReqQrySpbmInterParameter(request: QrySpbmInterParameter, requestId: int) =
+    member this.ReqQrySpbmInterParameter(request: QrySpbmInterParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpbmInterParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpbmInterParameter (this.Handle, &native, requestId)
 
-    member this.ReqQrySpbmPortfDefinition(request: QrySpbmPortfDefinition, requestId: int) =
+    member this.ReqQrySpbmPortfDefinition(request: QrySpbmPortfDefinitionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpbmPortfDefinition encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpbmPortfDefinition (this.Handle, &native, requestId)
 
-    member this.ReqQrySpbmInvestorPortfDef(request: QrySpbmInvestorPortfDef, requestId: int) =
+    member this.ReqQrySpbmInvestorPortfDef(request: QrySpbmInvestorPortfDefRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpbmInvestorPortfDef encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpbmInvestorPortfDef (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorPortfMarginRatio(request: QryInvestorPortfMarginRatio, requestId: int) =
+    member this.ReqQryInvestorPortfMarginRatio(request: QryInvestorPortfMarginRatioRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorPortfMarginRatio encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorPortfMarginRatio (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorProdSpbmDetail(request: QryInvestorProdSpbmDetail, requestId: int) =
+    member this.ReqQryInvestorProdSpbmDetail(request: QryInvestorProdSpbmDetailRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorProdSpbmDetail encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorProdSpbmDetail (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorCommoditySpmmMargin(request: QryInvestorCommoditySpmmMargin, requestId: int) =
+    member this.ReqQryInvestorCommoditySpmmMargin(request: QryInvestorCommoditySpmmMarginRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorCommoditySpmmMargin encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorCommoditySpmmMargin (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorCommodityGroupSpmmMargin(request: QryInvestorCommodityGroupSpmmMargin, requestId: int) =
+    member this.ReqQryInvestorCommodityGroupSpmmMargin(request: QryInvestorCommodityGroupSpmmMarginRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorCommodityGroupSpmmMargin encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorCommodityGroupSpmmMargin (this.Handle, &native, requestId)
 
-    member this.ReqQrySpmmInstParam(request: QrySpmmInstParam, requestId: int) =
+    member this.ReqQrySpmmInstParam(request: QrySpmmInstParamRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpmmInstParam encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpmmInstParam (this.Handle, &native, requestId)
 
-    member this.ReqQrySpmmProductParam(request: QrySpmmProductParam, requestId: int) =
+    member this.ReqQrySpmmProductParam(request: QrySpmmProductParamRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpmmProductParam encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpmmProductParam (this.Handle, &native, requestId)
 
-    member this.ReqQrySpbmAddOnInterParameter(request: QrySpbmAddOnInterParameter, requestId: int) =
+    member this.ReqQrySpbmAddOnInterParameter(request: QrySpbmAddOnInterParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpbmAddOnInterParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpbmAddOnInterParameter (this.Handle, &native, requestId)
 
-    member this.ReqQryRcamsCombProductInfo(request: QryRcamsCombProductInfo, requestId: int) =
+    member this.ReqQryRcamsCombProductInfo(request: QryRcamsCombProductInfoRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRcamsCombProductInfo encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRcamsCombProductInfo (this.Handle, &native, requestId)
 
-    member this.ReqQryRcamsInstrParameter(request: QryRcamsInstrParameter, requestId: int) =
+    member this.ReqQryRcamsInstrParameter(request: QryRcamsInstrParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRcamsInstrParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRcamsInstrParameter (this.Handle, &native, requestId)
 
-    member this.ReqQryRcamsIntraParameter(request: QryRcamsIntraParameter, requestId: int) =
+    member this.ReqQryRcamsIntraParameter(request: QryRcamsIntraParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRcamsIntraParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRcamsIntraParameter (this.Handle, &native, requestId)
 
-    member this.ReqQryRcamsInterParameter(request: QryRcamsInterParameter, requestId: int) =
+    member this.ReqQryRcamsInterParameter(request: QryRcamsInterParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRcamsInterParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRcamsInterParameter (this.Handle, &native, requestId)
 
-    member this.ReqQryRcamsShortOptAdjustParam(request: QryRcamsShortOptAdjustParam, requestId: int) =
+    member this.ReqQryRcamsShortOptAdjustParam(request: QryRcamsShortOptAdjustParamRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRcamsShortOptAdjustParam encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRcamsShortOptAdjustParam (this.Handle, &native, requestId)
 
-    member this.ReqQryRcamsInvestorCombPosition(request: QryRcamsInvestorCombPosition, requestId: int) =
+    member this.ReqQryRcamsInvestorCombPosition(request: QryRcamsInvestorCombPositionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRcamsInvestorCombPosition encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRcamsInvestorCombPosition (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorProdRcamsMargin(request: QryInvestorProdRcamsMargin, requestId: int) =
+    member this.ReqQryInvestorProdRcamsMargin(request: QryInvestorProdRcamsMarginRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorProdRcamsMargin encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorProdRcamsMargin (this.Handle, &native, requestId)
 
-    member this.ReqQryRuleInstrParameter(request: QryRuleInstrParameter, requestId: int) =
+    member this.ReqQryRuleInstrParameter(request: QryRuleInstrParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRuleInstrParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRuleInstrParameter (this.Handle, &native, requestId)
 
-    member this.ReqQryRuleIntraParameter(request: QryRuleIntraParameter, requestId: int) =
+    member this.ReqQryRuleIntraParameter(request: QryRuleIntraParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRuleIntraParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRuleIntraParameter (this.Handle, &native, requestId)
 
-    member this.ReqQryRuleInterParameter(request: QryRuleInterParameter, requestId: int) =
+    member this.ReqQryRuleInterParameter(request: QryRuleInterParameterRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryRuleInterParameter encodings.OutboundEncoding request
         TraderNativeInterop.reqQryRuleInterParameter (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorProdRuleMargin(request: QryInvestorProdRuleMargin, requestId: int) =
+    member this.ReqQryInvestorProdRuleMargin(request: QryInvestorProdRuleMarginRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorProdRuleMargin encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorProdRuleMargin (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorPortfSetting(request: QryInvestorPortfSetting, requestId: int) =
+    member this.ReqQryInvestorPortfSetting(request: QryInvestorPortfSettingRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorPortfSetting encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorPortfSetting (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorInfoCommRec(request: QryInvestorInfoCommRec, requestId: int) =
+    member this.ReqQryInvestorInfoCommRec(request: QryInvestorInfoCommRecRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryInvestorInfoCommRec encodings.OutboundEncoding request
         TraderNativeInterop.reqQryInvestorInfoCommRec (this.Handle, &native, requestId)
 
@@ -18669,23 +18669,23 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.qryCombLeg encodings.OutboundEncoding request
         TraderNativeInterop.reqQryCombLeg (this.Handle, &native, requestId)
 
-    member this.ReqQryOffsetSetting(request: QryOffsetSetting, requestId: int) =
+    member this.ReqQryOffsetSetting(request: QryOffsetSettingRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryOffsetSetting encodings.OutboundEncoding request
         TraderNativeInterop.reqQryOffsetSetting (this.Handle, &native, requestId)
 
-    member this.ReqQrySpdApply(request: QrySpdApply, requestId: int) =
+    member this.ReqQrySpdApply(request: QrySpdApplyRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qrySpdApply encodings.OutboundEncoding request
         TraderNativeInterop.reqQrySpdApply (this.Handle, &native, requestId)
 
-    member this.ReqQryHedgeCfm(request: QryHedgeCfm, requestId: int) =
+    member this.ReqQryHedgeCfm(request: QryHedgeCfmRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.qryHedgeCfm encodings.OutboundEncoding request
         TraderNativeInterop.reqQryHedgeCfm (this.Handle, &native, requestId)
 
-    member this.ReqFromBankToFutureByFuture(request: ReqTransfer, requestId: int) =
+    member this.ReqFromBankToFutureByFuture(request: TransferRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqTransfer encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqFromBankToFutureByFuture (this.Handle, &native, requestId)
 
-    member this.ReqFromFutureToBankByFuture(request: ReqTransfer, requestId: int) =
+    member this.ReqFromFutureToBankByFuture(request: TransferRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqTransfer encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqFromFutureToBankByFuture (this.Handle, &native, requestId)
 

@@ -561,7 +561,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.ReqUserAuthMethodAsync(request: ReqUserAuthMethod) =
+    member _.ReqUserAuthMethodAsync(request: UserAuthMethodRequest) =
         logger.LogDebug("Sending user auth method request")
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<RspUserAuthMethod list, RspInfo>> ()
@@ -575,7 +575,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.ReqGenUserCaptchaAsync(request: ReqGenUserCaptcha) =
+    member _.ReqGenUserCaptchaAsync(request: GenUserCaptchaRequest) =
         logger.LogDebug("Sending gen user captcha request")
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<RspGenUserCaptcha list, RspInfo>> ()
@@ -589,7 +589,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.ReqGenUserTextAsync(request: ReqGenUserText) =
+    member _.ReqGenUserTextAsync(request: GenUserTextRequest) =
         logger.LogDebug("Sending gen user text request")
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<RspGenUserText list, RspInfo>> ()
@@ -603,7 +603,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.ReqUserLoginWithCaptchaAsync(request: ReqUserLoginWithCaptcha) =
+    member _.ReqUserLoginWithCaptchaAsync(request: UserLoginWithCaptchaRequest) =
         logger.LogDebug("Sending user login with captcha request")
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
@@ -617,7 +617,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.ReqUserLoginWithTextAsync(request: ReqUserLoginWithText) =
+    member _.ReqUserLoginWithTextAsync(request: UserLoginWithTextRequest) =
         logger.LogDebug("Sending user login with text request")
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
@@ -631,7 +631,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.ReqUserLoginWithOtpAsync(request: ReqUserLoginWithOtp) =
+    member _.ReqUserLoginWithOtpAsync(request: UserLoginWithOtpRequest) =
         logger.LogDebug("Sending user login with OTP request")
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
@@ -645,7 +645,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member _.ReqGenSmsCodeAsync(request: ReqGenSmsCode) =
+    member _.ReqGenSmsCodeAsync(request: GenSmsCodeRequest) =
         logger.LogDebug("Sending gen SMS code request")
         let requestId = nextRequestId ()
         let completion = ClientHelpers.createCompletionSource<Result<RspGenSmsCode list, RspInfo>> ()
@@ -681,7 +681,7 @@ type TraderClient
 
     // ---- Execution / quote / hedge / combination command methods ----
 
-    member _.ReqExecOrderInsertAsync(request: InputExecOrder) =
+    member _.ReqExecOrderInsertAsync(request: InputExecOrderRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqExecOrderInsert(request, requestId)
 
@@ -690,7 +690,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqExecOrderActionAsync(request: InputExecOrderAction) =
+    member _.ReqExecOrderActionAsync(request: InputExecOrderActionRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqExecOrderAction(request, requestId)
 
@@ -699,7 +699,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqForQuoteInsertAsync(request: InputForQuote) =
+    member _.ReqForQuoteInsertAsync(request: InputForQuoteRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqForQuoteInsert(request, requestId)
 
@@ -708,7 +708,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqQuoteInsertAsync(request: InputQuote) =
+    member _.ReqQuoteInsertAsync(request: InputQuoteRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqQuoteInsert(request, requestId)
 
@@ -717,7 +717,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqQuoteActionAsync(request: InputQuoteAction) =
+    member _.ReqQuoteActionAsync(request: InputQuoteActionRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqQuoteAction(request, requestId)
 
@@ -726,7 +726,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqBatchOrderActionAsync(request: InputBatchOrderAction) =
+    member _.ReqBatchOrderActionAsync(request: InputBatchOrderActionRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqBatchOrderAction(request, requestId)
 
@@ -735,7 +735,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqOptionSelfCloseInsertAsync(request: InputOptionSelfClose) =
+    member _.ReqOptionSelfCloseInsertAsync(request: InputOptionSelfCloseRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqOptionSelfCloseInsert(request, requestId)
 
@@ -744,7 +744,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqOptionSelfCloseActionAsync(request: InputOptionSelfCloseAction) =
+    member _.ReqOptionSelfCloseActionAsync(request: InputOptionSelfCloseActionRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqOptionSelfCloseAction(request, requestId)
 
@@ -753,7 +753,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqCombActionInsertAsync(request: InputCombAction) =
+    member _.ReqCombActionInsertAsync(request: InputCombActionRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqCombActionInsert(request, requestId)
 
@@ -762,7 +762,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqOffsetSettingAsync(request: InputOffsetSetting) =
+    member _.ReqOffsetSettingAsync(request: InputOffsetSettingRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqOffsetSetting(request, requestId)
 
@@ -771,7 +771,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqCancelOffsetSettingAsync(request: InputOffsetSetting) =
+    member _.ReqCancelOffsetSettingAsync(request: InputOffsetSettingRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqCancelOffsetSetting(request, requestId)
 
@@ -780,7 +780,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqSpdApplyAsync(request: InputSpdApply) =
+    member _.ReqSpdApplyAsync(request: InputSpdApplyRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqSpdApply(request, requestId)
 
@@ -789,7 +789,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqSpdApplyActionAsync(request: InputSpdApplyAction) =
+    member _.ReqSpdApplyActionAsync(request: InputSpdApplyActionRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqSpdApplyAction(request, requestId)
 
@@ -798,7 +798,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqHedgeCfmAsync(request: InputHedgeCfm) =
+    member _.ReqHedgeCfmAsync(request: InputHedgeCfmRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqHedgeCfm(request, requestId)
 
@@ -807,7 +807,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.ReqHedgeCfmActionAsync(request: InputHedgeCfmAction) =
+    member _.ReqHedgeCfmActionAsync(request: InputHedgeCfmActionRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqHedgeCfmAction(request, requestId)
 
@@ -876,7 +876,7 @@ type TraderClient
 
     // ---- Bank transfer methods ----
 
-    member _.FromBankToFutureByFutureAsync(request: ReqTransfer) =
+    member _.FromBankToFutureByFutureAsync(request: TransferRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqFromBankToFutureByFuture(request, requestId)
 
@@ -885,7 +885,7 @@ type TraderClient
 
         async.Return requestId
 
-    member _.FromFutureToBankByFutureAsync(request: ReqTransfer) =
+    member _.FromFutureToBankByFutureAsync(request: TransferRequest) =
         let requestId = nextRequestId ()
         let result = api.ReqFromFutureToBankByFuture(request, requestId)
 
@@ -910,126 +910,126 @@ type TraderClient
 
     // ---- Query methods ----
 
-    member this.QueryMaxOrderVolumeAsync(request: QryMaxOrderVolume) =
-        this.QueryAsync<QryMaxOrderVolume, QryMaxOrderVolume>
-            (nameof QryMaxOrderVolume)
+    member this.QueryMaxOrderVolumeAsync(request: QryMaxOrderVolumeRequest) =
+        this.QueryAsync<QryMaxOrderVolumeRequest, QryMaxOrderVolumeRequest>
+            (nameof QryMaxOrderVolumeRequest)
             request
             api.ReqQryMaxOrderVolume
 
-    member this.QueryOrderAsync(request: QryOrder) =
-        this.QueryAsync<OrderUpdate, QryOrder>(nameof QryOrder) request api.ReqQryOrder
+    member this.QueryOrderAsync(request: QryOrderRequest) =
+        this.QueryAsync<OrderUpdate, QryOrderRequest>(nameof QryOrderRequest) request api.ReqQryOrder
 
-    member this.QueryTradeAsync(request: QryTrade) =
-        this.QueryAsync<TradeUpdate, QryTrade>(nameof QryTrade) request api.ReqQryTrade
+    member this.QueryTradeAsync(request: QryTradeRequest) =
+        this.QueryAsync<TradeUpdate, QryTradeRequest>(nameof QryTradeRequest) request api.ReqQryTrade
 
-    member this.QueryInvestorAsync(request: QryInvestor) =
-        this.QueryAsync<Investor, QryInvestor>(nameof QryInvestor) request api.ReqQryInvestor
+    member this.QueryInvestorAsync(request: QryInvestorRequest) =
+        this.QueryAsync<Investor, QryInvestorRequest>(nameof QryInvestorRequest) request api.ReqQryInvestor
 
-    member this.QueryTradingCodeAsync(request: QryTradingCode) =
-        this.QueryAsync<TradingCode, QryTradingCode>(nameof QryTradingCode) request api.ReqQryTradingCode
+    member this.QueryTradingCodeAsync(request: QryTradingCodeRequest) =
+        this.QueryAsync<TradingCode, QryTradingCodeRequest>(nameof QryTradingCodeRequest) request api.ReqQryTradingCode
 
-    member this.QueryUserSessionAsync(request: QryUserSession) =
-        this.QueryAsync<UserSession, QryUserSession>(nameof QryUserSession) request api.ReqQryUserSession
+    member this.QueryUserSessionAsync(request: QryUserSessionRequest) =
+        this.QueryAsync<UserSession, QryUserSessionRequest>(nameof QryUserSessionRequest) request api.ReqQryUserSession
 
-    member this.QueryExchangeAsync(request: QryExchange) =
-        this.QueryAsync<Exchange, QryExchange>(nameof QryExchange) request api.ReqQryExchange
+    member this.QueryExchangeAsync(request: QryExchangeRequest) =
+        this.QueryAsync<Exchange, QryExchangeRequest>(nameof QryExchangeRequest) request api.ReqQryExchange
 
-    member this.QueryProductAsync(request: QryProduct) =
-        this.QueryAsync<Product, QryProduct>(nameof QryProduct) request api.ReqQryProduct
+    member this.QueryProductAsync(request: QryProductRequest) =
+        this.QueryAsync<Product, QryProductRequest>(nameof QryProductRequest) request api.ReqQryProduct
 
-    member this.QueryInstrumentAsync(request: QryInstrument) =
-        this.QueryAsync<Instrument, QryInstrument>(nameof QryInstrument) request api.ReqQryInstrument
+    member this.QueryInstrumentAsync(request: QryInstrumentRequest) =
+        this.QueryAsync<Instrument, QryInstrumentRequest>(nameof QryInstrumentRequest) request api.ReqQryInstrument
 
-    member this.QueryDepthMarketDataAsync(request: QryDepthMarketData) =
-        this.QueryAsync<DepthMarketData, QryDepthMarketData>
-            (nameof QryDepthMarketData)
+    member this.QueryDepthMarketDataAsync(request: QryDepthMarketDataRequest) =
+        this.QueryAsync<DepthMarketData, QryDepthMarketDataRequest>
+            (nameof QryDepthMarketDataRequest)
             request
             api.ReqQryDepthMarketData
 
-    member this.QueryTraderOfferAsync(request: QryTraderOffer) =
-        this.QueryAsync<TraderOffer, QryTraderOffer>(nameof QryTraderOffer) request api.ReqQryTraderOffer
+    member this.QueryTraderOfferAsync(request: QryTraderOfferRequest) =
+        this.QueryAsync<TraderOffer, QryTraderOfferRequest>(nameof QryTraderOfferRequest) request api.ReqQryTraderOffer
 
-    member this.QuerySettlementInfoAsync(request: QrySettlementInfo) =
-        this.QueryAsync<SettlementInfo, QrySettlementInfo>(nameof QrySettlementInfo) request api.ReqQrySettlementInfo
+    member this.QuerySettlementInfoAsync(request: QrySettlementInfoRequest) =
+        this.QueryAsync<SettlementInfo, QrySettlementInfoRequest>(nameof QrySettlementInfoRequest) request api.ReqQrySettlementInfo
 
-    member this.QueryTransferBankAsync(request: QryTransferBank) =
-        this.QueryAsync<TransferBank, QryTransferBank>(nameof QryTransferBank) request api.ReqQryTransferBank
+    member this.QueryTransferBankAsync(request: QryTransferBankRequest) =
+        this.QueryAsync<TransferBank, QryTransferBankRequest>(nameof QryTransferBankRequest) request api.ReqQryTransferBank
 
-    member this.QueryInvestorPositionDetailAsync(request: QryInvestorPositionDetail) =
-        this.QueryAsync<InvestorPositionDetail, QryInvestorPositionDetail>
-            (nameof QryInvestorPositionDetail)
+    member this.QueryInvestorPositionDetailAsync(request: QryInvestorPositionDetailRequest) =
+        this.QueryAsync<InvestorPositionDetail, QryInvestorPositionDetailRequest>
+            (nameof QryInvestorPositionDetailRequest)
             request
             api.ReqQryInvestorPositionDetail
 
-    member this.QueryNoticeAsync(request: QryNotice) =
-        this.QueryAsync<Notice, QryNotice>(nameof QryNotice) request api.ReqQryNotice
+    member this.QueryNoticeAsync(request: QryNoticeRequest) =
+        this.QueryAsync<Notice, QryNoticeRequest>(nameof QryNoticeRequest) request api.ReqQryNotice
 
-    member this.QuerySettlementInfoConfirmAsync(request: QrySettlementInfoConfirm) =
-        this.QueryAsync<SettlementInfoConfirm, QrySettlementInfoConfirm>
-            (nameof QrySettlementInfoConfirm)
+    member this.QuerySettlementInfoConfirmAsync(request: QrySettlementInfoConfirmRequest) =
+        this.QueryAsync<SettlementInfoConfirm, QrySettlementInfoConfirmRequest>
+            (nameof QrySettlementInfoConfirmRequest)
             request
             api.ReqQrySettlementInfoConfirm
 
-    member this.QueryInvestorPositionCombineDetailAsync(request: QryInvestorPositionCombineDetail) =
-        this.QueryAsync<InvestorPositionCombineDetail, QryInvestorPositionCombineDetail>
-            (nameof QryInvestorPositionCombineDetail)
+    member this.QueryInvestorPositionCombineDetailAsync(request: QryInvestorPositionCombineDetailRequest) =
+        this.QueryAsync<InvestorPositionCombineDetail, QryInvestorPositionCombineDetailRequest>
+            (nameof QryInvestorPositionCombineDetailRequest)
             request
             api.ReqQryInvestorPositionCombineDetail
 
-    member this.QueryCfmmcTradingAccountKeyAsync(request: QryCfmmcTradingAccountKey) =
-        this.QueryAsync<CfmmcTradingAccountKey, QryCfmmcTradingAccountKey>
-            (nameof QryCfmmcTradingAccountKey)
+    member this.QueryCfmmcTradingAccountKeyAsync(request: QryCfmmcTradingAccountKeyRequest) =
+        this.QueryAsync<CfmmcTradingAccountKey, QryCfmmcTradingAccountKeyRequest>
+            (nameof QryCfmmcTradingAccountKeyRequest)
             request
             api.ReqQryCfmmcTradingAccountKey
 
-    member this.QueryEWarrantOffsetAsync(request: QryEWarrantOffset) =
-        this.QueryAsync<EWarrantOffset, QryEWarrantOffset>(nameof QryEWarrantOffset) request api.ReqQryEWarrantOffset
+    member this.QueryEWarrantOffsetAsync(request: QryEWarrantOffsetRequest) =
+        this.QueryAsync<EWarrantOffset, QryEWarrantOffsetRequest>(nameof QryEWarrantOffsetRequest) request api.ReqQryEWarrantOffset
 
-    member this.QueryInvestorProductGroupMarginAsync(request: QryInvestorProductGroupMargin) =
-        this.QueryAsync<InvestorProductGroupMargin, QryInvestorProductGroupMargin>
-            (nameof QryInvestorProductGroupMargin)
+    member this.QueryInvestorProductGroupMarginAsync(request: QryInvestorProductGroupMarginRequest) =
+        this.QueryAsync<InvestorProductGroupMargin, QryInvestorProductGroupMarginRequest>
+            (nameof QryInvestorProductGroupMarginRequest)
             request
             api.ReqQryInvestorProductGroupMargin
 
-    member this.QueryExchangeMarginRateAdjustAsync(request: QryExchangeMarginRateAdjust) =
-        this.QueryAsync<ExchangeMarginRateAdjust, QryExchangeMarginRateAdjust>
-            (nameof QryExchangeMarginRateAdjust)
+    member this.QueryExchangeMarginRateAdjustAsync(request: QryExchangeMarginRateAdjustRequest) =
+        this.QueryAsync<ExchangeMarginRateAdjust, QryExchangeMarginRateAdjustRequest>
+            (nameof QryExchangeMarginRateAdjustRequest)
             request
             api.ReqQryExchangeMarginRateAdjust
 
     member this.QueryExchangeRateAsync(request: QryExchangeRate) =
         this.QueryAsync<ExchangeRate, QryExchangeRate>(nameof QryExchangeRate) request api.ReqQryExchangeRate
 
-    member this.QuerySecAgentAcIdMapAsync(request: QrySecAgentAcIdMap) =
-        this.QueryAsync<SecAgentAcIdMap, QrySecAgentAcIdMap>
-            (nameof QrySecAgentAcIdMap)
+    member this.QuerySecAgentAcIdMapAsync(request: QrySecAgentAcIdMapRequest) =
+        this.QueryAsync<SecAgentAcIdMap, QrySecAgentAcIdMapRequest>
+            (nameof QrySecAgentAcIdMapRequest)
             request
             api.ReqQrySecAgentAcIdMap
 
-    member this.QueryProductExchRateAsync(request: QryProductExchRate) =
-        this.QueryAsync<ProductExchRate, QryProductExchRate>
-            (nameof QryProductExchRate)
+    member this.QueryProductExchRateAsync(request: QryProductExchRateRequest) =
+        this.QueryAsync<ProductExchRate, QryProductExchRateRequest>
+            (nameof QryProductExchRateRequest)
             request
             api.ReqQryProductExchRate
 
-    member this.QueryProductGroupAsync(request: QryProductGroup) =
-        this.QueryAsync<ProductGroup, QryProductGroup>(nameof QryProductGroup) request api.ReqQryProductGroup
+    member this.QueryProductGroupAsync(request: QryProductGroupRequest) =
+        this.QueryAsync<ProductGroup, QryProductGroupRequest>(nameof QryProductGroupRequest) request api.ReqQryProductGroup
 
-    member this.QueryMmInstrumentCommissionRateAsync(request: QryMmInstrumentCommissionRate) =
-        this.QueryAsync<MmInstrumentCommissionRate, QryMmInstrumentCommissionRate>
-            (nameof QryMmInstrumentCommissionRate)
+    member this.QueryMmInstrumentCommissionRateAsync(request: QryMmInstrumentCommissionRateRequest) =
+        this.QueryAsync<MmInstrumentCommissionRate, QryMmInstrumentCommissionRateRequest>
+            (nameof QryMmInstrumentCommissionRateRequest)
             request
             api.ReqQryMmInstrumentCommissionRate
 
-    member this.QueryMmOptionInstrCommRateAsync(request: QryMmOptionInstrCommRate) =
-        this.QueryAsync<MmOptionInstrCommRate, QryMmOptionInstrCommRate>
-            (nameof QryMmOptionInstrCommRate)
+    member this.QueryMmOptionInstrCommRateAsync(request: QryMmOptionInstrCommRateRequest) =
+        this.QueryAsync<MmOptionInstrCommRate, QryMmOptionInstrCommRateRequest>
+            (nameof QryMmOptionInstrCommRateRequest)
             request
             api.ReqQryMmOptionInstrCommRate
 
-    member this.QueryInstrumentOrderCommRateAsync(request: QryInstrumentOrderCommRate) =
-        this.QueryAsync<InstrumentOrderCommRate, QryInstrumentOrderCommRate>
-            (nameof QryInstrumentOrderCommRate)
+    member this.QueryInstrumentOrderCommRateAsync(request: QryInstrumentOrderCommRateRequest) =
+        this.QueryAsync<InstrumentOrderCommRate, QryInstrumentOrderCommRateRequest>
+            (nameof QryInstrumentOrderCommRateRequest)
             request
             api.ReqQryInstrumentOrderCommRate
 
@@ -1039,287 +1039,287 @@ type TraderClient
             request
             api.ReqQrySecAgentTradingAccount
 
-    member this.QuerySecAgentCheckModeAsync(request: QrySecAgentCheckMode) =
-        this.QueryAsync<SecAgentCheckMode, QrySecAgentCheckMode>
-            (nameof QrySecAgentCheckMode)
+    member this.QuerySecAgentCheckModeAsync(request: QrySecAgentCheckModeRequest) =
+        this.QueryAsync<SecAgentCheckMode, QrySecAgentCheckModeRequest>
+            (nameof QrySecAgentCheckModeRequest)
             request
             api.ReqQrySecAgentCheckMode
 
-    member this.QuerySecAgentTradeInfoAsync(request: QrySecAgentTradeInfo) =
-        this.QueryAsync<SecAgentTradeInfo, QrySecAgentTradeInfo>
-            (nameof QrySecAgentTradeInfo)
+    member this.QuerySecAgentTradeInfoAsync(request: QrySecAgentTradeInfoRequest) =
+        this.QueryAsync<SecAgentTradeInfo, QrySecAgentTradeInfoRequest>
+            (nameof QrySecAgentTradeInfoRequest)
             request
             api.ReqQrySecAgentTradeInfo
 
-    member this.QueryOptionInstrTradeCostAsync(request: QryOptionInstrTradeCost) =
-        this.QueryAsync<OptionInstrTradeCost, QryOptionInstrTradeCost>
-            (nameof QryOptionInstrTradeCost)
+    member this.QueryOptionInstrTradeCostAsync(request: QryOptionInstrTradeCostRequest) =
+        this.QueryAsync<OptionInstrTradeCost, QryOptionInstrTradeCostRequest>
+            (nameof QryOptionInstrTradeCostRequest)
             request
             api.ReqQryOptionInstrTradeCost
 
-    member this.QueryOptionInstrCommRateAsync(request: QryOptionInstrCommRate) =
-        this.QueryAsync<OptionInstrCommRate, QryOptionInstrCommRate>
-            (nameof QryOptionInstrCommRate)
+    member this.QueryOptionInstrCommRateAsync(request: QryOptionInstrCommRateRequest) =
+        this.QueryAsync<OptionInstrCommRate, QryOptionInstrCommRateRequest>
+            (nameof QryOptionInstrCommRateRequest)
             request
             api.ReqQryOptionInstrCommRate
 
-    member this.QueryExecOrderAsync(request: QryExecOrder) =
-        this.QueryAsync<ExecOrder, QryExecOrder>(nameof QryExecOrder) request api.ReqQryExecOrder
+    member this.QueryExecOrderAsync(request: QryExecOrderRequest) =
+        this.QueryAsync<ExecOrder, QryExecOrderRequest>(nameof QryExecOrderRequest) request api.ReqQryExecOrder
 
-    member this.QueryForQuoteAsync(request: QryForQuote) =
-        this.QueryAsync<ForQuote, QryForQuote>(nameof QryForQuote) request api.ReqQryForQuote
+    member this.QueryForQuoteAsync(request: QryForQuoteRequest) =
+        this.QueryAsync<ForQuote, QryForQuoteRequest>(nameof QryForQuoteRequest) request api.ReqQryForQuote
 
-    member this.QueryQuoteAsync(request: QryQuote) =
-        this.QueryAsync<Quote, QryQuote>(nameof QryQuote) request api.ReqQryQuote
+    member this.QueryQuoteAsync(request: QryQuoteRequest) =
+        this.QueryAsync<Quote, QryQuoteRequest>(nameof QryQuoteRequest) request api.ReqQryQuote
 
-    member this.QueryOptionSelfCloseAsync(request: QryOptionSelfClose) =
-        this.QueryAsync<OptionSelfClose, QryOptionSelfClose>
-            (nameof QryOptionSelfClose)
+    member this.QueryOptionSelfCloseAsync(request: QryOptionSelfCloseRequest) =
+        this.QueryAsync<OptionSelfClose, QryOptionSelfCloseRequest>
+            (nameof QryOptionSelfCloseRequest)
             request
             api.ReqQryOptionSelfClose
 
-    member this.QueryInvestUnitAsync(request: QryInvestUnit) =
-        this.QueryAsync<InvestUnit, QryInvestUnit>(nameof QryInvestUnit) request api.ReqQryInvestUnit
+    member this.QueryInvestUnitAsync(request: QryInvestUnitRequest) =
+        this.QueryAsync<InvestUnit, QryInvestUnitRequest>(nameof QryInvestUnitRequest) request api.ReqQryInvestUnit
 
-    member this.QueryCombInstrumentGuardAsync(request: QryCombInstrumentGuard) =
-        this.QueryAsync<CombInstrumentGuard, QryCombInstrumentGuard>
-            (nameof QryCombInstrumentGuard)
+    member this.QueryCombInstrumentGuardAsync(request: QryCombInstrumentGuardRequest) =
+        this.QueryAsync<CombInstrumentGuard, QryCombInstrumentGuardRequest>
+            (nameof QryCombInstrumentGuardRequest)
             request
             api.ReqQryCombInstrumentGuard
 
-    member this.QueryCombActionAsync(request: QryCombAction) =
-        this.QueryAsync<CombAction, QryCombAction>(nameof QryCombAction) request api.ReqQryCombAction
+    member this.QueryCombActionAsync(request: QryCombActionRequest) =
+        this.QueryAsync<CombAction, QryCombActionRequest>(nameof QryCombActionRequest) request api.ReqQryCombAction
 
-    member this.QueryTransferSerialAsync(request: QryTransferSerial) =
-        this.QueryAsync<TransferSerial, QryTransferSerial>
-            (nameof QryTransferSerial)
+    member this.QueryTransferSerialAsync(request: QryTransferSerialRequest) =
+        this.QueryAsync<TransferSerial, QryTransferSerialRequest>
+            (nameof QryTransferSerialRequest)
             request
             api.ReqQryTransferSerial
 
-    member this.QueryAccountregisterAsync(request: QryAccountregister) =
-        this.QueryAsync<Accountregister, QryAccountregister>
-            (nameof QryAccountregister)
+    member this.QueryAccountregisterAsync(request: QryAccountregisterRequest) =
+        this.QueryAsync<Accountregister, QryAccountregisterRequest>
+            (nameof QryAccountregisterRequest)
             request
             api.ReqQryAccountregister
 
-    member this.QueryContractBankAsync(request: QryContractBank) =
-        this.QueryAsync<ContractBank, QryContractBank>(nameof QryContractBank) request api.ReqQryContractBank
+    member this.QueryContractBankAsync(request: QryContractBankRequest) =
+        this.QueryAsync<ContractBank, QryContractBankRequest>(nameof QryContractBankRequest) request api.ReqQryContractBank
 
-    member this.QueryParkedOrderAsync(request: QryParkedOrder) =
-        this.QueryAsync<ParkedOrder, QryParkedOrder>(nameof QryParkedOrder) request api.ReqQryParkedOrder
+    member this.QueryParkedOrderAsync(request: QryParkedOrderRequest) =
+        this.QueryAsync<ParkedOrder, QryParkedOrderRequest>(nameof QryParkedOrderRequest) request api.ReqQryParkedOrder
 
-    member this.QueryParkedOrderActionAsync(request: QryParkedOrderAction) =
-        this.QueryAsync<ParkedOrderAction, QryParkedOrderAction>
-            (nameof QryParkedOrderAction)
+    member this.QueryParkedOrderActionAsync(request: QryParkedOrderActionRequest) =
+        this.QueryAsync<ParkedOrderAction, QryParkedOrderActionRequest>
+            (nameof QryParkedOrderActionRequest)
             request
             api.ReqQryParkedOrderAction
 
-    member this.QueryTradingNoticeAsync(request: QryTradingNotice) =
-        this.QueryAsync<TradingNotice, QryTradingNotice>(nameof QryTradingNotice) request api.ReqQryTradingNotice
+    member this.QueryTradingNoticeAsync(request: QryTradingNoticeRequest) =
+        this.QueryAsync<TradingNotice, QryTradingNoticeRequest>(nameof QryTradingNoticeRequest) request api.ReqQryTradingNotice
 
-    member this.QueryBrokerTradingParamsAsync(request: QryBrokerTradingParams) =
-        this.QueryAsync<BrokerTradingParams, QryBrokerTradingParams>
-            (nameof QryBrokerTradingParams)
+    member this.QueryBrokerTradingParamsAsync(request: QryBrokerTradingParamsRequest) =
+        this.QueryAsync<BrokerTradingParams, QryBrokerTradingParamsRequest>
+            (nameof QryBrokerTradingParamsRequest)
             request
             api.ReqQryBrokerTradingParams
 
-    member this.QueryBrokerTradingAlgosAsync(request: QryBrokerTradingAlgos) =
-        this.QueryAsync<BrokerTradingAlgos, QryBrokerTradingAlgos>
-            (nameof QryBrokerTradingAlgos)
+    member this.QueryBrokerTradingAlgosAsync(request: QryBrokerTradingAlgosRequest) =
+        this.QueryAsync<BrokerTradingAlgos, QryBrokerTradingAlgosRequest>
+            (nameof QryBrokerTradingAlgosRequest)
             request
             api.ReqQryBrokerTradingAlgos
 
-    member this.QueryCfmmcTradingAccountTokenAsync(request: QueryCfmmcTradingAccountToken) =
-        this.QueryAsync<QueryCfmmcTradingAccountToken, QueryCfmmcTradingAccountToken>
-            (nameof QueryCfmmcTradingAccountToken)
+    member this.QueryCfmmcTradingAccountTokenAsync(request: QueryCfmmcTradingAccountTokenRequest) =
+        this.QueryAsync<QueryCfmmcTradingAccountTokenRequest, QueryCfmmcTradingAccountTokenRequest>
+            (nameof QueryCfmmcTradingAccountTokenRequest)
             request
             api.ReqQueryCfmmcTradingAccountToken
 
-    member this.QueryClassifiedInstrumentAsync(request: QryClassifiedInstrument) =
-        this.QueryAsync<Instrument, QryClassifiedInstrument>
-            (nameof QryClassifiedInstrument)
+    member this.QueryClassifiedInstrumentAsync(request: QryClassifiedInstrumentRequest) =
+        this.QueryAsync<Instrument, QryClassifiedInstrumentRequest>
+            (nameof QryClassifiedInstrumentRequest)
             request
             api.ReqQryClassifiedInstrument
 
-    member this.QueryCombPromotionParamAsync(request: QryCombPromotionParam) =
-        this.QueryAsync<CombPromotionParam, QryCombPromotionParam>
-            (nameof QryCombPromotionParam)
+    member this.QueryCombPromotionParamAsync(request: QryCombPromotionParamRequest) =
+        this.QueryAsync<CombPromotionParam, QryCombPromotionParamRequest>
+            (nameof QryCombPromotionParamRequest)
             request
             api.ReqQryCombPromotionParam
 
-    member this.QueryRiskSettleInvstPositionAsync(request: QryRiskSettleInvstPosition) =
-        this.QueryAsync<RiskSettleInvstPosition, QryRiskSettleInvstPosition>
-            (nameof QryRiskSettleInvstPosition)
+    member this.QueryRiskSettleInvstPositionAsync(request: QryRiskSettleInvstPositionRequest) =
+        this.QueryAsync<RiskSettleInvstPosition, QryRiskSettleInvstPositionRequest>
+            (nameof QryRiskSettleInvstPositionRequest)
             request
             api.ReqQryRiskSettleInvstPosition
 
-    member this.QueryRiskSettleProductStatusAsync(request: QryRiskSettleProductStatus) =
-        this.QueryAsync<RiskSettleProductStatus, QryRiskSettleProductStatus>
-            (nameof QryRiskSettleProductStatus)
+    member this.QueryRiskSettleProductStatusAsync(request: QryRiskSettleProductStatusRequest) =
+        this.QueryAsync<RiskSettleProductStatus, QryRiskSettleProductStatusRequest>
+            (nameof QryRiskSettleProductStatusRequest)
             request
             api.ReqQryRiskSettleProductStatus
 
-    member this.QuerySpbmFutureParameterAsync(request: QrySpbmFutureParameter) =
-        this.QueryAsync<SpbmFutureParameter, QrySpbmFutureParameter>
-            (nameof QrySpbmFutureParameter)
+    member this.QuerySpbmFutureParameterAsync(request: QrySpbmFutureParameterRequest) =
+        this.QueryAsync<SpbmFutureParameter, QrySpbmFutureParameterRequest>
+            (nameof QrySpbmFutureParameterRequest)
             request
             api.ReqQrySpbmFutureParameter
 
-    member this.QuerySpbmOptionParameterAsync(request: QrySpbmOptionParameter) =
-        this.QueryAsync<SpbmOptionParameter, QrySpbmOptionParameter>
-            (nameof QrySpbmOptionParameter)
+    member this.QuerySpbmOptionParameterAsync(request: QrySpbmOptionParameterRequest) =
+        this.QueryAsync<SpbmOptionParameter, QrySpbmOptionParameterRequest>
+            (nameof QrySpbmOptionParameterRequest)
             request
             api.ReqQrySpbmOptionParameter
 
-    member this.QuerySpbmIntraParameterAsync(request: QrySpbmIntraParameter) =
-        this.QueryAsync<SpbmIntraParameter, QrySpbmIntraParameter>
-            (nameof QrySpbmIntraParameter)
+    member this.QuerySpbmIntraParameterAsync(request: QrySpbmIntraParameterRequest) =
+        this.QueryAsync<SpbmIntraParameter, QrySpbmIntraParameterRequest>
+            (nameof QrySpbmIntraParameterRequest)
             request
             api.ReqQrySpbmIntraParameter
 
-    member this.QuerySpbmInterParameterAsync(request: QrySpbmInterParameter) =
-        this.QueryAsync<SpbmInterParameter, QrySpbmInterParameter>
-            (nameof QrySpbmInterParameter)
+    member this.QuerySpbmInterParameterAsync(request: QrySpbmInterParameterRequest) =
+        this.QueryAsync<SpbmInterParameter, QrySpbmInterParameterRequest>
+            (nameof QrySpbmInterParameterRequest)
             request
             api.ReqQrySpbmInterParameter
 
-    member this.QuerySpbmPortfDefinitionAsync(request: QrySpbmPortfDefinition) =
-        this.QueryAsync<SpbmPortfDefinition, QrySpbmPortfDefinition>
-            (nameof QrySpbmPortfDefinition)
+    member this.QuerySpbmPortfDefinitionAsync(request: QrySpbmPortfDefinitionRequest) =
+        this.QueryAsync<SpbmPortfDefinition, QrySpbmPortfDefinitionRequest>
+            (nameof QrySpbmPortfDefinitionRequest)
             request
             api.ReqQrySpbmPortfDefinition
 
-    member this.QuerySpbmInvestorPortfDefAsync(request: QrySpbmInvestorPortfDef) =
-        this.QueryAsync<SpbmInvestorPortfDef, QrySpbmInvestorPortfDef>
-            (nameof QrySpbmInvestorPortfDef)
+    member this.QuerySpbmInvestorPortfDefAsync(request: QrySpbmInvestorPortfDefRequest) =
+        this.QueryAsync<SpbmInvestorPortfDef, QrySpbmInvestorPortfDefRequest>
+            (nameof QrySpbmInvestorPortfDefRequest)
             request
             api.ReqQrySpbmInvestorPortfDef
 
-    member this.QueryInvestorPortfMarginRatioAsync(request: QryInvestorPortfMarginRatio) =
-        this.QueryAsync<InvestorPortfMarginRatio, QryInvestorPortfMarginRatio>
-            (nameof QryInvestorPortfMarginRatio)
+    member this.QueryInvestorPortfMarginRatioAsync(request: QryInvestorPortfMarginRatioRequest) =
+        this.QueryAsync<InvestorPortfMarginRatio, QryInvestorPortfMarginRatioRequest>
+            (nameof QryInvestorPortfMarginRatioRequest)
             request
             api.ReqQryInvestorPortfMarginRatio
 
-    member this.QueryInvestorProdSpbmDetailAsync(request: QryInvestorProdSpbmDetail) =
-        this.QueryAsync<InvestorProdSpbmDetail, QryInvestorProdSpbmDetail>
-            (nameof QryInvestorProdSpbmDetail)
+    member this.QueryInvestorProdSpbmDetailAsync(request: QryInvestorProdSpbmDetailRequest) =
+        this.QueryAsync<InvestorProdSpbmDetail, QryInvestorProdSpbmDetailRequest>
+            (nameof QryInvestorProdSpbmDetailRequest)
             request
             api.ReqQryInvestorProdSpbmDetail
 
-    member this.QueryInvestorCommoditySpmmMarginAsync(request: QryInvestorCommoditySpmmMargin) =
-        this.QueryAsync<InvestorCommoditySpmmMargin, QryInvestorCommoditySpmmMargin>
-            (nameof QryInvestorCommoditySpmmMargin)
+    member this.QueryInvestorCommoditySpmmMarginAsync(request: QryInvestorCommoditySpmmMarginRequest) =
+        this.QueryAsync<InvestorCommoditySpmmMargin, QryInvestorCommoditySpmmMarginRequest>
+            (nameof QryInvestorCommoditySpmmMarginRequest)
             request
             api.ReqQryInvestorCommoditySpmmMargin
 
-    member this.QueryInvestorCommodityGroupSpmmMarginAsync(request: QryInvestorCommodityGroupSpmmMargin) =
-        this.QueryAsync<InvestorCommodityGroupSpmmMargin, QryInvestorCommodityGroupSpmmMargin>
-            (nameof QryInvestorCommodityGroupSpmmMargin)
+    member this.QueryInvestorCommodityGroupSpmmMarginAsync(request: QryInvestorCommodityGroupSpmmMarginRequest) =
+        this.QueryAsync<InvestorCommodityGroupSpmmMargin, QryInvestorCommodityGroupSpmmMarginRequest>
+            (nameof QryInvestorCommodityGroupSpmmMarginRequest)
             request
             api.ReqQryInvestorCommodityGroupSpmmMargin
 
-    member this.QuerySpmmInstParamAsync(request: QrySpmmInstParam) =
-        this.QueryAsync<SpmmInstParam, QrySpmmInstParam>(nameof QrySpmmInstParam) request api.ReqQrySpmmInstParam
+    member this.QuerySpmmInstParamAsync(request: QrySpmmInstParamRequest) =
+        this.QueryAsync<SpmmInstParam, QrySpmmInstParamRequest>(nameof QrySpmmInstParamRequest) request api.ReqQrySpmmInstParam
 
-    member this.QuerySpmmProductParamAsync(request: QrySpmmProductParam) =
-        this.QueryAsync<SpmmProductParam, QrySpmmProductParam>
-            (nameof QrySpmmProductParam)
+    member this.QuerySpmmProductParamAsync(request: QrySpmmProductParamRequest) =
+        this.QueryAsync<SpmmProductParam, QrySpmmProductParamRequest>
+            (nameof QrySpmmProductParamRequest)
             request
             api.ReqQrySpmmProductParam
 
-    member this.QuerySpbmAddOnInterParameterAsync(request: QrySpbmAddOnInterParameter) =
-        this.QueryAsync<SpbmAddOnInterParameter, QrySpbmAddOnInterParameter>
-            (nameof QrySpbmAddOnInterParameter)
+    member this.QuerySpbmAddOnInterParameterAsync(request: QrySpbmAddOnInterParameterRequest) =
+        this.QueryAsync<SpbmAddOnInterParameter, QrySpbmAddOnInterParameterRequest>
+            (nameof QrySpbmAddOnInterParameterRequest)
             request
             api.ReqQrySpbmAddOnInterParameter
 
-    member this.QueryRcamsCombProductInfoAsync(request: QryRcamsCombProductInfo) =
-        this.QueryAsync<RcamsCombProductInfo, QryRcamsCombProductInfo>
-            (nameof QryRcamsCombProductInfo)
+    member this.QueryRcamsCombProductInfoAsync(request: QryRcamsCombProductInfoRequest) =
+        this.QueryAsync<RcamsCombProductInfo, QryRcamsCombProductInfoRequest>
+            (nameof QryRcamsCombProductInfoRequest)
             request
             api.ReqQryRcamsCombProductInfo
 
-    member this.QueryRcamsInstrParameterAsync(request: QryRcamsInstrParameter) =
-        this.QueryAsync<RcamsInstrParameter, QryRcamsInstrParameter>
-            (nameof QryRcamsInstrParameter)
+    member this.QueryRcamsInstrParameterAsync(request: QryRcamsInstrParameterRequest) =
+        this.QueryAsync<RcamsInstrParameter, QryRcamsInstrParameterRequest>
+            (nameof QryRcamsInstrParameterRequest)
             request
             api.ReqQryRcamsInstrParameter
 
-    member this.QueryRcamsIntraParameterAsync(request: QryRcamsIntraParameter) =
-        this.QueryAsync<RcamsIntraParameter, QryRcamsIntraParameter>
-            (nameof QryRcamsIntraParameter)
+    member this.QueryRcamsIntraParameterAsync(request: QryRcamsIntraParameterRequest) =
+        this.QueryAsync<RcamsIntraParameter, QryRcamsIntraParameterRequest>
+            (nameof QryRcamsIntraParameterRequest)
             request
             api.ReqQryRcamsIntraParameter
 
-    member this.QueryRcamsInterParameterAsync(request: QryRcamsInterParameter) =
-        this.QueryAsync<RcamsInterParameter, QryRcamsInterParameter>
-            (nameof QryRcamsInterParameter)
+    member this.QueryRcamsInterParameterAsync(request: QryRcamsInterParameterRequest) =
+        this.QueryAsync<RcamsInterParameter, QryRcamsInterParameterRequest>
+            (nameof QryRcamsInterParameterRequest)
             request
             api.ReqQryRcamsInterParameter
 
-    member this.QueryRcamsShortOptAdjustParamAsync(request: QryRcamsShortOptAdjustParam) =
-        this.QueryAsync<RcamsShortOptAdjustParam, QryRcamsShortOptAdjustParam>
-            (nameof QryRcamsShortOptAdjustParam)
+    member this.QueryRcamsShortOptAdjustParamAsync(request: QryRcamsShortOptAdjustParamRequest) =
+        this.QueryAsync<RcamsShortOptAdjustParam, QryRcamsShortOptAdjustParamRequest>
+            (nameof QryRcamsShortOptAdjustParamRequest)
             request
             api.ReqQryRcamsShortOptAdjustParam
 
-    member this.QueryRcamsInvestorCombPositionAsync(request: QryRcamsInvestorCombPosition) =
-        this.QueryAsync<RcamsInvestorCombPosition, QryRcamsInvestorCombPosition>
-            (nameof QryRcamsInvestorCombPosition)
+    member this.QueryRcamsInvestorCombPositionAsync(request: QryRcamsInvestorCombPositionRequest) =
+        this.QueryAsync<RcamsInvestorCombPosition, QryRcamsInvestorCombPositionRequest>
+            (nameof QryRcamsInvestorCombPositionRequest)
             request
             api.ReqQryRcamsInvestorCombPosition
 
-    member this.QueryInvestorProdRcamsMarginAsync(request: QryInvestorProdRcamsMargin) =
-        this.QueryAsync<InvestorProdRcamsMargin, QryInvestorProdRcamsMargin>
-            (nameof QryInvestorProdRcamsMargin)
+    member this.QueryInvestorProdRcamsMarginAsync(request: QryInvestorProdRcamsMarginRequest) =
+        this.QueryAsync<InvestorProdRcamsMargin, QryInvestorProdRcamsMarginRequest>
+            (nameof QryInvestorProdRcamsMarginRequest)
             request
             api.ReqQryInvestorProdRcamsMargin
 
-    member this.QueryRuleInstrParameterAsync(request: QryRuleInstrParameter) =
-        this.QueryAsync<RuleInstrParameter, QryRuleInstrParameter>
-            (nameof QryRuleInstrParameter)
+    member this.QueryRuleInstrParameterAsync(request: QryRuleInstrParameterRequest) =
+        this.QueryAsync<RuleInstrParameter, QryRuleInstrParameterRequest>
+            (nameof QryRuleInstrParameterRequest)
             request
             api.ReqQryRuleInstrParameter
 
-    member this.QueryRuleIntraParameterAsync(request: QryRuleIntraParameter) =
-        this.QueryAsync<RuleIntraParameter, QryRuleIntraParameter>
-            (nameof QryRuleIntraParameter)
+    member this.QueryRuleIntraParameterAsync(request: QryRuleIntraParameterRequest) =
+        this.QueryAsync<RuleIntraParameter, QryRuleIntraParameterRequest>
+            (nameof QryRuleIntraParameterRequest)
             request
             api.ReqQryRuleIntraParameter
 
-    member this.QueryRuleInterParameterAsync(request: QryRuleInterParameter) =
-        this.QueryAsync<RuleInterParameter, QryRuleInterParameter>
-            (nameof QryRuleInterParameter)
+    member this.QueryRuleInterParameterAsync(request: QryRuleInterParameterRequest) =
+        this.QueryAsync<RuleInterParameter, QryRuleInterParameterRequest>
+            (nameof QryRuleInterParameterRequest)
             request
             api.ReqQryRuleInterParameter
 
-    member this.QueryInvestorProdRuleMarginAsync(request: QryInvestorProdRuleMargin) =
-        this.QueryAsync<InvestorProdRuleMargin, QryInvestorProdRuleMargin>
-            (nameof QryInvestorProdRuleMargin)
+    member this.QueryInvestorProdRuleMarginAsync(request: QryInvestorProdRuleMarginRequest) =
+        this.QueryAsync<InvestorProdRuleMargin, QryInvestorProdRuleMarginRequest>
+            (nameof QryInvestorProdRuleMarginRequest)
             request
             api.ReqQryInvestorProdRuleMargin
 
-    member this.QueryInvestorPortfSettingAsync(request: QryInvestorPortfSetting) =
-        this.QueryAsync<InvestorPortfSetting, QryInvestorPortfSetting>
-            (nameof QryInvestorPortfSetting)
+    member this.QueryInvestorPortfSettingAsync(request: QryInvestorPortfSettingRequest) =
+        this.QueryAsync<InvestorPortfSetting, QryInvestorPortfSettingRequest>
+            (nameof QryInvestorPortfSettingRequest)
             request
             api.ReqQryInvestorPortfSetting
 
-    member this.QueryInvestorInfoCommRecAsync(request: QryInvestorInfoCommRec) =
-        this.QueryAsync<InvestorInfoCommRec, QryInvestorInfoCommRec>
-            (nameof QryInvestorInfoCommRec)
+    member this.QueryInvestorInfoCommRecAsync(request: QryInvestorInfoCommRecRequest) =
+        this.QueryAsync<InvestorInfoCommRec, QryInvestorInfoCommRecRequest>
+            (nameof QryInvestorInfoCommRecRequest)
             request
             api.ReqQryInvestorInfoCommRec
 
     member this.QueryCombLegAsync(request: QryCombLeg) =
         this.QueryAsync<CombLeg, QryCombLeg>(nameof QryCombLeg) request api.ReqQryCombLeg
 
-    member this.QueryOffsetSettingAsync(request: QryOffsetSetting) =
-        this.QueryAsync<OffsetSetting, QryOffsetSetting>(nameof QryOffsetSetting) request api.ReqQryOffsetSetting
+    member this.QueryOffsetSettingAsync(request: QryOffsetSettingRequest) =
+        this.QueryAsync<OffsetSetting, QryOffsetSettingRequest>(nameof QryOffsetSettingRequest) request api.ReqQryOffsetSetting
 
-    member this.QuerySpdApplyAsync(request: QrySpdApply) =
-        this.QueryAsync<SpdApply, QrySpdApply>(nameof QrySpdApply) request api.ReqQrySpdApply
+    member this.QuerySpdApplyAsync(request: QrySpdApplyRequest) =
+        this.QueryAsync<SpdApply, QrySpdApplyRequest>(nameof QrySpdApplyRequest) request api.ReqQrySpdApply
 
-    member this.QueryHedgeCfmAsync(request: QryHedgeCfm) =
-        this.QueryAsync<HedgeCfm, QryHedgeCfm>(nameof QryHedgeCfm) request api.ReqQryHedgeCfm
+    member this.QueryHedgeCfmAsync(request: QryHedgeCfmRequest) =
+        this.QueryAsync<HedgeCfm, QryHedgeCfmRequest>(nameof QryHedgeCfmRequest) request api.ReqQryHedgeCfm

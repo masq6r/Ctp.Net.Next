@@ -192,7 +192,7 @@ type UserLoginResponse =
 
 type UserLogoutResponse = { BrokerId: string; UserId: string }
 
-type RequestUserLogin =
+type UserLoginRequest =
     { TradingDay: string option
       BrokerId: string
       UserId: string
@@ -222,7 +222,7 @@ type RequestUserLogin =
           ClientIPAddress = None
           SmsCode = None }
 
-type RequestUserLogout =
+type UserLogoutRequest =
     { BrokerId: string
       UserId: string }
 
@@ -441,7 +441,7 @@ module internal BridgeMapping =
           UserId = EncodingHelpers.decodeFixed encoding value.UserId }
 
 module internal BridgeBuilders =
-    let reqUserLogin encoding (request: RequestUserLogin) =
+    let reqUserLogin encoding (request: UserLoginRequest) =
         let mutable native = NativeReqUserLogin()
         native.TradingDay <- EncodingHelpers.encodeFixed encoding 9 request.TradingDay
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
@@ -458,7 +458,7 @@ module internal BridgeBuilders =
         native.SmsCode <- EncodingHelpers.encodeFixed encoding 41 request.SmsCode
         native
 
-    let reqUserLogout encoding (request: RequestUserLogout) =
+    let reqUserLogout encoding (request: UserLogoutRequest) =
         let mutable native = NativeUserLogout()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.UserId <- EncodingHelpers.encodeFixed encoding 16 (Some request.UserId)
