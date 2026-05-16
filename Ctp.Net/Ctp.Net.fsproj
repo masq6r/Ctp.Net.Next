@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Bridge/Common.fs" />
+    <Compile Include="Bridge/CtpEnums.fs" />
     <Compile Include="Bridge/MdBridge.fs" />
     <Compile Include="Bridge/TraderBridge.fs" />
     <Compile Include="Common.fs" />

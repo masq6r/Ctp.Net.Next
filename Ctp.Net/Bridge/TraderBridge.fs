@@ -10,7 +10,7 @@ type AuthenticateResponse =
       UserId: string
       UserProductInfo: string
       AppId: string
-      AppType: char option }
+      AppType: AppType option }
 
 type SettlementInfoConfirm =
     { BrokerId: string
@@ -45,9 +45,9 @@ type InvestorPosition =
       InvestorId: string
       InstrumentId: string
       ExchangeId: string
-      PosiDirection: char option
-      HedgeFlag: char option
-      PositionDate: char option
+      PosiDirection: PosiDirection option
+      HedgeFlag: HedgeFlag option
+      PositionDate: PositionDate option
       YdPosition: int
       Position: int
       TodayPosition: int
@@ -62,10 +62,10 @@ type InvestorPosition =
       OpenCost: decimal }
 
 type InstrumentMarginRate =
-    { InvestorRange: char option
+    { InvestorRange: InvestorRange option
       BrokerId: string
       InvestorId: string
-      HedgeFlag: char option
+      HedgeFlag: HedgeFlag option
       LongMarginRatioByMoney: decimal
       LongMarginRatioByVolume: decimal
       ShortMarginRatioByMoney: decimal
@@ -77,7 +77,7 @@ type InstrumentMarginRate =
 
 type ExchangeMarginRate =
     { BrokerId: string
-      HedgeFlag: char option
+      HedgeFlag: HedgeFlag option
       LongMarginRatioByMoney: decimal
       LongMarginRatioByVolume: decimal
       ShortMarginRatioByMoney: decimal
@@ -86,7 +86,7 @@ type ExchangeMarginRate =
       InstrumentId: string }
 
 type InstrumentCommissionRate =
-    { InvestorRange: char option
+    { InvestorRange: InvestorRange option
       BrokerId: string
       InvestorId: string
       OpenRatioByMoney: decimal
@@ -96,7 +96,7 @@ type InstrumentCommissionRate =
       CloseTodayRatioByMoney: decimal
       CloseTodayRatioByVolume: decimal
       ExchangeId: string
-      BizType: char option
+      BizType: BizType option
       InvestUnitId: string
       InstrumentId: string }
 
@@ -106,19 +106,19 @@ type InputOrderRequest =
       InstrumentId: string
       OrderRef: string
       UserId: string option
-      OrderPriceType: char
-      Direction: char
+      OrderPriceType: OrderPriceType
+      Direction: Direction
       CombOffsetFlag: string
       CombHedgeFlag: string
       LimitPrice: decimal
       VolumeTotalOriginal: int
-      TimeCondition: char
+      TimeCondition: TimeCondition
       GtdDate: string option
-      VolumeCondition: char
+      VolumeCondition: VolumeCondition
       MinVolume: int
-      ContingentCondition: char
+      ContingentCondition: ContingentCondition
       StopPrice: decimal
-      ForceCloseReason: char
+      ForceCloseReason: ForceCloseReason
       IsAutoSuspend: bool
       BusinessUnit: string option
       UserForceClose: bool
@@ -141,7 +141,7 @@ type InputOrderActionRequest =
       SessionId: int
       ExchangeId: string
       OrderSysId: string
-      ActionFlag: char
+      ActionFlag: ActionFlag
       LimitPrice: decimal
       VolumeChange: int
       UserId: string
@@ -159,8 +159,8 @@ type OrderUpdate =
       OrderRef: string
       OrderSysId: string
       UserId: string
-      OrderPriceType: char option
-      Direction: char option
+      OrderPriceType: OrderPriceType option
+      Direction: Direction option
       CombOffsetFlag: string
       CombHedgeFlag: string
       LimitPrice: decimal
@@ -169,8 +169,8 @@ type OrderUpdate =
       VolumeTotal: int
       FrontId: int
       SessionId: int
-      OrderStatus: char option
-      OrderSubmitStatus: char option
+      OrderStatus: OrderStatus option
+      OrderSubmitStatus: OrderSubmitStatus option
       StatusMessage: string
       InsertDate: string
       InsertTime: string
@@ -188,9 +188,9 @@ type TradeUpdate =
       OrderSysId: string
       TradeId: string
       UserId: string
-      Direction: char option
-      OffsetFlag: char option
-      HedgeFlag: char option
+      Direction: Direction option
+      OffsetFlag: OffsetFlag option
+      HedgeFlag: HedgeFlag option
       Price: decimal
       Volume: int
       TradeDate: string
@@ -208,7 +208,7 @@ type QueryTradingAccountRequest =
     { BrokerId: string
       InvestorId: string
       CurrencyId: string
-      BizType: char option
+      BizType: BizType option
       AccountId: string option }
 
 type QueryInvestorPositionRequest =
@@ -222,7 +222,7 @@ type QueryInvestorPositionRequest =
 type QueryInstrumentMarginRateRequest =
     { BrokerId: string
       InvestorId: string
-      HedgeFlag: char
+      HedgeFlag: HedgeFlag
       ExchangeId: string option
       InvestUnitId: string option
       InstrumentId: string
@@ -230,7 +230,7 @@ type QueryInstrumentMarginRateRequest =
 
 type QueryExchangeMarginRateRequest =
     { BrokerId: string
-      HedgeFlag: char
+      HedgeFlag: HedgeFlag
       ExchangeId: string option
       InstrumentId: string
       Reserve1: string option }
@@ -252,16 +252,16 @@ type Accountregister =
       BrokerId: string;
       BrokerBranchId: string;
       AccountId: string;
-      IdCardType: char option;
+      IdCardType: IdCardType option;
       IdentifiedCardNo: string;
       CustomerName: string;
       CurrencyId: string;
-      OpenOrDestroy: char option;
+      OpenOrDestroy: OpenOrDestroy option;
       RegDate: string;
       OutDate: string;
       TId: int;
-      CustType: char option;
-      BankAccType: char option;
+      CustType: CustType option;
+      BankAccType: BankAccType option;
       LongCustomerName: string }
 
 type BatchOrderAction =
@@ -281,7 +281,7 @@ type BatchOrderAction =
       ParticipantId: string;
       ClientId: string;
       BusinessUnit: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       UserId: string;
       StatusMsg: string;
       InvestUnitId: string;
@@ -294,20 +294,20 @@ type BrokerTradingAlgos =
       BrokerId: string;
       ExchangeId: string;
       Reserve1: string;
-      HandlePositionAlgoId: char option;
-      FindMarginRateAlgoId: char option;
-      HandleTradingAccountAlgoId: char option;
+      HandlePositionAlgoId: HandlePositionAlgoId option;
+      FindMarginRateAlgoId: FindMarginRateAlgoId option;
+      HandleTradingAccountAlgoId: HandleTradingAccountAlgoId option;
       InstrumentId: string }
 
 type BrokerTradingParams =
     { 
       BrokerId: string;
       InvestorId: string;
-      MarginPriceType: char option;
-      Algorithm: char option;
+      MarginPriceType: MarginPriceType option;
+      Algorithm: Algorithm option;
       AvailIncludeCloseProfit: char option;
       CurrencyId: string;
-      OptionRoyaltyPriceType: char option;
+      OptionRoyaltyPriceType: OptionRoyaltyPriceType option;
       AccountId: string }
 
 type CancelOffsetSetting =
@@ -317,7 +317,7 @@ type CancelOffsetSetting =
       InstrumentId: string;
       UnderlyingInstrId: string;
       ProductId: string;
-      OffsetType: char option;
+      OffsetType: OffsetType option;
       Volume: int;
       IsOffset: int;
       RequestId: int;
@@ -332,7 +332,7 @@ type CancelOffsetSetting =
       InstallId: int;
       ParticipantId: string;
       ClientId: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       StatusMsg: string;
       ActionLocalId: string;
       ActionDate: string;
@@ -353,10 +353,10 @@ type CombAction =
       Reserve1: string;
       CombActionRef: string;
       UserId: string;
-      Direction: char option;
+      Direction: Direction option;
       Volume: int;
-      CombDirection: char option;
-      HedgeFlag: char option;
+      CombDirection: CombDirection option;
+      HedgeFlag: HedgeFlag option;
       ActionLocalId: string;
       ExchangeId: string;
       ParticipantId: string;
@@ -395,7 +395,7 @@ type CombLeg =
       CombInstrumentId: string;
       LegId: int;
       LegInstrumentId: string;
-      Direction: char option;
+      Direction: Direction option;
       LegMultiple: int;
       ImplyLevel: int }
 
@@ -421,8 +421,8 @@ type EWarrantOffset =
       InvestorId: string;
       ExchangeId: string;
       Reserve1: string;
-      Direction: char option;
-      HedgeFlag: char option;
+      Direction: Direction option;
+      HedgeFlag: HedgeFlag option;
       Volume: int;
       InvestUnitId: string;
       InstrumentId: string }
@@ -431,13 +431,13 @@ type Exchange =
     { 
       ExchangeId: string;
       ExchangeName: string;
-      ExchangeProperty: char option }
+      ExchangeProperty: ExchangeProperty option }
 
 type ExchangeMarginRateAdjust =
     { 
       BrokerId: string;
       Reserve1: string;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       LongMarginRatioByMoney: decimal;
       LongMarginRatioByVolume: decimal;
       ShortMarginRatioByMoney: decimal;
@@ -470,12 +470,12 @@ type ExecOrder =
       Volume: int;
       RequestId: int;
       BusinessUnit: string;
-      OffsetFlag: char option;
-      HedgeFlag: char option;
-      ActionType: char option;
-      PosiDirection: char option;
-      ReservePositionFlag: char option;
-      CloseFlag: char option;
+      OffsetFlag: OffsetFlag option;
+      HedgeFlag: HedgeFlag option;
+      ActionType: ActionType option;
+      PosiDirection: PosiDirection option;
+      ReservePositionFlag: ReservePositionFlag option;
+      CloseFlag: CloseFlag option;
       ExecOrderLocalId: string;
       ExchangeId: string;
       ParticipantId: string;
@@ -483,7 +483,7 @@ type ExecOrder =
       Reserve2: string;
       TraderId: string;
       InstallId: int;
-      OrderSubmitStatus: char option;
+      OrderSubmitStatus: OrderSubmitStatus option;
       NotifySequence: int;
       TradingDay: string;
       SettlementId: int;
@@ -491,7 +491,7 @@ type ExecOrder =
       InsertDate: string;
       InsertTime: string;
       CancelTime: string;
-      ExecResult: char option;
+      ExecResult: ExecResult option;
       ClearingPartId: string;
       SequenceNo: int;
       FrontId: int;
@@ -521,7 +521,7 @@ type ExecOrderAction =
       SessionId: int;
       ExchangeId: string;
       ExecOrderSysId: string;
-      ActionFlag: char option;
+      ActionFlag: ActionFlag option;
       ActionDate: string;
       ActionTime: string;
       TraderId: string;
@@ -531,9 +531,9 @@ type ExecOrderAction =
       ParticipantId: string;
       ClientId: string;
       BusinessUnit: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       UserId: string;
-      ActionType: char option;
+      ActionType: ActionType option;
       StatusMsg: string;
       Reserve1: string;
       BranchId: string;
@@ -547,7 +547,7 @@ type FensUserInfo =
     { 
       BrokerId: string;
       UserId: string;
-      LoginMode: char option }
+      LoginMode: LoginMode option }
 
 type ForQuote =
     { 
@@ -565,7 +565,7 @@ type ForQuote =
       InstallId: int;
       InsertDate: string;
       InsertTime: string;
-      ForQuoteStatus: char option;
+      ForQuoteStatus: ForQuoteStatus option;
       FrontId: int;
       SessionId: int;
       StatusMsg: string;
@@ -601,7 +601,7 @@ type HedgeCfm =
       InstrumentId: string;
       UserId: string;
       Volume: int;
-      Direction: char option;
+      Direction: Direction option;
       RequestId: int;
       FrontId: int;
       SessionId: int;
@@ -609,7 +609,7 @@ type HedgeCfm =
       ActiveUserId: string;
       BrokerOrderSeq: int;
       OrderSysId: string;
-      ApplyStatus: char option;
+      ApplyStatus: ApplyStatus option;
       SequenceNo: int;
       DealVolume: int;
       InsertDate: string;
@@ -623,7 +623,7 @@ type HedgeCfm =
       ExchangeInstId: string;
       TraderId: string;
       InstallId: int;
-      OrderSubmitStatus: char option;
+      OrderSubmitStatus: OrderSubmitStatus option;
       NotifySequence: int;
       TradingDay: string;
       SettlementId: int;
@@ -643,7 +643,7 @@ type HedgeCfmAction =
       ActionLocalId: string;
       ParticipantId: string;
       ClientId: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       UserId: string;
       ExchangeId: string;
       OrderSysId: string;
@@ -677,10 +677,10 @@ type InputCombActionRequest =
       Reserve1: string option;
       CombActionRef: string option;
       UserId: string option;
-      Direction: char;
+      Direction: Direction;
       Volume: int;
-      CombDirection: char option;
-      HedgeFlag: char option;
+      CombDirection: CombDirection option;
+      HedgeFlag: HedgeFlag option;
       ExchangeId: string;
       Reserve2: string option;
       MacAddress: string option;
@@ -700,12 +700,12 @@ type InputExecOrderRequest =
       Volume: int;
       RequestId: int;
       BusinessUnit: string option;
-      OffsetFlag: char;
-      HedgeFlag: char option;
-      ActionType: char;
-      PosiDirection: char option;
-      ReservePositionFlag: char option;
-      CloseFlag: char;
+      OffsetFlag: OffsetFlag;
+      HedgeFlag: HedgeFlag option;
+      ActionType: ActionType;
+      PosiDirection: PosiDirection option;
+      ReservePositionFlag: ReservePositionFlag option;
+      CloseFlag: CloseFlag;
       ExchangeId: string option;
       InvestUnitId: string option;
       AccountId: string option;
@@ -727,7 +727,7 @@ type InputExecOrderActionRequest =
       SessionId: int;
       ExchangeId: string;
       ExecOrderSysId: string;
-      ActionFlag: char option;
+      ActionFlag: ActionFlag option;
       UserId: string option;
       Reserve1: string option;
       InvestUnitId: string option;
@@ -758,7 +758,7 @@ type InputHedgeCfmRequest =
       ExchangeId: string;
       InstrumentId: string;
       Volume: int;
-      Direction: char;
+      Direction: Direction;
       RequestId: int;
       OrderRef: string option;
       IpAddress: string option;
@@ -785,7 +785,7 @@ type InputOffsetSettingRequest =
       InstrumentId: string;
       UnderlyingInstrId: string;
       ProductId: string;
-      OffsetType: char;
+      OffsetType: OffsetType;
       Volume: int;
       IsOffset: int;
       RequestId: int;
@@ -804,8 +804,8 @@ type InputOptionSelfCloseRequest =
       Volume: int;
       RequestId: int;
       BusinessUnit: string option;
-      HedgeFlag: char;
-      OptSelfCloseFlag: char option;
+      HedgeFlag: HedgeFlag;
+      OptSelfCloseFlag: OptSelfCloseFlag option;
       ExchangeId: string;
       InvestUnitId: string option;
       AccountId: string option;
@@ -827,7 +827,7 @@ type InputOptionSelfCloseActionRequest =
       SessionId: int;
       ExchangeId: string;
       OptionSelfCloseSysId: string;
-      ActionFlag: char;
+      ActionFlag: ActionFlag;
       UserId: string option;
       Reserve1: string option;
       InvestUnitId: string option;
@@ -864,7 +864,7 @@ type InputQuoteRequest =
       InstrumentId: string;
       IpAddress: string option;
       ReplaceSysId: string option;
-      TimeCondition: char option;
+      TimeCondition: TimeCondition option;
       OrderMemo: string option;
       SessionReqSeq: int }
 
@@ -879,7 +879,7 @@ type InputQuoteActionRequest =
       SessionId: int;
       ExchangeId: string;
       QuoteSysId: string;
-      ActionFlag: char;
+      ActionFlag: ActionFlag;
       UserId: string option;
       Reserve1: string option;
       InvestUnitId: string option;
@@ -900,8 +900,8 @@ type InputSpdApplyRequest =
       FirstLegInstrumentId: string;
       SecondLegInstrumentId: string;
       Volume: int;
-      Direction: char;
-      CmbType: char;
+      Direction: Direction;
+      CmbType: CmbType;
       RequestId: int;
       OrderRef: string option;
       IpAddress: string option;
@@ -928,7 +928,7 @@ type Instrument =
       InstrumentName: string;
       Reserve2: string;
       Reserve3: string;
-      ProductClass: char option;
+      ProductClass: ProductClass option;
       DeliveryYear: int;
       DeliveryMonth: int;
       MaxMarketOrderVolume: int;
@@ -942,18 +942,18 @@ type Instrument =
       ExpireDate: string;
       StartDelivDate: string;
       EndDelivDate: string;
-      InstLifePhase: char option;
+      InstLifePhase: InstLifePhase option;
       IsTrading: int;
-      PositionType: char option;
-      PositionDateType: char option;
+      PositionType: PositionType option;
+      PositionDateType: PositionDateType option;
       LongMarginRatio: decimal;
       ShortMarginRatio: decimal;
-      MaxMarginSideAlgorithm: char option;
+      MaxMarginSideAlgorithm: MaxMarginSideAlgorithm option;
       Reserve4: string;
       StrikePrice: decimal;
-      OptionsType: char option;
+      OptionsType: OptionsType option;
       UnderlyingMultiple: decimal;
-      CombinationType: char option;
+      CombinationType: CombinationType option;
       InstrumentId: string;
       ExchangeInstId: string;
       ProductId: string;
@@ -962,10 +962,10 @@ type Instrument =
 type InstrumentOrderCommRate =
     { 
       Reserve1: string;
-      InvestorRange: char option;
+      InvestorRange: InvestorRange option;
       BrokerId: string;
       InvestorId: string;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       OrderCommByVolume: decimal;
       OrderActionCommByVolume: decimal;
       ExchangeId: string;
@@ -1070,7 +1070,7 @@ type InvestorInfoCommRec =
 
 type InvestorPortfMarginRatio =
     { 
-      InvestorRange: char option;
+      InvestorRange: InvestorRange option;
       BrokerId: string;
       InvestorId: string;
       ExchangeId: string;
@@ -1082,7 +1082,7 @@ type InvestorPortfSetting =
       ExchangeId: string;
       BrokerId: string;
       InvestorId: string;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       UsePortf: int }
 
 type InvestorPositionCombineDetail =
@@ -1096,8 +1096,8 @@ type InvestorPositionCombineDetail =
       ComTradeId: string;
       TradeId: string;
       Reserve1: string;
-      HedgeFlag: char option;
-      Direction: char option;
+      HedgeFlag: HedgeFlag option;
+      Direction: Direction option;
       TotalAmt: int;
       Margin: decimal;
       ExchMargin: decimal;
@@ -1116,15 +1116,15 @@ type InvestorPositionDetail =
       Reserve1: string;
       BrokerId: string;
       InvestorId: string;
-      HedgeFlag: char option;
-      Direction: char option;
+      HedgeFlag: HedgeFlag option;
+      Direction: Direction option;
       OpenDate: string;
       TradeId: string;
       Volume: int;
       OpenPrice: decimal;
       TradingDay: string;
       SettlementId: int;
-      TradeType: char option;
+      TradeType: TradeType option;
       Reserve2: string;
       ExchangeId: string;
       CloseProfitByDate: decimal;
@@ -1141,7 +1141,7 @@ type InvestorPositionDetail =
       CloseAmount: decimal;
       TimeFirstVolume: int;
       InvestUnitId: string;
-      SpecPosiType: char option;
+      SpecPosiType: SpecPosiType option;
       InstrumentId: string;
       CombInstrumentId: string }
 
@@ -1151,7 +1151,7 @@ type InvestorProdRcamsMargin =
       BrokerId: string;
       InvestorId: string;
       CombProductId: string;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       ProductGroupId: string;
       RiskBeforeDiscount: decimal;
       IntraInstrRisk: decimal;
@@ -1181,7 +1181,7 @@ type InvestorProdRuleMargin =
       BrokerId: string;
       InvestorId: string;
       ProdFamilyCode: string;
-      InstrumentClass: char option;
+      InstrumentClass: InstrumentClass option;
       CommodityGroupId: int;
       BStdPosition: decimal;
       SStdPosition: decimal;
@@ -1257,7 +1257,7 @@ type InvestorProductGroupMargin =
       ExchOffsetAmount: decimal;
       LongExchOffsetAmount: decimal;
       ShortExchOffsetAmount: decimal;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       ExchangeId: string;
       InvestUnitId: string;
       ProductGroupId: string }
@@ -1265,7 +1265,7 @@ type InvestorProductGroupMargin =
 type MmInstrumentCommissionRate =
     { 
       Reserve1: string;
-      InvestorRange: char option;
+      InvestorRange: InvestorRange option;
       BrokerId: string;
       InvestorId: string;
       OpenRatioByMoney: decimal;
@@ -1279,7 +1279,7 @@ type MmInstrumentCommissionRate =
 type MmOptionInstrCommRate =
     { 
       Reserve1: string;
-      InvestorRange: char option;
+      InvestorRange: InvestorRange option;
       BrokerId: string;
       InvestorId: string;
       OpenRatioByMoney: decimal;
@@ -1310,12 +1310,12 @@ type NotifyQueryAccount =
       BankSerial: string;
       TradingDay: string;
       PlateSerial: int;
-      LastFragment: char option;
+      LastFragment: LastFragment option;
       SessionId: int;
       CustomerName: string;
-      IdCardType: char option;
+      IdCardType: IdCardType option;
       IdentifiedCardNo: string;
-      CustType: char option;
+      CustType: CustType option;
       BankAccount: string;
       BankPassWord: string;
       AccountId: string;
@@ -1326,7 +1326,7 @@ type NotifyQueryAccount =
       VerifyCertNoFlag: char option;
       CurrencyId: string;
       Digest: string;
-      BankAccType: char option;
+      BankAccType: BankAccType option;
       DeviceId: string;
       BankSecuAccType: char option;
       BrokerIdByBank: string;
@@ -1349,7 +1349,7 @@ type OffsetSetting =
       InstrumentId: string;
       UnderlyingInstrId: string;
       ProductId: string;
-      OffsetType: char option;
+      OffsetType: OffsetType option;
       Volume: int;
       IsOffset: int;
       RequestId: int;
@@ -1364,25 +1364,25 @@ type OffsetSetting =
       ClientId: string;
       TraderId: string;
       InstallId: int;
-      OrderSubmitStatus: char option;
+      OrderSubmitStatus: OrderSubmitStatus option;
       TradingDay: string;
       SettlementId: int;
       InsertDate: string;
       InsertTime: string;
       CancelTime: string;
-      ExecResult: char option;
+      ExecResult: ExecResult option;
       SequenceNo: int;
       FrontId: int;
       SessionId: int;
       StatusMsg: string;
       ActiveUserId: string;
       BrokerOffsetSettingSeq: int;
-      ApplySrc: char option }
+      ApplySrc: ApplySrc option }
 
 type OptionInstrCommRate =
     { 
       Reserve1: string;
-      InvestorRange: char option;
+      InvestorRange: InvestorRange option;
       BrokerId: string;
       InvestorId: string;
       OpenRatioByMoney: decimal;
@@ -1402,7 +1402,7 @@ type OptionInstrTradeCost =
       BrokerId: string;
       InvestorId: string;
       Reserve1: string;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       FixedMargin: decimal;
       MiniMargin: decimal;
       Royalty: decimal;
@@ -1422,8 +1422,8 @@ type OptionSelfClose =
       Volume: int;
       RequestId: int;
       BusinessUnit: string;
-      HedgeFlag: char option;
-      OptSelfCloseFlag: char option;
+      HedgeFlag: HedgeFlag option;
+      OptSelfCloseFlag: OptSelfCloseFlag option;
       OptionSelfCloseLocalId: string;
       ExchangeId: string;
       ParticipantId: string;
@@ -1431,7 +1431,7 @@ type OptionSelfClose =
       Reserve2: string;
       TraderId: string;
       InstallId: int;
-      OrderSubmitStatus: char option;
+      OrderSubmitStatus: OrderSubmitStatus option;
       NotifySequence: int;
       TradingDay: string;
       SettlementId: int;
@@ -1439,7 +1439,7 @@ type OptionSelfClose =
       InsertDate: string;
       InsertTime: string;
       CancelTime: string;
-      ExecResult: char option;
+      ExecResult: ExecResult option;
       ClearingPartId: string;
       SequenceNo: int;
       FrontId: int;
@@ -1469,7 +1469,7 @@ type OptionSelfCloseAction =
       SessionId: int;
       ExchangeId: string;
       OptionSelfCloseSysId: string;
-      ActionFlag: char option;
+      ActionFlag: ActionFlag option;
       ActionDate: string;
       ActionTime: string;
       TraderId: string;
@@ -1479,7 +1479,7 @@ type OptionSelfCloseAction =
       ParticipantId: string;
       ClientId: string;
       BusinessUnit: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       UserId: string;
       StatusMsg: string;
       Reserve1: string;
@@ -1501,7 +1501,7 @@ type OrderAction =
       SessionId: int;
       ExchangeId: string;
       OrderSysId: string;
-      ActionFlag: char option;
+      ActionFlag: ActionFlag option;
       LimitPrice: decimal;
       VolumeChange: int;
       ActionDate: string;
@@ -1513,7 +1513,7 @@ type OrderAction =
       ParticipantId: string;
       ClientId: string;
       BusinessUnit: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       UserId: string;
       StatusMsg: string;
       Reserve1: string;
@@ -1533,26 +1533,26 @@ type ParkedOrder =
       Reserve1: string option;
       OrderRef: string;
       UserId: string option;
-      OrderPriceType: char option;
-      Direction: char;
+      OrderPriceType: OrderPriceType option;
+      Direction: Direction;
       CombOffsetFlag: string;
       CombHedgeFlag: string;
       LimitPrice: decimal;
       VolumeTotalOriginal: int;
-      TimeCondition: char option;
+      TimeCondition: TimeCondition option;
       GtdDate: string option;
-      VolumeCondition: char option;
+      VolumeCondition: VolumeCondition option;
       MinVolume: int;
-      ContingentCondition: char option;
+      ContingentCondition: ContingentCondition option;
       StopPrice: decimal;
-      ForceCloseReason: char option;
+      ForceCloseReason: ForceCloseReason option;
       IsAutoSuspend: int;
       BusinessUnit: string option;
       RequestId: int;
       UserForceClose: int;
       ExchangeId: string option;
       ParkedOrderId: string;
-      UserType: char option;
+      UserType: UserType option;
       Status: char option;
       ErrorId: int;
       ErrorMsg: string;
@@ -1577,13 +1577,13 @@ type ParkedOrderAction =
       SessionId: int;
       ExchangeId: string option;
       OrderSysId: string;
-      ActionFlag: char;
+      ActionFlag: ActionFlag;
       LimitPrice: decimal;
       VolumeChange: int;
       UserId: string option;
       Reserve1: string option;
       ParkedOrderActionId: string;
-      UserType: char option;
+      UserType: UserType option;
       Status: char option;
       ErrorId: int;
       ErrorMsg: string;
@@ -1598,24 +1598,24 @@ type Product =
       Reserve1: string;
       ProductName: string;
       ExchangeId: string;
-      ProductClass: char option;
+      ProductClass: ProductClass option;
       VolumeMultiple: int;
       PriceTick: decimal;
       MaxMarketOrderVolume: int;
       MinMarketOrderVolume: int;
       MaxLimitOrderVolume: int;
       MinLimitOrderVolume: int;
-      PositionType: char option;
-      PositionDateType: char option;
-      CloseDealType: char option;
+      PositionType: PositionType option;
+      PositionDateType: PositionDateType option;
+      CloseDealType: CloseDealType option;
       TradeCurrencyId: string;
-      MortgageFundUseRange: char option;
+      MortgageFundUseRange: MortgageFundUseRange option;
       Reserve2: string;
       UnderlyingMultiple: decimal;
       ProductId: string;
       ExchangeProductId: string;
-      OpenLimitControlLevel: char option;
-      OrderFreqControlLevel: char option }
+      OpenLimitControlLevel: OpenLimitControlLevel option;
+      OrderFreqControlLevel: OrderFreqControlLevel option }
 
 type ProductExchRate =
     { 
@@ -1666,8 +1666,8 @@ type QryClassifiedInstrumentRequest =
       ExchangeId: string option;
       ExchangeInstId: string option;
       ProductId: string option;
-      TradingType: char;
-      ClassType: char }
+      TradingType: TradingType;
+      ClassType: ClassType }
 
 type QryCombActionRequest =
     {
@@ -1705,7 +1705,7 @@ type QryDepthMarketDataRequest =
       Reserve1: string option;
       ExchangeId: string option;
       InstrumentId: string;
-      ProductClass: char }
+      ProductClass: ProductClass }
 
 type QryEWarrantOffsetRequest =
     {
@@ -1724,7 +1724,7 @@ type QryExchangeMarginRateAdjustRequest =
     {
       BrokerId: string;
       Reserve1: string option;
-      HedgeFlag: char;
+      HedgeFlag: HedgeFlag;
       InstrumentId: string }
 
 type QryExchangeRate =
@@ -1867,7 +1867,7 @@ type QryInvestorProductGroupMarginRequest =
       BrokerId: string;
       InvestorId: string;
       Reserve1: string option;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       ExchangeId: string option;
       InvestUnitId: string option;
       ProductGroupId: string }
@@ -1877,9 +1877,9 @@ type QryMaxOrderVolumeRequest =
       BrokerId: string;
       InvestorId: string;
       Reserve1: string option;
-      Direction: char;
-      OffsetFlag: char;
-      HedgeFlag: char;
+      Direction: Direction;
+      OffsetFlag: OffsetFlag;
+      HedgeFlag: HedgeFlag;
       MaxVolume: int option;
       ExchangeId: string option;
       InvestUnitId: string option;
@@ -1908,7 +1908,7 @@ type QryOffsetSettingRequest =
       BrokerId: string;
       InvestorId: string;
       ProductId: string;
-      OffsetType: char }
+      OffsetType: OffsetType }
 
 type QryOptionInstrCommRateRequest =
     {
@@ -1924,7 +1924,7 @@ type QryOptionInstrTradeCostRequest =
       BrokerId: string;
       InvestorId: string;
       Reserve1: string option;
-      HedgeFlag: char;
+      HedgeFlag: HedgeFlag;
       InputPrice: decimal;
       UnderlyingPrice: decimal;
       ExchangeId: string option;
@@ -1975,7 +1975,7 @@ type QryParkedOrderActionRequest =
 type QryProductRequest =
     {
       Reserve1: string option;
-      ProductClass: char option;
+      ProductClass: ProductClass option;
       ExchangeId: string option;
       ProductId: string }
 
@@ -2175,7 +2175,7 @@ type QryTradingCodeRequest =
       InvestorId: string;
       ExchangeId: string;
       ClientId: string;
-      ClientIdType: char;
+      ClientIdType: ClientIdType;
       InvestUnitId: string option }
 
 type QryTradingNoticeRequest =
@@ -2234,7 +2234,7 @@ type Quote =
       TraderId: string;
       InstallId: int;
       NotifySequence: int;
-      OrderSubmitStatus: char option;
+      OrderSubmitStatus: OrderSubmitStatus option;
       TradingDay: string;
       SettlementId: int;
       QuoteSysId: string;
@@ -2265,7 +2265,7 @@ type Quote =
       ExchangeInstId: string;
       IpAddress: string;
       ReplaceSysId: string;
-      TimeCondition: char option;
+      TimeCondition: TimeCondition option;
       OrderMemo: string;
       SessionReqSeq: int }
 
@@ -2280,7 +2280,7 @@ type QuoteAction =
       SessionId: int;
       ExchangeId: string;
       QuoteSysId: string;
-      ActionFlag: char option;
+      ActionFlag: ActionFlag option;
       ActionDate: string;
       ActionTime: string;
       TraderId: string;
@@ -2290,7 +2290,7 @@ type QuoteAction =
       ParticipantId: string;
       ClientId: string;
       BusinessUnit: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       UserId: string;
       StatusMsg: string;
       Reserve1: string;
@@ -2341,8 +2341,8 @@ type RcamsInvestorCombPosition =
       BrokerId: string;
       InvestorId: string;
       InstrumentId: string;
-      HedgeFlag: char option;
-      PosiDirection: char option;
+      HedgeFlag: HedgeFlag option;
+      PosiDirection: PosiDirection option;
       CombInstrumentId: string;
       LegId: int;
       ExchangeInstId: string;
@@ -2355,7 +2355,7 @@ type RcamsShortOptAdjustParam =
       TradingDay: string;
       ExchangeId: string;
       CombProductId: string;
-      HedgeFlag: char option;
+      HedgeFlag: HedgeFlag option;
       AdjustValue: decimal }
 
 type RemoveParkedOrder =
@@ -2402,12 +2402,12 @@ type ReqQueryAccount =
       BankSerial: string;
       TradingDay: string;
       PlateSerial: int;
-      LastFragment: char option;
+      LastFragment: LastFragment option;
       SessionId: int;
       CustomerName: string;
-      IdCardType: char option;
+      IdCardType: IdCardType option;
       IdentifiedCardNo: string;
-      CustType: char option;
+      CustType: CustType option;
       BankAccount: string;
       BankPassWord: string;
       AccountId: string;
@@ -2418,7 +2418,7 @@ type ReqQueryAccount =
       VerifyCertNoFlag: char option;
       CurrencyId: string;
       Digest: string;
-      BankAccType: char option;
+      BankAccType: BankAccType option;
       DeviceId: string;
       BankSecuAccType: char option;
       BrokerIdByBank: string;
@@ -2442,12 +2442,12 @@ type TransferRequest =
       BankSerial: string;
       TradingDay: string;
       PlateSerial: int;
-      LastFragment: char option;
+      LastFragment: LastFragment option;
       SessionId: int;
       CustomerName: string;
-      IdCardType: char option;
+      IdCardType: IdCardType option;
       IdentifiedCardNo: string;
-      CustType: char option;
+      CustType: CustType option;
       BankAccount: string;
       BankPassWord: string;
       AccountId: string;
@@ -2459,12 +2459,12 @@ type TransferRequest =
       CurrencyId: string;
       TradeAmount: decimal;
       FutureFetchAmount: decimal;
-      FeePayFlag: char option;
+      FeePayFlag: FeePayFlag option;
       CustFee: decimal;
       BrokerFee: decimal;
       Message: string;
       Digest: string;
-      BankAccType: char option;
+      BankAccType: BankAccType option;
       DeviceId: string;
       BankSecuAccType: char option;
       BrokerIdByBank: string;
@@ -2474,7 +2474,7 @@ type TransferRequest =
       OperNo: string;
       RequestId: int;
       TId: int;
-      TransferStatus: char option;
+      TransferStatus: TransferStatus option;
       LongCustomerName: string }
 
 type UserAuthMethodRequest =
@@ -2536,9 +2536,9 @@ type RiskSettleInvstPosition =
       InstrumentId: string;
       BrokerId: string;
       InvestorId: string;
-      PosiDirection: char option;
-      HedgeFlag: char option;
-      PositionDate: char option;
+      PosiDirection: PosiDirection option;
+      HedgeFlag: HedgeFlag option;
+      PositionDate: PositionDate option;
       YdPosition: int;
       Position: int;
       LongFrozen: int;
@@ -2587,7 +2587,7 @@ type RiskSettleProductStatus =
     { 
       ExchangeId: string;
       ProductId: string;
-      ProductStatus: char option }
+      ProductStatus: ProductStatus option }
 
 type RspGenSmsCode =
     { 
@@ -2618,12 +2618,12 @@ type RspTransfer =
       BankSerial: string;
       TradingDay: string;
       PlateSerial: int;
-      LastFragment: char option;
+      LastFragment: LastFragment option;
       SessionId: int;
       CustomerName: string;
-      IdCardType: char option;
+      IdCardType: IdCardType option;
       IdentifiedCardNo: string;
-      CustType: char option;
+      CustType: CustType option;
       BankAccount: string;
       BankPassWord: string;
       AccountId: string;
@@ -2635,12 +2635,12 @@ type RspTransfer =
       CurrencyId: string;
       TradeAmount: decimal;
       FutureFetchAmount: decimal;
-      FeePayFlag: char option;
+      FeePayFlag: FeePayFlag option;
       CustFee: decimal;
       BrokerFee: decimal;
       Message: string;
       Digest: string;
-      BankAccType: char option;
+      BankAccType: BankAccType option;
       DeviceId: string;
       BankSecuAccType: char option;
       BrokerIdByBank: string;
@@ -2650,7 +2650,7 @@ type RspTransfer =
       OperNo: string;
       RequestId: int;
       TId: int;
-      TransferStatus: char option;
+      TransferStatus: TransferStatus option;
       ErrorId: int;
       ErrorMsg: string;
       LongCustomerName: string }
@@ -2664,7 +2664,7 @@ type RuleInstrParameter =
       TradingDay: string;
       ExchangeId: string;
       InstrumentId: string;
-      InstrumentClass: char option;
+      InstrumentClass: InstrumentClass option;
       StdInstrumentId: string;
       BSpecRatio: decimal;
       SSpecRatio: decimal;
@@ -2747,7 +2747,7 @@ type SpbmFutureParameter =
       InstrumentId: string;
       ProdFamilyCode: string;
       Cvf: int;
-      TimeRange: char option;
+      TimeRange: TimeRange option;
       MarginRate: decimal;
       LockRateX: decimal;
       AddOnRate: decimal;
@@ -2805,7 +2805,7 @@ type SpdApply =
       SecondLegInstrumentId: string;
       UserId: string;
       Volume: int;
-      Direction: char option;
+      Direction: Direction option;
       RequestId: int;
       FrontId: int;
       SessionId: int;
@@ -2813,7 +2813,7 @@ type SpdApply =
       ActiveUserId: string;
       BrokerOrderSeq: int;
       OrderSysId: string;
-      ApplyStatus: char option;
+      ApplyStatus: ApplyStatus option;
       SequenceNo: int;
       InsertDate: string;
       InsertTime: string;
@@ -2825,13 +2825,13 @@ type SpdApply =
       ExchangeInstId: string;
       TraderId: string;
       InstallId: int;
-      OrderSubmitStatus: char option;
+      OrderSubmitStatus: OrderSubmitStatus option;
       NotifySequence: int;
       TradingDay: string;
       SettlementId: int;
       IpAddress: string;
       MacAddress: string;
-      CmbType: char option;
+      CmbType: CmbType option;
       StatusMsg: string }
 
 type SpdApplyAction =
@@ -2846,7 +2846,7 @@ type SpdApplyAction =
       ActionLocalId: string;
       ParticipantId: string;
       ClientId: string;
-      OrderActionStatus: char option;
+      OrderActionStatus: OrderActionStatus option;
       UserId: string;
       ExchangeId: string;
       OrderSysId: string;
@@ -2862,7 +2862,7 @@ type SpmmInstParam =
     { 
       ExchangeId: string;
       InstrumentId: string;
-      InstMarginCalId: char option;
+      InstMarginCalId: InstMarginCalId option;
       CommodityId: string;
       CommodityGroupId: string }
 
@@ -2881,7 +2881,7 @@ type TraderOffer =
       Password: string;
       InstallId: int;
       OrderLocalId: string;
-      TraderConnectStatus: char option;
+      TraderConnectStatus: TraderConnectStatus option;
       ConnectRequestDate: string;
       ConnectRequestTime: string;
       LastReportDate: string;
@@ -2894,7 +2894,7 @@ type TraderOffer =
       BrokerId: string;
       MaxTradeId: string;
       MaxOrderMessageReference: string;
-      OrderCancelAlg: char option }
+      OrderCancelAlg: OrderCancelAlg option }
 
 type TradingAccountPasswordUpdate =
     {
@@ -2911,15 +2911,15 @@ type TradingCode =
       ExchangeId: string;
       ClientId: string;
       IsActive: int;
-      ClientIdType: char option;
+      ClientIdType: ClientIdType option;
       BranchId: string;
-      BizType: char option;
+      BizType: BizType option;
       InvestUnitId: string }
 
 type TradingNotice =
     { 
       BrokerId: string;
-      InvestorRange: char option;
+      InvestorRange: InvestorRange option;
       InvestorId: string;
       SequenceSeries: int;
       UserId: string;
@@ -2945,22 +2945,22 @@ type TransferSerial =
       SessionId: int;
       BankId: string;
       BankBranchId: string;
-      BankAccType: char option;
+      BankAccType: BankAccType option;
       BankAccount: string;
       BankSerial: string;
       BrokerId: string;
       BrokerBranchId: string;
-      FutureAccType: char option;
+      FutureAccType: FutureAccType option;
       AccountId: string;
       InvestorId: string;
       FutureSerial: int;
-      IdCardType: char option;
+      IdCardType: IdCardType option;
       IdentifiedCardNo: string;
       CurrencyId: string;
       TradeAmount: decimal;
       CustFee: decimal;
       BrokerFee: decimal;
-      AvailabilityFlag: char option;
+      AvailabilityFlag: AvailabilityFlag option;
       OperatorCode: string;
       BankNewAccount: string;
       ErrorId: int;
@@ -14165,6 +14165,20 @@ module private TraderBridgeGenerated =
                     box (EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array))
                 elif field.PropertyType = typeof<char option> then
                     box (EncodingHelpers.byteToChar (unbox<byte> nativeValue))
+                elif FSharpType.IsUnion field.PropertyType then
+                    match EncodingHelpers.byteToChar (unbox<byte> nativeValue) with
+                    | Some cv -> field.PropertyType.GetMethod("FromChar").Invoke(null, [| cv |])
+                    | None -> null
+                elif field.PropertyType.IsGenericType
+                     && field.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
+                     && FSharpType.IsUnion(field.PropertyType.GetGenericArguments().[0]) then
+                    match EncodingHelpers.byteToChar (unbox<byte> nativeValue) with
+                    | None -> null
+                    | Some cv ->
+                        let duType = field.PropertyType.GetGenericArguments().[0]
+                        let duValue = duType.GetMethod("FromChar").Invoke(null, [| cv |])
+                        let someCase = FSharpType.GetUnionCases(field.PropertyType) |> Array.find (fun c -> c.Name = "Some")
+                        FSharpValue.MakeUnion(someCase, [| duValue |])
                 elif field.PropertyType = typeof<decimal> then
                     box (NumericHelpers.priceOrInvalid (unbox<float> nativeValue))
                 elif field.PropertyType = typeof<int> then
@@ -14201,6 +14215,23 @@ module private TraderBridgeGenerated =
                             box (EncodingHelpers.encodeFixed encoding size (recordValue :?> string option))
                         else
                             box (encodeStringField encoding size (recordValue :?> string))
+                    elif nativeField.FieldType = typeof<byte> && FSharpType.IsUnion(recordField.PropertyType) then
+                        let toChar = recordField.PropertyType.GetMethod("ToChar")
+                        box (byte (toChar.Invoke(null, [| recordValue |]) :?> char))
+                    elif nativeField.FieldType = typeof<byte> && recordField.PropertyType.IsGenericType
+                         && recordField.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
+                         && FSharpType.IsUnion(recordField.PropertyType.GetGenericArguments().[0]) then
+                        let charOpt =
+                            if isNull recordValue then None
+                            else
+                                let valueProp = recordField.PropertyType.GetProperty("Value")
+                                let duValue = valueProp.GetValue(recordValue)
+                                if isNull duValue then None
+                                else
+                                    let duType = recordField.PropertyType.GetGenericArguments().[0]
+                                    let toChar = duType.GetMethod("ToChar")
+                                    Some(toChar.Invoke(null, [| duValue |]) :?> char)
+                        box (EncodingHelpers.charToByte charOpt)
                     elif nativeField.FieldType = typeof<byte> && recordField.PropertyType = typeof<char option> then
                         box (EncodingHelpers.charToByte (recordValue :?> char option))
                     elif nativeField.FieldType = typeof<float> && recordField.PropertyType = typeof<decimal> then
@@ -14235,7 +14266,7 @@ module private TraderBridgeMapping =
           UserId = EncodingHelpers.decodeFixed encoding value.UserId
           UserProductInfo = EncodingHelpers.decodeFixed encoding value.UserProductInfo
           AppId = EncodingHelpers.decodeFixed encoding value.AppId
-          AppType = EncodingHelpers.byteToChar value.AppType }
+          AppType = EncodingHelpers.byteToChar value.AppType |> Option.map AppType.FromChar }
 
     let settlementInfoConfirm encoding (value: NativeSettlementInfoConfirm) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -14270,9 +14301,9 @@ module private TraderBridgeMapping =
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
-          PosiDirection = EncodingHelpers.byteToChar value.PosiDirection
-          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag
-          PositionDate = EncodingHelpers.byteToChar value.PositionDate
+          PosiDirection = EncodingHelpers.byteToChar value.PosiDirection |> Option.map PosiDirection.FromChar
+          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag |> Option.map HedgeFlag.FromChar
+          PositionDate = EncodingHelpers.byteToChar value.PositionDate |> Option.map PositionDate.FromChar
           YdPosition = value.YdPosition
           Position = value.Position
           TodayPosition = value.TodayPosition
@@ -14287,10 +14318,10 @@ module private TraderBridgeMapping =
           OpenCost = toDecimal value.OpenCost }
 
     let instrumentMarginRate encoding (value: NativeInstrumentMarginRate) =
-        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange
+        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange |> Option.map InvestorRange.FromChar
           BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
-          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag
+          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag |> Option.map HedgeFlag.FromChar
           LongMarginRatioByMoney = toDecimal value.LongMarginRatioByMoney
           LongMarginRatioByVolume = toDecimal value.LongMarginRatioByVolume
           ShortMarginRatioByMoney = toDecimal value.ShortMarginRatioByMoney
@@ -14302,7 +14333,7 @@ module private TraderBridgeMapping =
 
     let exchangeMarginRate encoding (value: NativeExchangeMarginRate) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
-          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag
+          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag |> Option.map HedgeFlag.FromChar
           LongMarginRatioByMoney = toDecimal value.LongMarginRatioByMoney
           LongMarginRatioByVolume = toDecimal value.LongMarginRatioByVolume
           ShortMarginRatioByMoney = toDecimal value.ShortMarginRatioByMoney
@@ -14311,7 +14342,7 @@ module private TraderBridgeMapping =
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
 
     let instrumentCommissionRate encoding (value: NativeInstrumentCommissionRate) =
-        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange
+        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange |> Option.map InvestorRange.FromChar
           BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
           OpenRatioByMoney = toDecimal value.OpenRatioByMoney
@@ -14321,7 +14352,7 @@ module private TraderBridgeMapping =
           CloseTodayRatioByMoney = toDecimal value.CloseTodayRatioByMoney
           CloseTodayRatioByVolume = toDecimal value.CloseTodayRatioByVolume
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
-          BizType = EncodingHelpers.byteToChar value.BizType
+          BizType = EncodingHelpers.byteToChar value.BizType |> Option.map BizType.FromChar
           InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
 
@@ -14331,21 +14362,21 @@ module private TraderBridgeMapping =
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           OrderRef = EncodingHelpers.decodeFixed encoding value.OrderRef
           UserId = Some(EncodingHelpers.decodeFixed encoding value.UserId) |> EncodingHelpers.normalize
-          OrderPriceType = char value.OrderPriceType
-          Direction = char value.Direction
+          OrderPriceType = OrderPriceType.FromChar(char value.OrderPriceType)
+          Direction = Direction.FromChar(char value.Direction)
           CombOffsetFlag = EncodingHelpers.decodeFixed encoding value.CombOffsetFlag
           CombHedgeFlag = EncodingHelpers.decodeFixed encoding value.CombHedgeFlag
           LimitPrice = toDecimal value.LimitPrice
           VolumeTotalOriginal = value.VolumeTotalOriginal
-          TimeCondition = char value.TimeCondition
+          TimeCondition = TimeCondition.FromChar(char value.TimeCondition)
           GtdDate =
             Some(EncodingHelpers.decodeFixed encoding value.GtdDate)
             |> EncodingHelpers.normalize
-          VolumeCondition = char value.VolumeCondition
+          VolumeCondition = VolumeCondition.FromChar(char value.VolumeCondition)
           MinVolume = value.MinVolume
-          ContingentCondition = char value.ContingentCondition
+          ContingentCondition = ContingentCondition.FromChar(char value.ContingentCondition)
           StopPrice = toDecimal value.StopPrice
-          ForceCloseReason = char value.ForceCloseReason
+          ForceCloseReason = ForceCloseReason.FromChar(char value.ForceCloseReason)
           IsAutoSuspend = value.IsAutoSuspend <> 0
           BusinessUnit =
             Some(EncodingHelpers.decodeFixed encoding value.BusinessUnit)
@@ -14384,7 +14415,7 @@ module private TraderBridgeMapping =
           SessionId = value.SessionId
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
           OrderSysId = EncodingHelpers.decodeFixed encoding value.OrderSysId
-          ActionFlag = char value.ActionFlag
+          ActionFlag = ActionFlag.FromChar(char value.ActionFlag)
           LimitPrice = toDecimal value.LimitPrice
           VolumeChange = value.VolumeChange
           UserId = EncodingHelpers.decodeFixed encoding value.UserId
@@ -14410,8 +14441,8 @@ module private TraderBridgeMapping =
           OrderRef = EncodingHelpers.decodeFixed encoding value.OrderRef
           OrderSysId = EncodingHelpers.decodeFixed encoding value.OrderSysId
           UserId = EncodingHelpers.decodeFixed encoding value.UserId
-          OrderPriceType = EncodingHelpers.byteToChar value.OrderPriceType
-          Direction = EncodingHelpers.byteToChar value.Direction
+          OrderPriceType = EncodingHelpers.byteToChar value.OrderPriceType |> Option.map OrderPriceType.FromChar
+          Direction = EncodingHelpers.byteToChar value.Direction |> Option.map Direction.FromChar
           CombOffsetFlag = EncodingHelpers.decodeFixed encoding value.CombOffsetFlag
           CombHedgeFlag = EncodingHelpers.decodeFixed encoding value.CombHedgeFlag
           LimitPrice = toDecimal value.LimitPrice
@@ -14420,8 +14451,8 @@ module private TraderBridgeMapping =
           VolumeTotal = value.VolumeTotal
           FrontId = value.FrontId
           SessionId = value.SessionId
-          OrderStatus = EncodingHelpers.byteToChar value.OrderStatus
-          OrderSubmitStatus = EncodingHelpers.byteToChar value.OrderSubmitStatus
+          OrderStatus = EncodingHelpers.byteToChar value.OrderStatus |> Option.map OrderStatus.FromChar
+          OrderSubmitStatus = EncodingHelpers.byteToChar value.OrderSubmitStatus |> Option.map OrderSubmitStatus.FromChar
           StatusMessage = EncodingHelpers.decodeFixed encoding value.StatusMsg
           InsertDate = EncodingHelpers.decodeFixed encoding value.InsertDate
           InsertTime = EncodingHelpers.decodeFixed encoding value.InsertTime
@@ -14439,9 +14470,9 @@ module private TraderBridgeMapping =
           OrderSysId = EncodingHelpers.decodeFixed encoding value.OrderSysId
           TradeId = EncodingHelpers.decodeFixed encoding value.TradeId
           UserId = EncodingHelpers.decodeFixed encoding value.UserId
-          Direction = EncodingHelpers.byteToChar value.Direction
-          OffsetFlag = EncodingHelpers.byteToChar value.OffsetFlag
-          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag
+          Direction = EncodingHelpers.byteToChar value.Direction |> Option.map Direction.FromChar
+          OffsetFlag = EncodingHelpers.byteToChar value.OffsetFlag |> Option.map OffsetFlag.FromChar
+          HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag |> Option.map HedgeFlag.FromChar
           Price = toDecimal value.Price
           Volume = value.Volume
           TradeDate = EncodingHelpers.decodeFixed encoding value.TradeDate
@@ -15086,7 +15117,7 @@ module private TraderBridgeBuilders =
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
         native.CurrencyId <- EncodingHelpers.encodeFixed encoding 4 (Some request.CurrencyId)
-        native.BizType <- EncodingHelpers.charToByte request.BizType
+        native.BizType <- EncodingHelpers.charToByte (request.BizType |> Option.map BizType.ToChar)
         native.AccountId <- EncodingHelpers.encodeFixed encoding 13 request.AccountId
         native
 
@@ -15104,7 +15135,7 @@ module private TraderBridgeBuilders =
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
         native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
-        native.HedgeFlag <- EncodingHelpers.charToByte (Some request.HedgeFlag)
+        native.HedgeFlag <- EncodingHelpers.charToByte (Some (HedgeFlag.ToChar request.HedgeFlag))
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
@@ -15114,7 +15145,7 @@ module private TraderBridgeBuilders =
         let mutable native = NativeQryExchangeMarginRate()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
-        native.HedgeFlag <- EncodingHelpers.charToByte (Some request.HedgeFlag)
+        native.HedgeFlag <- EncodingHelpers.charToByte (Some (HedgeFlag.ToChar request.HedgeFlag))
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native
@@ -15136,19 +15167,19 @@ module private TraderBridgeBuilders =
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native.OrderRef <- EncodingHelpers.encodeFixed encoding 13 (Some request.OrderRef)
         native.UserId <- EncodingHelpers.encodeFixed encoding 16 request.UserId
-        native.OrderPriceType <- byte request.OrderPriceType
-        native.Direction <- byte request.Direction
+        native.OrderPriceType <- byte (OrderPriceType.ToChar request.OrderPriceType)
+        native.Direction <- byte (Direction.ToChar request.Direction)
         native.CombOffsetFlag <- EncodingHelpers.encodeFixed encoding 5 (Some request.CombOffsetFlag)
         native.CombHedgeFlag <- EncodingHelpers.encodeFixed encoding 5 (Some request.CombHedgeFlag)
         native.LimitPrice <- float request.LimitPrice
         native.VolumeTotalOriginal <- request.VolumeTotalOriginal
-        native.TimeCondition <- byte request.TimeCondition
+        native.TimeCondition <- byte (TimeCondition.ToChar request.TimeCondition)
         native.GtdDate <- EncodingHelpers.encodeFixed encoding 9 request.GtdDate
-        native.VolumeCondition <- byte request.VolumeCondition
+        native.VolumeCondition <- byte (VolumeCondition.ToChar request.VolumeCondition)
         native.MinVolume <- request.MinVolume
-        native.ContingentCondition <- byte request.ContingentCondition
+        native.ContingentCondition <- byte (ContingentCondition.ToChar request.ContingentCondition)
         native.StopPrice <- float request.StopPrice
-        native.ForceCloseReason <- byte request.ForceCloseReason
+        native.ForceCloseReason <- byte (ForceCloseReason.ToChar request.ForceCloseReason)
         native.IsAutoSuspend <- if request.IsAutoSuspend then 1 else 0
         native.BusinessUnit <- EncodingHelpers.encodeFixed encoding 21 request.BusinessUnit
         native.RequestId <- requestId
@@ -15175,7 +15206,7 @@ module private TraderBridgeBuilders =
         native.SessionId <- request.SessionId
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 (Some request.ExchangeId)
         native.OrderSysId <- EncodingHelpers.encodeFixed encoding 21 (Some request.OrderSysId)
-        native.ActionFlag <- byte request.ActionFlag
+        native.ActionFlag <- byte (ActionFlag.ToChar request.ActionFlag)
         native.LimitPrice <- float request.LimitPrice
         native.VolumeChange <- request.VolumeChange
         native.UserId <- EncodingHelpers.encodeFixed encoding 16 (Some request.UserId)

@@ -270,7 +270,7 @@ type TraderSmokeTests() =
         let! accountResult = client.QueryTradingAccountAsync("") |> Async.StartAsTask
         accountResult |> Helper.expectOk |> ignore
 
-        let speculationHedgeFlag = '1'
+        let speculationHedgeFlag = HedgeFlag.Speculation
 
         let! instrumentMarginRateResult =
             client.QueryInstrumentMarginRateAsync(speculationHedgeFlag, config.InstrumentId)

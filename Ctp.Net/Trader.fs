@@ -440,7 +440,7 @@ type TraderClient
 
         completion.Task |> ClientHelpers.awaitTask
 
-    member this.QueryTradingAccountAsync(currencyId: string, ?bizType: char, ?accountId: string) =
+    member this.QueryTradingAccountAsync(currencyId: string, ?bizType: BizType, ?accountId: string) =
         let request =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -468,7 +468,7 @@ type TraderClient
             api.ReqQryInvestorPosition
 
     member this.QueryInstrumentMarginRateAsync
-        (hedgeFlag: char, instrumentId: string, ?exchangeId: string, ?investUnitId: string)
+        (hedgeFlag: HedgeFlag, instrumentId: string, ?exchangeId: string, ?investUnitId: string)
         =
         let request: QueryInstrumentMarginRateRequest =
             { BrokerId = options.BrokerId
@@ -484,7 +484,7 @@ type TraderClient
             request
             api.ReqQryInstrumentMarginRate
 
-    member this.QueryExchangeMarginRateAsync(hedgeFlag: char, instrumentId: string, ?exchangeId: string) =
+    member this.QueryExchangeMarginRateAsync(hedgeFlag: HedgeFlag, instrumentId: string, ?exchangeId: string) =
         let request: QueryExchangeMarginRateRequest =
             { BrokerId = options.BrokerId
               HedgeFlag = hedgeFlag
@@ -977,7 +977,7 @@ type TraderClient
     // ---- Query methods ----
 
     member this.QueryMaxOrderVolumeAsync
-        (direction: char, offsetFlag: char, hedgeFlag: char, instrumentId: string,
+        (direction: Direction, offsetFlag: OffsetFlag, hedgeFlag: HedgeFlag, instrumentId: string,
          ?maxVolume: int, ?exchangeId: string, ?investUnitId: string)
         =
         let request: QryMaxOrderVolumeRequest =
@@ -1039,7 +1039,7 @@ type TraderClient
         this.QueryAsync<Investor, QryInvestorRequest>(nameof QryInvestorRequest) request api.ReqQryInvestor
 
     member this.QueryTradingCodeAsync
-        (exchangeId: string, clientId: string, clientIdType: char, ?investUnitId: string)
+        (exchangeId: string, clientId: string, clientIdType: ClientIdType, ?investUnitId: string)
         =
         let request: QryTradingCodeRequest =
             { BrokerId = options.BrokerId
@@ -1064,7 +1064,7 @@ type TraderClient
         let request: QryExchangeRequest = { ExchangeId = exchangeId }
         this.QueryAsync<Exchange, QryExchangeRequest>(nameof QryExchangeRequest) request api.ReqQryExchange
 
-    member this.QueryProductAsync(productId: string, ?productClass: char, ?exchangeId: string) =
+    member this.QueryProductAsync(productId: string, ?productClass: ProductClass, ?exchangeId: string) =
         let request: QryProductRequest =
             { Reserve1 = None
               ProductClass = productClass
@@ -1087,7 +1087,7 @@ type TraderClient
 
         this.QueryAsync<Instrument, QryInstrumentRequest>(nameof QryInstrumentRequest) request api.ReqQryInstrument
 
-    member this.QueryDepthMarketDataAsync(instrumentId: string, productClass: char, ?exchangeId: string) =
+    member this.QueryDepthMarketDataAsync(instrumentId: string, productClass: ProductClass, ?exchangeId: string) =
         let request: QryDepthMarketDataRequest =
             { Reserve1 = None
               ExchangeId = exchangeId
@@ -1190,7 +1190,7 @@ type TraderClient
         this.QueryAsync<EWarrantOffset, QryEWarrantOffsetRequest>(nameof QryEWarrantOffsetRequest) request api.ReqQryEWarrantOffset
 
     member this.QueryInvestorProductGroupMarginAsync
-        (productGroupId: string, ?hedgeFlag: char, ?exchangeId: string, ?investUnitId: string)
+        (productGroupId: string, ?hedgeFlag: HedgeFlag, ?exchangeId: string, ?investUnitId: string)
         =
         let request: QryInvestorProductGroupMarginRequest =
             { BrokerId = options.BrokerId
@@ -1206,7 +1206,7 @@ type TraderClient
             request
             api.ReqQryInvestorProductGroupMargin
 
-    member this.QueryExchangeMarginRateAdjustAsync(instrumentId: string, hedgeFlag: char) =
+    member this.QueryExchangeMarginRateAdjustAsync(instrumentId: string, hedgeFlag: HedgeFlag) =
         let request: QryExchangeMarginRateAdjustRequest =
             { BrokerId = options.BrokerId
               Reserve1 = None
@@ -1293,7 +1293,7 @@ type TraderClient
             request
             api.ReqQryInstrumentOrderCommRate
 
-    member this.QuerySecAgentTradingAccountAsync(currencyId: string, ?bizType: char, ?accountId: string) =
+    member this.QuerySecAgentTradingAccountAsync(currencyId: string, ?bizType: BizType, ?accountId: string) =
         let request: QueryTradingAccountRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1327,7 +1327,7 @@ type TraderClient
             api.ReqQrySecAgentTradeInfo
 
     member this.QueryOptionInstrTradeCostAsync
-        (instrumentId: string, hedgeFlag: char, inputPrice: decimal, underlyingPrice: decimal,
+        (instrumentId: string, hedgeFlag: HedgeFlag, inputPrice: decimal, underlyingPrice: decimal,
          ?exchangeId: string, ?investUnitId: string)
         =
         let request: QryOptionInstrTradeCostRequest =
@@ -1561,7 +1561,7 @@ type TraderClient
             api.ReqQueryCfmmcTradingAccountToken
 
     member this.QueryClassifiedInstrumentAsync
-        (tradingType: char, classType: char, ?instrumentId: string, ?exchangeId: string, ?exchangeInstId: string,
+        (tradingType: TradingType, classType: ClassType, ?instrumentId: string, ?exchangeId: string, ?exchangeInstId: string,
          ?productId: string)
         =
         let request: QryClassifiedInstrumentRequest =
@@ -1889,7 +1889,7 @@ type TraderClient
 
         this.QueryAsync<CombLeg, QryCombLeg>(nameof QryCombLeg) request api.ReqQryCombLeg
 
-    member this.QueryOffsetSettingAsync(productId: string, offsetType: char) =
+    member this.QueryOffsetSettingAsync(productId: string, offsetType: OffsetType) =
         let request: QryOffsetSettingRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
