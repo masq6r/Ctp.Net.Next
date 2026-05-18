@@ -6,6 +6,7 @@ open Ctp.Net
 open System.Text
 open Ctp.Net.Bridge
 open System.Threading
+open System.Threading.Tasks
 open System.Collections.Generic
 open Microsoft.Extensions.Logging
 
@@ -321,6 +322,177 @@ type PendingQueryDictTests() =
         match completion.Task.Result with
         | Error actual -> Assert.Equal(error.ErrorId, actual.ErrorId)
         | Ok value -> failwith $"Expected Error but got Ok({value})."
+
+
+type FlowControlTests() =
+
+    [<Fact>]
+    member _.``await task honors async cancellation``() =
+        let completion = TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously)
+        use cts = new CancellationTokenSource()
+        let task = Async.StartAsTask(ClientHelpers.awaitTask completion.Task, cancellationToken = cts.Token)
+
+        cts.CancelAfter 50
+
+        Assert.ThrowsAny<OperationCanceledException>(fun () -> task.GetAwaiter().GetResult() |> ignore)
+        |> ignore
+
+    [<Fact>]
+    member _.``query completion timeout returns synthetic timeout and clears pending request``() =
+        let options =
+            { CtpFlowControlOptions.Default with
+                QueryCompletionTimeout = TimeSpan.FromMilliseconds 50.0 }
+
+        let flow = FlowController options
+        let pending = PendingQueryDict()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>> ()
+
+        pending.Register(42, "QueryNumbers", completion)
+
+        let result = flow.AwaitQueryCompletionAsync("QueryNumbers", 42, pending, completion.Task).GetAwaiter().GetResult()
+
+        match result with
+        | Error error -> Assert.Equal(-10001, error.ErrorId)
+        | Ok value -> failwith $"Expected timeout error but got Ok({value})."
+
+        pending.TryHandleResponse(42, Some(box 1), None, true, PendingResponseCompletionPolicy.StreamUntilLast)
+        Assert.False(completion.Task.IsCompleted)
+
+    [<Fact>]
+    member _.``subscription batching uses configured batch size``() =
+        let options =
+            { CtpFlowControlOptions.Default with
+                SubscriptionBatchSize = 3 }
+
+        let flow = FlowController options
+
+        let batches =
+            flow.BatchSubscriptions([ "au2506"; "ag2506"; "cu2506"; "zn2506"; "al2506"; "ni2506"; "sn2506" ])
+
+        Assert.Equal<string list list>(
+            [ [ "au2506"; "ag2506"; "cu2506" ]
+              [ "zn2506"; "al2506"; "ni2506" ]
+              [ "sn2506" ] ],
+            batches
+        )
+
+    [<Fact>]
+    member _.``retryable error predicates match flow control policy``() =
+        let flow = FlowController CtpFlowControlOptions.Default
+        let retryableQuery = ClientHelpers.apiReturnError 90
+        let nonRetryableQuery = ClientHelpers.apiReturnError 7
+
+        Assert.True(flow.ShouldRetryNativeReturnCode(0, -2))
+        Assert.True(flow.ShouldRetryNativeReturnCode(0, -3))
+        Assert.False(flow.ShouldRetryNativeReturnCode(0, -1))
+        Assert.True(flow.ShouldRetryQueryError(0, retryableQuery))
+        Assert.False(flow.ShouldRetryQueryError(0, nonRetryableQuery))
+
+    [<Fact>]
+    member _.``retryable predicates stop after configured retry budget``() =
+        let flow =
+            FlowController(
+                { CtpFlowControlOptions.Default with
+                    MaxNativeReturnCodeRetries = 1
+                    MaxQueryRspErrorRetries = 1 }
+            )
+
+        let retryableQuery = ClientHelpers.apiReturnError 90
+
+        Assert.True(flow.ShouldRetryNativeReturnCode(0, -2))
+        Assert.False(flow.ShouldRetryNativeReturnCode(1, -2))
+        Assert.True(flow.ShouldRetryQueryError(0, retryableQuery))
+        Assert.False(flow.ShouldRetryQueryError(1, retryableQuery))
+
+    [<Fact>]
+    member _.``dispatch gate throttles consecutive sends``() =
+        let flow =
+            FlowController(
+                { CtpFlowControlOptions.Default with
+                    MaxDispatchesPerSecond = 20 }
+            )
+
+        let stopwatch = Diagnostics.Stopwatch.StartNew()
+        flow.AwaitDispatchAsync().GetAwaiter().GetResult()
+        let afterFirst = stopwatch.Elapsed
+        flow.AwaitDispatchAsync().GetAwaiter().GetResult()
+        let afterSecond = stopwatch.Elapsed
+
+        Assert.True(afterSecond - afterFirst >= TimeSpan.FromMilliseconds 30.0)
+
+    [<Fact>]
+    member _.``dispatch wait honors cancellation while throttled``() =
+        let flow =
+            FlowController(
+                { CtpFlowControlOptions.Default with
+                    MaxDispatchesPerSecond = 1 }
+            )
+
+        flow.AwaitDispatchAsync().GetAwaiter().GetResult()
+
+        use cts = new CancellationTokenSource()
+        cts.CancelAfter 50
+
+        let blocked = flow.AwaitDispatchAsync(cancellationToken = cts.Token)
+
+        Assert.ThrowsAny<OperationCanceledException>(fun () -> blocked.GetAwaiter().GetResult() |> ignore)
+        |> ignore
+
+    [<Fact>]
+    member _.``query execution gate serializes callers``() =
+        let flow = FlowController CtpFlowControlOptions.Default
+        let firstLease = flow.AcquireQueryExecutionAsync().GetAwaiter().GetResult()
+        let secondLeaseTask = flow.AcquireQueryExecutionAsync()
+
+        Assert.False(secondLeaseTask.Wait(50))
+
+        firstLease.Dispose()
+
+        Assert.True(secondLeaseTask.Wait(1000))
+        use secondLease = secondLeaseTask.Result
+        Assert.NotNull(secondLease)
+
+    [<Fact>]
+    member _.``query execution wait honors cancellation``() =
+        let flow = FlowController CtpFlowControlOptions.Default
+        use firstLease = flow.AcquireQueryExecutionAsync().GetAwaiter().GetResult()
+        use cts = new CancellationTokenSource()
+        cts.CancelAfter 50
+
+        let blocked = flow.AcquireQueryExecutionAsync(cancellationToken = cts.Token)
+
+        Assert.ThrowsAny<OperationCanceledException>(fun () -> blocked.GetAwaiter().GetResult() |> ignore)
+        |> ignore
+
+    [<Fact>]
+    member _.``query completion returns successful result before timeout``() =
+        let flow =
+            FlowController(
+                { CtpFlowControlOptions.Default with
+                    QueryCompletionTimeout = TimeSpan.FromSeconds 1.0 }
+            )
+
+        let pending = PendingQueryDict()
+        let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>> ()
+        completion.TrySetResult(Ok [ 1; 2 ]) |> ignore
+
+        let result = flow.AwaitQueryCompletionAsync("QueryNumbers", 42, pending, completion.Task).GetAwaiter().GetResult()
+
+        match result with
+        | Ok values -> Assert.Equal<int list>([ 1; 2 ], values)
+        | Error error -> failwith $"Expected Ok but got Error({error})."
+
+    [<Fact>]
+    member _.``subscription batching falls back to size one when configured batch size is invalid``() =
+        let flow =
+            FlowController(
+                { CtpFlowControlOptions.Default with
+                    SubscriptionBatchSize = 0 }
+            )
+
+        let batches = flow.BatchSubscriptions([ "au2506"; "ag2506"; "cu2506" ])
+
+        Assert.Equal<string list list>([ [ "au2506" ]; [ "ag2506" ]; [ "cu2506" ] ], batches)
 
 
 type ConnectionCoordinatorTests() =

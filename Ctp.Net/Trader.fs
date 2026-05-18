@@ -33,7 +33,8 @@ type TraderClient
         ?privateTopicResumeType: int,
         ?privateTopicSequenceNo: int,
         ?publicTopicResumeType: int,
-        ?loggerFactory: ILoggerFactory
+        ?loggerFactory: ILoggerFactory,
+        ?flowControl: CtpFlowControlOptions
     )
     =
     let loggerFactory = defaultArg loggerFactory NullLoggerFactory.Instance
@@ -60,6 +61,7 @@ type TraderClient
     let notificationEvent = Event<obj>()
     let asyncErrorEvent = Event<obj>()
     let api = new TraderApi(options.FlowPath, options.ProductionMode, encodings = bridgeEncodings)
+    let requestFlow = FlowController(defaultArg flowControl CtpFlowControlOptions.Default, logger = logger)
 
     let connectionCoordinator =
         ConnectionCoordinator(
@@ -286,7 +288,8 @@ type TraderClient
                 RspOptionSelfCloseInsert = Some(postOrderCommandResponse "OptionSelfCloseInsert")
                 RspParkedOrderAction = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
                 RspParkedOrderInsert = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
-                RspQueryBankAccountMoneyByFuture = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
+                RspQueryBankAccountMoneyByFuture =
+                    Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
                 RspQuoteAction = Some(postOrderCommandResponse "QuoteAction")
                 RspQuoteInsert = Some(postOrderCommandResponse "QuoteInsert")
                 RspRemoveParkedOrder = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
@@ -353,73 +356,98 @@ type TraderClient
 
     member _.Join() = api.Join()
 
-    member _.AuthenticateAsync() =
-        logger.LogDebug("Sending authenticate request")
-        let requestId = nextRequestId ()
-        let request = OptionHelpers.createAuthenticateRequest options
-        let completion = ClientHelpers.createCompletionSource<Result<AuthenticateResponse list, RspInfo>> ()
-        pending.Register(requestId, "Authenticate", completion)
-        let result = api.ReqAuthenticate(request, requestId)
+    member private _.RunPendingRequestAsync<'TResponse, 'TRequest>
+        (operationName: string)
+        (request: 'TRequest)
+        (apiCall: 'TRequest * int -> int)
+        (onAccepted: int -> unit)
+        : Async<Result<'TResponse list, RspInfo>>
+        =
+        async {
+            let! cancellationToken = Async.CancellationToken
 
-        if result <> 0 then
-            logger.LogError("Authenticate request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+            let rec executeAttempt attempt = async {
+                do!
+                    requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
+                    |> Async.AwaitTask
 
-        completion.Task |> ClientHelpers.awaitTask
+                logger.LogDebug("Sending {OperationName} request", operationName)
 
-    member _.SettlementInfoConfirmAsync() =
-        logger.LogDebug("Sending settlement info confirm request")
-        let requestId = nextRequestId ()
-        let request = OptionHelpers.createSettlementInfoConfirmRequest options
-        let completion = ClientHelpers.createCompletionSource<Result<SettlementInfoConfirm list, RspInfo>> ()
-        pending.Register(requestId, "SettlementInfoConfirm", completion)
-        let result = api.ReqSettlementInfoConfirm(request, requestId)
+                let requestId = nextRequestId ()
+                let completion = ClientHelpers.createCompletionSource<Result<'TResponse list, RspInfo>> ()
+                pending.Register(requestId, operationName, completion)
+                let result = apiCall (request, requestId)
 
-        if result <> 0 then
-            logger.LogError("Settlement info confirm request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+                if result <> 0 then
+                    pending.TryRemove requestId
 
-        completion.Task |> ClientHelpers.awaitTask
+                    if requestFlow.ShouldRetryNativeReturnCode(attempt, result) then
+                        do!
+                            requestFlow.DelayBeforeNativeRetryAsync(
+                                operationName,
+                                attempt + 1,
+                                result,
+                                cancellationToken = cancellationToken
+                            )
+                            |> Async.AwaitTask
 
-    member _.LoginAsync() =
-        logger.LogDebug("Sending login request")
-        let requestId = nextRequestId ()
-        let request = OptionHelpers.createUserLoginRequest options
-        let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
-        pending.Register(requestId, "Login", completion)
-        let result = api.ReqUserLogin(request, requestId)
+                        return! executeAttempt (attempt + 1)
+                    else
+                        logger.LogError(
+                            "{OperationName} request failed with native return code {ReturnCode}",
+                            operationName,
+                            result
+                        )
 
-        if result <> 0 then
-            logger.LogError("Login request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+                        completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+                        return! (completion.Task |> ClientHelpers.awaitTask)
+                else
+                    onAccepted requestId
+                    return! (completion.Task |> ClientHelpers.awaitTask)
+            }
 
-        completion.Task |> ClientHelpers.awaitTask
+            return! executeAttempt 0
+        }
 
-    member _.LogoutAsync() =
-        logger.LogDebug("Sending logout request")
-        let requestId = nextRequestId ()
-        let request = OptionHelpers.createUserLogoutRequest options
-        let completion = ClientHelpers.createCompletionSource<Result<UserLogoutResponse list, RspInfo>> ()
-        pending.Register(requestId, "Logout", completion)
-        let result = api.ReqUserLogout(request, requestId)
+    member private _.RunCommandAsync (operationName: string) (apiCall: int -> int) : Async<int> = async {
+        let! cancellationToken = Async.CancellationToken
 
-        if result <> 0 then
-            logger.LogError("Logout request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-        else
-            // Current CTP SDK does not reliably invoke OnRspUserLogout, so a successful request is treated as completion.
-            pending.TryAccumulate(
-                requestId,
-                Some { UserLogoutResponse.BrokerId = request.BrokerId; UserId = request.UserId },
-                None,
-                true
-            )
+        let rec executeAttempt attempt = async {
+            do!
+                requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
+                |> Async.AwaitTask
 
-        completion.Task |> ClientHelpers.awaitTask
+            logger.LogDebug("Sending {OperationName} request", operationName)
+
+            let requestId = nextRequestId ()
+            let result = apiCall requestId
+
+            if result <> 0 then
+                if requestFlow.ShouldRetryNativeReturnCode(attempt, result) then
+                    do!
+                        requestFlow.DelayBeforeNativeRetryAsync(
+                            operationName,
+                            attempt + 1,
+                            result,
+                            cancellationToken = cancellationToken
+                        )
+                        |> Async.AwaitTask
+
+                    return! executeAttempt (attempt + 1)
+                else
+                    logger.LogError(
+                        "{OperationName} request failed with native return code {ReturnCode}",
+                        operationName,
+                        result
+                    )
+
+                    return requestId
+            else
+                return requestId
+        }
+
+        return! executeAttempt 0
+    }
 
     member private _.QueryAsync<'TItem, 'TRequest>
         (queryName: string)
@@ -427,18 +455,108 @@ type TraderClient
         (apiCall: 'TRequest * int -> int)
         : Async<Result<'TItem list, RspInfo>>
         =
-        logger.LogDebug("Sending {QueryName} request", queryName)
-        let requestId = nextRequestId ()
-        let completion = ClientHelpers.createCompletionSource<Result<'TItem list, RspInfo>> ()
-        pending.Register(requestId, queryName, completion)
-        let errCode = apiCall (request, requestId)
+        async {
+            let! cancellationToken = Async.CancellationToken
 
-        if errCode <> 0 then
-            logger.LogError("{QueryName} request failed with native return code {ReturnCode}", queryName, errCode)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError errCode)) |> ignore
+            let! queryLease =
+                requestFlow.AcquireQueryExecutionAsync(cancellationToken = cancellationToken)
+                |> Async.AwaitTask
 
-        completion.Task |> ClientHelpers.awaitTask
+            let queryLifetime = task {
+                try
+                    let rec executeAttempt attempt = task {
+                        do! requestFlow.AwaitQueryDispatchAsync(cancellationToken = cancellationToken)
+                        logger.LogDebug("Sending {QueryName} request", queryName)
+
+                        let requestId = nextRequestId ()
+                        let completion = ClientHelpers.createCompletionSource<Result<'TItem list, RspInfo>> ()
+                        pending.Register(requestId, queryName, completion)
+                        let errCode = apiCall (request, requestId)
+
+                        if errCode <> 0 then
+                            pending.TryRemove requestId
+
+                            if requestFlow.ShouldRetryNativeReturnCode(attempt, errCode) then
+                                do!
+                                    requestFlow.DelayBeforeNativeRetryAsync(
+                                        queryName,
+                                        attempt + 1,
+                                        errCode,
+                                        cancellationToken = cancellationToken
+                                    )
+
+                                return! executeAttempt (attempt + 1)
+                            else
+                                logger.LogError(
+                                    "{QueryName} request failed with native return code {ReturnCode}",
+                                    queryName,
+                                    errCode
+                                )
+
+                                return Error(ClientHelpers.apiReturnError errCode)
+                        else
+                            let! result =
+                                requestFlow.AwaitQueryCompletionAsync(queryName, requestId, pending, completion.Task)
+
+                            match result with
+                            | Error info when requestFlow.ShouldRetryQueryError(attempt, info) ->
+                                do!
+                                    requestFlow.DelayBeforeQueryRetryAsync(
+                                        queryName,
+                                        attempt + 1,
+                                        info.ErrorId,
+                                        cancellationToken = cancellationToken
+                                    )
+
+                                return! executeAttempt (attempt + 1)
+                            | _ -> return result
+                    }
+
+                    return! executeAttempt 0
+                finally
+                    queryLease.Dispose()
+            }
+
+            return! queryLifetime |> ClientHelpers.awaitTask
+        }
+
+    member this.AuthenticateAsync() =
+        let request = OptionHelpers.createAuthenticateRequest options
+
+        this.RunPendingRequestAsync<AuthenticateResponse, AuthenticateRequest>
+            "Authenticate"
+            request
+            api.ReqAuthenticate
+            ignore
+
+    member this.SettlementInfoConfirmAsync() =
+        let request = OptionHelpers.createSettlementInfoConfirmRequest options
+
+        this.RunPendingRequestAsync<SettlementInfoConfirm, SettlementInfoConfirm>
+            "SettlementInfoConfirm"
+            request
+            api.ReqSettlementInfoConfirm
+            ignore
+
+    member this.LoginAsync() =
+        let request = OptionHelpers.createUserLoginRequest options
+        this.RunPendingRequestAsync<UserLoginResponse, UserLoginRequest> "Login" request api.ReqUserLogin ignore
+
+    member this.LogoutAsync() =
+        let request = OptionHelpers.createUserLogoutRequest options
+
+        this.RunPendingRequestAsync<UserLogoutResponse, UserLogoutRequest>
+            "Logout"
+            request
+            api.ReqUserLogout
+            (fun requestId ->
+                // Current CTP SDK does not reliably invoke OnRspUserLogout, so a successful request is treated as completion.
+                pending.TryAccumulate(
+                    requestId,
+                    Some { UserLogoutResponse.BrokerId = request.BrokerId; UserId = request.UserId },
+                    None,
+                    true
+                ))
 
     member this.QueryTradingAccountAsync(currencyId: string, ?bizType: BizType, ?accountId: string) =
         let request =
@@ -537,448 +655,328 @@ type TraderClient
 
     // ---- Auth / password / captcha methods ----
 
-    member _.ReqUserPasswordUpdateAsync(oldPassword: string, newPassword: string) =
-        logger.LogDebug("Sending user password update request")
-        let requestId = nextRequestId ()
+    member this.ReqUserPasswordUpdateAsync(oldPassword: string, newPassword: string) =
         let request: UserPasswordUpdate =
-            { BrokerId = options.BrokerId; UserId = options.UserId
-              OldPassword = oldPassword; NewPassword = newPassword }
-        let completion = ClientHelpers.createCompletionSource<Result<UserPasswordUpdate list, RspInfo>> ()
-        pending.Register(requestId, "UserPasswordUpdate", completion)
-        let result = api.ReqUserPasswordUpdate(request, requestId)
+            { BrokerId = options.BrokerId
+              UserId = options.UserId
+              OldPassword = oldPassword
+              NewPassword = newPassword }
 
-        if result <> 0 then
-            logger.LogError("User password update request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<UserPasswordUpdate, UserPasswordUpdate>
+            "UserPasswordUpdate"
+            request
+            api.ReqUserPasswordUpdate
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqTradingAccountPasswordUpdateAsync
+    member this.ReqTradingAccountPasswordUpdateAsync
         (accountId: string, oldPassword: string, newPassword: string, currencyId: string)
         =
-        logger.LogDebug("Sending trading account password update request")
-        let requestId = nextRequestId ()
         let request: TradingAccountPasswordUpdate =
-            { BrokerId = options.BrokerId; AccountId = accountId
-              OldPassword = oldPassword; NewPassword = newPassword
+            { BrokerId = options.BrokerId
+              AccountId = accountId
+              OldPassword = oldPassword
+              NewPassword = newPassword
               CurrencyId = currencyId }
-        let completion = ClientHelpers.createCompletionSource<Result<TradingAccountPasswordUpdate list, RspInfo>> ()
-        pending.Register(requestId, "TradingAccountPasswordUpdate", completion)
-        let result = api.ReqTradingAccountPasswordUpdate(request, requestId)
 
-        if result <> 0 then
-            logger.LogError("Trading account password update request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<TradingAccountPasswordUpdate, TradingAccountPasswordUpdate>
+            "TradingAccountPasswordUpdate"
+            request
+            api.ReqTradingAccountPasswordUpdate
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqUserAuthMethodAsync(?tradingDay: string) =
-        logger.LogDebug("Sending user auth method request")
-        let requestId = nextRequestId ()
+    member this.ReqUserAuthMethodAsync(?tradingDay: string) =
         let request: UserAuthMethodRequest =
-            { BrokerId = Some options.BrokerId; UserId = Some options.UserId; TradingDay = tradingDay }
-        let completion = ClientHelpers.createCompletionSource<Result<RspUserAuthMethod list, RspInfo>> ()
-        pending.Register(requestId, "UserAuthMethod", completion)
-        let result = api.ReqUserAuthMethod(request, requestId)
+            { BrokerId = Some options.BrokerId
+              UserId = Some options.UserId
+              TradingDay = tradingDay }
 
-        if result <> 0 then
-            logger.LogError("User auth method request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<RspUserAuthMethod, UserAuthMethodRequest>
+            "UserAuthMethod"
+            request
+            api.ReqUserAuthMethod
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqGenUserCaptchaAsync(?tradingDay: string) =
-        logger.LogDebug("Sending gen user captcha request")
-        let requestId = nextRequestId ()
+    member this.ReqGenUserCaptchaAsync(?tradingDay: string) =
         let request: GenUserCaptchaRequest =
-            { BrokerId = Some options.BrokerId; UserId = Some options.UserId; TradingDay = tradingDay }
-        let completion = ClientHelpers.createCompletionSource<Result<RspGenUserCaptcha list, RspInfo>> ()
-        pending.Register(requestId, "GenUserCaptcha", completion)
-        let result = api.ReqGenUserCaptcha(request, requestId)
+            { BrokerId = Some options.BrokerId
+              UserId = Some options.UserId
+              TradingDay = tradingDay }
 
-        if result <> 0 then
-            logger.LogError("Gen user captcha request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<RspGenUserCaptcha, GenUserCaptchaRequest>
+            "GenUserCaptcha"
+            request
+            api.ReqGenUserCaptcha
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqGenUserTextAsync(?tradingDay: string) =
-        logger.LogDebug("Sending gen user text request")
-        let requestId = nextRequestId ()
+    member this.ReqGenUserTextAsync(?tradingDay: string) =
         let request: GenUserTextRequest =
-            { BrokerId = Some options.BrokerId; UserId = Some options.UserId; TradingDay = tradingDay }
-        let completion = ClientHelpers.createCompletionSource<Result<RspGenUserText list, RspInfo>> ()
-        pending.Register(requestId, "GenUserText", completion)
-        let result = api.ReqGenUserText(request, requestId)
+            { BrokerId = Some options.BrokerId
+              UserId = Some options.UserId
+              TradingDay = tradingDay }
 
-        if result <> 0 then
-            logger.LogError("Gen user text request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<RspGenUserText, GenUserTextRequest> "GenUserText" request api.ReqGenUserText ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqUserLoginWithCaptchaAsync
-        (captcha: string, ?tradingDay: string, ?userProductInfo: string, ?interfaceProductInfo: string,
-         ?protocolInfo: string, ?macAddress: string, ?loginRemark: string, ?clientIpPort: int, ?clientIpAddress: string)
+    member this.ReqUserLoginWithCaptchaAsync
+        (
+            captcha: string,
+            ?tradingDay: string,
+            ?userProductInfo: string,
+            ?interfaceProductInfo: string,
+            ?protocolInfo: string,
+            ?macAddress: string,
+            ?loginRemark: string,
+            ?clientIpPort: int,
+            ?clientIpAddress: string
+        )
         =
-        logger.LogDebug("Sending user login with captcha request")
-        let requestId = nextRequestId ()
         let request: UserLoginWithCaptchaRequest =
-            { TradingDay = tradingDay; BrokerId = options.BrokerId; UserId = options.UserId
-              Password = options.Password; UserProductInfo = userProductInfo
-              InterfaceProductInfo = interfaceProductInfo; ProtocolInfo = protocolInfo
-              MacAddress = macAddress; Reserve1 = None; LoginRemark = loginRemark
-              Captcha = captcha; ClientIpPort = clientIpPort; ClientIpAddress = clientIpAddress }
-        let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
-        pending.Register(requestId, "LoginWithCaptcha", completion)
-        let result = api.ReqUserLoginWithCaptcha(request, requestId)
+            { TradingDay = tradingDay
+              BrokerId = options.BrokerId
+              UserId = options.UserId
+              Password = options.Password
+              UserProductInfo = userProductInfo
+              InterfaceProductInfo = interfaceProductInfo
+              ProtocolInfo = protocolInfo
+              MacAddress = macAddress
+              Reserve1 = None
+              LoginRemark = loginRemark
+              Captcha = captcha
+              ClientIpPort = clientIpPort
+              ClientIpAddress = clientIpAddress }
 
-        if result <> 0 then
-            logger.LogError("User login with captcha request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<UserLoginResponse, UserLoginWithCaptchaRequest>
+            "LoginWithCaptcha"
+            request
+            api.ReqUserLoginWithCaptcha
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqUserLoginWithTextAsync
-        (text: string, ?tradingDay: string, ?userProductInfo: string, ?interfaceProductInfo: string,
-         ?protocolInfo: string, ?macAddress: string, ?loginRemark: string, ?clientIpPort: int, ?clientIpAddress: string)
+    member this.ReqUserLoginWithTextAsync
+        (
+            text: string,
+            ?tradingDay: string,
+            ?userProductInfo: string,
+            ?interfaceProductInfo: string,
+            ?protocolInfo: string,
+            ?macAddress: string,
+            ?loginRemark: string,
+            ?clientIpPort: int,
+            ?clientIpAddress: string
+        )
         =
-        logger.LogDebug("Sending user login with text request")
-        let requestId = nextRequestId ()
         let request: UserLoginWithTextRequest =
-            { TradingDay = tradingDay; BrokerId = options.BrokerId; UserId = options.UserId
-              Password = options.Password; UserProductInfo = userProductInfo
-              InterfaceProductInfo = interfaceProductInfo; ProtocolInfo = protocolInfo
-              MacAddress = macAddress; Reserve1 = None; LoginRemark = loginRemark
-              Text = text; ClientIpPort = clientIpPort; ClientIpAddress = clientIpAddress }
-        let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
-        pending.Register(requestId, "LoginWithText", completion)
-        let result = api.ReqUserLoginWithText(request, requestId)
+            { TradingDay = tradingDay
+              BrokerId = options.BrokerId
+              UserId = options.UserId
+              Password = options.Password
+              UserProductInfo = userProductInfo
+              InterfaceProductInfo = interfaceProductInfo
+              ProtocolInfo = protocolInfo
+              MacAddress = macAddress
+              Reserve1 = None
+              LoginRemark = loginRemark
+              Text = text
+              ClientIpPort = clientIpPort
+              ClientIpAddress = clientIpAddress }
 
-        if result <> 0 then
-            logger.LogError("User login with text request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<UserLoginResponse, UserLoginWithTextRequest>
+            "LoginWithText"
+            request
+            api.ReqUserLoginWithText
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqUserLoginWithOtpAsync
-        (otpPassword: string, ?tradingDay: string, ?userProductInfo: string, ?interfaceProductInfo: string,
-         ?protocolInfo: string, ?macAddress: string, ?loginRemark: string, ?clientIpPort: int, ?clientIpAddress: string)
+    member this.ReqUserLoginWithOtpAsync
+        (
+            otpPassword: string,
+            ?tradingDay: string,
+            ?userProductInfo: string,
+            ?interfaceProductInfo: string,
+            ?protocolInfo: string,
+            ?macAddress: string,
+            ?loginRemark: string,
+            ?clientIpPort: int,
+            ?clientIpAddress: string
+        )
         =
-        logger.LogDebug("Sending user login with OTP request")
-        let requestId = nextRequestId ()
         let request: UserLoginWithOtpRequest =
-            { TradingDay = tradingDay; BrokerId = options.BrokerId; UserId = options.UserId
-              Password = options.Password; UserProductInfo = userProductInfo
-              InterfaceProductInfo = interfaceProductInfo; ProtocolInfo = protocolInfo
-              MacAddress = macAddress; Reserve1 = None; LoginRemark = loginRemark
-              OtpPassword = otpPassword; ClientIpPort = clientIpPort; ClientIpAddress = clientIpAddress }
-        let completion = ClientHelpers.createCompletionSource<Result<UserLoginResponse list, RspInfo>> ()
-        pending.Register(requestId, "LoginWithOtp", completion)
-        let result = api.ReqUserLoginWithOtp(request, requestId)
+            { TradingDay = tradingDay
+              BrokerId = options.BrokerId
+              UserId = options.UserId
+              Password = options.Password
+              UserProductInfo = userProductInfo
+              InterfaceProductInfo = interfaceProductInfo
+              ProtocolInfo = protocolInfo
+              MacAddress = macAddress
+              Reserve1 = None
+              LoginRemark = loginRemark
+              OtpPassword = otpPassword
+              ClientIpPort = clientIpPort
+              ClientIpAddress = clientIpAddress }
 
-        if result <> 0 then
-            logger.LogError("User login with OTP request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<UserLoginResponse, UserLoginWithOtpRequest>
+            "LoginWithOtp"
+            request
+            api.ReqUserLoginWithOtp
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqGenSmsCodeAsync(mobile: string) =
-        logger.LogDebug("Sending gen SMS code request")
-        let requestId = nextRequestId ()
+    member this.ReqGenSmsCodeAsync(mobile: string) =
         let request: GenSmsCodeRequest =
             { BrokerId = options.BrokerId; UserId = options.UserId; Mobile = mobile }
-        let completion = ClientHelpers.createCompletionSource<Result<RspGenSmsCode list, RspInfo>> ()
-        pending.Register(requestId, "GenSmsCode", completion)
-        let result = api.ReqGenSmsCode(request, requestId)
 
-        if result <> 0 then
-            logger.LogError("Gen SMS code request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-
-        completion.Task |> ClientHelpers.awaitTask
+        this.RunPendingRequestAsync<RspGenSmsCode, GenSmsCodeRequest> "GenSmsCode" request api.ReqGenSmsCode ignore
 
     // ---- Order insertion and action ----
 
-    member _.InsertOrderAsync(request: InputOrderRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqOrderInsert(request, requestId)
+    member this.InsertOrderAsync(request: InputOrderRequest) =
+        this.RunCommandAsync "OrderInsert" (fun requestId -> api.ReqOrderInsert(request, requestId))
 
-        if result <> 0 then
-            logger.LogError("Order insert request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.CancelOrderAsync(request: InputOrderActionRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqOrderAction(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Order action request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
+    member this.CancelOrderAsync(request: InputOrderActionRequest) =
+        this.RunCommandAsync "OrderAction" (fun requestId -> api.ReqOrderAction(request, requestId))
 
     // ---- Execution / quote / hedge / combination command methods ----
 
-    member _.ReqExecOrderInsertAsync(request: InputExecOrderRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqExecOrderInsert(request, requestId)
+    member this.ReqExecOrderInsertAsync(request: InputExecOrderRequest) =
+        this.RunCommandAsync "ExecOrderInsert" (fun requestId -> api.ReqExecOrderInsert(request, requestId))
 
-        if result <> 0 then
-            logger.LogError("Exec order insert request failed with native return code {ReturnCode}", result)
+    member this.ReqExecOrderActionAsync(request: InputExecOrderActionRequest) =
+        this.RunCommandAsync "ExecOrderAction" (fun requestId -> api.ReqExecOrderAction(request, requestId))
 
-        async.Return requestId
-
-    member _.ReqExecOrderActionAsync(request: InputExecOrderActionRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqExecOrderAction(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Exec order action request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqForQuoteInsertAsync(instrumentId: string, ?exchangeId: string) =
-        let requestId = nextRequestId ()
+    member this.ReqForQuoteInsertAsync(instrumentId: string, ?exchangeId: string) =
         let request: InputForQuoteRequest =
-            { BrokerId = options.BrokerId; InvestorId = options.UserId
-              Reserve1 = None; ForQuoteRef = None; UserId = None
-              ExchangeId = exchangeId; InvestUnitId = None
-              Reserve2 = None; MacAddress = None
-              InstrumentId = instrumentId; IpAddress = None }
-        let result = api.ReqForQuoteInsert(request, requestId)
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              Reserve1 = None
+              ForQuoteRef = None
+              UserId = None
+              ExchangeId = exchangeId
+              InvestUnitId = None
+              Reserve2 = None
+              MacAddress = None
+              InstrumentId = instrumentId
+              IpAddress = None }
 
-        if result <> 0 then
-            logger.LogError("For quote insert request failed with native return code {ReturnCode}", result)
+        this.RunCommandAsync "ForQuoteInsert" (fun requestId -> api.ReqForQuoteInsert(request, requestId))
 
-        async.Return requestId
+    member this.ReqQuoteInsertAsync(request: InputQuoteRequest) =
+        this.RunCommandAsync "QuoteInsert" (fun requestId -> api.ReqQuoteInsert(request, requestId))
 
-    member _.ReqQuoteInsertAsync(request: InputQuoteRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqQuoteInsert(request, requestId)
+    member this.ReqQuoteActionAsync(request: InputQuoteActionRequest) =
+        this.RunCommandAsync "QuoteAction" (fun requestId -> api.ReqQuoteAction(request, requestId))
 
-        if result <> 0 then
-            logger.LogError("Quote insert request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqQuoteActionAsync(request: InputQuoteActionRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqQuoteAction(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Quote action request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqBatchOrderActionAsync(frontId: int, sessionId: int, ?exchangeId: string) =
-        let requestId = nextRequestId ()
+    member this.ReqBatchOrderActionAsync(frontId: int, sessionId: int, ?exchangeId: string) =
         let request: InputBatchOrderActionRequest =
-            { BrokerId = Some options.BrokerId; InvestorId = options.UserId
-              OrderActionRef = 0; RequestId = 0; FrontId = frontId
-              SessionId = sessionId; ExchangeId = exchangeId
-              UserId = None; InvestUnitId = None; Reserve1 = None
-              MacAddress = None; IpAddress = None }
-        let result = api.ReqBatchOrderAction(request, requestId)
+            { BrokerId = Some options.BrokerId
+              InvestorId = options.UserId
+              OrderActionRef = 0
+              RequestId = 0
+              FrontId = frontId
+              SessionId = sessionId
+              ExchangeId = exchangeId
+              UserId = None
+              InvestUnitId = None
+              Reserve1 = None
+              MacAddress = None
+              IpAddress = None }
 
-        if result <> 0 then
-            logger.LogError("Batch order action request failed with native return code {ReturnCode}", result)
+        this.RunCommandAsync "BatchOrderAction" (fun requestId -> api.ReqBatchOrderAction(request, requestId))
 
-        async.Return requestId
+    member this.ReqOptionSelfCloseInsertAsync(request: InputOptionSelfCloseRequest) =
+        this.RunCommandAsync "OptionSelfCloseInsert" (fun requestId -> api.ReqOptionSelfCloseInsert(request, requestId))
 
-    member _.ReqOptionSelfCloseInsertAsync(request: InputOptionSelfCloseRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqOptionSelfCloseInsert(request, requestId)
+    member this.ReqOptionSelfCloseActionAsync(request: InputOptionSelfCloseActionRequest) =
+        this.RunCommandAsync "OptionSelfCloseAction" (fun requestId -> api.ReqOptionSelfCloseAction(request, requestId))
 
-        if result <> 0 then
-            logger.LogError("Option self close insert request failed with native return code {ReturnCode}", result)
+    member this.ReqCombActionInsertAsync(request: InputCombActionRequest) =
+        this.RunCommandAsync "CombActionInsert" (fun requestId -> api.ReqCombActionInsert(request, requestId))
 
-        async.Return requestId
+    member this.ReqOffsetSettingAsync(request: InputOffsetSettingRequest) =
+        this.RunCommandAsync "OffsetSetting" (fun requestId -> api.ReqOffsetSetting(request, requestId))
 
-    member _.ReqOptionSelfCloseActionAsync(request: InputOptionSelfCloseActionRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqOptionSelfCloseAction(request, requestId)
+    member this.ReqCancelOffsetSettingAsync(request: InputOffsetSettingRequest) =
+        this.RunCommandAsync "CancelOffsetSetting" (fun requestId -> api.ReqCancelOffsetSetting(request, requestId))
 
-        if result <> 0 then
-            logger.LogError("Option self close action request failed with native return code {ReturnCode}", result)
+    member this.ReqSpdApplyAsync(request: InputSpdApplyRequest) =
+        this.RunCommandAsync "SpdApply" (fun requestId -> api.ReqSpdApply(request, requestId))
 
-        async.Return requestId
+    member this.ReqSpdApplyActionAsync(request: InputSpdApplyActionRequest) =
+        this.RunCommandAsync "SpdApplyAction" (fun requestId -> api.ReqSpdApplyAction(request, requestId))
 
-    member _.ReqCombActionInsertAsync(request: InputCombActionRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqCombActionInsert(request, requestId)
+    member this.ReqHedgeCfmAsync(request: InputHedgeCfmRequest) =
+        this.RunCommandAsync "HedgeCfm" (fun requestId -> api.ReqHedgeCfm(request, requestId))
 
-        if result <> 0 then
-            logger.LogError("Comb action insert request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqOffsetSettingAsync(request: InputOffsetSettingRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqOffsetSetting(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Offset setting request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqCancelOffsetSettingAsync(request: InputOffsetSettingRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqCancelOffsetSetting(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Cancel offset setting request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqSpdApplyAsync(request: InputSpdApplyRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqSpdApply(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Spd apply request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqSpdApplyActionAsync(request: InputSpdApplyActionRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqSpdApplyAction(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Spd apply action request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqHedgeCfmAsync(request: InputHedgeCfmRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqHedgeCfm(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Hedge cfm request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.ReqHedgeCfmActionAsync(request: InputHedgeCfmActionRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqHedgeCfmAction(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Hedge cfm action request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
+    member this.ReqHedgeCfmActionAsync(request: InputHedgeCfmActionRequest) =
+        this.RunCommandAsync "HedgeCfmAction" (fun requestId -> api.ReqHedgeCfmAction(request, requestId))
 
     // ---- Parked order methods (FinalOnly) ----
 
-    member _.ReqParkedOrderInsertAsync(request: ParkedOrder) =
-        logger.LogDebug("Sending parked order insert request")
-        let requestId = nextRequestId ()
-        let completion = ClientHelpers.createCompletionSource<Result<ParkedOrder list, RspInfo>> ()
-        pending.Register(requestId, "ParkedOrderInsert", completion)
-        let result = api.ReqParkedOrderInsert(request, requestId)
+    member this.ReqParkedOrderInsertAsync(request: ParkedOrder) =
+        this.RunPendingRequestAsync<ParkedOrder, ParkedOrder>
+            "ParkedOrderInsert"
+            request
+            api.ReqParkedOrderInsert
+            ignore
 
-        if result <> 0 then
-            logger.LogError("Parked order insert request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+    member this.ReqParkedOrderActionAsync(request: ParkedOrderAction) =
+        this.RunPendingRequestAsync<ParkedOrderAction, ParkedOrderAction>
+            "ParkedOrderAction"
+            request
+            api.ReqParkedOrderAction
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqParkedOrderActionAsync(request: ParkedOrderAction) =
-        logger.LogDebug("Sending parked order action request")
-        let requestId = nextRequestId ()
-        let completion = ClientHelpers.createCompletionSource<Result<ParkedOrderAction list, RspInfo>> ()
-        pending.Register(requestId, "ParkedOrderAction", completion)
-        let result = api.ReqParkedOrderAction(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Parked order action request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqRemoveParkedOrderAsync(parkedOrderId: string, ?investUnitId: string) =
-        logger.LogDebug("Sending remove parked order request")
-        let requestId = nextRequestId ()
+    member this.ReqRemoveParkedOrderAsync(parkedOrderId: string, ?investUnitId: string) =
         let request: RemoveParkedOrder =
-            { BrokerId = options.BrokerId; InvestorId = options.UserId
-              ParkedOrderId = parkedOrderId; InvestUnitId = investUnitId }
-        let completion = ClientHelpers.createCompletionSource<Result<RemoveParkedOrder list, RspInfo>> ()
-        pending.Register(requestId, "RemoveParkedOrder", completion)
-        let result = api.ReqRemoveParkedOrder(request, requestId)
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              ParkedOrderId = parkedOrderId
+              InvestUnitId = investUnitId }
 
-        if result <> 0 then
-            logger.LogError("Remove parked order request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunPendingRequestAsync<RemoveParkedOrder, RemoveParkedOrder>
+            "RemoveParkedOrder"
+            request
+            api.ReqRemoveParkedOrder
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.ReqRemoveParkedOrderActionAsync(parkedOrderActionId: string, ?investUnitId: string) =
-        logger.LogDebug("Sending remove parked order action request")
-        let requestId = nextRequestId ()
+    member this.ReqRemoveParkedOrderActionAsync(parkedOrderActionId: string, ?investUnitId: string) =
         let request: RemoveParkedOrderAction =
-            { BrokerId = options.BrokerId; InvestorId = options.UserId
-              ParkedOrderActionId = parkedOrderActionId; InvestUnitId = investUnitId }
-        let completion = ClientHelpers.createCompletionSource<Result<RemoveParkedOrderAction list, RspInfo>> ()
-        pending.Register(requestId, "RemoveParkedOrderAction", completion)
-        let result = api.ReqRemoveParkedOrderAction(request, requestId)
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              ParkedOrderActionId = parkedOrderActionId
+              InvestUnitId = investUnitId }
 
-        if result <> 0 then
-            logger.LogError("Remove parked order action request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-
-        completion.Task |> ClientHelpers.awaitTask
+        this.RunPendingRequestAsync<RemoveParkedOrderAction, RemoveParkedOrderAction>
+            "RemoveParkedOrderAction"
+            request
+            api.ReqRemoveParkedOrderAction
+            ignore
 
     // ---- Bank transfer methods ----
 
-    member _.FromBankToFutureByFutureAsync(request: TransferRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqFromBankToFutureByFuture(request, requestId)
+    member this.FromBankToFutureByFutureAsync(request: TransferRequest) =
+        this.RunCommandAsync "FromBankToFutureByFuture" (fun requestId ->
+            api.ReqFromBankToFutureByFuture(request, requestId))
 
-        if result <> 0 then
-            logger.LogError("From bank to future by future request failed with native return code {ReturnCode}", result)
+    member this.FromFutureToBankByFutureAsync(request: TransferRequest) =
+        this.RunCommandAsync "FromFutureToBankByFuture" (fun requestId ->
+            api.ReqFromFutureToBankByFuture(request, requestId))
 
-        async.Return requestId
-
-    member _.FromFutureToBankByFutureAsync(request: TransferRequest) =
-        let requestId = nextRequestId ()
-        let result = api.ReqFromFutureToBankByFuture(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("From future to bank by future request failed with native return code {ReturnCode}", result)
-
-        async.Return requestId
-
-    member _.QueryBankAccountMoneyByFutureAsync(request: ReqQueryAccount) =
-        logger.LogDebug("Sending query bank account money by future request")
-        let requestId = nextRequestId ()
-        let completion = ClientHelpers.createCompletionSource<Result<ReqQueryAccount list, RspInfo>> ()
-        pending.Register(requestId, "QueryBankAccountMoneyByFuture", completion)
-        let result = api.ReqQueryBankAccountMoneyByFuture(request, requestId)
-
-        if result <> 0 then
-            logger.LogError("Query bank account money by future request failed with native return code {ReturnCode}", result)
-            pending.TryRemove requestId
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-
-        completion.Task |> ClientHelpers.awaitTask
+    member this.QueryBankAccountMoneyByFutureAsync(request: ReqQueryAccount) =
+        this.RunPendingRequestAsync<ReqQueryAccount, ReqQueryAccount>
+            "QueryBankAccountMoneyByFuture"
+            request
+            api.ReqQueryBankAccountMoneyByFuture
+            ignore
 
     // ---- Query methods ----
 
     member this.QueryMaxOrderVolumeAsync
-        (direction: Direction, offsetFlag: OffsetFlag, hedgeFlag: HedgeFlag, instrumentId: string,
-         ?maxVolume: int, ?exchangeId: string, ?investUnitId: string)
+        (
+            direction: Direction,
+            offsetFlag: OffsetFlag,
+            hedgeFlag: HedgeFlag,
+            instrumentId: string,
+            ?maxVolume: int,
+            ?exchangeId: string,
+            ?investUnitId: string
+        )
         =
         let request: QryMaxOrderVolumeRequest =
             { BrokerId = options.BrokerId
@@ -998,8 +996,14 @@ type TraderClient
             api.ReqQryMaxOrderVolume
 
     member this.QueryOrderAsync
-        (exchangeId: string, orderSysId: string, insertTimeStart: string, insertTimeEnd: string,
-         instrumentId: string, ?investUnitId: string)
+        (
+            exchangeId: string,
+            orderSysId: string,
+            insertTimeStart: string,
+            insertTimeEnd: string,
+            instrumentId: string,
+            ?investUnitId: string
+        )
         =
         let request: QryOrderRequest =
             { BrokerId = options.BrokerId
@@ -1012,11 +1016,17 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<OrderUpdate, QryOrderRequest>(nameof QryOrderRequest) request api.ReqQryOrder
+        this.QueryAsync<OrderUpdate, QryOrderRequest> (nameof QryOrderRequest) request api.ReqQryOrder
 
     member this.QueryTradeAsync
-        (?exchangeId: string, ?tradeId: string, ?tradeTimeStart: string, ?tradeTimeEnd: string,
-         ?investUnitId: string, ?instrumentId: string)
+        (
+            ?exchangeId: string,
+            ?tradeId: string,
+            ?tradeTimeStart: string,
+            ?tradeTimeEnd: string,
+            ?investUnitId: string,
+            ?instrumentId: string
+        )
         =
         let request: QryTradeRequest =
             { BrokerId = options.BrokerId
@@ -1029,14 +1039,12 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<TradeUpdate, QryTradeRequest>(nameof QryTradeRequest) request api.ReqQryTrade
+        this.QueryAsync<TradeUpdate, QryTradeRequest> (nameof QryTradeRequest) request api.ReqQryTrade
 
     member this.QueryInvestorAsync() =
-        let request: QryInvestorRequest =
-            { BrokerId = options.BrokerId
-              InvestorId = options.UserId }
+        let request: QryInvestorRequest = { BrokerId = options.BrokerId; InvestorId = options.UserId }
 
-        this.QueryAsync<Investor, QryInvestorRequest>(nameof QryInvestorRequest) request api.ReqQryInvestor
+        this.QueryAsync<Investor, QryInvestorRequest> (nameof QryInvestorRequest) request api.ReqQryInvestor
 
     member this.QueryTradingCodeAsync
         (exchangeId: string, clientId: string, clientIdType: ClientIdType, ?investUnitId: string)
@@ -1049,7 +1057,7 @@ type TraderClient
               ClientIdType = clientIdType
               InvestUnitId = investUnitId }
 
-        this.QueryAsync<TradingCode, QryTradingCodeRequest>(nameof QryTradingCodeRequest) request api.ReqQryTradingCode
+        this.QueryAsync<TradingCode, QryTradingCodeRequest> (nameof QryTradingCodeRequest) request api.ReqQryTradingCode
 
     member this.QueryUserSessionAsync(frontId: int, sessionId: int) =
         let request: QryUserSessionRequest =
@@ -1058,11 +1066,11 @@ type TraderClient
               BrokerId = options.BrokerId
               UserId = options.UserId }
 
-        this.QueryAsync<UserSession, QryUserSessionRequest>(nameof QryUserSessionRequest) request api.ReqQryUserSession
+        this.QueryAsync<UserSession, QryUserSessionRequest> (nameof QryUserSessionRequest) request api.ReqQryUserSession
 
     member this.QueryExchangeAsync(exchangeId: string) =
         let request: QryExchangeRequest = { ExchangeId = exchangeId }
-        this.QueryAsync<Exchange, QryExchangeRequest>(nameof QryExchangeRequest) request api.ReqQryExchange
+        this.QueryAsync<Exchange, QryExchangeRequest> (nameof QryExchangeRequest) request api.ReqQryExchange
 
     member this.QueryProductAsync(productId: string, ?productClass: ProductClass, ?exchangeId: string) =
         let request: QryProductRequest =
@@ -1071,7 +1079,7 @@ type TraderClient
               ExchangeId = exchangeId
               ProductId = productId }
 
-        this.QueryAsync<Product, QryProductRequest>(nameof QryProductRequest) request api.ReqQryProduct
+        this.QueryAsync<Product, QryProductRequest> (nameof QryProductRequest) request api.ReqQryProduct
 
     member this.QueryInstrumentAsync
         (exchangeId: string, instrumentId: string, exchangeInstId: string, productId: string)
@@ -1085,7 +1093,7 @@ type TraderClient
               ExchangeInstId = exchangeInstId
               ProductId = productId }
 
-        this.QueryAsync<Instrument, QryInstrumentRequest>(nameof QryInstrumentRequest) request api.ReqQryInstrument
+        this.QueryAsync<Instrument, QryInstrumentRequest> (nameof QryInstrumentRequest) request api.ReqQryInstrument
 
     member this.QueryDepthMarketDataAsync(instrumentId: string, productClass: ProductClass, ?exchangeId: string) =
         let request: QryDepthMarketDataRequest =
@@ -1101,11 +1109,9 @@ type TraderClient
 
     member this.QueryTraderOfferAsync(?exchangeId: string, ?participantId: string, ?traderId: string) =
         let request: QryTraderOfferRequest =
-            { ExchangeId = exchangeId
-              ParticipantId = participantId
-              TraderId = traderId }
+            { ExchangeId = exchangeId; ParticipantId = participantId; TraderId = traderId }
 
-        this.QueryAsync<TraderOffer, QryTraderOfferRequest>(nameof QryTraderOfferRequest) request api.ReqQryTraderOffer
+        this.QueryAsync<TraderOffer, QryTraderOfferRequest> (nameof QryTraderOfferRequest) request api.ReqQryTraderOffer
 
     member this.QuerySettlementInfoAsync(tradingDay: string, ?accountId: string, ?currencyId: string) =
         let request: QrySettlementInfoRequest =
@@ -1115,14 +1121,18 @@ type TraderClient
               AccountId = accountId
               CurrencyId = currencyId }
 
-        this.QueryAsync<SettlementInfo, QrySettlementInfoRequest>(nameof QrySettlementInfoRequest) request api.ReqQrySettlementInfo
+        this.QueryAsync<SettlementInfo, QrySettlementInfoRequest>
+            (nameof QrySettlementInfoRequest)
+            request
+            api.ReqQrySettlementInfo
 
     member this.QueryTransferBankAsync(?bankId: string, ?bankBrchId: string) =
-        let request: QryTransferBankRequest =
-            { BankId = bankId
-              BankBrchId = bankBrchId }
+        let request: QryTransferBankRequest = { BankId = bankId; BankBrchId = bankBrchId }
 
-        this.QueryAsync<TransferBank, QryTransferBankRequest>(nameof QryTransferBankRequest) request api.ReqQryTransferBank
+        this.QueryAsync<TransferBank, QryTransferBankRequest>
+            (nameof QryTransferBankRequest)
+            request
+            api.ReqQryTransferBank
 
     member this.QueryInvestorPositionDetailAsync(instrumentId: string, ?exchangeId: string, ?investUnitId: string) =
         let request: QryInvestorPositionDetailRequest =
@@ -1140,7 +1150,7 @@ type TraderClient
 
     member this.QueryNoticeAsync() =
         let request: QryNoticeRequest = { BrokerId = options.BrokerId }
-        this.QueryAsync<Notice, QryNoticeRequest>(nameof QryNoticeRequest) request api.ReqQryNotice
+        this.QueryAsync<Notice, QryNoticeRequest> (nameof QryNoticeRequest) request api.ReqQryNotice
 
     member this.QuerySettlementInfoConfirmAsync(?accountId: string, ?currencyId: string) =
         let request: QrySettlementInfoConfirmRequest =
@@ -1154,7 +1164,9 @@ type TraderClient
             request
             api.ReqQrySettlementInfoConfirm
 
-    member this.QueryInvestorPositionCombineDetailAsync(combInstrumentId: string, ?exchangeId: string, ?investUnitId: string) =
+    member this.QueryInvestorPositionCombineDetailAsync
+        (combInstrumentId: string, ?exchangeId: string, ?investUnitId: string)
+        =
         let request: QryInvestorPositionCombineDetailRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1170,8 +1182,7 @@ type TraderClient
 
     member this.QueryCfmmcTradingAccountKeyAsync() =
         let request: QryCfmmcTradingAccountKeyRequest =
-            { BrokerId = Some options.BrokerId
-              InvestorId = Some options.UserId }
+            { BrokerId = Some options.BrokerId; InvestorId = Some options.UserId }
 
         this.QueryAsync<CfmmcTradingAccountKey, QryCfmmcTradingAccountKeyRequest>
             (nameof QryCfmmcTradingAccountKeyRequest)
@@ -1187,7 +1198,10 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<EWarrantOffset, QryEWarrantOffsetRequest>(nameof QryEWarrantOffsetRequest) request api.ReqQryEWarrantOffset
+        this.QueryAsync<EWarrantOffset, QryEWarrantOffsetRequest>
+            (nameof QryEWarrantOffsetRequest)
+            request
+            api.ReqQryEWarrantOffset
 
     member this.QueryInvestorProductGroupMarginAsync
         (productGroupId: string, ?hedgeFlag: HedgeFlag, ?exchangeId: string, ?investUnitId: string)
@@ -1224,7 +1238,7 @@ type TraderClient
               FromCurrencyId = fromCurrencyId
               ToCurrencyId = toCurrencyId }
 
-        this.QueryAsync<ExchangeRate, QryExchangeRate>(nameof QryExchangeRate) request api.ReqQryExchangeRate
+        this.QueryAsync<ExchangeRate, QryExchangeRate> (nameof QryExchangeRate) request api.ReqQryExchangeRate
 
     member this.QuerySecAgentAcIdMapAsync(accountId: string, currencyId: string) =
         let request: QrySecAgentAcIdMapRequest =
@@ -1240,9 +1254,7 @@ type TraderClient
 
     member this.QueryProductExchRateAsync(productId: string, ?exchangeId: string) =
         let request: QryProductExchRateRequest =
-            { Reserve1 = None
-              ExchangeId = exchangeId
-              ProductId = productId }
+            { Reserve1 = None; ExchangeId = exchangeId; ProductId = productId }
 
         this.QueryAsync<ProductExchRate, QryProductExchRateRequest>
             (nameof QryProductExchRateRequest)
@@ -1251,11 +1263,12 @@ type TraderClient
 
     member this.QueryProductGroupAsync(exchangeId: string, productId: string) =
         let request: QryProductGroupRequest =
-            { Reserve1 = None
-              ExchangeId = exchangeId
-              ProductId = productId }
+            { Reserve1 = None; ExchangeId = exchangeId; ProductId = productId }
 
-        this.QueryAsync<ProductGroup, QryProductGroupRequest>(nameof QryProductGroupRequest) request api.ReqQryProductGroup
+        this.QueryAsync<ProductGroup, QryProductGroupRequest>
+            (nameof QryProductGroupRequest)
+            request
+            api.ReqQryProductGroup
 
     member this.QueryMmInstrumentCommissionRateAsync(instrumentId: string) =
         let request: QryMmInstrumentCommissionRateRequest =
@@ -1307,9 +1320,7 @@ type TraderClient
             api.ReqQrySecAgentTradingAccount
 
     member this.QuerySecAgentCheckModeAsync() =
-        let request: QrySecAgentCheckModeRequest =
-            { BrokerId = options.BrokerId
-              InvestorId = options.UserId }
+        let request: QrySecAgentCheckModeRequest = { BrokerId = options.BrokerId; InvestorId = options.UserId }
 
         this.QueryAsync<SecAgentCheckMode, QrySecAgentCheckModeRequest>
             (nameof QrySecAgentCheckModeRequest)
@@ -1318,8 +1329,7 @@ type TraderClient
 
     member this.QuerySecAgentTradeInfoAsync(brokerSecAgentId: string) =
         let request: QrySecAgentTradeInfoRequest =
-            { BrokerId = options.BrokerId
-              BrokerSecAgentId = brokerSecAgentId }
+            { BrokerId = options.BrokerId; BrokerSecAgentId = brokerSecAgentId }
 
         this.QueryAsync<SecAgentTradeInfo, QrySecAgentTradeInfoRequest>
             (nameof QrySecAgentTradeInfoRequest)
@@ -1327,8 +1337,14 @@ type TraderClient
             api.ReqQrySecAgentTradeInfo
 
     member this.QueryOptionInstrTradeCostAsync
-        (instrumentId: string, hedgeFlag: HedgeFlag, inputPrice: decimal, underlyingPrice: decimal,
-         ?exchangeId: string, ?investUnitId: string)
+        (
+            instrumentId: string,
+            hedgeFlag: HedgeFlag,
+            inputPrice: decimal,
+            underlyingPrice: decimal,
+            ?exchangeId: string,
+            ?investUnitId: string
+        )
         =
         let request: QryOptionInstrTradeCostRequest =
             { BrokerId = options.BrokerId
@@ -1361,8 +1377,13 @@ type TraderClient
             api.ReqQryOptionInstrCommRate
 
     member this.QueryExecOrderAsync
-        (exchangeId: string, execOrderSysId: string, insertTimeStart: string, insertTimeEnd: string,
-         instrumentId: string)
+        (
+            exchangeId: string,
+            execOrderSysId: string,
+            insertTimeStart: string,
+            insertTimeEnd: string,
+            instrumentId: string
+        )
         =
         let request: QryExecOrderRequest =
             { BrokerId = options.BrokerId
@@ -1374,11 +1395,10 @@ type TraderClient
               InsertTimeEnd = insertTimeEnd
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ExecOrder, QryExecOrderRequest>(nameof QryExecOrderRequest) request api.ReqQryExecOrder
+        this.QueryAsync<ExecOrder, QryExecOrderRequest> (nameof QryExecOrderRequest) request api.ReqQryExecOrder
 
     member this.QueryForQuoteAsync
-        (exchangeId: string, insertTimeStart: string, insertTimeEnd: string, instrumentId: string,
-         ?investUnitId: string)
+        (exchangeId: string, insertTimeStart: string, insertTimeEnd: string, instrumentId: string, ?investUnitId: string)
         =
         let request: QryForQuoteRequest =
             { BrokerId = options.BrokerId
@@ -1390,11 +1410,17 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ForQuote, QryForQuoteRequest>(nameof QryForQuoteRequest) request api.ReqQryForQuote
+        this.QueryAsync<ForQuote, QryForQuoteRequest> (nameof QryForQuoteRequest) request api.ReqQryForQuote
 
     member this.QueryQuoteAsync
-        (exchangeId: string, quoteSysId: string, insertTimeStart: string, insertTimeEnd: string,
-         instrumentId: string, ?investUnitId: string)
+        (
+            exchangeId: string,
+            quoteSysId: string,
+            insertTimeStart: string,
+            insertTimeEnd: string,
+            instrumentId: string,
+            ?investUnitId: string
+        )
         =
         let request: QryQuoteRequest =
             { BrokerId = options.BrokerId
@@ -1407,11 +1433,16 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<Quote, QryQuoteRequest>(nameof QryQuoteRequest) request api.ReqQryQuote
+        this.QueryAsync<Quote, QryQuoteRequest> (nameof QryQuoteRequest) request api.ReqQryQuote
 
     member this.QueryOptionSelfCloseAsync
-        (exchangeId: string, optionSelfCloseSysId: string, insertTimeStart: string, insertTimeEnd: string,
-         instrumentId: string)
+        (
+            exchangeId: string,
+            optionSelfCloseSysId: string,
+            insertTimeStart: string,
+            insertTimeEnd: string,
+            instrumentId: string
+        )
         =
         let request: QryOptionSelfCloseRequest =
             { BrokerId = options.BrokerId
@@ -1434,7 +1465,7 @@ type TraderClient
               InvestorId = Some options.UserId
               InvestUnitId = investUnitId }
 
-        this.QueryAsync<InvestUnit, QryInvestUnitRequest>(nameof QryInvestUnitRequest) request api.ReqQryInvestUnit
+        this.QueryAsync<InvestUnit, QryInvestUnitRequest> (nameof QryInvestUnitRequest) request api.ReqQryInvestUnit
 
     member this.QueryCombInstrumentGuardAsync(exchangeId: string, ?instrumentId: string) =
         let request: QryCombInstrumentGuardRequest =
@@ -1457,7 +1488,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<CombAction, QryCombActionRequest>(nameof QryCombActionRequest) request api.ReqQryCombAction
+        this.QueryAsync<CombAction, QryCombActionRequest> (nameof QryCombActionRequest) request api.ReqQryCombAction
 
     member this.QueryTransferSerialAsync(accountId: string, bankId: string, currencyId: string) =
         let request: QryTransferSerialRequest =
@@ -1471,7 +1502,9 @@ type TraderClient
             request
             api.ReqQryTransferSerial
 
-    member this.QueryAccountregisterAsync(?accountId: string, ?bankId: string, ?bankBranchId: string, ?currencyId: string) =
+    member this.QueryAccountregisterAsync
+        (?accountId: string, ?bankId: string, ?bankBranchId: string, ?currencyId: string)
+        =
         let request: QryAccountregisterRequest =
             { BrokerId = Some options.BrokerId
               AccountId = accountId
@@ -1486,11 +1519,12 @@ type TraderClient
 
     member this.QueryContractBankAsync(bankId: string, bankBrchId: string) =
         let request: QryContractBankRequest =
-            { BrokerId = options.BrokerId
-              BankId = bankId
-              BankBrchId = bankBrchId }
+            { BrokerId = options.BrokerId; BankId = bankId; BankBrchId = bankBrchId }
 
-        this.QueryAsync<ContractBank, QryContractBankRequest>(nameof QryContractBankRequest) request api.ReqQryContractBank
+        this.QueryAsync<ContractBank, QryContractBankRequest>
+            (nameof QryContractBankRequest)
+            request
+            api.ReqQryContractBank
 
     member this.QueryParkedOrderAsync(exchangeId: string, instrumentId: string, ?investUnitId: string) =
         let request: QryParkedOrderRequest =
@@ -1501,7 +1535,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ParkedOrder, QryParkedOrderRequest>(nameof QryParkedOrderRequest) request api.ReqQryParkedOrder
+        this.QueryAsync<ParkedOrder, QryParkedOrderRequest> (nameof QryParkedOrderRequest) request api.ReqQryParkedOrder
 
     member this.QueryParkedOrderActionAsync(exchangeId: string, instrumentId: string, ?investUnitId: string) =
         let request: QryParkedOrderActionRequest =
@@ -1523,7 +1557,10 @@ type TraderClient
               InvestorId = options.UserId
               InvestUnitId = investUnitId }
 
-        this.QueryAsync<TradingNotice, QryTradingNoticeRequest>(nameof QryTradingNoticeRequest) request api.ReqQryTradingNotice
+        this.QueryAsync<TradingNotice, QryTradingNoticeRequest>
+            (nameof QryTradingNoticeRequest)
+            request
+            api.ReqQryTradingNotice
 
     member this.QueryBrokerTradingParamsAsync(currencyId: string, ?accountId: string) =
         let request: QryBrokerTradingParamsRequest =
@@ -1561,8 +1598,14 @@ type TraderClient
             api.ReqQueryCfmmcTradingAccountToken
 
     member this.QueryClassifiedInstrumentAsync
-        (tradingType: TradingType, classType: ClassType, ?instrumentId: string, ?exchangeId: string, ?exchangeInstId: string,
-         ?productId: string)
+        (
+            tradingType: TradingType,
+            classType: ClassType,
+            ?instrumentId: string,
+            ?exchangeId: string,
+            ?exchangeInstId: string,
+            ?productId: string
+        )
         =
         let request: QryClassifiedInstrumentRequest =
             { InstrumentId = instrumentId
@@ -1578,9 +1621,7 @@ type TraderClient
             api.ReqQryClassifiedInstrument
 
     member this.QueryCombPromotionParamAsync(?exchangeId: string, ?instrumentId: string) =
-        let request: QryCombPromotionParamRequest =
-            { ExchangeId = exchangeId
-              InstrumentId = instrumentId }
+        let request: QryCombPromotionParamRequest = { ExchangeId = exchangeId; InstrumentId = instrumentId }
 
         this.QueryAsync<CombPromotionParam, QryCombPromotionParamRequest>
             (nameof QryCombPromotionParamRequest)
@@ -1629,16 +1670,16 @@ type TraderClient
             api.ReqQrySpbmOptionParameter
 
     member this.QuerySpbmIntraParameterAsync(exchangeId: string, prodFamilyCode: string) =
-        let request: QrySpbmIntraParameterRequest =
-            { ExchangeId = exchangeId
-              ProdFamilyCode = prodFamilyCode }
+        let request: QrySpbmIntraParameterRequest = { ExchangeId = exchangeId; ProdFamilyCode = prodFamilyCode }
 
         this.QueryAsync<SpbmIntraParameter, QrySpbmIntraParameterRequest>
             (nameof QrySpbmIntraParameterRequest)
             request
             api.ReqQrySpbmIntraParameter
 
-    member this.QuerySpbmInterParameterAsync(exchangeId: string, leg1ProdFamilyCode: string, leg2ProdFamilyCode: string) =
+    member this.QuerySpbmInterParameterAsync
+        (exchangeId: string, leg1ProdFamilyCode: string, leg2ProdFamilyCode: string)
+        =
         let request: QrySpbmInterParameterRequest =
             { ExchangeId = exchangeId
               Leg1ProdFamilyCode = leg1ProdFamilyCode
@@ -1649,9 +1690,7 @@ type TraderClient
             request
             api.ReqQrySpbmInterParameter
 
-    member this.QuerySpbmPortfDefinitionAsync
-        (exchangeId: string, portfolioDefId: string, prodFamilyCode: string)
-        =
+    member this.QuerySpbmPortfDefinitionAsync(exchangeId: string, portfolioDefId: string, prodFamilyCode: string) =
         let request: QrySpbmPortfDefinitionRequest =
             { ExchangeId = exchangeId
               PortfolioDefId = portfolioDefId
@@ -1722,7 +1761,10 @@ type TraderClient
     member this.QuerySpmmInstParamAsync(instrumentId: string) =
         let request: QrySpmmInstParamRequest = { InstrumentId = instrumentId }
 
-        this.QueryAsync<SpmmInstParam, QrySpmmInstParamRequest>(nameof QrySpmmInstParamRequest) request api.ReqQrySpmmInstParam
+        this.QueryAsync<SpmmInstParam, QrySpmmInstParamRequest>
+            (nameof QrySpmmInstParamRequest)
+            request
+            api.ReqQrySpmmInstParam
 
     member this.QuerySpmmProductParamAsync(productId: string) =
         let request: QrySpmmProductParamRequest = { ProductId = productId }
@@ -1732,7 +1774,9 @@ type TraderClient
             request
             api.ReqQrySpmmProductParam
 
-    member this.QuerySpbmAddOnInterParameterAsync(exchangeId: string, leg1ProdFamilyCode: string, leg2ProdFamilyCode: string) =
+    member this.QuerySpbmAddOnInterParameterAsync
+        (exchangeId: string, leg1ProdFamilyCode: string, leg2ProdFamilyCode: string)
+        =
         let request: QrySpbmAddOnInterParameterRequest =
             { ExchangeId = exchangeId
               Leg1ProdFamilyCode = leg1ProdFamilyCode
@@ -1814,9 +1858,7 @@ type TraderClient
             api.ReqQryInvestorProdRcamsMargin
 
     member this.QueryRuleInstrParameterAsync(exchangeId: string, instrumentId: string) =
-        let request: QryRuleInstrParameterRequest =
-            { ExchangeId = exchangeId
-              InstrumentId = instrumentId }
+        let request: QryRuleInstrParameterRequest = { ExchangeId = exchangeId; InstrumentId = instrumentId }
 
         this.QueryAsync<RuleInstrParameter, QryRuleInstrParameterRequest>
             (nameof QryRuleInstrParameterRequest)
@@ -1824,9 +1866,7 @@ type TraderClient
             api.ReqQryRuleInstrParameter
 
     member this.QueryRuleIntraParameterAsync(exchangeId: string, prodFamilyCode: string) =
-        let request: QryRuleIntraParameterRequest =
-            { ExchangeId = exchangeId
-              ProdFamilyCode = prodFamilyCode }
+        let request: QryRuleIntraParameterRequest = { ExchangeId = exchangeId; ProdFamilyCode = prodFamilyCode }
 
         this.QueryAsync<RuleIntraParameter, QryRuleIntraParameterRequest>
             (nameof QryRuleIntraParameterRequest)
@@ -1847,9 +1887,7 @@ type TraderClient
             request
             api.ReqQryRuleInterParameter
 
-    member this.QueryInvestorProdRuleMarginAsync
-        (exchangeId: string, prodFamilyCode: string, commodityGroupId: string)
-        =
+    member this.QueryInvestorProdRuleMarginAsync(exchangeId: string, prodFamilyCode: string, commodityGroupId: string) =
         let request: QryInvestorProdRuleMarginRequest =
             { ExchangeId = exchangeId
               BrokerId = options.BrokerId
@@ -1887,7 +1925,7 @@ type TraderClient
     member this.QueryCombLegAsync(legInstrumentId: string) =
         let request: QryCombLeg = { LegInstrumentId = legInstrumentId }
 
-        this.QueryAsync<CombLeg, QryCombLeg>(nameof QryCombLeg) request api.ReqQryCombLeg
+        this.QueryAsync<CombLeg, QryCombLeg> (nameof QryCombLeg) request api.ReqQryCombLeg
 
     member this.QueryOffsetSettingAsync(productId: string, offsetType: OffsetType) =
         let request: QryOffsetSettingRequest =
@@ -1896,9 +1934,14 @@ type TraderClient
               ProductId = productId
               OffsetType = offsetType }
 
-        this.QueryAsync<OffsetSetting, QryOffsetSettingRequest>(nameof QryOffsetSettingRequest) request api.ReqQryOffsetSetting
+        this.QueryAsync<OffsetSetting, QryOffsetSettingRequest>
+            (nameof QryOffsetSettingRequest)
+            request
+            api.ReqQryOffsetSetting
 
-    member this.QuerySpdApplyAsync(exchangeId: string, orderSysId: string, firstLegInstrumentId: string, secondLegInstrumentId: string) =
+    member this.QuerySpdApplyAsync
+        (exchangeId: string, orderSysId: string, firstLegInstrumentId: string, secondLegInstrumentId: string)
+        =
         let request: QrySpdApplyRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1907,7 +1950,7 @@ type TraderClient
               FirstLegInstrumentId = firstLegInstrumentId
               SecondLegInstrumentId = secondLegInstrumentId }
 
-        this.QueryAsync<SpdApply, QrySpdApplyRequest>(nameof QrySpdApplyRequest) request api.ReqQrySpdApply
+        this.QueryAsync<SpdApply, QrySpdApplyRequest> (nameof QrySpdApplyRequest) request api.ReqQrySpdApply
 
     member this.QueryHedgeCfmAsync(exchangeId: string, orderSysId: string, instrumentId: string) =
         let request: QryHedgeCfmRequest =
@@ -1917,4 +1960,4 @@ type TraderClient
               OrderSysId = orderSysId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<HedgeCfm, QryHedgeCfmRequest>(nameof QryHedgeCfmRequest) request api.ReqQryHedgeCfm
+        this.QueryAsync<HedgeCfm, QryHedgeCfmRequest> (nameof QryHedgeCfmRequest) request api.ReqQryHedgeCfm

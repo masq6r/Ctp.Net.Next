@@ -3,6 +3,7 @@ namespace Ctp.Net
 open System
 open FSharpPlus
 open Ctp.Net.Bridge
+open System.Threading.Tasks
 open Microsoft.Extensions.Logging
 
 type private MdAgentMessage =
@@ -22,7 +23,8 @@ type MdClient
         ?encodings: CtpEncodingOptions,
         ?useUdp: bool,
         ?useMulticast: bool,
-        ?loggerFactory: ILoggerFactory
+        ?loggerFactory: ILoggerFactory,
+        ?flowControl: CtpFlowControlOptions
     )
     =
     let loggerFactory = defaultArg loggerFactory Abstractions.NullLoggerFactory.Instance
@@ -55,6 +57,8 @@ type MdClient
             options.ProductionMode,
             encodings = bridgeEncodings
         )
+
+    let requestFlow = FlowController(defaultArg flowControl CtpFlowControlOptions.Default, logger = logger)
 
     let connectionCoordinator =
         ConnectionCoordinator(
@@ -170,62 +174,177 @@ type MdClient
 
     member _.Join() = api.Join()
 
-    member _.LoginAsync() =
-        logger.LogDebug("Sending login request")
-        let requestId = nextRequestId ()
+    member private _.RunSinglePendingOperationAsync<'TRequest, 'TResponse>
+        (operationName: string)
+        (request: 'TRequest)
+        (pendingState: SinglePendingResult<Result<'TResponse, RspInfo>>)
+        (apiCall: 'TRequest * int -> int)
+        (onAccepted: 'TRequest -> unit)
+        : Async<Result<'TResponse, RspInfo>>
+        =
+        async {
+            let! cancellationToken = Async.CancellationToken
+
+            let rec executeAttempt attempt = async {
+                do!
+                    requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
+                    |> Async.AwaitTask
+
+                logger.LogDebug("Sending {OperationName} request", operationName)
+
+                let requestId = nextRequestId ()
+                let completion = pendingState.Begin()
+                let result = apiCall (request, requestId)
+
+                if result <> 0 then
+                    pendingState.TryTake() |> ignore
+
+                    if requestFlow.ShouldRetryNativeReturnCode(attempt, result) then
+                        do!
+                            requestFlow.DelayBeforeNativeRetryAsync(
+                                operationName,
+                                attempt + 1,
+                                result,
+                                cancellationToken = cancellationToken
+                            )
+                            |> Async.AwaitTask
+
+                        return! executeAttempt (attempt + 1)
+                    else
+                        logger.LogError(
+                            "{OperationName} request failed with native return code {ReturnCode}",
+                            operationName,
+                            result
+                        )
+
+                        completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+                        return! (completion.Task |> ClientHelpers.awaitTask)
+                else
+                    onAccepted request
+                    return! (completion.Task |> ClientHelpers.awaitTask)
+            }
+
+            return! executeAttempt 0
+        }
+
+    member private _.RunSubscriptionBatchAsync
+        (operationName: string)
+        (requested: string list)
+        (pendingState: SinglePendingRequest<string list, Result<string list, RspInfo>>)
+        (apiCall: string list -> int)
+        : Async<Result<string list, RspInfo>>
+        =
+        async {
+            let! cancellationToken = Async.CancellationToken
+
+            let rec executeAttempt attempt = async {
+                do!
+                    requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
+                    |> Async.AwaitTask
+
+                logger.LogDebug(
+                    "Sending {OperationName} batch for {InstrumentCount} instruments",
+                    operationName,
+                    requested.Length
+                )
+
+                let completion = pendingState.Begin requested
+                let result = apiCall requested
+
+                if result <> 0 then
+                    pendingState.TryTake() |> ignore
+
+                    if requestFlow.ShouldRetryNativeReturnCode(attempt, result) then
+                        do!
+                            requestFlow.DelayBeforeNativeRetryAsync(
+                                operationName,
+                                attempt + 1,
+                                result,
+                                cancellationToken = cancellationToken
+                            )
+                            |> Async.AwaitTask
+
+                        return! executeAttempt (attempt + 1)
+                    else
+                        logger.LogError(
+                            "{OperationName} failed with native return code {ReturnCode}",
+                            operationName,
+                            result
+                        )
+
+                        completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+                        return! (completion.Task |> ClientHelpers.awaitTask)
+                else
+                    return! (completion.Task |> ClientHelpers.awaitTask)
+            }
+
+            return! executeAttempt 0
+        }
+
+    member private this.RunSubscriptionAsync
+        (operationName: string)
+        (instrumentIds: string list)
+        (pendingState: SinglePendingRequest<string list, Result<string list, RspInfo>>)
+        (apiCall: string list -> int)
+        : Async<Result<string list, RspInfo>>
+        =
+        async {
+            let! cancellationToken = Async.CancellationToken
+            let batches = requestFlow.BatchSubscriptions instrumentIds
+
+            let rec loop completedBatches remainingBatches = async {
+                match remainingBatches with
+                | [] -> return Ok(List.rev completedBatches |> List.concat)
+                | batch :: rest ->
+                    let! result = this.RunSubscriptionBatchAsync operationName batch pendingState apiCall
+
+                    match result with
+                    | Error error -> return Error error
+                    | Ok completedBatch ->
+                        match rest with
+                        | [] -> return Ok(List.rev (completedBatch :: completedBatches) |> List.concat)
+                        | _ ->
+                            do!
+                                Task.Delay(requestFlow.SubscriptionBatchDelay, cancellationToken)
+                                |> Async.AwaitTask
+
+                            return! loop (completedBatch :: completedBatches) rest
+            }
+
+            return! loop [] batches
+        }
+
+    member this.LoginAsync() =
         let request = OptionHelpers.createUserLoginRequest options
-        let completion = loginPending.Begin()
-        let result = api.ReqUserLogin(request, requestId)
 
-        if result <> 0 then
-            logger.LogError("Login request failed with native return code {ReturnCode}", result)
-            loginPending.TryTake() |> ignore
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
+        this.RunSinglePendingOperationAsync<UserLoginRequest, UserLoginResponse>
+            "Login"
+            request
+            loginPending
+            api.ReqUserLogin
+            ignore
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.LogoutAsync() =
-        logger.LogDebug("Sending logout request")
-        let requestId = nextRequestId ()
+    member this.LogoutAsync() =
         let request = OptionHelpers.createUserLogoutRequest options
-        let completion = logoutPending.Begin()
-        let result = api.ReqUserLogout(request, requestId)
 
-        if result <> 0 then
-            logger.LogError("Logout request failed with native return code {ReturnCode}", result)
-            logoutPending.TryTake() |> ignore
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-        else
-            // Current CTP SDK does not reliably invoke OnRspUserLogout, so a successful request is treated as completion.
-            logoutPending.TrySetResult(Ok { BrokerId = request.BrokerId; UserId = request.UserId })
+        this.RunSinglePendingOperationAsync<UserLogoutRequest, UserLogoutResponse>
+            "Logout"
+            request
+            logoutPending
+            api.ReqUserLogout
+            (fun acceptedRequest ->
+                // Current CTP SDK does not reliably invoke OnRspUserLogout, so a successful request is treated as completion.
+                logoutPending.TrySetResult(Ok { BrokerId = acceptedRequest.BrokerId; UserId = acceptedRequest.UserId }))
 
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.SubscribeMarketDataAsync(instrumentIds: string seq) =
+    member this.SubscribeMarketDataAsync(instrumentIds: string seq) =
         let requested = List.ofSeq instrumentIds
         logger.LogDebug("Subscribing to {InstrumentCount} instruments", requested.Length)
-        let completion = subscribePending.Begin requested
-        let result = api.SubscribeMarketData requested
+        this.RunSubscriptionAsync "SubscribeMarketData" requested subscribePending api.SubscribeMarketData
 
-        if result <> 0 then
-            logger.LogError("SubscribeMarketData failed with native return code {ReturnCode}", result)
-            subscribePending.TryTake() |> ignore
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-
-        completion.Task |> ClientHelpers.awaitTask
-
-    member _.UnsubscribeMarketDataAsync(instrumentIds: string seq) =
+    member this.UnsubscribeMarketDataAsync(instrumentIds: string seq) =
         let requested = List.ofSeq instrumentIds
         logger.LogDebug("Unsubscribing from {InstrumentCount} instruments", requested.Length)
-        let completion = unsubscribePending.Begin requested
-        let result = api.UnsubscribeMarketData requested
-
-        if result <> 0 then
-            logger.LogError("UnsubscribeMarketData failed with native return code {ReturnCode}", result)
-            unsubscribePending.TryTake() |> ignore
-            completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-
-        completion.Task |> ClientHelpers.awaitTask
+        this.RunSubscriptionAsync "UnsubscribeMarketData" requested unsubscribePending api.UnsubscribeMarketData
 
     interface IDisposable with
         member _.Dispose() = (api :> IDisposable).Dispose()
