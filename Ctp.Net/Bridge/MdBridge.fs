@@ -4,7 +4,7 @@ open System
 open Microsoft.Win32.SafeHandles
 open System.Runtime.InteropServices
 
-type DepthMarketData =
+type DepthMarketDataResponse =
     { TradingDay: string
       ExchangeId: string
       LastPrice: decimal
@@ -59,9 +59,9 @@ type MdCallbacks =
       RspUserLogin: (UserLoginResponse option -> RspInfo option -> int -> bool -> unit) option
       RspUserLogout: (UserLogoutResponse option -> RspInfo option -> int -> bool -> unit) option
       RspError: (RspInfo option -> int -> bool -> unit) option
-      RspSubMarketData: (SpecificInstrument option -> RspInfo option -> int -> bool -> unit) option
-      RspUnsubMarketData: (SpecificInstrument option -> RspInfo option -> int -> bool -> unit) option
-      RtnDepthMarketData: (DepthMarketData -> unit) option }
+      RspSubMarketData: (SpecificInstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspUnsubMarketData: (SpecificInstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
+      RtnDepthMarketData: (DepthMarketDataResponse -> unit) option }
 
     static member Empty =
         { FrontConnected = None

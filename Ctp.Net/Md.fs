@@ -13,10 +13,10 @@ type private MdAgentMessage =
     | HeartBeatWarning of int
     | RspError of RspInfo option * int * bool
     | RspUserLogin of UserLoginResponse option * RspInfo option * int * bool
-    | RspSubMarketData of SpecificInstrument option * RspInfo option * int * bool
-    | RspUnsubMarketData of SpecificInstrument option * RspInfo option * int * bool
+    | RspSubMarketData of SpecificInstrumentResponse option * RspInfo option * int * bool
+    | RspUnsubMarketData of SpecificInstrumentResponse option * RspInfo option * int * bool
     | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
-    | RtnDepthMarketData of DepthMarketData
+    | RtnDepthMarketData of DepthMarketDataResponse
 
 type MdClient
     (
@@ -48,7 +48,7 @@ type MdClient
     let frontDisconnectedEvent = Event<int>()
     let heartBeatWarningEvent = Event<int>()
     let rspErrorEvent = Event<RspInfo>()
-    let depthMarketDataEvent = Event<DepthMarketData>()
+    let depthMarketDataEvent = Event<DepthMarketDataResponse>()
 
     let api =
         new MdApi(

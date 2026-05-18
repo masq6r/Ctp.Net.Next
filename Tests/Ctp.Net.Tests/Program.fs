@@ -523,14 +523,14 @@ type ClientCancellationApiTests() =
 
     [<Fact>]
     member _.``trader query exposes explicit cancellation token overload``() =
-        let compileOnly: CancellationToken -> TraderClient -> Async<Result<TradingAccount list, RspInfo>> =
+        let compileOnly: CancellationToken -> TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
             fun ct client -> client.QueryTradingAccountAsync("CNY", cancellationToken = ct)
 
         Assert.NotNull(box compileOnly)
 
     [<Fact>]
     member _.``trader query keeps ambient cancellation overload``() =
-        let compileOnly: TraderClient -> Async<Result<TradingAccount list, RspInfo>> =
+        let compileOnly: TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
             fun client -> client.QueryTradingAccountAsync("CNY")
 
         Assert.NotNull(box compileOnly)

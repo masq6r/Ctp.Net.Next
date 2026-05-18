@@ -224,7 +224,7 @@ type MdSmokeTests() =
         use client = new MdClient(options)
 
         let dataReceived =
-            TaskCompletionSource<DepthMarketData> TaskCreationOptions.RunContinuationsAsynchronously
+            TaskCompletionSource<DepthMarketDataResponse> TaskCreationOptions.RunContinuationsAsynchronously
 
         client.DepthMarketDataReceived.Add(fun data ->
             if String.Equals(data.InstrumentId, config.InstrumentId, StringComparison.OrdinalIgnoreCase) then

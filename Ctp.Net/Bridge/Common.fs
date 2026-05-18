@@ -167,7 +167,7 @@ module internal NumericHelpers =
 
 type RspInfo = { ErrorId: int; ErrorMessage: string; RawErrorMessage: byte array }
 
-type SpecificInstrument = { InstrumentId: string }
+type SpecificInstrumentResponse = { InstrumentId: string }
 
 type UserLoginResponse =
     { TradingDay: string
