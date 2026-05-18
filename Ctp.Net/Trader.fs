@@ -2,6 +2,7 @@ namespace Ctp.Net
 
 open System
 open Ctp.Net.Bridge
+open System.Threading
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.Logging.Abstractions
 
@@ -352,7 +353,10 @@ type TraderClient
     member _.NotificationReceived = notificationEvent.Publish
     member _.AsyncErrorReceived = asyncErrorEvent.Publish
 
-    member _.Connect(?timeout: TimeSpan) = connectionCoordinator.Connect(?timeout = timeout)
+    member _.Connect(?timeout: TimeSpan, ?cancellationToken: CancellationToken) =
+        match timeout with
+        | Some timeout -> connectionCoordinator.Connect(timeout = timeout, ?cancellationToken = cancellationToken)
+        | None -> connectionCoordinator.Connect(?cancellationToken = cancellationToken)
 
     member _.Join() = api.Join()
 
@@ -361,10 +365,12 @@ type TraderClient
         (request: 'TRequest)
         (apiCall: 'TRequest * int -> int)
         (onAccepted: int -> unit)
+        (cancellationToken: CancellationToken option)
         : Async<Result<'TResponse list, RspInfo>>
         =
         async {
-            let! cancellationToken = Async.CancellationToken
+            let! ambientCancellationToken = Async.CancellationToken
+            let cancellationToken = defaultArg cancellationToken ambientCancellationToken
 
             let rec executeAttempt attempt = async {
                 do!
@@ -400,63 +406,72 @@ type TraderClient
                         )
 
                         completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-                        return! (completion.Task |> ClientHelpers.awaitTask)
+                        return! (completion.Task |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
                 else
                     onAccepted requestId
-                    return! (completion.Task |> ClientHelpers.awaitTask)
+                    return! (completion.Task |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
             }
 
             return! executeAttempt 0
         }
 
-    member private _.RunCommandAsync (operationName: string) (apiCall: int -> int) : Async<int> = async {
-        let! cancellationToken = Async.CancellationToken
+    member private _.RunCommandAsync
+        (operationName: string)
+        (apiCall: int -> int)
+        (cancellationToken: CancellationToken option)
+        : Async<int>
+        =
+        async {
+            let! ambientCancellationToken = Async.CancellationToken
+            let cancellationToken = defaultArg cancellationToken ambientCancellationToken
 
-        let rec executeAttempt attempt = async {
-            do!
-                requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
-                |> Async.AwaitTask
+            let rec executeAttempt attempt = async {
+                do!
+                    requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
+                    |> Async.AwaitTask
 
-            logger.LogDebug("Sending {OperationName} request", operationName)
+                logger.LogDebug("Sending {OperationName} request", operationName)
 
-            let requestId = nextRequestId ()
-            let result = apiCall requestId
+                let requestId = nextRequestId ()
+                let result = apiCall requestId
 
-            if result <> 0 then
-                if requestFlow.ShouldRetryNativeReturnCode(attempt, result) then
-                    do!
-                        requestFlow.DelayBeforeNativeRetryAsync(
+                if result <> 0 then
+                    if requestFlow.ShouldRetryNativeReturnCode(attempt, result) then
+                        do!
+                            requestFlow.DelayBeforeNativeRetryAsync(
+                                operationName,
+                                attempt + 1,
+                                result,
+                                cancellationToken = cancellationToken
+                            )
+                            |> Async.AwaitTask
+
+                        return! executeAttempt (attempt + 1)
+                    else
+                        logger.LogError(
+                            "{OperationName} request failed with native return code {ReturnCode}",
                             operationName,
-                            attempt + 1,
-                            result,
-                            cancellationToken = cancellationToken
+                            result
                         )
-                        |> Async.AwaitTask
 
-                    return! executeAttempt (attempt + 1)
+                        return requestId
                 else
-                    logger.LogError(
-                        "{OperationName} request failed with native return code {ReturnCode}",
-                        operationName,
-                        result
-                    )
-
                     return requestId
-            else
-                return requestId
-        }
+            }
 
-        return! executeAttempt 0
-    }
+            return! executeAttempt 0
+        }
 
     member private _.QueryAsync<'TItem, 'TRequest>
         (queryName: string)
         (request: 'TRequest)
         (apiCall: 'TRequest * int -> int)
+        (cancellationToken: CancellationToken option)
         : Async<Result<'TItem list, RspInfo>>
         =
         async {
-            let! cancellationToken = Async.CancellationToken
+            let! ambientCancellationToken = Async.CancellationToken
+            let cancellationToken = defaultArg cancellationToken ambientCancellationToken
 
             let! queryLease =
                 requestFlow.AcquireQueryExecutionAsync(cancellationToken = cancellationToken)
@@ -517,10 +532,10 @@ type TraderClient
                     queryLease.Dispose()
             }
 
-            return! queryLifetime |> ClientHelpers.awaitTask
+            return! (queryLifetime |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
         }
 
-    member this.AuthenticateAsync() =
+    member this.AuthenticateAsync(?cancellationToken: CancellationToken) =
         let request = OptionHelpers.createAuthenticateRequest options
 
         this.RunPendingRequestAsync<AuthenticateResponse, AuthenticateRequest>
@@ -528,8 +543,9 @@ type TraderClient
             request
             api.ReqAuthenticate
             ignore
+            cancellationToken
 
-    member this.SettlementInfoConfirmAsync() =
+    member this.SettlementInfoConfirmAsync(?cancellationToken: CancellationToken) =
         let request = OptionHelpers.createSettlementInfoConfirmRequest options
 
         this.RunPendingRequestAsync<SettlementInfoConfirm, SettlementInfoConfirm>
@@ -537,12 +553,19 @@ type TraderClient
             request
             api.ReqSettlementInfoConfirm
             ignore
+            cancellationToken
 
-    member this.LoginAsync() =
+    member this.LoginAsync(?cancellationToken: CancellationToken) =
         let request = OptionHelpers.createUserLoginRequest options
-        this.RunPendingRequestAsync<UserLoginResponse, UserLoginRequest> "Login" request api.ReqUserLogin ignore
 
-    member this.LogoutAsync() =
+        this.RunPendingRequestAsync<UserLoginResponse, UserLoginRequest>
+            "Login"
+            request
+            api.ReqUserLogin
+            ignore
+            cancellationToken
+
+    member this.LogoutAsync(?cancellationToken: CancellationToken) =
         let request = OptionHelpers.createUserLogoutRequest options
 
         this.RunPendingRequestAsync<UserLogoutResponse, UserLogoutRequest>
@@ -557,8 +580,11 @@ type TraderClient
                     None,
                     true
                 ))
+            cancellationToken
 
-    member this.QueryTradingAccountAsync(currencyId: string, ?bizType: BizType, ?accountId: string) =
+    member this.QueryTradingAccountAsync
+        (currencyId: string, ?bizType: BizType, ?accountId: string, ?cancellationToken: CancellationToken)
+        =
         let request =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -570,8 +596,11 @@ type TraderClient
             (nameof QueryTradingAccountRequest)
             request
             api.ReqQryTradingAccount
+            cancellationToken
 
-    member this.QueryInvestorPositionAsync(instrumentId: string, ?exchangeId: string, ?investUnitId: string) =
+    member this.QueryInvestorPositionAsync
+        (instrumentId: string, ?exchangeId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QueryInvestorPositionRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -584,9 +613,16 @@ type TraderClient
             (nameof QueryInvestorPositionRequest)
             request
             api.ReqQryInvestorPosition
+            cancellationToken
 
     member this.QueryInstrumentMarginRateAsync
-        (hedgeFlag: HedgeFlag, instrumentId: string, ?exchangeId: string, ?investUnitId: string)
+        (
+            hedgeFlag: HedgeFlag,
+            instrumentId: string,
+            ?exchangeId: string,
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QueryInstrumentMarginRateRequest =
             { BrokerId = options.BrokerId
@@ -601,8 +637,11 @@ type TraderClient
             (nameof QueryInstrumentMarginRateRequest)
             request
             api.ReqQryInstrumentMarginRate
+            cancellationToken
 
-    member this.QueryExchangeMarginRateAsync(hedgeFlag: HedgeFlag, instrumentId: string, ?exchangeId: string) =
+    member this.QueryExchangeMarginRateAsync
+        (hedgeFlag: HedgeFlag, instrumentId: string, ?exchangeId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QueryExchangeMarginRateRequest =
             { BrokerId = options.BrokerId
               HedgeFlag = hedgeFlag
@@ -614,8 +653,11 @@ type TraderClient
             (nameof QueryExchangeMarginRateRequest)
             request
             api.ReqQryExchangeMarginRate
+            cancellationToken
 
-    member this.QueryInstrumentCommissionRateAsync(instrumentId: string, ?exchangeId: string, ?investUnitId: string) =
+    member this.QueryInstrumentCommissionRateAsync
+        (instrumentId: string, ?exchangeId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QueryInstrumentCommissionRateRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -628,6 +670,7 @@ type TraderClient
             (nameof QueryInstrumentCommissionRateRequest)
             request
             api.ReqQryInstrumentCommissionRate
+            cancellationToken
 
     // ---- Utility / diagnostic methods ----
 
@@ -655,7 +698,9 @@ type TraderClient
 
     // ---- Auth / password / captcha methods ----
 
-    member this.ReqUserPasswordUpdateAsync(oldPassword: string, newPassword: string) =
+    member this.ReqUserPasswordUpdateAsync
+        (oldPassword: string, newPassword: string, ?cancellationToken: CancellationToken)
+        =
         let request: UserPasswordUpdate =
             { BrokerId = options.BrokerId
               UserId = options.UserId
@@ -667,9 +712,16 @@ type TraderClient
             request
             api.ReqUserPasswordUpdate
             ignore
+            cancellationToken
 
     member this.ReqTradingAccountPasswordUpdateAsync
-        (accountId: string, oldPassword: string, newPassword: string, currencyId: string)
+        (
+            accountId: string,
+            oldPassword: string,
+            newPassword: string,
+            currencyId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: TradingAccountPasswordUpdate =
             { BrokerId = options.BrokerId
@@ -683,8 +735,9 @@ type TraderClient
             request
             api.ReqTradingAccountPasswordUpdate
             ignore
+            cancellationToken
 
-    member this.ReqUserAuthMethodAsync(?tradingDay: string) =
+    member this.ReqUserAuthMethodAsync(?tradingDay: string, ?cancellationToken: CancellationToken) =
         let request: UserAuthMethodRequest =
             { BrokerId = Some options.BrokerId
               UserId = Some options.UserId
@@ -695,8 +748,9 @@ type TraderClient
             request
             api.ReqUserAuthMethod
             ignore
+            cancellationToken
 
-    member this.ReqGenUserCaptchaAsync(?tradingDay: string) =
+    member this.ReqGenUserCaptchaAsync(?tradingDay: string, ?cancellationToken: CancellationToken) =
         let request: GenUserCaptchaRequest =
             { BrokerId = Some options.BrokerId
               UserId = Some options.UserId
@@ -707,14 +761,20 @@ type TraderClient
             request
             api.ReqGenUserCaptcha
             ignore
+            cancellationToken
 
-    member this.ReqGenUserTextAsync(?tradingDay: string) =
+    member this.ReqGenUserTextAsync(?tradingDay: string, ?cancellationToken: CancellationToken) =
         let request: GenUserTextRequest =
             { BrokerId = Some options.BrokerId
               UserId = Some options.UserId
               TradingDay = tradingDay }
 
-        this.RunPendingRequestAsync<RspGenUserText, GenUserTextRequest> "GenUserText" request api.ReqGenUserText ignore
+        this.RunPendingRequestAsync<RspGenUserText, GenUserTextRequest>
+            "GenUserText"
+            request
+            api.ReqGenUserText
+            ignore
+            cancellationToken
 
     member this.ReqUserLoginWithCaptchaAsync
         (
@@ -726,7 +786,8 @@ type TraderClient
             ?macAddress: string,
             ?loginRemark: string,
             ?clientIpPort: int,
-            ?clientIpAddress: string
+            ?clientIpAddress: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: UserLoginWithCaptchaRequest =
@@ -749,6 +810,7 @@ type TraderClient
             request
             api.ReqUserLoginWithCaptcha
             ignore
+            cancellationToken
 
     member this.ReqUserLoginWithTextAsync
         (
@@ -760,7 +822,8 @@ type TraderClient
             ?macAddress: string,
             ?loginRemark: string,
             ?clientIpPort: int,
-            ?clientIpAddress: string
+            ?clientIpAddress: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: UserLoginWithTextRequest =
@@ -783,6 +846,7 @@ type TraderClient
             request
             api.ReqUserLoginWithText
             ignore
+            cancellationToken
 
     member this.ReqUserLoginWithOtpAsync
         (
@@ -794,7 +858,8 @@ type TraderClient
             ?macAddress: string,
             ?loginRemark: string,
             ?clientIpPort: int,
-            ?clientIpAddress: string
+            ?clientIpAddress: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: UserLoginWithOtpRequest =
@@ -817,30 +882,44 @@ type TraderClient
             request
             api.ReqUserLoginWithOtp
             ignore
+            cancellationToken
 
-    member this.ReqGenSmsCodeAsync(mobile: string) =
+    member this.ReqGenSmsCodeAsync(mobile: string, ?cancellationToken: CancellationToken) =
         let request: GenSmsCodeRequest =
             { BrokerId = options.BrokerId; UserId = options.UserId; Mobile = mobile }
 
-        this.RunPendingRequestAsync<RspGenSmsCode, GenSmsCodeRequest> "GenSmsCode" request api.ReqGenSmsCode ignore
+        this.RunPendingRequestAsync<RspGenSmsCode, GenSmsCodeRequest>
+            "GenSmsCode"
+            request
+            api.ReqGenSmsCode
+            ignore
+            cancellationToken
 
     // ---- Order insertion and action ----
 
-    member this.InsertOrderAsync(request: InputOrderRequest) =
-        this.RunCommandAsync "OrderInsert" (fun requestId -> api.ReqOrderInsert(request, requestId))
+    member this.InsertOrderAsync(request: InputOrderRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync "OrderInsert" (fun requestId -> api.ReqOrderInsert(request, requestId)) cancellationToken
 
-    member this.CancelOrderAsync(request: InputOrderActionRequest) =
-        this.RunCommandAsync "OrderAction" (fun requestId -> api.ReqOrderAction(request, requestId))
+    member this.CancelOrderAsync(request: InputOrderActionRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync "OrderAction" (fun requestId -> api.ReqOrderAction(request, requestId)) cancellationToken
 
     // ---- Execution / quote / hedge / combination command methods ----
 
-    member this.ReqExecOrderInsertAsync(request: InputExecOrderRequest) =
-        this.RunCommandAsync "ExecOrderInsert" (fun requestId -> api.ReqExecOrderInsert(request, requestId))
+    member this.ReqExecOrderInsertAsync(request: InputExecOrderRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "ExecOrderInsert"
+            (fun requestId -> api.ReqExecOrderInsert(request, requestId))
+            cancellationToken
 
-    member this.ReqExecOrderActionAsync(request: InputExecOrderActionRequest) =
-        this.RunCommandAsync "ExecOrderAction" (fun requestId -> api.ReqExecOrderAction(request, requestId))
+    member this.ReqExecOrderActionAsync(request: InputExecOrderActionRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "ExecOrderAction"
+            (fun requestId -> api.ReqExecOrderAction(request, requestId))
+            cancellationToken
 
-    member this.ReqForQuoteInsertAsync(instrumentId: string, ?exchangeId: string) =
+    member this.ReqForQuoteInsertAsync
+        (instrumentId: string, ?exchangeId: string, ?cancellationToken: CancellationToken)
+        =
         let request: InputForQuoteRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -854,15 +933,20 @@ type TraderClient
               InstrumentId = instrumentId
               IpAddress = None }
 
-        this.RunCommandAsync "ForQuoteInsert" (fun requestId -> api.ReqForQuoteInsert(request, requestId))
+        this.RunCommandAsync
+            "ForQuoteInsert"
+            (fun requestId -> api.ReqForQuoteInsert(request, requestId))
+            cancellationToken
 
-    member this.ReqQuoteInsertAsync(request: InputQuoteRequest) =
-        this.RunCommandAsync "QuoteInsert" (fun requestId -> api.ReqQuoteInsert(request, requestId))
+    member this.ReqQuoteInsertAsync(request: InputQuoteRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync "QuoteInsert" (fun requestId -> api.ReqQuoteInsert(request, requestId)) cancellationToken
 
-    member this.ReqQuoteActionAsync(request: InputQuoteActionRequest) =
-        this.RunCommandAsync "QuoteAction" (fun requestId -> api.ReqQuoteAction(request, requestId))
+    member this.ReqQuoteActionAsync(request: InputQuoteActionRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync "QuoteAction" (fun requestId -> api.ReqQuoteAction(request, requestId)) cancellationToken
 
-    member this.ReqBatchOrderActionAsync(frontId: int, sessionId: int, ?exchangeId: string) =
+    member this.ReqBatchOrderActionAsync
+        (frontId: int, sessionId: int, ?exchangeId: string, ?cancellationToken: CancellationToken)
+        =
         let request: InputBatchOrderActionRequest =
             { BrokerId = Some options.BrokerId
               InvestorId = options.UserId
@@ -877,52 +961,84 @@ type TraderClient
               MacAddress = None
               IpAddress = None }
 
-        this.RunCommandAsync "BatchOrderAction" (fun requestId -> api.ReqBatchOrderAction(request, requestId))
+        this.RunCommandAsync
+            "BatchOrderAction"
+            (fun requestId -> api.ReqBatchOrderAction(request, requestId))
+            cancellationToken
 
-    member this.ReqOptionSelfCloseInsertAsync(request: InputOptionSelfCloseRequest) =
-        this.RunCommandAsync "OptionSelfCloseInsert" (fun requestId -> api.ReqOptionSelfCloseInsert(request, requestId))
+    member this.ReqOptionSelfCloseInsertAsync
+        (request: InputOptionSelfCloseRequest, ?cancellationToken: CancellationToken)
+        =
+        this.RunCommandAsync
+            "OptionSelfCloseInsert"
+            (fun requestId -> api.ReqOptionSelfCloseInsert(request, requestId))
+            cancellationToken
 
-    member this.ReqOptionSelfCloseActionAsync(request: InputOptionSelfCloseActionRequest) =
-        this.RunCommandAsync "OptionSelfCloseAction" (fun requestId -> api.ReqOptionSelfCloseAction(request, requestId))
+    member this.ReqOptionSelfCloseActionAsync
+        (request: InputOptionSelfCloseActionRequest, ?cancellationToken: CancellationToken)
+        =
+        this.RunCommandAsync
+            "OptionSelfCloseAction"
+            (fun requestId -> api.ReqOptionSelfCloseAction(request, requestId))
+            cancellationToken
 
-    member this.ReqCombActionInsertAsync(request: InputCombActionRequest) =
-        this.RunCommandAsync "CombActionInsert" (fun requestId -> api.ReqCombActionInsert(request, requestId))
+    member this.ReqCombActionInsertAsync(request: InputCombActionRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "CombActionInsert"
+            (fun requestId -> api.ReqCombActionInsert(request, requestId))
+            cancellationToken
 
-    member this.ReqOffsetSettingAsync(request: InputOffsetSettingRequest) =
-        this.RunCommandAsync "OffsetSetting" (fun requestId -> api.ReqOffsetSetting(request, requestId))
+    member this.ReqOffsetSettingAsync(request: InputOffsetSettingRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "OffsetSetting"
+            (fun requestId -> api.ReqOffsetSetting(request, requestId))
+            cancellationToken
 
-    member this.ReqCancelOffsetSettingAsync(request: InputOffsetSettingRequest) =
-        this.RunCommandAsync "CancelOffsetSetting" (fun requestId -> api.ReqCancelOffsetSetting(request, requestId))
+    member this.ReqCancelOffsetSettingAsync(request: InputOffsetSettingRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "CancelOffsetSetting"
+            (fun requestId -> api.ReqCancelOffsetSetting(request, requestId))
+            cancellationToken
 
-    member this.ReqSpdApplyAsync(request: InputSpdApplyRequest) =
-        this.RunCommandAsync "SpdApply" (fun requestId -> api.ReqSpdApply(request, requestId))
+    member this.ReqSpdApplyAsync(request: InputSpdApplyRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync "SpdApply" (fun requestId -> api.ReqSpdApply(request, requestId)) cancellationToken
 
-    member this.ReqSpdApplyActionAsync(request: InputSpdApplyActionRequest) =
-        this.RunCommandAsync "SpdApplyAction" (fun requestId -> api.ReqSpdApplyAction(request, requestId))
+    member this.ReqSpdApplyActionAsync(request: InputSpdApplyActionRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "SpdApplyAction"
+            (fun requestId -> api.ReqSpdApplyAction(request, requestId))
+            cancellationToken
 
-    member this.ReqHedgeCfmAsync(request: InputHedgeCfmRequest) =
-        this.RunCommandAsync "HedgeCfm" (fun requestId -> api.ReqHedgeCfm(request, requestId))
+    member this.ReqHedgeCfmAsync(request: InputHedgeCfmRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync "HedgeCfm" (fun requestId -> api.ReqHedgeCfm(request, requestId)) cancellationToken
 
-    member this.ReqHedgeCfmActionAsync(request: InputHedgeCfmActionRequest) =
-        this.RunCommandAsync "HedgeCfmAction" (fun requestId -> api.ReqHedgeCfmAction(request, requestId))
+    member this.ReqHedgeCfmActionAsync(request: InputHedgeCfmActionRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "HedgeCfmAction"
+            (fun requestId -> api.ReqHedgeCfmAction(request, requestId))
+            cancellationToken
 
     // ---- Parked order methods (FinalOnly) ----
 
-    member this.ReqParkedOrderInsertAsync(request: ParkedOrder) =
+    member this.ReqParkedOrderInsertAsync(request: ParkedOrder, ?cancellationToken: CancellationToken) =
         this.RunPendingRequestAsync<ParkedOrder, ParkedOrder>
             "ParkedOrderInsert"
             request
             api.ReqParkedOrderInsert
             ignore
+            cancellationToken
 
-    member this.ReqParkedOrderActionAsync(request: ParkedOrderAction) =
+    member this.ReqParkedOrderActionAsync(request: ParkedOrderAction, ?cancellationToken: CancellationToken) =
         this.RunPendingRequestAsync<ParkedOrderAction, ParkedOrderAction>
             "ParkedOrderAction"
             request
             api.ReqParkedOrderAction
             ignore
+            cancellationToken
 
-    member this.ReqRemoveParkedOrderAsync(parkedOrderId: string, ?investUnitId: string) =
+    member this.ReqRemoveParkedOrderAsync
+        (parkedOrderId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: RemoveParkedOrder =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -934,8 +1050,11 @@ type TraderClient
             request
             api.ReqRemoveParkedOrder
             ignore
+            cancellationToken
 
-    member this.ReqRemoveParkedOrderActionAsync(parkedOrderActionId: string, ?investUnitId: string) =
+    member this.ReqRemoveParkedOrderActionAsync
+        (parkedOrderActionId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: RemoveParkedOrderAction =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -947,23 +1066,29 @@ type TraderClient
             request
             api.ReqRemoveParkedOrderAction
             ignore
+            cancellationToken
 
     // ---- Bank transfer methods ----
 
-    member this.FromBankToFutureByFutureAsync(request: TransferRequest) =
-        this.RunCommandAsync "FromBankToFutureByFuture" (fun requestId ->
-            api.ReqFromBankToFutureByFuture(request, requestId))
+    member this.FromBankToFutureByFutureAsync(request: TransferRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "FromBankToFutureByFuture"
+            (fun requestId -> api.ReqFromBankToFutureByFuture(request, requestId))
+            cancellationToken
 
-    member this.FromFutureToBankByFutureAsync(request: TransferRequest) =
-        this.RunCommandAsync "FromFutureToBankByFuture" (fun requestId ->
-            api.ReqFromFutureToBankByFuture(request, requestId))
+    member this.FromFutureToBankByFutureAsync(request: TransferRequest, ?cancellationToken: CancellationToken) =
+        this.RunCommandAsync
+            "FromFutureToBankByFuture"
+            (fun requestId -> api.ReqFromFutureToBankByFuture(request, requestId))
+            cancellationToken
 
-    member this.QueryBankAccountMoneyByFutureAsync(request: ReqQueryAccount) =
+    member this.QueryBankAccountMoneyByFutureAsync(request: ReqQueryAccount, ?cancellationToken: CancellationToken) =
         this.RunPendingRequestAsync<ReqQueryAccount, ReqQueryAccount>
             "QueryBankAccountMoneyByFuture"
             request
             api.ReqQueryBankAccountMoneyByFuture
             ignore
+            cancellationToken
 
     // ---- Query methods ----
 
@@ -975,7 +1100,8 @@ type TraderClient
             instrumentId: string,
             ?maxVolume: int,
             ?exchangeId: string,
-            ?investUnitId: string
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryMaxOrderVolumeRequest =
@@ -994,6 +1120,7 @@ type TraderClient
             (nameof QryMaxOrderVolumeRequest)
             request
             api.ReqQryMaxOrderVolume
+            cancellationToken
 
     member this.QueryOrderAsync
         (
@@ -1002,7 +1129,8 @@ type TraderClient
             insertTimeStart: string,
             insertTimeEnd: string,
             instrumentId: string,
-            ?investUnitId: string
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryOrderRequest =
@@ -1016,7 +1144,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<OrderUpdate, QryOrderRequest> (nameof QryOrderRequest) request api.ReqQryOrder
+        this.QueryAsync<OrderUpdate, QryOrderRequest> (nameof QryOrderRequest) request api.ReqQryOrder cancellationToken
 
     member this.QueryTradeAsync
         (
@@ -1025,7 +1153,8 @@ type TraderClient
             ?tradeTimeStart: string,
             ?tradeTimeEnd: string,
             ?investUnitId: string,
-            ?instrumentId: string
+            ?instrumentId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryTradeRequest =
@@ -1039,15 +1168,25 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<TradeUpdate, QryTradeRequest> (nameof QryTradeRequest) request api.ReqQryTrade
+        this.QueryAsync<TradeUpdate, QryTradeRequest> (nameof QryTradeRequest) request api.ReqQryTrade cancellationToken
 
-    member this.QueryInvestorAsync() =
+    member this.QueryInvestorAsync(?cancellationToken: CancellationToken) =
         let request: QryInvestorRequest = { BrokerId = options.BrokerId; InvestorId = options.UserId }
 
-        this.QueryAsync<Investor, QryInvestorRequest> (nameof QryInvestorRequest) request api.ReqQryInvestor
+        this.QueryAsync<Investor, QryInvestorRequest>
+            (nameof QryInvestorRequest)
+            request
+            api.ReqQryInvestor
+            cancellationToken
 
     member this.QueryTradingCodeAsync
-        (exchangeId: string, clientId: string, clientIdType: ClientIdType, ?investUnitId: string)
+        (
+            exchangeId: string,
+            clientId: string,
+            clientIdType: ClientIdType,
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QryTradingCodeRequest =
             { BrokerId = options.BrokerId
@@ -1057,32 +1196,57 @@ type TraderClient
               ClientIdType = clientIdType
               InvestUnitId = investUnitId }
 
-        this.QueryAsync<TradingCode, QryTradingCodeRequest> (nameof QryTradingCodeRequest) request api.ReqQryTradingCode
+        this.QueryAsync<TradingCode, QryTradingCodeRequest>
+            (nameof QryTradingCodeRequest)
+            request
+            api.ReqQryTradingCode
+            cancellationToken
 
-    member this.QueryUserSessionAsync(frontId: int, sessionId: int) =
+    member this.QueryUserSessionAsync(frontId: int, sessionId: int, ?cancellationToken: CancellationToken) =
         let request: QryUserSessionRequest =
             { FrontId = frontId
               SessionId = sessionId
               BrokerId = options.BrokerId
               UserId = options.UserId }
 
-        this.QueryAsync<UserSession, QryUserSessionRequest> (nameof QryUserSessionRequest) request api.ReqQryUserSession
+        this.QueryAsync<UserSession, QryUserSessionRequest>
+            (nameof QryUserSessionRequest)
+            request
+            api.ReqQryUserSession
+            cancellationToken
 
-    member this.QueryExchangeAsync(exchangeId: string) =
+    member this.QueryExchangeAsync(exchangeId: string, ?cancellationToken: CancellationToken) =
         let request: QryExchangeRequest = { ExchangeId = exchangeId }
-        this.QueryAsync<Exchange, QryExchangeRequest> (nameof QryExchangeRequest) request api.ReqQryExchange
 
-    member this.QueryProductAsync(productId: string, ?productClass: ProductClass, ?exchangeId: string) =
+        this.QueryAsync<Exchange, QryExchangeRequest>
+            (nameof QryExchangeRequest)
+            request
+            api.ReqQryExchange
+            cancellationToken
+
+    member this.QueryProductAsync
+        (productId: string, ?productClass: ProductClass, ?exchangeId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryProductRequest =
             { Reserve1 = None
               ProductClass = productClass
               ExchangeId = exchangeId
               ProductId = productId }
 
-        this.QueryAsync<Product, QryProductRequest> (nameof QryProductRequest) request api.ReqQryProduct
+        this.QueryAsync<Product, QryProductRequest>
+            (nameof QryProductRequest)
+            request
+            api.ReqQryProduct
+            cancellationToken
 
     member this.QueryInstrumentAsync
-        (exchangeId: string, instrumentId: string, exchangeInstId: string, productId: string)
+        (
+            exchangeId: string,
+            instrumentId: string,
+            exchangeInstId: string,
+            productId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QryInstrumentRequest =
             { Reserve1 = None
@@ -1093,9 +1257,15 @@ type TraderClient
               ExchangeInstId = exchangeInstId
               ProductId = productId }
 
-        this.QueryAsync<Instrument, QryInstrumentRequest> (nameof QryInstrumentRequest) request api.ReqQryInstrument
+        this.QueryAsync<Instrument, QryInstrumentRequest>
+            (nameof QryInstrumentRequest)
+            request
+            api.ReqQryInstrument
+            cancellationToken
 
-    member this.QueryDepthMarketDataAsync(instrumentId: string, productClass: ProductClass, ?exchangeId: string) =
+    member this.QueryDepthMarketDataAsync
+        (instrumentId: string, productClass: ProductClass, ?exchangeId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryDepthMarketDataRequest =
             { Reserve1 = None
               ExchangeId = exchangeId
@@ -1106,14 +1276,23 @@ type TraderClient
             (nameof QryDepthMarketDataRequest)
             request
             api.ReqQryDepthMarketData
+            cancellationToken
 
-    member this.QueryTraderOfferAsync(?exchangeId: string, ?participantId: string, ?traderId: string) =
+    member this.QueryTraderOfferAsync
+        (?exchangeId: string, ?participantId: string, ?traderId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryTraderOfferRequest =
             { ExchangeId = exchangeId; ParticipantId = participantId; TraderId = traderId }
 
-        this.QueryAsync<TraderOffer, QryTraderOfferRequest> (nameof QryTraderOfferRequest) request api.ReqQryTraderOffer
+        this.QueryAsync<TraderOffer, QryTraderOfferRequest>
+            (nameof QryTraderOfferRequest)
+            request
+            api.ReqQryTraderOffer
+            cancellationToken
 
-    member this.QuerySettlementInfoAsync(tradingDay: string, ?accountId: string, ?currencyId: string) =
+    member this.QuerySettlementInfoAsync
+        (tradingDay: string, ?accountId: string, ?currencyId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QrySettlementInfoRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1125,16 +1304,20 @@ type TraderClient
             (nameof QrySettlementInfoRequest)
             request
             api.ReqQrySettlementInfo
+            cancellationToken
 
-    member this.QueryTransferBankAsync(?bankId: string, ?bankBrchId: string) =
+    member this.QueryTransferBankAsync(?bankId: string, ?bankBrchId: string, ?cancellationToken: CancellationToken) =
         let request: QryTransferBankRequest = { BankId = bankId; BankBrchId = bankBrchId }
 
         this.QueryAsync<TransferBank, QryTransferBankRequest>
             (nameof QryTransferBankRequest)
             request
             api.ReqQryTransferBank
+            cancellationToken
 
-    member this.QueryInvestorPositionDetailAsync(instrumentId: string, ?exchangeId: string, ?investUnitId: string) =
+    member this.QueryInvestorPositionDetailAsync
+        (instrumentId: string, ?exchangeId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryInvestorPositionDetailRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1147,12 +1330,15 @@ type TraderClient
             (nameof QryInvestorPositionDetailRequest)
             request
             api.ReqQryInvestorPositionDetail
+            cancellationToken
 
-    member this.QueryNoticeAsync() =
+    member this.QueryNoticeAsync(?cancellationToken: CancellationToken) =
         let request: QryNoticeRequest = { BrokerId = options.BrokerId }
-        this.QueryAsync<Notice, QryNoticeRequest> (nameof QryNoticeRequest) request api.ReqQryNotice
+        this.QueryAsync<Notice, QryNoticeRequest> (nameof QryNoticeRequest) request api.ReqQryNotice cancellationToken
 
-    member this.QuerySettlementInfoConfirmAsync(?accountId: string, ?currencyId: string) =
+    member this.QuerySettlementInfoConfirmAsync
+        (?accountId: string, ?currencyId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QrySettlementInfoConfirmRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1163,9 +1349,10 @@ type TraderClient
             (nameof QrySettlementInfoConfirmRequest)
             request
             api.ReqQrySettlementInfoConfirm
+            cancellationToken
 
     member this.QueryInvestorPositionCombineDetailAsync
-        (combInstrumentId: string, ?exchangeId: string, ?investUnitId: string)
+        (combInstrumentId: string, ?exchangeId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
         =
         let request: QryInvestorPositionCombineDetailRequest =
             { BrokerId = options.BrokerId
@@ -1179,8 +1366,9 @@ type TraderClient
             (nameof QryInvestorPositionCombineDetailRequest)
             request
             api.ReqQryInvestorPositionCombineDetail
+            cancellationToken
 
-    member this.QueryCfmmcTradingAccountKeyAsync() =
+    member this.QueryCfmmcTradingAccountKeyAsync(?cancellationToken: CancellationToken) =
         let request: QryCfmmcTradingAccountKeyRequest =
             { BrokerId = Some options.BrokerId; InvestorId = Some options.UserId }
 
@@ -1188,8 +1376,11 @@ type TraderClient
             (nameof QryCfmmcTradingAccountKeyRequest)
             request
             api.ReqQryCfmmcTradingAccountKey
+            cancellationToken
 
-    member this.QueryEWarrantOffsetAsync(exchangeId: string, instrumentId: string, ?investUnitId: string) =
+    member this.QueryEWarrantOffsetAsync
+        (exchangeId: string, instrumentId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryEWarrantOffsetRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1202,9 +1393,16 @@ type TraderClient
             (nameof QryEWarrantOffsetRequest)
             request
             api.ReqQryEWarrantOffset
+            cancellationToken
 
     member this.QueryInvestorProductGroupMarginAsync
-        (productGroupId: string, ?hedgeFlag: HedgeFlag, ?exchangeId: string, ?investUnitId: string)
+        (
+            productGroupId: string,
+            ?hedgeFlag: HedgeFlag,
+            ?exchangeId: string,
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QryInvestorProductGroupMarginRequest =
             { BrokerId = options.BrokerId
@@ -1219,8 +1417,11 @@ type TraderClient
             (nameof QryInvestorProductGroupMarginRequest)
             request
             api.ReqQryInvestorProductGroupMargin
+            cancellationToken
 
-    member this.QueryExchangeMarginRateAdjustAsync(instrumentId: string, hedgeFlag: HedgeFlag) =
+    member this.QueryExchangeMarginRateAdjustAsync
+        (instrumentId: string, hedgeFlag: HedgeFlag, ?cancellationToken: CancellationToken)
+        =
         let request: QryExchangeMarginRateAdjustRequest =
             { BrokerId = options.BrokerId
               Reserve1 = None
@@ -1231,16 +1432,25 @@ type TraderClient
             (nameof QryExchangeMarginRateAdjustRequest)
             request
             api.ReqQryExchangeMarginRateAdjust
+            cancellationToken
 
-    member this.QueryExchangeRateAsync(fromCurrencyId: string, toCurrencyId: string) =
+    member this.QueryExchangeRateAsync
+        (fromCurrencyId: string, toCurrencyId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryExchangeRate =
             { BrokerId = options.BrokerId
               FromCurrencyId = fromCurrencyId
               ToCurrencyId = toCurrencyId }
 
-        this.QueryAsync<ExchangeRate, QryExchangeRate> (nameof QryExchangeRate) request api.ReqQryExchangeRate
+        this.QueryAsync<ExchangeRate, QryExchangeRate>
+            (nameof QryExchangeRate)
+            request
+            api.ReqQryExchangeRate
+            cancellationToken
 
-    member this.QuerySecAgentAcIdMapAsync(accountId: string, currencyId: string) =
+    member this.QuerySecAgentAcIdMapAsync
+        (accountId: string, currencyId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QrySecAgentAcIdMapRequest =
             { BrokerId = options.BrokerId
               UserId = options.UserId
@@ -1251,8 +1461,11 @@ type TraderClient
             (nameof QrySecAgentAcIdMapRequest)
             request
             api.ReqQrySecAgentAcIdMap
+            cancellationToken
 
-    member this.QueryProductExchRateAsync(productId: string, ?exchangeId: string) =
+    member this.QueryProductExchRateAsync
+        (productId: string, ?exchangeId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryProductExchRateRequest =
             { Reserve1 = None; ExchangeId = exchangeId; ProductId = productId }
 
@@ -1260,8 +1473,9 @@ type TraderClient
             (nameof QryProductExchRateRequest)
             request
             api.ReqQryProductExchRate
+            cancellationToken
 
-    member this.QueryProductGroupAsync(exchangeId: string, productId: string) =
+    member this.QueryProductGroupAsync(exchangeId: string, productId: string, ?cancellationToken: CancellationToken) =
         let request: QryProductGroupRequest =
             { Reserve1 = None; ExchangeId = exchangeId; ProductId = productId }
 
@@ -1269,8 +1483,9 @@ type TraderClient
             (nameof QryProductGroupRequest)
             request
             api.ReqQryProductGroup
+            cancellationToken
 
-    member this.QueryMmInstrumentCommissionRateAsync(instrumentId: string) =
+    member this.QueryMmInstrumentCommissionRateAsync(instrumentId: string, ?cancellationToken: CancellationToken) =
         let request: QryMmInstrumentCommissionRateRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1281,8 +1496,9 @@ type TraderClient
             (nameof QryMmInstrumentCommissionRateRequest)
             request
             api.ReqQryMmInstrumentCommissionRate
+            cancellationToken
 
-    member this.QueryMmOptionInstrCommRateAsync(instrumentId: string) =
+    member this.QueryMmOptionInstrCommRateAsync(instrumentId: string, ?cancellationToken: CancellationToken) =
         let request: QryMmOptionInstrCommRateRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1293,8 +1509,9 @@ type TraderClient
             (nameof QryMmOptionInstrCommRateRequest)
             request
             api.ReqQryMmOptionInstrCommRate
+            cancellationToken
 
-    member this.QueryInstrumentOrderCommRateAsync(instrumentId: string) =
+    member this.QueryInstrumentOrderCommRateAsync(instrumentId: string, ?cancellationToken: CancellationToken) =
         let request: QryInstrumentOrderCommRateRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1305,8 +1522,11 @@ type TraderClient
             (nameof QryInstrumentOrderCommRateRequest)
             request
             api.ReqQryInstrumentOrderCommRate
+            cancellationToken
 
-    member this.QuerySecAgentTradingAccountAsync(currencyId: string, ?bizType: BizType, ?accountId: string) =
+    member this.QuerySecAgentTradingAccountAsync
+        (currencyId: string, ?bizType: BizType, ?accountId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QueryTradingAccountRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1318,16 +1538,18 @@ type TraderClient
             (nameof QueryTradingAccountRequest)
             request
             api.ReqQrySecAgentTradingAccount
+            cancellationToken
 
-    member this.QuerySecAgentCheckModeAsync() =
+    member this.QuerySecAgentCheckModeAsync(?cancellationToken: CancellationToken) =
         let request: QrySecAgentCheckModeRequest = { BrokerId = options.BrokerId; InvestorId = options.UserId }
 
         this.QueryAsync<SecAgentCheckMode, QrySecAgentCheckModeRequest>
             (nameof QrySecAgentCheckModeRequest)
             request
             api.ReqQrySecAgentCheckMode
+            cancellationToken
 
-    member this.QuerySecAgentTradeInfoAsync(brokerSecAgentId: string) =
+    member this.QuerySecAgentTradeInfoAsync(brokerSecAgentId: string, ?cancellationToken: CancellationToken) =
         let request: QrySecAgentTradeInfoRequest =
             { BrokerId = options.BrokerId; BrokerSecAgentId = brokerSecAgentId }
 
@@ -1335,6 +1557,7 @@ type TraderClient
             (nameof QrySecAgentTradeInfoRequest)
             request
             api.ReqQrySecAgentTradeInfo
+            cancellationToken
 
     member this.QueryOptionInstrTradeCostAsync
         (
@@ -1343,7 +1566,8 @@ type TraderClient
             inputPrice: decimal,
             underlyingPrice: decimal,
             ?exchangeId: string,
-            ?investUnitId: string
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryOptionInstrTradeCostRequest =
@@ -1361,8 +1585,11 @@ type TraderClient
             (nameof QryOptionInstrTradeCostRequest)
             request
             api.ReqQryOptionInstrTradeCost
+            cancellationToken
 
-    member this.QueryOptionInstrCommRateAsync(instrumentId: string, ?exchangeId: string, ?investUnitId: string) =
+    member this.QueryOptionInstrCommRateAsync
+        (instrumentId: string, ?exchangeId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryOptionInstrCommRateRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1375,6 +1602,7 @@ type TraderClient
             (nameof QryOptionInstrCommRateRequest)
             request
             api.ReqQryOptionInstrCommRate
+            cancellationToken
 
     member this.QueryExecOrderAsync
         (
@@ -1382,7 +1610,8 @@ type TraderClient
             execOrderSysId: string,
             insertTimeStart: string,
             insertTimeEnd: string,
-            instrumentId: string
+            instrumentId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryExecOrderRequest =
@@ -1395,10 +1624,21 @@ type TraderClient
               InsertTimeEnd = insertTimeEnd
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ExecOrder, QryExecOrderRequest> (nameof QryExecOrderRequest) request api.ReqQryExecOrder
+        this.QueryAsync<ExecOrder, QryExecOrderRequest>
+            (nameof QryExecOrderRequest)
+            request
+            api.ReqQryExecOrder
+            cancellationToken
 
     member this.QueryForQuoteAsync
-        (exchangeId: string, insertTimeStart: string, insertTimeEnd: string, instrumentId: string, ?investUnitId: string)
+        (
+            exchangeId: string,
+            insertTimeStart: string,
+            insertTimeEnd: string,
+            instrumentId: string,
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QryForQuoteRequest =
             { BrokerId = options.BrokerId
@@ -1410,7 +1650,11 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ForQuote, QryForQuoteRequest> (nameof QryForQuoteRequest) request api.ReqQryForQuote
+        this.QueryAsync<ForQuote, QryForQuoteRequest>
+            (nameof QryForQuoteRequest)
+            request
+            api.ReqQryForQuote
+            cancellationToken
 
     member this.QueryQuoteAsync
         (
@@ -1419,7 +1663,8 @@ type TraderClient
             insertTimeStart: string,
             insertTimeEnd: string,
             instrumentId: string,
-            ?investUnitId: string
+            ?investUnitId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryQuoteRequest =
@@ -1433,7 +1678,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<Quote, QryQuoteRequest> (nameof QryQuoteRequest) request api.ReqQryQuote
+        this.QueryAsync<Quote, QryQuoteRequest> (nameof QryQuoteRequest) request api.ReqQryQuote cancellationToken
 
     member this.QueryOptionSelfCloseAsync
         (
@@ -1441,7 +1686,8 @@ type TraderClient
             optionSelfCloseSysId: string,
             insertTimeStart: string,
             insertTimeEnd: string,
-            instrumentId: string
+            instrumentId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryOptionSelfCloseRequest =
@@ -1458,16 +1704,23 @@ type TraderClient
             (nameof QryOptionSelfCloseRequest)
             request
             api.ReqQryOptionSelfClose
+            cancellationToken
 
-    member this.QueryInvestUnitAsync(?investUnitId: string) =
+    member this.QueryInvestUnitAsync(?investUnitId: string, ?cancellationToken: CancellationToken) =
         let request: QryInvestUnitRequest =
             { BrokerId = Some options.BrokerId
               InvestorId = Some options.UserId
               InvestUnitId = investUnitId }
 
-        this.QueryAsync<InvestUnit, QryInvestUnitRequest> (nameof QryInvestUnitRequest) request api.ReqQryInvestUnit
+        this.QueryAsync<InvestUnit, QryInvestUnitRequest>
+            (nameof QryInvestUnitRequest)
+            request
+            api.ReqQryInvestUnit
+            cancellationToken
 
-    member this.QueryCombInstrumentGuardAsync(exchangeId: string, ?instrumentId: string) =
+    member this.QueryCombInstrumentGuardAsync
+        (exchangeId: string, ?instrumentId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryCombInstrumentGuardRequest =
             { BrokerId = Some options.BrokerId
               Reserve1 = None
@@ -1478,8 +1731,11 @@ type TraderClient
             (nameof QryCombInstrumentGuardRequest)
             request
             api.ReqQryCombInstrumentGuard
+            cancellationToken
 
-    member this.QueryCombActionAsync(exchangeId: string, instrumentId: string, ?investUnitId: string) =
+    member this.QueryCombActionAsync
+        (exchangeId: string, instrumentId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryCombActionRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1488,9 +1744,15 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<CombAction, QryCombActionRequest> (nameof QryCombActionRequest) request api.ReqQryCombAction
+        this.QueryAsync<CombAction, QryCombActionRequest>
+            (nameof QryCombActionRequest)
+            request
+            api.ReqQryCombAction
+            cancellationToken
 
-    member this.QueryTransferSerialAsync(accountId: string, bankId: string, currencyId: string) =
+    member this.QueryTransferSerialAsync
+        (accountId: string, bankId: string, currencyId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryTransferSerialRequest =
             { BrokerId = options.BrokerId
               AccountId = accountId
@@ -1501,9 +1763,16 @@ type TraderClient
             (nameof QryTransferSerialRequest)
             request
             api.ReqQryTransferSerial
+            cancellationToken
 
     member this.QueryAccountregisterAsync
-        (?accountId: string, ?bankId: string, ?bankBranchId: string, ?currencyId: string)
+        (
+            ?accountId: string,
+            ?bankId: string,
+            ?bankBranchId: string,
+            ?currencyId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QryAccountregisterRequest =
             { BrokerId = Some options.BrokerId
@@ -1516,8 +1785,9 @@ type TraderClient
             (nameof QryAccountregisterRequest)
             request
             api.ReqQryAccountregister
+            cancellationToken
 
-    member this.QueryContractBankAsync(bankId: string, bankBrchId: string) =
+    member this.QueryContractBankAsync(bankId: string, bankBrchId: string, ?cancellationToken: CancellationToken) =
         let request: QryContractBankRequest =
             { BrokerId = options.BrokerId; BankId = bankId; BankBrchId = bankBrchId }
 
@@ -1525,8 +1795,11 @@ type TraderClient
             (nameof QryContractBankRequest)
             request
             api.ReqQryContractBank
+            cancellationToken
 
-    member this.QueryParkedOrderAsync(exchangeId: string, instrumentId: string, ?investUnitId: string) =
+    member this.QueryParkedOrderAsync
+        (exchangeId: string, instrumentId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryParkedOrderRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1535,9 +1808,15 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ParkedOrder, QryParkedOrderRequest> (nameof QryParkedOrderRequest) request api.ReqQryParkedOrder
+        this.QueryAsync<ParkedOrder, QryParkedOrderRequest>
+            (nameof QryParkedOrderRequest)
+            request
+            api.ReqQryParkedOrder
+            cancellationToken
 
-    member this.QueryParkedOrderActionAsync(exchangeId: string, instrumentId: string, ?investUnitId: string) =
+    member this.QueryParkedOrderActionAsync
+        (exchangeId: string, instrumentId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryParkedOrderActionRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1550,8 +1829,9 @@ type TraderClient
             (nameof QryParkedOrderActionRequest)
             request
             api.ReqQryParkedOrderAction
+            cancellationToken
 
-    member this.QueryTradingNoticeAsync(?investUnitId: string) =
+    member this.QueryTradingNoticeAsync(?investUnitId: string, ?cancellationToken: CancellationToken) =
         let request: QryTradingNoticeRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1561,8 +1841,11 @@ type TraderClient
             (nameof QryTradingNoticeRequest)
             request
             api.ReqQryTradingNotice
+            cancellationToken
 
-    member this.QueryBrokerTradingParamsAsync(currencyId: string, ?accountId: string) =
+    member this.QueryBrokerTradingParamsAsync
+        (currencyId: string, ?accountId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryBrokerTradingParamsRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1573,8 +1856,11 @@ type TraderClient
             (nameof QryBrokerTradingParamsRequest)
             request
             api.ReqQryBrokerTradingParams
+            cancellationToken
 
-    member this.QueryBrokerTradingAlgosAsync(exchangeId: string, instrumentId: string) =
+    member this.QueryBrokerTradingAlgosAsync
+        (exchangeId: string, instrumentId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryBrokerTradingAlgosRequest =
             { BrokerId = options.BrokerId
               ExchangeId = exchangeId
@@ -1585,8 +1871,9 @@ type TraderClient
             (nameof QryBrokerTradingAlgosRequest)
             request
             api.ReqQryBrokerTradingAlgos
+            cancellationToken
 
-    member this.QueryCfmmcTradingAccountTokenAsync(?investUnitId: string) =
+    member this.QueryCfmmcTradingAccountTokenAsync(?investUnitId: string, ?cancellationToken: CancellationToken) =
         let request: QueryCfmmcTradingAccountTokenRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1596,6 +1883,7 @@ type TraderClient
             (nameof QueryCfmmcTradingAccountTokenRequest)
             request
             api.ReqQueryCfmmcTradingAccountToken
+            cancellationToken
 
     member this.QueryClassifiedInstrumentAsync
         (
@@ -1604,7 +1892,8 @@ type TraderClient
             ?instrumentId: string,
             ?exchangeId: string,
             ?exchangeInstId: string,
-            ?productId: string
+            ?productId: string,
+            ?cancellationToken: CancellationToken
         )
         =
         let request: QryClassifiedInstrumentRequest =
@@ -1619,16 +1908,20 @@ type TraderClient
             (nameof QryClassifiedInstrumentRequest)
             request
             api.ReqQryClassifiedInstrument
+            cancellationToken
 
-    member this.QueryCombPromotionParamAsync(?exchangeId: string, ?instrumentId: string) =
+    member this.QueryCombPromotionParamAsync
+        (?exchangeId: string, ?instrumentId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryCombPromotionParamRequest = { ExchangeId = exchangeId; InstrumentId = instrumentId }
 
         this.QueryAsync<CombPromotionParam, QryCombPromotionParamRequest>
             (nameof QryCombPromotionParamRequest)
             request
             api.ReqQryCombPromotionParam
+            cancellationToken
 
-    member this.QueryRiskSettleInvstPositionAsync(?instrumentId: string) =
+    member this.QueryRiskSettleInvstPositionAsync(?instrumentId: string, ?cancellationToken: CancellationToken) =
         let request: QryRiskSettleInvstPositionRequest =
             { BrokerId = Some options.BrokerId
               InvestorId = Some options.UserId
@@ -1638,16 +1931,20 @@ type TraderClient
             (nameof QryRiskSettleInvstPositionRequest)
             request
             api.ReqQryRiskSettleInvstPosition
+            cancellationToken
 
-    member this.QueryRiskSettleProductStatusAsync(?productId: string) =
+    member this.QueryRiskSettleProductStatusAsync(?productId: string, ?cancellationToken: CancellationToken) =
         let request: QryRiskSettleProductStatusRequest = { ProductId = productId }
 
         this.QueryAsync<RiskSettleProductStatus, QryRiskSettleProductStatusRequest>
             (nameof QryRiskSettleProductStatusRequest)
             request
             api.ReqQryRiskSettleProductStatus
+            cancellationToken
 
-    member this.QuerySpbmFutureParameterAsync(exchangeId: string, instrumentId: string, prodFamilyCode: string) =
+    member this.QuerySpbmFutureParameterAsync
+        (exchangeId: string, instrumentId: string, prodFamilyCode: string, ?cancellationToken: CancellationToken)
+        =
         let request: QrySpbmFutureParameterRequest =
             { ExchangeId = exchangeId
               InstrumentId = instrumentId
@@ -1657,8 +1954,11 @@ type TraderClient
             (nameof QrySpbmFutureParameterRequest)
             request
             api.ReqQrySpbmFutureParameter
+            cancellationToken
 
-    member this.QuerySpbmOptionParameterAsync(exchangeId: string, instrumentId: string, prodFamilyCode: string) =
+    member this.QuerySpbmOptionParameterAsync
+        (exchangeId: string, instrumentId: string, prodFamilyCode: string, ?cancellationToken: CancellationToken)
+        =
         let request: QrySpbmOptionParameterRequest =
             { ExchangeId = exchangeId
               InstrumentId = instrumentId
@@ -1668,17 +1968,26 @@ type TraderClient
             (nameof QrySpbmOptionParameterRequest)
             request
             api.ReqQrySpbmOptionParameter
+            cancellationToken
 
-    member this.QuerySpbmIntraParameterAsync(exchangeId: string, prodFamilyCode: string) =
+    member this.QuerySpbmIntraParameterAsync
+        (exchangeId: string, prodFamilyCode: string, ?cancellationToken: CancellationToken)
+        =
         let request: QrySpbmIntraParameterRequest = { ExchangeId = exchangeId; ProdFamilyCode = prodFamilyCode }
 
         this.QueryAsync<SpbmIntraParameter, QrySpbmIntraParameterRequest>
             (nameof QrySpbmIntraParameterRequest)
             request
             api.ReqQrySpbmIntraParameter
+            cancellationToken
 
     member this.QuerySpbmInterParameterAsync
-        (exchangeId: string, leg1ProdFamilyCode: string, leg2ProdFamilyCode: string)
+        (
+            exchangeId: string,
+            leg1ProdFamilyCode: string,
+            leg2ProdFamilyCode: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QrySpbmInterParameterRequest =
             { ExchangeId = exchangeId
@@ -1689,8 +1998,11 @@ type TraderClient
             (nameof QrySpbmInterParameterRequest)
             request
             api.ReqQrySpbmInterParameter
+            cancellationToken
 
-    member this.QuerySpbmPortfDefinitionAsync(exchangeId: string, portfolioDefId: string, prodFamilyCode: string) =
+    member this.QuerySpbmPortfDefinitionAsync
+        (exchangeId: string, portfolioDefId: string, prodFamilyCode: string, ?cancellationToken: CancellationToken)
+        =
         let request: QrySpbmPortfDefinitionRequest =
             { ExchangeId = exchangeId
               PortfolioDefId = portfolioDefId
@@ -1700,8 +2012,9 @@ type TraderClient
             (nameof QrySpbmPortfDefinitionRequest)
             request
             api.ReqQrySpbmPortfDefinition
+            cancellationToken
 
-    member this.QuerySpbmInvestorPortfDefAsync(exchangeId: string) =
+    member this.QuerySpbmInvestorPortfDefAsync(exchangeId: string, ?cancellationToken: CancellationToken) =
         let request: QrySpbmInvestorPortfDefRequest =
             { ExchangeId = exchangeId
               BrokerId = options.BrokerId
@@ -1711,8 +2024,11 @@ type TraderClient
             (nameof QrySpbmInvestorPortfDefRequest)
             request
             api.ReqQrySpbmInvestorPortfDef
+            cancellationToken
 
-    member this.QueryInvestorPortfMarginRatioAsync(exchangeId: string, ?productGroupId: string) =
+    member this.QueryInvestorPortfMarginRatioAsync
+        (exchangeId: string, ?productGroupId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryInvestorPortfMarginRatioRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1723,8 +2039,11 @@ type TraderClient
             (nameof QryInvestorPortfMarginRatioRequest)
             request
             api.ReqQryInvestorPortfMarginRatio
+            cancellationToken
 
-    member this.QueryInvestorProdSpbmDetailAsync(exchangeId: string, prodFamilyCode: string) =
+    member this.QueryInvestorProdSpbmDetailAsync
+        (exchangeId: string, prodFamilyCode: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryInvestorProdSpbmDetailRequest =
             { ExchangeId = exchangeId
               BrokerId = options.BrokerId
@@ -1735,8 +2054,9 @@ type TraderClient
             (nameof QryInvestorProdSpbmDetailRequest)
             request
             api.ReqQryInvestorProdSpbmDetail
+            cancellationToken
 
-    member this.QueryInvestorCommoditySpmmMarginAsync(commodityId: string) =
+    member this.QueryInvestorCommoditySpmmMarginAsync(commodityId: string, ?cancellationToken: CancellationToken) =
         let request: QryInvestorCommoditySpmmMarginRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1746,8 +2066,11 @@ type TraderClient
             (nameof QryInvestorCommoditySpmmMarginRequest)
             request
             api.ReqQryInvestorCommoditySpmmMargin
+            cancellationToken
 
-    member this.QueryInvestorCommodityGroupSpmmMarginAsync(commodityGroupId: string) =
+    member this.QueryInvestorCommodityGroupSpmmMarginAsync
+        (commodityGroupId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryInvestorCommodityGroupSpmmMarginRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1757,25 +2080,33 @@ type TraderClient
             (nameof QryInvestorCommodityGroupSpmmMarginRequest)
             request
             api.ReqQryInvestorCommodityGroupSpmmMargin
+            cancellationToken
 
-    member this.QuerySpmmInstParamAsync(instrumentId: string) =
+    member this.QuerySpmmInstParamAsync(instrumentId: string, ?cancellationToken: CancellationToken) =
         let request: QrySpmmInstParamRequest = { InstrumentId = instrumentId }
 
         this.QueryAsync<SpmmInstParam, QrySpmmInstParamRequest>
             (nameof QrySpmmInstParamRequest)
             request
             api.ReqQrySpmmInstParam
+            cancellationToken
 
-    member this.QuerySpmmProductParamAsync(productId: string) =
+    member this.QuerySpmmProductParamAsync(productId: string, ?cancellationToken: CancellationToken) =
         let request: QrySpmmProductParamRequest = { ProductId = productId }
 
         this.QueryAsync<SpmmProductParam, QrySpmmProductParamRequest>
             (nameof QrySpmmProductParamRequest)
             request
             api.ReqQrySpmmProductParam
+            cancellationToken
 
     member this.QuerySpbmAddOnInterParameterAsync
-        (exchangeId: string, leg1ProdFamilyCode: string, leg2ProdFamilyCode: string)
+        (
+            exchangeId: string,
+            leg1ProdFamilyCode: string,
+            leg2ProdFamilyCode: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QrySpbmAddOnInterParameterRequest =
             { ExchangeId = exchangeId
@@ -1786,8 +2117,11 @@ type TraderClient
             (nameof QrySpbmAddOnInterParameterRequest)
             request
             api.ReqQrySpbmAddOnInterParameter
+            cancellationToken
 
-    member this.QueryRcamsCombProductInfoAsync(productId: string, combProductId: string, productGroupId: string) =
+    member this.QueryRcamsCombProductInfoAsync
+        (productId: string, combProductId: string, productGroupId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryRcamsCombProductInfoRequest =
             { ProductId = productId
               CombProductId = combProductId
@@ -1797,24 +2131,29 @@ type TraderClient
             (nameof QryRcamsCombProductInfoRequest)
             request
             api.ReqQryRcamsCombProductInfo
+            cancellationToken
 
-    member this.QueryRcamsInstrParameterAsync(productId: string) =
+    member this.QueryRcamsInstrParameterAsync(productId: string, ?cancellationToken: CancellationToken) =
         let request: QryRcamsInstrParameterRequest = { ProductId = productId }
 
         this.QueryAsync<RcamsInstrParameter, QryRcamsInstrParameterRequest>
             (nameof QryRcamsInstrParameterRequest)
             request
             api.ReqQryRcamsInstrParameter
+            cancellationToken
 
-    member this.QueryRcamsIntraParameterAsync(combProductId: string) =
+    member this.QueryRcamsIntraParameterAsync(combProductId: string, ?cancellationToken: CancellationToken) =
         let request: QryRcamsIntraParameterRequest = { CombProductId = combProductId }
 
         this.QueryAsync<RcamsIntraParameter, QryRcamsIntraParameterRequest>
             (nameof QryRcamsIntraParameterRequest)
             request
             api.ReqQryRcamsIntraParameter
+            cancellationToken
 
-    member this.QueryRcamsInterParameterAsync(productGroupId: string, combProduct1: string, combProduct2: string) =
+    member this.QueryRcamsInterParameterAsync
+        (productGroupId: string, combProduct1: string, combProduct2: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryRcamsInterParameterRequest =
             { ProductGroupId = productGroupId
               CombProduct1 = combProduct1
@@ -1824,16 +2163,20 @@ type TraderClient
             (nameof QryRcamsInterParameterRequest)
             request
             api.ReqQryRcamsInterParameter
+            cancellationToken
 
-    member this.QueryRcamsShortOptAdjustParamAsync(combProductId: string) =
+    member this.QueryRcamsShortOptAdjustParamAsync(combProductId: string, ?cancellationToken: CancellationToken) =
         let request: QryRcamsShortOptAdjustParamRequest = { CombProductId = combProductId }
 
         this.QueryAsync<RcamsShortOptAdjustParam, QryRcamsShortOptAdjustParamRequest>
             (nameof QryRcamsShortOptAdjustParamRequest)
             request
             api.ReqQryRcamsShortOptAdjustParam
+            cancellationToken
 
-    member this.QueryRcamsInvestorCombPositionAsync(instrumentId: string, combInstrumentId: string) =
+    member this.QueryRcamsInvestorCombPositionAsync
+        (instrumentId: string, combInstrumentId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryRcamsInvestorCombPositionRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1844,8 +2187,11 @@ type TraderClient
             (nameof QryRcamsInvestorCombPositionRequest)
             request
             api.ReqQryRcamsInvestorCombPosition
+            cancellationToken
 
-    member this.QueryInvestorProdRcamsMarginAsync(combProductId: string, productGroupId: string) =
+    member this.QueryInvestorProdRcamsMarginAsync
+        (combProductId: string, productGroupId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryInvestorProdRcamsMarginRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1856,25 +2202,38 @@ type TraderClient
             (nameof QryInvestorProdRcamsMarginRequest)
             request
             api.ReqQryInvestorProdRcamsMargin
+            cancellationToken
 
-    member this.QueryRuleInstrParameterAsync(exchangeId: string, instrumentId: string) =
+    member this.QueryRuleInstrParameterAsync
+        (exchangeId: string, instrumentId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryRuleInstrParameterRequest = { ExchangeId = exchangeId; InstrumentId = instrumentId }
 
         this.QueryAsync<RuleInstrParameter, QryRuleInstrParameterRequest>
             (nameof QryRuleInstrParameterRequest)
             request
             api.ReqQryRuleInstrParameter
+            cancellationToken
 
-    member this.QueryRuleIntraParameterAsync(exchangeId: string, prodFamilyCode: string) =
+    member this.QueryRuleIntraParameterAsync
+        (exchangeId: string, prodFamilyCode: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryRuleIntraParameterRequest = { ExchangeId = exchangeId; ProdFamilyCode = prodFamilyCode }
 
         this.QueryAsync<RuleIntraParameter, QryRuleIntraParameterRequest>
             (nameof QryRuleIntraParameterRequest)
             request
             api.ReqQryRuleIntraParameter
+            cancellationToken
 
     member this.QueryRuleInterParameterAsync
-        (commodityGroupId: string, exchangeId: string, leg1ProdFamilyCode: string, ?leg2ProdFamilyCode: string)
+        (
+            commodityGroupId: string,
+            exchangeId: string,
+            leg1ProdFamilyCode: string,
+            ?leg2ProdFamilyCode: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QryRuleInterParameterRequest =
             { ExchangeId = exchangeId
@@ -1886,8 +2245,11 @@ type TraderClient
             (nameof QryRuleInterParameterRequest)
             request
             api.ReqQryRuleInterParameter
+            cancellationToken
 
-    member this.QueryInvestorProdRuleMarginAsync(exchangeId: string, prodFamilyCode: string, commodityGroupId: string) =
+    member this.QueryInvestorProdRuleMarginAsync
+        (exchangeId: string, prodFamilyCode: string, commodityGroupId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryInvestorProdRuleMarginRequest =
             { ExchangeId = exchangeId
               BrokerId = options.BrokerId
@@ -1899,8 +2261,9 @@ type TraderClient
             (nameof QryInvestorProdRuleMarginRequest)
             request
             api.ReqQryInvestorProdRuleMargin
+            cancellationToken
 
-    member this.QueryInvestorPortfSettingAsync(exchangeId: string) =
+    member this.QueryInvestorPortfSettingAsync(exchangeId: string, ?cancellationToken: CancellationToken) =
         let request: QryInvestorPortfSettingRequest =
             { ExchangeId = exchangeId
               BrokerId = options.BrokerId
@@ -1910,8 +2273,9 @@ type TraderClient
             (nameof QryInvestorPortfSettingRequest)
             request
             api.ReqQryInvestorPortfSetting
+            cancellationToken
 
-    member this.QueryInvestorInfoCommRecAsync(instrumentId: string) =
+    member this.QueryInvestorInfoCommRecAsync(instrumentId: string, ?cancellationToken: CancellationToken) =
         let request: QryInvestorInfoCommRecRequest =
             { InvestorId = options.UserId
               InstrumentId = instrumentId
@@ -1921,13 +2285,16 @@ type TraderClient
             (nameof QryInvestorInfoCommRecRequest)
             request
             api.ReqQryInvestorInfoCommRec
+            cancellationToken
 
-    member this.QueryCombLegAsync(legInstrumentId: string) =
+    member this.QueryCombLegAsync(legInstrumentId: string, ?cancellationToken: CancellationToken) =
         let request: QryCombLeg = { LegInstrumentId = legInstrumentId }
 
-        this.QueryAsync<CombLeg, QryCombLeg> (nameof QryCombLeg) request api.ReqQryCombLeg
+        this.QueryAsync<CombLeg, QryCombLeg> (nameof QryCombLeg) request api.ReqQryCombLeg cancellationToken
 
-    member this.QueryOffsetSettingAsync(productId: string, offsetType: OffsetType) =
+    member this.QueryOffsetSettingAsync
+        (productId: string, offsetType: OffsetType, ?cancellationToken: CancellationToken)
+        =
         let request: QryOffsetSettingRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1938,9 +2305,16 @@ type TraderClient
             (nameof QryOffsetSettingRequest)
             request
             api.ReqQryOffsetSetting
+            cancellationToken
 
     member this.QuerySpdApplyAsync
-        (exchangeId: string, orderSysId: string, firstLegInstrumentId: string, secondLegInstrumentId: string)
+        (
+            exchangeId: string,
+            orderSysId: string,
+            firstLegInstrumentId: string,
+            secondLegInstrumentId: string,
+            ?cancellationToken: CancellationToken
+        )
         =
         let request: QrySpdApplyRequest =
             { BrokerId = options.BrokerId
@@ -1950,9 +2324,15 @@ type TraderClient
               FirstLegInstrumentId = firstLegInstrumentId
               SecondLegInstrumentId = secondLegInstrumentId }
 
-        this.QueryAsync<SpdApply, QrySpdApplyRequest> (nameof QrySpdApplyRequest) request api.ReqQrySpdApply
+        this.QueryAsync<SpdApply, QrySpdApplyRequest>
+            (nameof QrySpdApplyRequest)
+            request
+            api.ReqQrySpdApply
+            cancellationToken
 
-    member this.QueryHedgeCfmAsync(exchangeId: string, orderSysId: string, instrumentId: string) =
+    member this.QueryHedgeCfmAsync
+        (exchangeId: string, orderSysId: string, instrumentId: string, ?cancellationToken: CancellationToken)
+        =
         let request: QryHedgeCfmRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
@@ -1960,4 +2340,8 @@ type TraderClient
               OrderSysId = orderSysId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<HedgeCfm, QryHedgeCfmRequest> (nameof QryHedgeCfmRequest) request api.ReqQryHedgeCfm
+        this.QueryAsync<HedgeCfm, QryHedgeCfmRequest>
+            (nameof QryHedgeCfmRequest)
+            request
+            api.ReqQryHedgeCfm
+            cancellationToken

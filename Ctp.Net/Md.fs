@@ -3,6 +3,7 @@ namespace Ctp.Net
 open System
 open FSharpPlus
 open Ctp.Net.Bridge
+open System.Threading
 open System.Threading.Tasks
 open Microsoft.Extensions.Logging
 
@@ -170,7 +171,10 @@ type MdClient
     member _.RspError = rspErrorEvent.Publish
     member _.DepthMarketDataReceived = depthMarketDataEvent.Publish
 
-    member _.Connect(?timeout: TimeSpan) = connectionCoordinator.Connect(?timeout = timeout)
+    member _.Connect(?timeout: TimeSpan, ?cancellationToken: CancellationToken) =
+        match timeout with
+        | Some timeout -> connectionCoordinator.Connect(timeout = timeout, ?cancellationToken = cancellationToken)
+        | None -> connectionCoordinator.Connect(?cancellationToken = cancellationToken)
 
     member _.Join() = api.Join()
 
@@ -180,10 +184,12 @@ type MdClient
         (pendingState: SinglePendingResult<Result<'TResponse, RspInfo>>)
         (apiCall: 'TRequest * int -> int)
         (onAccepted: 'TRequest -> unit)
+        (cancellationToken: CancellationToken option)
         : Async<Result<'TResponse, RspInfo>>
         =
         async {
-            let! cancellationToken = Async.CancellationToken
+            let! ambientCancellationToken = Async.CancellationToken
+            let cancellationToken = defaultArg cancellationToken ambientCancellationToken
 
             let rec executeAttempt attempt = async {
                 do!
@@ -218,10 +224,10 @@ type MdClient
                         )
 
                         completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-                        return! (completion.Task |> ClientHelpers.awaitTask)
+                        return! (completion.Task |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
                 else
                     onAccepted request
-                    return! (completion.Task |> ClientHelpers.awaitTask)
+                    return! (completion.Task |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
             }
 
             return! executeAttempt 0
@@ -232,10 +238,12 @@ type MdClient
         (requested: string list)
         (pendingState: SinglePendingRequest<string list, Result<string list, RspInfo>>)
         (apiCall: string list -> int)
+        (cancellationToken: CancellationToken option)
         : Async<Result<string list, RspInfo>>
         =
         async {
-            let! cancellationToken = Async.CancellationToken
+            let! ambientCancellationToken = Async.CancellationToken
+            let cancellationToken = defaultArg cancellationToken ambientCancellationToken
 
             let rec executeAttempt attempt = async {
                 do!
@@ -273,9 +281,9 @@ type MdClient
                         )
 
                         completion.TrySetResult(Error(ClientHelpers.apiReturnError result)) |> ignore
-                        return! (completion.Task |> ClientHelpers.awaitTask)
+                        return! (completion.Task |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
                 else
-                    return! (completion.Task |> ClientHelpers.awaitTask)
+                    return! (completion.Task |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
             }
 
             return! executeAttempt 0
@@ -286,17 +294,25 @@ type MdClient
         (instrumentIds: string list)
         (pendingState: SinglePendingRequest<string list, Result<string list, RspInfo>>)
         (apiCall: string list -> int)
+        (cancellationToken: CancellationToken option)
         : Async<Result<string list, RspInfo>>
         =
         async {
-            let! cancellationToken = Async.CancellationToken
+            let! ambientCancellationToken = Async.CancellationToken
+            let cancellationToken = defaultArg cancellationToken ambientCancellationToken
             let batches = requestFlow.BatchSubscriptions instrumentIds
 
             let rec loop completedBatches remainingBatches = async {
                 match remainingBatches with
                 | [] -> return Ok(List.rev completedBatches |> List.concat)
                 | batch :: rest ->
-                    let! result = this.RunSubscriptionBatchAsync operationName batch pendingState apiCall
+                    let! result =
+                        this.RunSubscriptionBatchAsync
+                            operationName
+                            batch
+                            pendingState
+                            apiCall
+                            (Some cancellationToken)
 
                     match result with
                     | Error error -> return Error error
@@ -314,7 +330,7 @@ type MdClient
             return! loop [] batches
         }
 
-    member this.LoginAsync() =
+    member this.LoginAsync(?cancellationToken: CancellationToken) =
         let request = OptionHelpers.createUserLoginRequest options
 
         this.RunSinglePendingOperationAsync<UserLoginRequest, UserLoginResponse>
@@ -323,8 +339,9 @@ type MdClient
             loginPending
             api.ReqUserLogin
             ignore
+            cancellationToken
 
-    member this.LogoutAsync() =
+    member this.LogoutAsync(?cancellationToken: CancellationToken) =
         let request = OptionHelpers.createUserLogoutRequest options
 
         this.RunSinglePendingOperationAsync<UserLogoutRequest, UserLogoutResponse>
@@ -335,16 +352,29 @@ type MdClient
             (fun acceptedRequest ->
                 // Current CTP SDK does not reliably invoke OnRspUserLogout, so a successful request is treated as completion.
                 logoutPending.TrySetResult(Ok { BrokerId = acceptedRequest.BrokerId; UserId = acceptedRequest.UserId }))
+            cancellationToken
 
-    member this.SubscribeMarketDataAsync(instrumentIds: string seq) =
+    member this.SubscribeMarketDataAsync(instrumentIds: string seq, ?cancellationToken: CancellationToken) =
         let requested = List.ofSeq instrumentIds
         logger.LogDebug("Subscribing to {InstrumentCount} instruments", requested.Length)
-        this.RunSubscriptionAsync "SubscribeMarketData" requested subscribePending api.SubscribeMarketData
 
-    member this.UnsubscribeMarketDataAsync(instrumentIds: string seq) =
+        this.RunSubscriptionAsync
+            "SubscribeMarketData"
+            requested
+            subscribePending
+            api.SubscribeMarketData
+            cancellationToken
+
+    member this.UnsubscribeMarketDataAsync(instrumentIds: string seq, ?cancellationToken: CancellationToken) =
         let requested = List.ofSeq instrumentIds
         logger.LogDebug("Unsubscribing from {InstrumentCount} instruments", requested.Length)
-        this.RunSubscriptionAsync "UnsubscribeMarketData" requested unsubscribePending api.UnsubscribeMarketData
+
+        this.RunSubscriptionAsync
+            "UnsubscribeMarketData"
+            requested
+            unsubscribePending
+            api.UnsubscribeMarketData
+            cancellationToken
 
     interface IDisposable with
         member _.Dispose() = (api :> IDisposable).Dispose()

@@ -153,6 +153,10 @@ module internal ClientHelpers =
         if dict.TryRemove(requestId, &completion) then
             completion.TrySetResult(result) |> ignore
 
+    let awaitTaskWithCancellation (cancellationToken: CancellationToken) (task: Task<'T>) = async {
+        return! task.WaitAsync(cancellationToken) |> Async.AwaitTask
+    }
+
     let awaitTask (task: Task<'T>) = async {
         let! cancellationToken = Async.CancellationToken
         return! task.WaitAsync(cancellationToken) |> Async.AwaitTask
@@ -557,8 +561,9 @@ type internal ConnectionCoordinator(startConnection: unit -> unit, ?logger: ILog
             return! this.AwaitConnectionResult(waitTask, timeout, cancellationToken)
     }
 
-    member this.Connect(?timeout: TimeSpan) = async {
-        let! cancellationToken = Async.CancellationToken
+    member this.Connect(?timeout: TimeSpan, ?cancellationToken: CancellationToken) = async {
+        let! ambientCancellationToken = Async.CancellationToken
+        let cancellationToken = defaultArg cancellationToken ambientCancellationToken
 
         return!
             this.ConnectTask(?timeout = timeout, cancellationToken = cancellationToken)

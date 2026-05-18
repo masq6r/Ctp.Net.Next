@@ -338,6 +338,17 @@ type FlowControlTests() =
         |> ignore
 
     [<Fact>]
+    member _.``await task with explicit cancellation honors provided token``() =
+        let completion = TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously)
+        use cts = new CancellationTokenSource()
+        let task = Async.StartAsTask(ClientHelpers.awaitTaskWithCancellation cts.Token completion.Task)
+
+        cts.CancelAfter 50
+
+        Assert.ThrowsAny<OperationCanceledException>(fun () -> task.GetAwaiter().GetResult() |> ignore)
+        |> ignore
+
+    [<Fact>]
     member _.``query completion timeout returns synthetic timeout and clears pending request``() =
         let options =
             { CtpFlowControlOptions.Default with
@@ -495,6 +506,36 @@ type FlowControlTests() =
         Assert.Equal<string list list>([ [ "au2506" ]; [ "ag2506" ]; [ "cu2506" ] ], batches)
 
 
+type ClientCancellationApiTests() =
+
+    [<Fact>]
+    member _.``md login exposes explicit cancellation token overload``() =
+        let compileOnly: CancellationToken -> MdClient -> Async<Result<UserLoginResponse, RspInfo>> =
+            fun ct client -> client.LoginAsync(cancellationToken = ct)
+
+        Assert.NotNull(box compileOnly)
+
+    [<Fact>]
+    member _.``md login keeps ambient cancellation overload``() =
+        let compileOnly: MdClient -> Async<Result<UserLoginResponse, RspInfo>> = fun client -> client.LoginAsync()
+
+        Assert.NotNull(box compileOnly)
+
+    [<Fact>]
+    member _.``trader query exposes explicit cancellation token overload``() =
+        let compileOnly: CancellationToken -> TraderClient -> Async<Result<TradingAccount list, RspInfo>> =
+            fun ct client -> client.QueryTradingAccountAsync("CNY", cancellationToken = ct)
+
+        Assert.NotNull(box compileOnly)
+
+    [<Fact>]
+    member _.``trader query keeps ambient cancellation overload``() =
+        let compileOnly: TraderClient -> Async<Result<TradingAccount list, RspInfo>> =
+            fun client -> client.QueryTradingAccountAsync("CNY")
+
+        Assert.NotNull(box compileOnly)
+
+
 type ConnectionCoordinatorTests() =
 
     [<Fact>]
@@ -550,6 +591,33 @@ type ConnectionCoordinatorTests() =
         cts.CancelAfter 50
 
         let result = coordinator.ConnectTask(cancellationToken = cts.Token).GetAwaiter().GetResult()
+
+        Assert.Equal(1, !starts)
+        result |> Helper.assertConnectError ConnectError.Cancelled
+
+    [<Fact>]
+    member _.``connect wrapper uses explicit cancellation token``() =
+        let starts = ref 0
+        let coordinator = ConnectionCoordinator(fun () -> Interlocked.Increment(starts) |> ignore)
+        use cts = new CancellationTokenSource()
+
+        cts.CancelAfter 50
+
+        coordinator.Connect(cancellationToken = cts.Token)
+        |> Async.RunSynchronously
+        |> Helper.assertConnectError ConnectError.Cancelled
+
+        Assert.Equal(1, !starts)
+
+    [<Fact>]
+    member _.``connect wrapper falls back to ambient cancellation token``() =
+        let starts = ref 0
+        let coordinator = ConnectionCoordinator(fun () -> Interlocked.Increment(starts) |> ignore)
+        use cts = new CancellationTokenSource()
+
+        cts.CancelAfter 50
+
+        let result = Async.StartAsTask(coordinator.Connect(), cancellationToken = cts.Token).GetAwaiter().GetResult()
 
         Assert.Equal(1, !starts)
         result |> Helper.assertConnectError ConnectError.Cancelled
