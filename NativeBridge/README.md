@@ -1,3 +1,5 @@
+[English](README.md) | [中文](README.zh-CN.md)
+
 # NativeBridge
 
 `NativeBridge` is the native C++ half of the repository.

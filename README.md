@@ -1,3 +1,7 @@
+[English](README.md) | [中文](README.zh-CN.md)
+
+[![Build & Test](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/ci.yml)
+
 # Ctp.Net
 
 F#-first `.NET 10` wrapper for the CTP SDK.

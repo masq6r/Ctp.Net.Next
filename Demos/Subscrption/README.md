@@ -1,41 +1,43 @@
+[English](README.md) | [中文](README.zh-CN.md)
+
 # Subscrption
 
-## 项目目的
+## Purpose
 
-`Demos/Subscrption` 是一个基于 `MdClient` 的控制台示例，用来演示：
+`Demos/Subscrption` is a console demo based on `MdClient` that demonstrates:
 
-- 从 `options.local.json` 读取 `CtpOptions`、`CtpFlowControlOptions` 和订阅列表
-- 初始化 `MdClient`
-- 完成连接与登录
-- 按配置中的合约列表订阅行情
-- 在收到 `DepthMarketData` 时，按 `instrumentid@time: lastprice` 的格式打印行情
-- 用户按下任意键后退出程序
+- Reading `CtpOptions`, `CtpFlowControlOptions`, and a subscription list from `options.local.json`
+- Initializing `MdClient`
+- Completing connection and login
+- Subscribing to market data for the configured instrument list
+- Printing market data in `instrumentid@time: lastprice` format on each `DepthMarketData` callback
+- Exiting when the user presses any key
 
-这个示例的重点是展示 `MdClient` 如何基于配置完成行情订阅，以及如何在接收回调时做最轻量的实时输出。
+This demo focuses on showing how `MdClient` subscribes to market data from configuration and performs lightweight real-time output in the callback path.
 
-## 运行条件
+## Prerequisites
 
-运行此示例前，需要满足以下条件：
+Before running this demo:
 
-- 已安装 .NET SDK 10
-- 当前仓库可以正常构建 `Ctp.Net`
-- 本机能够访问配置中的 CTP MD Front
-- 已准备可用的交易账号、密码，以及登录所需字段
-- `ctpOptions.flowPath` 指向的目录已存在，并且当前用户有读写权限
+- .NET SDK 10 installed
+- The repo can successfully build `Ctp.Net`
+- The machine can reach the configured CTP MD Front
+- A valid trading account, password, and required login fields
+- The directory pointed to by `ctpOptions.flowPath` must already exist with read/write permissions
 
-配置文件要求：
+Configuration file:
 
-- 本项目运行时读取 `Demos/Subscrption/options.local.json`
-- 目录中已提供 `Demos/Subscrption/options.template.json`
-- 请以 `options.template.json` 为基础复制并修改，生成自己的 `options.local.json`
+- The demo reads `Demos/Subscrption/options.local.json` at runtime
+- A template is provided at `Demos/Subscrption/options.template.json`
+- Copy and modify the template to create your own `options.local.json`
 
-例如：
+For example:
 
 ```bash
 cp Demos/Subscrption/options.template.json Demos/Subscrption/options.local.json
 ```
 
-然后按实际环境填写：
+Then fill in your actual environment values:
 
 - `ctpOptions.frontAddress`
 - `ctpOptions.brokerId`
@@ -45,49 +47,49 @@ cp Demos/Subscrption/options.template.json Demos/Subscrption/options.local.json
 - `ctpOptions.flowPath`
 - `instrumentIds`
 
-`ctpFlowControlOptions` 也可以按需调整，用于观察不同订阅批次和发送节奏下的行为。
+`ctpFlowControlOptions` can also be adjusted to observe behavior under different subscription batch sizes and send intervals.
 
-## 构建方法
+## Build
 
-在仓库根目录执行：
+From the repository root:
 
 ```bash
 dotnet build Demos/Subscrption/Subscrption.fsproj -m:1
 ```
 
-说明：
+Notes:
 
-- 该命令会同时构建 `Ctp.Net`
-- `Ctp.Net` 的 MSBuild 目标会自动构建并复制 NativeBridge 产物
-- 本仓库约定 `dotnet build` 使用 `-m:1`
+- This command also builds `Ctp.Net`
+- The `Ctp.Net` MSBuild target automatically builds and copies NativeBridge artifacts
+- This repo uses `-m:1` for `dotnet build`
 
-## 运行方法
+## Run
 
-在仓库根目录执行：
+From the repository root:
 
 ```bash
 dotnet run --project Demos/Subscrption/Subscrption.fsproj
 ```
 
-运行成功后，控制台会依次输出：
+On success, the console outputs:
 
-- 连接与登录过程
-- 实际订阅的合约列表
-- 收到的实时行情，格式为：`instrumentid@time: lastprice`
-- 提示用户按任意键退出
+- Connection and login progress
+- The list of instruments actually subscribed
+- Real-time market data in the format: `instrumentid@time: lastprice`
+- A prompt to press any key to exit
 
-## 配置说明
+## Configuration
 
-`options.local.json` 包含四部分：
+`options.local.json` has four sections:
 
-- `ctpOptions`：CTP 连接与登录配置
-- `ctpFlowControlOptions`：请求/订阅流控配置
-- `instrumentIds`：需要订阅的合约列表
-- `connectTimeoutMs`：连接超时时间
+- `ctpOptions` — CTP connection and login settings
+- `ctpFlowControlOptions` — request/subscription flow-control settings
+- `instrumentIds` — list of instruments to subscribe to
+- `connectTimeoutMs` — connection timeout
 
-其中：
+Notes:
 
-- `ctpOptions.frontAddress` 应填写 MD Front 地址，而不是 Trader Front 地址
-- `instrumentIds` 至少要包含一个非空合约代码
-- `ctpFlowControlOptions.subscriptionBatchSize`、`subscriptionBatchDelayMs` 会直接影响大批量订阅时的发送节奏
-- 订阅回调里只做轻量输出，避免阻塞底层回调线程
+- `ctpOptions.frontAddress` must point to an MD Front, not a Trader Front
+- `instrumentIds` must contain at least one non-empty instrument code
+- `ctpFlowControlOptions.subscriptionBatchSize` and `subscriptionBatchDelayMs` directly affect the send pacing for large subscription batches
+- Keep callback handlers lightweight to avoid blocking the underlying callback thread
