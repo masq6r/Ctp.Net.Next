@@ -224,7 +224,7 @@ type MdSmokeTests() =
         use client = new MdClient(options)
 
         let dataReceived =
-            TaskCompletionSource<DepthMarketDataResponse> TaskCreationOptions.RunContinuationsAsynchronously
+            TaskCompletionSource<DepthMarketData> TaskCreationOptions.RunContinuationsAsynchronously
 
         client.DepthMarketDataReceived.Add(fun data ->
             if String.Equals(data.InstrumentId, config.InstrumentId, StringComparison.OrdinalIgnoreCase) then
@@ -290,8 +290,7 @@ type TraderSmokeTests() =
 
         instrumentCommissionRateResult |> Helper.expectOk |> ignore
 
-        let! instrumentsResult =
-            client.QueryInstrumentAsync("", "", "", "") |> Async.StartAsTask
+        let! instrumentsResult = client.QueryInstrumentAsync("", "", "", "") |> Async.StartAsTask
 
         match instrumentsResult with
         | Ok s -> Assert.True(s.Length > 0)

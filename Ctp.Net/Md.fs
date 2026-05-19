@@ -16,7 +16,7 @@ type private MdAgentMessage =
     | RspSubMarketData of SpecificInstrumentResponse option * RspInfo option * int * bool
     | RspUnsubMarketData of SpecificInstrumentResponse option * RspInfo option * int * bool
     | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
-    | RtnDepthMarketData of DepthMarketDataResponse
+    | RtnDepthMarketData of DepthMarketData
 
 type MdClient
     (
@@ -48,7 +48,7 @@ type MdClient
     let frontDisconnectedEvent = Event<int>()
     let heartBeatWarningEvent = Event<int>()
     let rspErrorEvent = Event<RspInfo>()
-    let depthMarketDataEvent = Event<DepthMarketDataResponse>()
+    let depthMarketDataEvent = Event<DepthMarketData>()
 
     let api =
         new MdApi(
@@ -307,12 +307,7 @@ type MdClient
                 | [] -> return Ok(List.rev completedBatches |> List.concat)
                 | batch :: rest ->
                     let! result =
-                        this.RunSubscriptionBatchAsync
-                            operationName
-                            batch
-                            pendingState
-                            apiCall
-                            (Some cancellationToken)
+                        this.RunSubscriptionBatchAsync operationName batch pendingState apiCall (Some cancellationToken)
 
                     match result with
                     | Error error -> return Error error

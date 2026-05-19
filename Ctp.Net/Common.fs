@@ -71,8 +71,8 @@ type CtpFlowControlOptions =
           NativeReturnCodeRetryDelay = TimeSpan.FromMilliseconds 250.0
           MaxQueryRspErrorRetries = 3
           QueryRspErrorRetryDelay = TimeSpan.FromMilliseconds 500.0
-          QueryCompletionTimeout = TimeSpan.FromSeconds 15.0
-          SubscriptionBatchSize = 500
+          QueryCompletionTimeout = TimeSpan.FromSeconds 120.0
+          SubscriptionBatchSize = 50
           SubscriptionBatchDelay = TimeSpan.FromSeconds 1.0 }
 
 [<RequireQualifiedAccess>]
@@ -230,7 +230,9 @@ type internal PendingQueryDict(?logger: ILogger) =
                Finalize: RspInfo option -> unit |}
          >()
 
-    member _.Register<'a>(requestId, operationName: string, completion: TaskCompletionSource<Result<'a list, RspInfo>>) =
+    member _.Register<'a>
+        (requestId, operationName: string, completion: TaskCompletionSource<Result<'a list, RspInfo>>)
+        =
         let items = ResizeArray<objnull>()
 
         let finalize rspInfo =
@@ -324,12 +326,14 @@ type internal PendingQueryDict(?logger: ILogger) =
         )
 
 module internal FlowControlHelpers =
-    let isRetryableNativeReturnCode = function
+    let isRetryableNativeReturnCode =
+        function
         | -2
         | -3 -> true
         | _ -> false
 
-    let isRetryableQueryError = function
+    let isRetryableQueryError =
+        function
         | 90
         | 154 -> true
         | _ -> false
@@ -397,27 +401,33 @@ type internal FlowController(options: CtpFlowControlOptions, ?logger: ILogger) =
         attempt < options.MaxQueryRspErrorRetries
         && FlowControlHelpers.isRetryableQueryError rspInfo.ErrorId
 
-    member _.DelayBeforeNativeRetryAsync(operationName: string, attempt: int, returnCode: int, ?cancellationToken: CancellationToken) = task {
-        logger.LogWarning(
-            "Retrying {OperationName} after native return code {ReturnCode} (attempt {Attempt})",
-            operationName,
-            returnCode,
-            attempt
-        )
+    member _.DelayBeforeNativeRetryAsync
+        (operationName: string, attempt: int, returnCode: int, ?cancellationToken: CancellationToken)
+        =
+        task {
+            logger.LogWarning(
+                "Retrying {OperationName} after native return code {ReturnCode} (attempt {Attempt})",
+                operationName,
+                returnCode,
+                attempt
+            )
 
-        do! Task.Delay(options.NativeReturnCodeRetryDelay, defaultArg cancellationToken CancellationToken.None)
-    }
+            do! Task.Delay(options.NativeReturnCodeRetryDelay, defaultArg cancellationToken CancellationToken.None)
+        }
 
-    member _.DelayBeforeQueryRetryAsync(operationName: string, attempt: int, errorId: int, ?cancellationToken: CancellationToken) = task {
-        logger.LogWarning(
-            "Retrying {OperationName} after query error {ErrorId} (attempt {Attempt})",
-            operationName,
-            errorId,
-            attempt
-        )
+    member _.DelayBeforeQueryRetryAsync
+        (operationName: string, attempt: int, errorId: int, ?cancellationToken: CancellationToken)
+        =
+        task {
+            logger.LogWarning(
+                "Retrying {OperationName} after query error {ErrorId} (attempt {Attempt})",
+                operationName,
+                errorId,
+                attempt
+            )
 
-        do! Task.Delay(options.QueryRspErrorRetryDelay, defaultArg cancellationToken CancellationToken.None)
-    }
+            do! Task.Delay(options.QueryRspErrorRetryDelay, defaultArg cancellationToken CancellationToken.None)
+        }
 
     member _.AwaitQueryCompletionAsync
         (
@@ -426,7 +436,8 @@ type internal FlowController(options: CtpFlowControlOptions, ?logger: ILogger) =
             pending: PendingQueryDict,
             completionTask: Task<Result<'T list, RspInfo>>
         )
-        = task {
+        =
+        task {
             try
                 return! completionTask.WaitAsync(options.QueryCompletionTimeout)
             with :? TimeoutException ->

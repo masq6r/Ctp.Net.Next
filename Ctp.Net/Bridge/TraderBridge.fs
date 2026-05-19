@@ -250,391 +250,363 @@ type QueryInstrumentCommissionRateRequest =
       Reserve1: string option }
 
 type AccountregisterResponse =
-    { 
-      TradeDay: string;
-      BankId: string;
-      BankBranchId: string;
-      BankAccount: string;
-      BrokerId: string;
-      BrokerBranchId: string;
-      AccountId: string;
-      IdCardType: IdCardType option;
-      IdentifiedCardNo: string;
-      CustomerName: string;
-      CurrencyId: string;
-      OpenOrDestroy: OpenOrDestroy option;
-      RegDate: string;
-      OutDate: string;
-      TId: int;
-      CustType: CustType option;
-      BankAccType: BankAccType option;
+    { TradeDay: string
+      BankId: string
+      BankBranchId: string
+      BankAccount: string
+      BrokerId: string
+      BrokerBranchId: string
+      AccountId: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CustomerName: string
+      CurrencyId: string
+      OpenOrDestroy: OpenOrDestroy option
+      RegDate: string
+      OutDate: string
+      TId: int
+      CustType: CustType option
+      BankAccType: BankAccType option
       LongCustomerName: string }
 
 type BatchOrderActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      OrderActionRef: int;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      ActionDate: string;
-      ActionTime: string;
-      TraderId: string;
-      InstallId: int;
-      ActionLocalId: string;
-      ParticipantId: string;
-      ClientId: string;
-      BusinessUnit: string;
-      OrderActionStatus: OrderActionStatus option;
-      UserId: string;
-      StatusMsg: string;
-      InvestUnitId: string;
-      Reserve1: string;
-      MacAddress: string;
+    { BrokerId: string
+      InvestorId: string
+      OrderActionRef: int
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      ActionDate: string
+      ActionTime: string
+      TraderId: string
+      InstallId: int
+      ActionLocalId: string
+      ParticipantId: string
+      ClientId: string
+      BusinessUnit: string
+      OrderActionStatus: OrderActionStatus option
+      UserId: string
+      StatusMsg: string
+      InvestUnitId: string
+      Reserve1: string
+      MacAddress: string
       IpAddress: string }
 
 type BrokerTradingAlgosResponse =
-    { 
-      BrokerId: string;
-      ExchangeId: string;
-      Reserve1: string;
-      HandlePositionAlgoId: HandlePositionAlgoId option;
-      FindMarginRateAlgoId: FindMarginRateAlgoId option;
-      HandleTradingAccountAlgoId: HandleTradingAccountAlgoId option;
+    { BrokerId: string
+      ExchangeId: string
+      Reserve1: string
+      HandlePositionAlgoId: HandlePositionAlgoId option
+      FindMarginRateAlgoId: FindMarginRateAlgoId option
+      HandleTradingAccountAlgoId: HandleTradingAccountAlgoId option
       InstrumentId: string }
 
 type BrokerTradingParamsResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      MarginPriceType: MarginPriceType option;
-      Algorithm: Algorithm option;
-      AvailIncludeCloseProfit: char option;
-      CurrencyId: string;
-      OptionRoyaltyPriceType: OptionRoyaltyPriceType option;
+    { BrokerId: string
+      InvestorId: string
+      MarginPriceType: MarginPriceType option
+      Algorithm: Algorithm option
+      AvailIncludeCloseProfit: char option
+      CurrencyId: string
+      OptionRoyaltyPriceType: OptionRoyaltyPriceType option
       AccountId: string }
 
 type CancelOffsetSettingResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string;
-      UnderlyingInstrId: string;
-      ProductId: string;
-      OffsetType: OffsetType option;
-      Volume: int;
-      IsOffset: int;
-      RequestId: int;
-      UserId: string;
-      ExchangeId: string;
-      IpAddress: string;
-      MacAddress: string;
-      ExchangeInstId: string;
-      ExchangeSerialNo: string;
-      ExchangeProductId: string;
-      TraderId: string;
-      InstallId: int;
-      ParticipantId: string;
-      ClientId: string;
-      OrderActionStatus: OrderActionStatus option;
-      StatusMsg: string;
-      ActionLocalId: string;
-      ActionDate: string;
+    { BrokerId: string
+      InvestorId: string
+      InstrumentId: string
+      UnderlyingInstrId: string
+      ProductId: string
+      OffsetType: OffsetType option
+      Volume: int
+      IsOffset: int
+      RequestId: int
+      UserId: string
+      ExchangeId: string
+      IpAddress: string
+      MacAddress: string
+      ExchangeInstId: string
+      ExchangeSerialNo: string
+      ExchangeProductId: string
+      TraderId: string
+      InstallId: int
+      ParticipantId: string
+      ClientId: string
+      OrderActionStatus: OrderActionStatus option
+      StatusMsg: string
+      ActionLocalId: string
+      ActionDate: string
       ActionTime: string }
 
 type CfmmcTradingAccountKeyResponse =
-    { 
-      BrokerId: string;
-      ParticipantId: string;
-      AccountId: string;
-      KeyId: int;
+    { BrokerId: string
+      ParticipantId: string
+      AccountId: string
+      KeyId: int
       CurrentKey: string }
 
 type CombActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string;
-      CombActionRef: string;
-      UserId: string;
-      Direction: Direction option;
-      Volume: int;
-      CombDirection: CombDirection option;
-      HedgeFlag: HedgeFlag option;
-      ActionLocalId: string;
-      ExchangeId: string;
-      ParticipantId: string;
-      ClientId: string;
-      Reserve2: string;
-      TraderId: string;
-      InstallId: int;
-      ActionStatus: char option;
-      NotifySequence: int;
-      TradingDay: string;
-      SettlementId: int;
-      SequenceNo: int;
-      FrontId: int;
-      SessionId: int;
-      UserProductInfo: string;
-      StatusMsg: string;
-      Reserve3: string;
-      MacAddress: string;
-      ComTradeId: string;
-      BranchId: string;
-      InvestUnitId: string;
-      InstrumentId: string;
-      ExchangeInstId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string
+      CombActionRef: string
+      UserId: string
+      Direction: Direction option
+      Volume: int
+      CombDirection: CombDirection option
+      HedgeFlag: HedgeFlag option
+      ActionLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      Reserve2: string
+      TraderId: string
+      InstallId: int
+      ActionStatus: char option
+      NotifySequence: int
+      TradingDay: string
+      SettlementId: int
+      SequenceNo: int
+      FrontId: int
+      SessionId: int
+      UserProductInfo: string
+      StatusMsg: string
+      Reserve3: string
+      MacAddress: string
+      ComTradeId: string
+      BranchId: string
+      InvestUnitId: string
+      InstrumentId: string
+      ExchangeInstId: string
       IpAddress: string }
 
 type CombInstrumentGuardResponse =
-    { 
-      BrokerId: string;
-      Reserve1: string;
-      GuarantRatio: decimal;
-      ExchangeId: string;
+    { BrokerId: string
+      Reserve1: string
+      GuarantRatio: decimal
+      ExchangeId: string
       InstrumentId: string }
 
 type CombLegResponse =
-    { 
-      CombInstrumentId: string;
-      LegId: int;
-      LegInstrumentId: string;
-      Direction: Direction option;
-      LegMultiple: int;
+    { CombInstrumentId: string
+      LegId: int
+      LegInstrumentId: string
+      Direction: Direction option
+      LegMultiple: int
       ImplyLevel: int }
 
 type CombPromotionParamResponse =
-    { 
-      ExchangeId: string;
-      InstrumentId: string;
-      CombHedgeFlag: string;
+    { ExchangeId: string
+      InstrumentId: string
+      CombHedgeFlag: string
       Xparameter: decimal }
 
 type ContractBankResponse =
-    { 
-      BrokerId: string;
-      BankId: string;
-      BankBrchId: string;
-      BankName: string;
+    { BrokerId: string
+      BankId: string
+      BankBrchId: string
+      BankName: string
       CsrcBankId: string }
 
 type EWarrantOffsetResponse =
-    { 
-      TradingDay: string;
-      BrokerId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      Reserve1: string;
-      Direction: Direction option;
-      HedgeFlag: HedgeFlag option;
-      Volume: int;
-      InvestUnitId: string;
+    { TradingDay: string
+      BrokerId: string
+      InvestorId: string
+      ExchangeId: string
+      Reserve1: string
+      Direction: Direction option
+      HedgeFlag: HedgeFlag option
+      Volume: int
+      InvestUnitId: string
       InstrumentId: string }
 
 type ExchangeResponse =
-    { 
-      ExchangeId: string;
-      ExchangeName: string;
+    { ExchangeId: string
+      ExchangeName: string
       ExchangeProperty: ExchangeProperty option }
 
 type ExchangeMarginRateAdjustResponse =
-    { 
-      BrokerId: string;
-      Reserve1: string;
-      HedgeFlag: HedgeFlag option;
-      LongMarginRatioByMoney: decimal;
-      LongMarginRatioByVolume: decimal;
-      ShortMarginRatioByMoney: decimal;
-      ShortMarginRatioByVolume: decimal;
-      ExchLongMarginRatioByMoney: decimal;
-      ExchLongMarginRatioByVolume: decimal;
-      ExchShortMarginRatioByMoney: decimal;
-      ExchShortMarginRatioByVolume: decimal;
-      NoLongMarginRatioByMoney: decimal;
-      NoLongMarginRatioByVolume: decimal;
-      NoShortMarginRatioByMoney: decimal;
-      NoShortMarginRatioByVolume: decimal;
+    { BrokerId: string
+      Reserve1: string
+      HedgeFlag: HedgeFlag option
+      LongMarginRatioByMoney: decimal
+      LongMarginRatioByVolume: decimal
+      ShortMarginRatioByMoney: decimal
+      ShortMarginRatioByVolume: decimal
+      ExchLongMarginRatioByMoney: decimal
+      ExchLongMarginRatioByVolume: decimal
+      ExchShortMarginRatioByMoney: decimal
+      ExchShortMarginRatioByVolume: decimal
+      NoLongMarginRatioByMoney: decimal
+      NoLongMarginRatioByVolume: decimal
+      NoShortMarginRatioByMoney: decimal
+      NoShortMarginRatioByVolume: decimal
       InstrumentId: string }
 
 type ExchangeRateResponse =
-    { 
-      BrokerId: string;
-      FromCurrencyId: string;
-      FromCurrencyUnit: decimal;
-      ToCurrencyId: string;
+    { BrokerId: string
+      FromCurrencyId: string
+      FromCurrencyUnit: decimal
+      ToCurrencyId: string
       ExchangeRateResponse: decimal }
 
 type ExecOrderResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string;
-      ExecOrderRef: string;
-      UserId: string;
-      Volume: int;
-      RequestId: int;
-      BusinessUnit: string;
-      OffsetFlag: OffsetFlag option;
-      HedgeFlag: HedgeFlag option;
-      ActionType: ActionType option;
-      PosiDirection: PosiDirection option;
-      ReservePositionFlag: ReservePositionFlag option;
-      CloseFlag: CloseFlag option;
-      ExecOrderLocalId: string;
-      ExchangeId: string;
-      ParticipantId: string;
-      ClientId: string;
-      Reserve2: string;
-      TraderId: string;
-      InstallId: int;
-      OrderSubmitStatus: OrderSubmitStatus option;
-      NotifySequence: int;
-      TradingDay: string;
-      SettlementId: int;
-      ExecOrderSysId: string;
-      InsertDate: string;
-      InsertTime: string;
-      CancelTime: string;
-      ExecResult: ExecResult option;
-      ClearingPartId: string;
-      SequenceNo: int;
-      FrontId: int;
-      SessionId: int;
-      UserProductInfo: string;
-      StatusMsg: string;
-      ActiveUserId: string;
-      BrokerExecOrderSeq: int;
-      BranchId: string;
-      InvestUnitId: string;
-      AccountId: string;
-      CurrencyId: string;
-      Reserve3: string;
-      MacAddress: string;
-      InstrumentId: string;
-      ExchangeInstId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string
+      ExecOrderRef: string
+      UserId: string
+      Volume: int
+      RequestId: int
+      BusinessUnit: string
+      OffsetFlag: OffsetFlag option
+      HedgeFlag: HedgeFlag option
+      ActionType: ActionType option
+      PosiDirection: PosiDirection option
+      ReservePositionFlag: ReservePositionFlag option
+      CloseFlag: CloseFlag option
+      ExecOrderLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      Reserve2: string
+      TraderId: string
+      InstallId: int
+      OrderSubmitStatus: OrderSubmitStatus option
+      NotifySequence: int
+      TradingDay: string
+      SettlementId: int
+      ExecOrderSysId: string
+      InsertDate: string
+      InsertTime: string
+      CancelTime: string
+      ExecResult: ExecResult option
+      ClearingPartId: string
+      SequenceNo: int
+      FrontId: int
+      SessionId: int
+      UserProductInfo: string
+      StatusMsg: string
+      ActiveUserId: string
+      BrokerExecOrderSeq: int
+      BranchId: string
+      InvestUnitId: string
+      AccountId: string
+      CurrencyId: string
+      Reserve3: string
+      MacAddress: string
+      InstrumentId: string
+      ExchangeInstId: string
       IpAddress: string }
 
 type ExecOrderActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      ExecOrderActionRef: int;
-      ExecOrderRef: string;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      ExecOrderSysId: string;
-      ActionFlag: ActionFlag option;
-      ActionDate: string;
-      ActionTime: string;
-      TraderId: string;
-      InstallId: int;
-      ExecOrderLocalId: string;
-      ActionLocalId: string;
-      ParticipantId: string;
-      ClientId: string;
-      BusinessUnit: string;
-      OrderActionStatus: OrderActionStatus option;
-      UserId: string;
-      ActionType: ActionType option;
-      StatusMsg: string;
-      Reserve1: string;
-      BranchId: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      ExecOrderActionRef: int
+      ExecOrderRef: string
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      ExecOrderSysId: string
+      ActionFlag: ActionFlag option
+      ActionDate: string
+      ActionTime: string
+      TraderId: string
+      InstallId: int
+      ExecOrderLocalId: string
+      ActionLocalId: string
+      ParticipantId: string
+      ClientId: string
+      BusinessUnit: string
+      OrderActionStatus: OrderActionStatus option
+      UserId: string
+      ActionType: ActionType option
+      StatusMsg: string
+      Reserve1: string
+      BranchId: string
+      InvestUnitId: string
+      Reserve2: string
+      MacAddress: string
+      InstrumentId: string
       IpAddress: string }
 
-type FensUserInfoRequest =
-    { 
-      BrokerId: string;
-      UserId: string;
-      LoginMode: LoginMode option }
+type FensUserInfoRequest = { BrokerId: string; UserId: string; LoginMode: LoginMode option }
 
 type ForQuoteResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string;
-      ForQuoteRef: string;
-      UserId: string;
-      ForQuoteLocalId: string;
-      ExchangeId: string;
-      ParticipantId: string;
-      ClientId: string;
-      Reserve2: string;
-      TraderId: string;
-      InstallId: int;
-      InsertDate: string;
-      InsertTime: string;
-      ForQuoteStatus: ForQuoteStatus option;
-      FrontId: int;
-      SessionId: int;
-      StatusMsg: string;
-      ActiveUserId: string;
-      BrokerForQutoSeq: int;
-      InvestUnitId: string;
-      Reserve3: string;
-      MacAddress: string;
-      InstrumentId: string;
-      ExchangeInstId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string
+      ForQuoteRef: string
+      UserId: string
+      ForQuoteLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      Reserve2: string
+      TraderId: string
+      InstallId: int
+      InsertDate: string
+      InsertTime: string
+      ForQuoteStatus: ForQuoteStatus option
+      FrontId: int
+      SessionId: int
+      StatusMsg: string
+      ActiveUserId: string
+      BrokerForQutoSeq: int
+      InvestUnitId: string
+      Reserve3: string
+      MacAddress: string
+      InstrumentId: string
+      ExchangeInstId: string
       IpAddress: string }
 
 type ForQuoteRspResponse =
-    { 
-      TradingDay: string;
-      Reserve1: string;
-      ForQuoteSysId: string;
-      ForQuoteTime: string;
-      ActionDay: string;
-      ExchangeId: string;
+    { TradingDay: string
+      Reserve1: string
+      ForQuoteSysId: string
+      ForQuoteTime: string
+      ActionDay: string
+      ExchangeId: string
       InstrumentId: string }
 
-type FrontInfoResponse =
-    { 
-      FrontAddr: string;
-      QryFreq: int;
-      FtdPkgFreq: int }
+type FrontInfoResponse = { FrontAddr: string; QryFreq: int; FtdPkgFreq: int }
 
 type HedgeCfmResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string;
-      UserId: string;
-      Volume: int;
-      Direction: Direction option;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      OrderRef: string;
-      ActiveUserId: string;
-      BrokerOrderSeq: int;
-      OrderSysId: string;
-      ApplyStatus: ApplyStatus option;
-      SequenceNo: int;
-      DealVolume: int;
-      InsertDate: string;
-      InsertTime: string;
-      CancelTime: string;
-      ReqDate: string;
-      OrderLocalId: string;
-      ExchangeId: string;
-      ParticipantId: string;
-      ClientId: string;
-      ExchangeInstId: string;
-      TraderId: string;
-      InstallId: int;
-      OrderSubmitStatus: OrderSubmitStatus option;
-      NotifySequence: int;
-      TradingDay: string;
-      SettlementId: int;
-      StatusMsg: string;
-      IpAddress: string;
+    { BrokerId: string
+      InvestorId: string
+      InstrumentId: string
+      UserId: string
+      Volume: int
+      Direction: Direction option
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      OrderRef: string
+      ActiveUserId: string
+      BrokerOrderSeq: int
+      OrderSysId: string
+      ApplyStatus: ApplyStatus option
+      SequenceNo: int
+      DealVolume: int
+      InsertDate: string
+      InsertTime: string
+      CancelTime: string
+      ReqDate: string
+      OrderLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      ExchangeInstId: string
+      TraderId: string
+      InstallId: int
+      OrderSubmitStatus: OrderSubmitStatus option
+      NotifySequence: int
+      TradingDay: string
+      SettlementId: int
+      StatusMsg: string
+      IpAddress: string
       MacAddress: string }
 
 type InputBatchOrderActionResponse = InputBatchOrderActionRequest
@@ -653,965 +625,920 @@ type InputSpdApplyResponse = InputSpdApplyRequest
 type InputSpdApplyActionResponse = InputSpdApplyActionRequest
 
 type HedgeCfmActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      ActionDate: string;
-      ActionTime: string;
-      TraderId: string;
-      InstallId: int;
-      OrderLocalId: string;
-      ActionLocalId: string;
-      ParticipantId: string;
-      ClientId: string;
-      OrderActionStatus: OrderActionStatus option;
-      UserId: string;
-      ExchangeId: string;
-      OrderSysId: string;
-      RequestId: int;
-      StatusMsg: string;
-      OrderRef: string;
-      FrontId: int;
-      SessionId: int;
-      IpAddress: string;
+    { BrokerId: string
+      InvestorId: string
+      ActionDate: string
+      ActionTime: string
+      TraderId: string
+      InstallId: int
+      OrderLocalId: string
+      ActionLocalId: string
+      ParticipantId: string
+      ClientId: string
+      OrderActionStatus: OrderActionStatus option
+      UserId: string
+      ExchangeId: string
+      OrderSysId: string
+      RequestId: int
+      StatusMsg: string
+      OrderRef: string
+      FrontId: int
+      SessionId: int
+      IpAddress: string
       MacAddress: string }
 
 type InputBatchOrderActionRequest =
-    {
-      BrokerId: string option;
-      InvestorId: string;
-      OrderActionRef: int;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string option;
-      UserId: string option;
-      InvestUnitId: string option;
-      Reserve1: string option;
-      MacAddress: string option;
+    { BrokerId: string option
+      InvestorId: string
+      OrderActionRef: int
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string option
+      UserId: string option
+      InvestUnitId: string option
+      Reserve1: string option
+      MacAddress: string option
       IpAddress: string option }
 
 type InputCombActionRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      CombActionRef: string option;
-      UserId: string option;
-      Direction: Direction;
-      Volume: int;
-      CombDirection: CombDirection option;
-      HedgeFlag: HedgeFlag option;
-      ExchangeId: string;
-      Reserve2: string option;
-      MacAddress: string option;
-      InvestUnitId: string option;
-      FrontId: int;
-      SessionId: int;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      CombActionRef: string option
+      UserId: string option
+      Direction: Direction
+      Volume: int
+      CombDirection: CombDirection option
+      HedgeFlag: HedgeFlag option
+      ExchangeId: string
+      Reserve2: string option
+      MacAddress: string option
+      InvestUnitId: string option
+      FrontId: int
+      SessionId: int
+      InstrumentId: string
       IpAddress: string option }
 
 type InputExecOrderRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExecOrderRef: string option;
-      UserId: string option;
-      Volume: int;
-      RequestId: int;
-      BusinessUnit: string option;
-      OffsetFlag: OffsetFlag;
-      HedgeFlag: HedgeFlag option;
-      ActionType: ActionType;
-      PosiDirection: PosiDirection option;
-      ReservePositionFlag: ReservePositionFlag option;
-      CloseFlag: CloseFlag;
-      ExchangeId: string option;
-      InvestUnitId: string option;
-      AccountId: string option;
-      CurrencyId: string option;
-      ClientId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExecOrderRef: string option
+      UserId: string option
+      Volume: int
+      RequestId: int
+      BusinessUnit: string option
+      OffsetFlag: OffsetFlag
+      HedgeFlag: HedgeFlag option
+      ActionType: ActionType
+      PosiDirection: PosiDirection option
+      ReservePositionFlag: ReservePositionFlag option
+      CloseFlag: CloseFlag
+      ExchangeId: string option
+      InvestUnitId: string option
+      AccountId: string option
+      CurrencyId: string option
+      ClientId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string
       IpAddress: string option }
 
 type InputExecOrderActionRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ExecOrderActionRef: int;
-      ExecOrderRef: string option;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      ExecOrderSysId: string;
-      ActionFlag: ActionFlag option;
-      UserId: string option;
-      Reserve1: string option;
-      InvestUnitId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string option;
+    { BrokerId: string
+      InvestorId: string
+      ExecOrderActionRef: int
+      ExecOrderRef: string option
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      ExecOrderSysId: string
+      ActionFlag: ActionFlag option
+      UserId: string option
+      Reserve1: string option
+      InvestUnitId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string option
       IpAddress: string option }
 
 type InputForQuoteRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ForQuoteRef: string option;
-      UserId: string option;
-      ExchangeId: string option;
-      InvestUnitId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ForQuoteRef: string option
+      UserId: string option
+      ExchangeId: string option
+      InvestUnitId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string
       IpAddress: string option }
 
 type InputHedgeCfmRequest =
-    {
-      BrokerId: string;
-      UserId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      InstrumentId: string;
-      Volume: int;
-      Direction: Direction;
-      RequestId: int;
-      OrderRef: string option;
-      IpAddress: string option;
+    { BrokerId: string
+      UserId: string
+      InvestorId: string
+      ExchangeId: string
+      InstrumentId: string
+      Volume: int
+      Direction: Direction
+      RequestId: int
+      OrderRef: string option
+      IpAddress: string option
       MacAddress: string option }
 
 type InputHedgeCfmActionRequest =
-    {
-      BrokerId: string;
-      UserId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      OrderSysId: string;
-      OrderRef: string;
-      FrontId: int;
-      SessionId: int;
-      RequestId: int;
-      IpAddress: string option;
+    { BrokerId: string
+      UserId: string
+      InvestorId: string
+      ExchangeId: string
+      OrderSysId: string
+      OrderRef: string
+      FrontId: int
+      SessionId: int
+      RequestId: int
+      IpAddress: string option
       MacAddress: string option }
 
 type InputOffsetSettingRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string;
-      UnderlyingInstrId: string;
-      ProductId: string;
-      OffsetType: OffsetType;
-      Volume: int;
-      IsOffset: int;
-      RequestId: int;
-      UserId: string;
-      ExchangeId: string;
-      IpAddress: string option;
+    { BrokerId: string
+      InvestorId: string
+      InstrumentId: string
+      UnderlyingInstrId: string
+      ProductId: string
+      OffsetType: OffsetType
+      Volume: int
+      IsOffset: int
+      RequestId: int
+      UserId: string
+      ExchangeId: string
+      IpAddress: string option
       MacAddress: string option }
 
 type InputOptionSelfCloseRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      OptionSelfCloseRef: string option;
-      UserId: string option;
-      Volume: int;
-      RequestId: int;
-      BusinessUnit: string option;
-      HedgeFlag: HedgeFlag;
-      OptSelfCloseFlag: OptSelfCloseFlag option;
-      ExchangeId: string;
-      InvestUnitId: string option;
-      AccountId: string option;
-      CurrencyId: string option;
-      ClientId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      OptionSelfCloseRef: string option
+      UserId: string option
+      Volume: int
+      RequestId: int
+      BusinessUnit: string option
+      HedgeFlag: HedgeFlag
+      OptSelfCloseFlag: OptSelfCloseFlag option
+      ExchangeId: string
+      InvestUnitId: string option
+      AccountId: string option
+      CurrencyId: string option
+      ClientId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string
       IpAddress: string option }
 
 type InputOptionSelfCloseActionRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      OptionSelfCloseActionRef: int;
-      OptionSelfCloseRef: string option;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      OptionSelfCloseSysId: string;
-      ActionFlag: ActionFlag;
-      UserId: string option;
-      Reserve1: string option;
-      InvestUnitId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string option;
+    { BrokerId: string
+      InvestorId: string
+      OptionSelfCloseActionRef: int
+      OptionSelfCloseRef: string option
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      OptionSelfCloseSysId: string
+      ActionFlag: ActionFlag
+      UserId: string option
+      Reserve1: string option
+      InvestUnitId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string option
       IpAddress: string option }
 
 type InputQuoteRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      QuoteRef: string option;
-      UserId: string option;
-      AskPrice: decimal;
-      BidPrice: decimal;
-      AskVolume: int;
-      BidVolume: int;
-      RequestId: int;
-      BusinessUnit: string option;
-      AskOffsetFlag: char;
-      BidOffsetFlag: char;
-      AskHedgeFlag: char option;
-      BidHedgeFlag: char option;
-      AskOrderRef: string option;
-      BidOrderRef: string option;
-      ForQuoteSysId: string option;
-      ExchangeId: string option;
-      InvestUnitId: string option;
-      ClientId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string;
-      IpAddress: string option;
-      ReplaceSysId: string option;
-      TimeCondition: TimeCondition option;
-      OrderMemo: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      QuoteRef: string option
+      UserId: string option
+      AskPrice: decimal
+      BidPrice: decimal
+      AskVolume: int
+      BidVolume: int
+      RequestId: int
+      BusinessUnit: string option
+      AskOffsetFlag: char
+      BidOffsetFlag: char
+      AskHedgeFlag: char option
+      BidHedgeFlag: char option
+      AskOrderRef: string option
+      BidOrderRef: string option
+      ForQuoteSysId: string option
+      ExchangeId: string option
+      InvestUnitId: string option
+      ClientId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string
+      IpAddress: string option
+      ReplaceSysId: string option
+      TimeCondition: TimeCondition option
+      OrderMemo: string option
       SessionReqSeq: int }
 
 type InputQuoteActionRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      QuoteActionRef: int;
-      QuoteRef: string;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      QuoteSysId: string;
-      ActionFlag: ActionFlag;
-      UserId: string option;
-      Reserve1: string option;
-      InvestUnitId: string option;
-      ClientId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string;
-      IpAddress: string option;
-      OrderMemo: string option;
+    { BrokerId: string
+      InvestorId: string
+      QuoteActionRef: int
+      QuoteRef: string
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      QuoteSysId: string
+      ActionFlag: ActionFlag
+      UserId: string option
+      Reserve1: string option
+      InvestUnitId: string option
+      ClientId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string
+      IpAddress: string option
+      OrderMemo: string option
       SessionReqSeq: int }
 
 type InputSpdApplyRequest =
-    {
-      BrokerId: string;
-      UserId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      FirstLegInstrumentId: string;
-      SecondLegInstrumentId: string;
-      Volume: int;
-      Direction: Direction;
-      CmbType: CmbType;
-      RequestId: int;
-      OrderRef: string option;
-      IpAddress: string option;
+    { BrokerId: string
+      UserId: string
+      InvestorId: string
+      ExchangeId: string
+      FirstLegInstrumentId: string
+      SecondLegInstrumentId: string
+      Volume: int
+      Direction: Direction
+      CmbType: CmbType
+      RequestId: int
+      OrderRef: string option
+      IpAddress: string option
       MacAddress: string option }
 
 type InputSpdApplyActionRequest =
-    {
-      BrokerId: string;
-      UserId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      OrderSysId: string;
-      OrderRef: string;
-      FrontId: int;
-      SessionId: int;
-      RequestId: int;
-      IpAddress: string option;
+    { BrokerId: string
+      UserId: string
+      InvestorId: string
+      ExchangeId: string
+      OrderSysId: string
+      OrderRef: string
+      FrontId: int
+      SessionId: int
+      RequestId: int
+      IpAddress: string option
       MacAddress: string option }
 
 type InstrumentResponse =
-    { 
-      Reserve1: string;
-      ExchangeId: string;
-      InstrumentName: string;
-      Reserve2: string;
-      Reserve3: string;
-      ProductClass: ProductClass option;
-      DeliveryYear: int;
-      DeliveryMonth: int;
-      MaxMarketOrderVolume: int;
-      MinMarketOrderVolume: int;
-      MaxLimitOrderVolume: int;
-      MinLimitOrderVolume: int;
-      VolumeMultiple: int;
-      PriceTick: decimal;
-      CreateDate: string;
-      OpenDate: string;
-      ExpireDate: string;
-      StartDelivDate: string;
-      EndDelivDate: string;
-      InstLifePhase: InstLifePhase option;
-      IsTrading: int;
-      PositionType: PositionType option;
-      PositionDateType: PositionDateType option;
-      LongMarginRatio: decimal;
-      ShortMarginRatio: decimal;
-      MaxMarginSideAlgorithm: MaxMarginSideAlgorithm option;
-      Reserve4: string;
-      StrikePrice: decimal;
-      OptionsType: OptionsType option;
-      UnderlyingMultiple: decimal;
-      CombinationType: CombinationType option;
-      InstrumentId: string;
-      ExchangeInstId: string;
-      ProductId: string;
+    { Reserve1: string
+      ExchangeId: string
+      InstrumentName: string
+      Reserve2: string
+      Reserve3: string
+      ProductClass: ProductClass option
+      DeliveryYear: int
+      DeliveryMonth: int
+      MaxMarketOrderVolume: int
+      MinMarketOrderVolume: int
+      MaxLimitOrderVolume: int
+      MinLimitOrderVolume: int
+      VolumeMultiple: int
+      PriceTick: decimal
+      CreateDate: string
+      OpenDate: string
+      ExpireDate: string
+      StartDelivDate: string
+      EndDelivDate: string
+      InstLifePhase: InstLifePhase option
+      IsTrading: int
+      PositionType: PositionType option
+      PositionDateType: PositionDateType option
+      LongMarginRatio: decimal
+      ShortMarginRatio: decimal
+      MaxMarginSideAlgorithm: MaxMarginSideAlgorithm option
+      Reserve4: string
+      StrikePrice: decimal
+      OptionsType: OptionsType option
+      UnderlyingMultiple: decimal
+      CombinationType: CombinationType option
+      InstrumentId: string
+      ExchangeInstId: string
+      ProductId: string
       UnderlyingInstrId: string }
 
 type InstrumentOrderCommRateResponse =
-    { 
-      Reserve1: string;
-      InvestorRange: InvestorRange option;
-      BrokerId: string;
-      InvestorId: string;
-      HedgeFlag: HedgeFlag option;
-      OrderCommByVolume: decimal;
-      OrderActionCommByVolume: decimal;
-      ExchangeId: string;
-      InvestUnitId: string;
-      InstrumentId: string;
-      OrderCommByTrade: decimal;
+    { Reserve1: string
+      InvestorRange: InvestorRange option
+      BrokerId: string
+      InvestorId: string
+      HedgeFlag: HedgeFlag option
+      OrderCommByVolume: decimal
+      OrderActionCommByVolume: decimal
+      ExchangeId: string
+      InvestUnitId: string
+      InstrumentId: string
+      OrderCommByTrade: decimal
       OrderActionCommByTrade: decimal }
 
 type InvestUnitResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      InvestUnitId: string;
-      InvestorUnitName: string;
-      InvestorGroupId: string;
-      CommModelId: string;
-      MarginModelId: string;
-      AccountId: string;
+    { BrokerId: string
+      InvestorId: string
+      InvestUnitId: string
+      InvestorUnitName: string
+      InvestorGroupId: string
+      CommModelId: string
+      MarginModelId: string
+      AccountId: string
       CurrencyId: string }
 
 type InvestorResponse =
-    { 
-      InvestorId: string;
-      BrokerId: string;
-      InvestorGroupId: string;
-      InvestorName: string;
-      IdentifiedCardType: char option;
-      IdentifiedCardNo: string;
-      IsActive: int;
-      Telephone: string;
-      Address: string;
-      OpenDate: string;
-      Mobile: string;
-      CommModelId: string;
-      MarginModelId: string;
-      IsOrderFreq: char option;
+    { InvestorId: string
+      BrokerId: string
+      InvestorGroupId: string
+      InvestorName: string
+      IdentifiedCardType: char option
+      IdentifiedCardNo: string
+      IsActive: int
+      Telephone: string
+      Address: string
+      OpenDate: string
+      Mobile: string
+      CommModelId: string
+      MarginModelId: string
+      IsOrderFreq: char option
       IsOpenVolLimit: char option }
 
 type InvestorCommodityGroupSpmmMarginResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      CommodityGroupId: string;
-      MarginBeforeDiscount: decimal;
-      MarginNoDiscount: decimal;
-      LongRisk: decimal;
-      ShortRisk: decimal;
-      CloseFrozenMargin: decimal;
-      InterCommodityRate: decimal;
-      MiniMarginRatio: decimal;
-      AdjustRatio: decimal;
-      IntraCommodityDiscount: decimal;
-      InterCommodityDiscount: decimal;
-      ExchMargin: decimal;
-      InvestorMargin: decimal;
-      FrozenCommission: decimal;
-      Commission: decimal;
-      FrozenCash: decimal;
-      CashIn: decimal;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      CommodityGroupId: string
+      MarginBeforeDiscount: decimal
+      MarginNoDiscount: decimal
+      LongRisk: decimal
+      ShortRisk: decimal
+      CloseFrozenMargin: decimal
+      InterCommodityRate: decimal
+      MiniMarginRatio: decimal
+      AdjustRatio: decimal
+      IntraCommodityDiscount: decimal
+      InterCommodityDiscount: decimal
+      ExchMargin: decimal
+      InvestorMargin: decimal
+      FrozenCommission: decimal
+      Commission: decimal
+      FrozenCash: decimal
+      CashIn: decimal
       StrikeFrozenMargin: decimal }
 
 type InvestorCommoditySpmmMarginResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      CommodityId: string;
-      MarginBeforeDiscount: decimal;
-      MarginNoDiscount: decimal;
-      LongPosRisk: decimal;
-      LongOpenFrozenRisk: decimal;
-      LongCloseFrozenRisk: decimal;
-      ShortPosRisk: decimal;
-      ShortOpenFrozenRisk: decimal;
-      ShortCloseFrozenRisk: decimal;
-      IntraCommodityRate: decimal;
-      OptionDiscountRate: decimal;
-      PosDiscount: decimal;
-      OpenFrozenDiscount: decimal;
-      NetRisk: decimal;
-      CloseFrozenMargin: decimal;
-      FrozenCommission: decimal;
-      Commission: decimal;
-      FrozenCash: decimal;
-      CashIn: decimal;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      CommodityId: string
+      MarginBeforeDiscount: decimal
+      MarginNoDiscount: decimal
+      LongPosRisk: decimal
+      LongOpenFrozenRisk: decimal
+      LongCloseFrozenRisk: decimal
+      ShortPosRisk: decimal
+      ShortOpenFrozenRisk: decimal
+      ShortCloseFrozenRisk: decimal
+      IntraCommodityRate: decimal
+      OptionDiscountRate: decimal
+      PosDiscount: decimal
+      OpenFrozenDiscount: decimal
+      NetRisk: decimal
+      CloseFrozenMargin: decimal
+      FrozenCommission: decimal
+      Commission: decimal
+      FrozenCash: decimal
+      CashIn: decimal
       StrikeFrozenMargin: decimal }
 
 type InvestorInfoCommRecResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string;
-      OrderCount: int;
-      OrderActionCount: int;
-      ForQuoteCnt: int;
-      InfoComm: decimal;
-      IsOptSeries: int;
-      ProductId: string;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      InstrumentId: string
+      OrderCount: int
+      OrderActionCount: int
+      ForQuoteCnt: int
+      InfoComm: decimal
+      IsOptSeries: int
+      ProductId: string
       InfoCnt: int }
 
 type InvestorPortfMarginRatioResponse =
-    { 
-      InvestorRange: InvestorRange option;
-      BrokerId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      MarginRatio: decimal;
+    { InvestorRange: InvestorRange option
+      BrokerId: string
+      InvestorId: string
+      ExchangeId: string
+      MarginRatio: decimal
       ProductGroupId: string }
 
 type InvestorPortfSettingResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      HedgeFlag: HedgeFlag option;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      HedgeFlag: HedgeFlag option
       UsePortf: int }
 
 type InvestorPositionCombineDetailResponse =
-    { 
-      TradingDay: string;
-      OpenDate: string;
-      ExchangeId: string;
-      SettlementId: int;
-      BrokerId: string;
-      InvestorId: string;
-      ComTradeId: string;
-      TradeId: string;
-      Reserve1: string;
-      HedgeFlag: HedgeFlag option;
-      Direction: Direction option;
-      TotalAmt: int;
-      Margin: decimal;
-      ExchMargin: decimal;
-      MarginRateByMoney: decimal;
-      MarginRateByVolume: decimal;
-      LegId: int;
-      LegMultiple: int;
-      Reserve2: string;
-      TradeGroupId: int;
-      InvestUnitId: string;
-      InstrumentId: string;
+    { TradingDay: string
+      OpenDate: string
+      ExchangeId: string
+      SettlementId: int
+      BrokerId: string
+      InvestorId: string
+      ComTradeId: string
+      TradeId: string
+      Reserve1: string
+      HedgeFlag: HedgeFlag option
+      Direction: Direction option
+      TotalAmt: int
+      Margin: decimal
+      ExchMargin: decimal
+      MarginRateByMoney: decimal
+      MarginRateByVolume: decimal
+      LegId: int
+      LegMultiple: int
+      Reserve2: string
+      TradeGroupId: int
+      InvestUnitId: string
+      InstrumentId: string
       CombInstrumentId: string }
 
 type InvestorPositionDetailResponse =
-    { 
-      Reserve1: string;
-      BrokerId: string;
-      InvestorId: string;
-      HedgeFlag: HedgeFlag option;
-      Direction: Direction option;
-      OpenDate: string;
-      TradeId: string;
-      Volume: int;
-      OpenPrice: decimal;
-      TradingDay: string;
-      SettlementId: int;
-      TradeType: TradeType option;
-      Reserve2: string;
-      ExchangeId: string;
-      CloseProfitByDate: decimal;
-      CloseProfitByTrade: decimal;
-      PositionProfitByDate: decimal;
-      PositionProfitByTrade: decimal;
-      Margin: decimal;
-      ExchMargin: decimal;
-      MarginRateByMoney: decimal;
-      MarginRateByVolume: decimal;
-      LastSettlementPrice: decimal;
-      SettlementPrice: decimal;
-      CloseVolume: int;
-      CloseAmount: decimal;
-      TimeFirstVolume: int;
-      InvestUnitId: string;
-      SpecPosiType: SpecPosiType option;
-      InstrumentId: string;
+    { Reserve1: string
+      BrokerId: string
+      InvestorId: string
+      HedgeFlag: HedgeFlag option
+      Direction: Direction option
+      OpenDate: string
+      TradeId: string
+      Volume: int
+      OpenPrice: decimal
+      TradingDay: string
+      SettlementId: int
+      TradeType: TradeType option
+      Reserve2: string
+      ExchangeId: string
+      CloseProfitByDate: decimal
+      CloseProfitByTrade: decimal
+      PositionProfitByDate: decimal
+      PositionProfitByTrade: decimal
+      Margin: decimal
+      ExchMargin: decimal
+      MarginRateByMoney: decimal
+      MarginRateByVolume: decimal
+      LastSettlementPrice: decimal
+      SettlementPrice: decimal
+      CloseVolume: int
+      CloseAmount: decimal
+      TimeFirstVolume: int
+      InvestUnitId: string
+      SpecPosiType: SpecPosiType option
+      InstrumentId: string
       CombInstrumentId: string }
 
 type InvestorProdRcamsMarginResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      CombProductId: string;
-      HedgeFlag: HedgeFlag option;
-      ProductGroupId: string;
-      RiskBeforeDiscount: decimal;
-      IntraInstrRisk: decimal;
-      BPosRisk: decimal;
-      SPosRisk: decimal;
-      IntraProdRisk: decimal;
-      NetRisk: decimal;
-      InterProdRisk: decimal;
-      ShortOptRiskAdj: decimal;
-      OptionRoyalty: decimal;
-      MmsaCloseFrozenMargin: decimal;
-      CloseCombFrozenMargin: decimal;
-      CloseFrozenMargin: decimal;
-      MmsaOpenFrozenMargin: decimal;
-      DeliveryOpenFrozenMargin: decimal;
-      OpenFrozenMargin: decimal;
-      UseFrozenMargin: decimal;
-      MmsaExchMargin: decimal;
-      DeliveryExchMargin: decimal;
-      CombExchMargin: decimal;
-      ExchMargin: decimal;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      CombProductId: string
+      HedgeFlag: HedgeFlag option
+      ProductGroupId: string
+      RiskBeforeDiscount: decimal
+      IntraInstrRisk: decimal
+      BPosRisk: decimal
+      SPosRisk: decimal
+      IntraProdRisk: decimal
+      NetRisk: decimal
+      InterProdRisk: decimal
+      ShortOptRiskAdj: decimal
+      OptionRoyalty: decimal
+      MmsaCloseFrozenMargin: decimal
+      CloseCombFrozenMargin: decimal
+      CloseFrozenMargin: decimal
+      MmsaOpenFrozenMargin: decimal
+      DeliveryOpenFrozenMargin: decimal
+      OpenFrozenMargin: decimal
+      UseFrozenMargin: decimal
+      MmsaExchMargin: decimal
+      DeliveryExchMargin: decimal
+      CombExchMargin: decimal
+      ExchMargin: decimal
       UseMargin: decimal }
 
 type InvestorProdRuleMarginResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      ProdFamilyCode: string;
-      InstrumentClass: InstrumentClass option;
-      CommodityGroupId: int;
-      BStdPosition: decimal;
-      SStdPosition: decimal;
-      BStdOpenFrozen: decimal;
-      SStdOpenFrozen: decimal;
-      BStdCloseFrozen: decimal;
-      SStdCloseFrozen: decimal;
-      IntraProdStdPosition: decimal;
-      NetStdPosition: decimal;
-      InterProdStdPosition: decimal;
-      SingleStdPosition: decimal;
-      IntraProdMargin: decimal;
-      InterProdMargin: decimal;
-      SingleMargin: decimal;
-      NonCombMargin: decimal;
-      AddOnMargin: decimal;
-      ExchMargin: decimal;
-      AddOnFrozenMargin: decimal;
-      OpenFrozenMargin: decimal;
-      CloseFrozenMargin: decimal;
-      Margin: decimal;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      ProdFamilyCode: string
+      InstrumentClass: InstrumentClass option
+      CommodityGroupId: int
+      BStdPosition: decimal
+      SStdPosition: decimal
+      BStdOpenFrozen: decimal
+      SStdOpenFrozen: decimal
+      BStdCloseFrozen: decimal
+      SStdCloseFrozen: decimal
+      IntraProdStdPosition: decimal
+      NetStdPosition: decimal
+      InterProdStdPosition: decimal
+      SingleStdPosition: decimal
+      IntraProdMargin: decimal
+      InterProdMargin: decimal
+      SingleMargin: decimal
+      NonCombMargin: decimal
+      AddOnMargin: decimal
+      ExchMargin: decimal
+      AddOnFrozenMargin: decimal
+      OpenFrozenMargin: decimal
+      CloseFrozenMargin: decimal
+      Margin: decimal
       FrozenMargin: decimal }
 
 type InvestorProdSpbmDetailResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      ProdFamilyCode: string;
-      IntraInstrMargin: decimal;
-      BCollectingMargin: decimal;
-      SCollectingMargin: decimal;
-      IntraProdMargin: decimal;
-      NetMargin: decimal;
-      InterProdMargin: decimal;
-      SingleMargin: decimal;
-      AddOnMargin: decimal;
-      DeliveryMargin: decimal;
-      CallOptionMinRisk: decimal;
-      PutOptionMinRisk: decimal;
-      OptionMinRisk: decimal;
-      OptionValueOffset: decimal;
-      OptionRoyalty: decimal;
-      RealOptionValueOffset: decimal;
-      Margin: decimal;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      ProdFamilyCode: string
+      IntraInstrMargin: decimal
+      BCollectingMargin: decimal
+      SCollectingMargin: decimal
+      IntraProdMargin: decimal
+      NetMargin: decimal
+      InterProdMargin: decimal
+      SingleMargin: decimal
+      AddOnMargin: decimal
+      DeliveryMargin: decimal
+      CallOptionMinRisk: decimal
+      PutOptionMinRisk: decimal
+      OptionMinRisk: decimal
+      OptionValueOffset: decimal
+      OptionRoyalty: decimal
+      RealOptionValueOffset: decimal
+      Margin: decimal
       ExchMargin: decimal }
 
 type InvestorProductGroupMarginResponse =
-    { 
-      Reserve1: string;
-      BrokerId: string;
-      InvestorId: string;
-      TradingDay: string;
-      SettlementId: int;
-      FrozenMargin: decimal;
-      LongFrozenMargin: decimal;
-      ShortFrozenMargin: decimal;
-      UseMargin: decimal;
-      LongUseMargin: decimal;
-      ShortUseMargin: decimal;
-      ExchMargin: decimal;
-      LongExchMargin: decimal;
-      ShortExchMargin: decimal;
-      CloseProfit: decimal;
-      FrozenCommission: decimal;
-      Commission: decimal;
-      FrozenCash: decimal;
-      CashIn: decimal;
-      PositionProfit: decimal;
-      OffsetAmount: decimal;
-      LongOffsetAmount: decimal;
-      ShortOffsetAmount: decimal;
-      ExchOffsetAmount: decimal;
-      LongExchOffsetAmount: decimal;
-      ShortExchOffsetAmount: decimal;
-      HedgeFlag: HedgeFlag option;
-      ExchangeId: string;
-      InvestUnitId: string;
+    { Reserve1: string
+      BrokerId: string
+      InvestorId: string
+      TradingDay: string
+      SettlementId: int
+      FrozenMargin: decimal
+      LongFrozenMargin: decimal
+      ShortFrozenMargin: decimal
+      UseMargin: decimal
+      LongUseMargin: decimal
+      ShortUseMargin: decimal
+      ExchMargin: decimal
+      LongExchMargin: decimal
+      ShortExchMargin: decimal
+      CloseProfit: decimal
+      FrozenCommission: decimal
+      Commission: decimal
+      FrozenCash: decimal
+      CashIn: decimal
+      PositionProfit: decimal
+      OffsetAmount: decimal
+      LongOffsetAmount: decimal
+      ShortOffsetAmount: decimal
+      ExchOffsetAmount: decimal
+      LongExchOffsetAmount: decimal
+      ShortExchOffsetAmount: decimal
+      HedgeFlag: HedgeFlag option
+      ExchangeId: string
+      InvestUnitId: string
       ProductGroupId: string }
 
 type MmInstrumentCommissionRateResponse =
-    { 
-      Reserve1: string;
-      InvestorRange: InvestorRange option;
-      BrokerId: string;
-      InvestorId: string;
-      OpenRatioByMoney: decimal;
-      OpenRatioByVolume: decimal;
-      CloseRatioByMoney: decimal;
-      CloseRatioByVolume: decimal;
-      CloseTodayRatioByMoney: decimal;
-      CloseTodayRatioByVolume: decimal;
+    { Reserve1: string
+      InvestorRange: InvestorRange option
+      BrokerId: string
+      InvestorId: string
+      OpenRatioByMoney: decimal
+      OpenRatioByVolume: decimal
+      CloseRatioByMoney: decimal
+      CloseRatioByVolume: decimal
+      CloseTodayRatioByMoney: decimal
+      CloseTodayRatioByVolume: decimal
       InstrumentId: string }
 
 type MmOptionInstrCommRateResponse =
-    { 
-      Reserve1: string;
-      InvestorRange: InvestorRange option;
-      BrokerId: string;
-      InvestorId: string;
-      OpenRatioByMoney: decimal;
-      OpenRatioByVolume: decimal;
-      CloseRatioByMoney: decimal;
-      CloseRatioByVolume: decimal;
-      CloseTodayRatioByMoney: decimal;
-      CloseTodayRatioByVolume: decimal;
-      StrikeRatioByMoney: decimal;
-      StrikeRatioByVolume: decimal;
+    { Reserve1: string
+      InvestorRange: InvestorRange option
+      BrokerId: string
+      InvestorId: string
+      OpenRatioByMoney: decimal
+      OpenRatioByVolume: decimal
+      CloseRatioByMoney: decimal
+      CloseRatioByVolume: decimal
+      CloseTodayRatioByMoney: decimal
+      CloseTodayRatioByVolume: decimal
+      StrikeRatioByMoney: decimal
+      StrikeRatioByVolume: decimal
       InstrumentId: string }
 
-type NoticeResponse =
-    { 
-      BrokerId: string;
-      Content: string;
-      SequenceLabel: string }
+type NoticeResponse = { BrokerId: string; Content: string; SequenceLabel: string }
 
 type NotifyQueryAccountResponse =
-    { 
-      TradeCode: string;
-      BankId: string;
-      BankBranchId: string;
-      BrokerId: string;
-      BrokerBranchId: string;
-      TradeDate: string;
-      TradeTime: string;
-      BankSerial: string;
-      TradingDay: string;
-      PlateSerial: int;
-      LastFragment: LastFragment option;
-      SessionId: int;
-      CustomerName: string;
-      IdCardType: IdCardType option;
-      IdentifiedCardNo: string;
-      CustType: CustType option;
-      BankAccount: string;
-      BankPassWord: string;
-      AccountId: string;
-      Password: string;
-      FutureSerial: int;
-      InstallId: int;
-      UserId: string;
-      VerifyCertNoFlag: char option;
-      CurrencyId: string;
-      Digest: string;
-      BankAccType: BankAccType option;
-      DeviceId: string;
-      BankSecuAccType: char option;
-      BrokerIdByBank: string;
-      BankSecuAcc: string;
-      BankPwdFlag: char option;
-      SecuPwdFlag: char option;
-      OperNo: string;
-      RequestId: int;
-      TId: int;
-      BankUseAmount: decimal;
-      BankFetchAmount: decimal;
-      ErrorId: int;
-      ErrorMsg: string;
+    { TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: string
+      TradeTime: string
+      BankSerial: string
+      TradingDay: string
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CustType: CustType option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      FutureSerial: int
+      InstallId: int
+      UserId: string
+      VerifyCertNoFlag: char option
+      CurrencyId: string
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: char option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: char option
+      SecuPwdFlag: char option
+      OperNo: string
+      RequestId: int
+      TId: int
+      BankUseAmount: decimal
+      BankFetchAmount: decimal
+      ErrorId: int
+      ErrorMsg: string
       LongCustomerName: string }
 
 type OffsetSettingResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string;
-      UnderlyingInstrId: string;
-      ProductId: string;
-      OffsetType: OffsetType option;
-      Volume: int;
-      IsOffset: int;
-      RequestId: int;
-      UserId: string;
-      ExchangeId: string;
-      IpAddress: string;
-      MacAddress: string;
-      ExchangeInstId: string;
-      ExchangeSerialNo: string;
-      ExchangeProductId: string;
-      ParticipantId: string;
-      ClientId: string;
-      TraderId: string;
-      InstallId: int;
-      OrderSubmitStatus: OrderSubmitStatus option;
-      TradingDay: string;
-      SettlementId: int;
-      InsertDate: string;
-      InsertTime: string;
-      CancelTime: string;
-      ExecResult: ExecResult option;
-      SequenceNo: int;
-      FrontId: int;
-      SessionId: int;
-      StatusMsg: string;
-      ActiveUserId: string;
-      BrokerOffsetSettingSeq: int;
+    { BrokerId: string
+      InvestorId: string
+      InstrumentId: string
+      UnderlyingInstrId: string
+      ProductId: string
+      OffsetType: OffsetType option
+      Volume: int
+      IsOffset: int
+      RequestId: int
+      UserId: string
+      ExchangeId: string
+      IpAddress: string
+      MacAddress: string
+      ExchangeInstId: string
+      ExchangeSerialNo: string
+      ExchangeProductId: string
+      ParticipantId: string
+      ClientId: string
+      TraderId: string
+      InstallId: int
+      OrderSubmitStatus: OrderSubmitStatus option
+      TradingDay: string
+      SettlementId: int
+      InsertDate: string
+      InsertTime: string
+      CancelTime: string
+      ExecResult: ExecResult option
+      SequenceNo: int
+      FrontId: int
+      SessionId: int
+      StatusMsg: string
+      ActiveUserId: string
+      BrokerOffsetSettingSeq: int
       ApplySrc: ApplySrc option }
 
 type OptionInstrCommRateResponse =
-    { 
-      Reserve1: string;
-      InvestorRange: InvestorRange option;
-      BrokerId: string;
-      InvestorId: string;
-      OpenRatioByMoney: decimal;
-      OpenRatioByVolume: decimal;
-      CloseRatioByMoney: decimal;
-      CloseRatioByVolume: decimal;
-      CloseTodayRatioByMoney: decimal;
-      CloseTodayRatioByVolume: decimal;
-      StrikeRatioByMoney: decimal;
-      StrikeRatioByVolume: decimal;
-      ExchangeId: string;
-      InvestUnitId: string;
+    { Reserve1: string
+      InvestorRange: InvestorRange option
+      BrokerId: string
+      InvestorId: string
+      OpenRatioByMoney: decimal
+      OpenRatioByVolume: decimal
+      CloseRatioByMoney: decimal
+      CloseRatioByVolume: decimal
+      CloseTodayRatioByMoney: decimal
+      CloseTodayRatioByVolume: decimal
+      StrikeRatioByMoney: decimal
+      StrikeRatioByVolume: decimal
+      ExchangeId: string
+      InvestUnitId: string
       InstrumentId: string }
 
 type OptionInstrTradeCostResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string;
-      HedgeFlag: HedgeFlag option;
-      FixedMargin: decimal;
-      MiniMargin: decimal;
-      Royalty: decimal;
-      ExchFixedMargin: decimal;
-      ExchMiniMargin: decimal;
-      ExchangeId: string;
-      InvestUnitId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string
+      HedgeFlag: HedgeFlag option
+      FixedMargin: decimal
+      MiniMargin: decimal
+      Royalty: decimal
+      ExchFixedMargin: decimal
+      ExchMiniMargin: decimal
+      ExchangeId: string
+      InvestUnitId: string
       InstrumentId: string }
 
 type OptionSelfCloseResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string;
-      OptionSelfCloseRef: string;
-      UserId: string;
-      Volume: int;
-      RequestId: int;
-      BusinessUnit: string;
-      HedgeFlag: HedgeFlag option;
-      OptSelfCloseFlag: OptSelfCloseFlag option;
-      OptionSelfCloseLocalId: string;
-      ExchangeId: string;
-      ParticipantId: string;
-      ClientId: string;
-      Reserve2: string;
-      TraderId: string;
-      InstallId: int;
-      OrderSubmitStatus: OrderSubmitStatus option;
-      NotifySequence: int;
-      TradingDay: string;
-      SettlementId: int;
-      OptionSelfCloseSysId: string;
-      InsertDate: string;
-      InsertTime: string;
-      CancelTime: string;
-      ExecResult: ExecResult option;
-      ClearingPartId: string;
-      SequenceNo: int;
-      FrontId: int;
-      SessionId: int;
-      UserProductInfo: string;
-      StatusMsg: string;
-      ActiveUserId: string;
-      BrokerOptionSelfCloseSeq: int;
-      BranchId: string;
-      InvestUnitId: string;
-      AccountId: string;
-      CurrencyId: string;
-      Reserve3: string;
-      MacAddress: string;
-      InstrumentId: string;
-      ExchangeInstId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string
+      OptionSelfCloseRef: string
+      UserId: string
+      Volume: int
+      RequestId: int
+      BusinessUnit: string
+      HedgeFlag: HedgeFlag option
+      OptSelfCloseFlag: OptSelfCloseFlag option
+      OptionSelfCloseLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      Reserve2: string
+      TraderId: string
+      InstallId: int
+      OrderSubmitStatus: OrderSubmitStatus option
+      NotifySequence: int
+      TradingDay: string
+      SettlementId: int
+      OptionSelfCloseSysId: string
+      InsertDate: string
+      InsertTime: string
+      CancelTime: string
+      ExecResult: ExecResult option
+      ClearingPartId: string
+      SequenceNo: int
+      FrontId: int
+      SessionId: int
+      UserProductInfo: string
+      StatusMsg: string
+      ActiveUserId: string
+      BrokerOptionSelfCloseSeq: int
+      BranchId: string
+      InvestUnitId: string
+      AccountId: string
+      CurrencyId: string
+      Reserve3: string
+      MacAddress: string
+      InstrumentId: string
+      ExchangeInstId: string
       IpAddress: string }
 
 type OptionSelfCloseActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      OptionSelfCloseActionRef: int;
-      OptionSelfCloseRef: string;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      OptionSelfCloseSysId: string;
-      ActionFlag: ActionFlag option;
-      ActionDate: string;
-      ActionTime: string;
-      TraderId: string;
-      InstallId: int;
-      OptionSelfCloseLocalId: string;
-      ActionLocalId: string;
-      ParticipantId: string;
-      ClientId: string;
-      BusinessUnit: string;
-      OrderActionStatus: OrderActionStatus option;
-      UserId: string;
-      StatusMsg: string;
-      Reserve1: string;
-      BranchId: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      OptionSelfCloseActionRef: int
+      OptionSelfCloseRef: string
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      OptionSelfCloseSysId: string
+      ActionFlag: ActionFlag option
+      ActionDate: string
+      ActionTime: string
+      TraderId: string
+      InstallId: int
+      OptionSelfCloseLocalId: string
+      ActionLocalId: string
+      ParticipantId: string
+      ClientId: string
+      BusinessUnit: string
+      OrderActionStatus: OrderActionStatus option
+      UserId: string
+      StatusMsg: string
+      Reserve1: string
+      BranchId: string
+      InvestUnitId: string
+      Reserve2: string
+      MacAddress: string
+      InstrumentId: string
       IpAddress: string }
 
 type OrderActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      OrderActionRef: int;
-      OrderRef: string;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      OrderSysId: string;
-      ActionFlag: ActionFlag option;
-      LimitPrice: decimal;
-      VolumeChange: int;
-      ActionDate: string;
-      ActionTime: string;
-      TraderId: string;
-      InstallId: int;
-      OrderLocalId: string;
-      ActionLocalId: string;
-      ParticipantId: string;
-      ClientId: string;
-      BusinessUnit: string;
-      OrderActionStatus: OrderActionStatus option;
-      UserId: string;
-      StatusMsg: string;
-      Reserve1: string;
-      BranchId: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
-      InstrumentId: string;
-      IpAddress: string;
-      OrderMemo: string;
+    { BrokerId: string
+      InvestorId: string
+      OrderActionRef: int
+      OrderRef: string
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      OrderSysId: string
+      ActionFlag: ActionFlag option
+      LimitPrice: decimal
+      VolumeChange: int
+      ActionDate: string
+      ActionTime: string
+      TraderId: string
+      InstallId: int
+      OrderLocalId: string
+      ActionLocalId: string
+      ParticipantId: string
+      ClientId: string
+      BusinessUnit: string
+      OrderActionStatus: OrderActionStatus option
+      UserId: string
+      StatusMsg: string
+      Reserve1: string
+      BranchId: string
+      InvestUnitId: string
+      Reserve2: string
+      MacAddress: string
+      InstrumentId: string
+      IpAddress: string
+      OrderMemo: string
       SessionReqSeq: int }
 
 type ParkedOrder =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      OrderRef: string;
-      UserId: string option;
-      OrderPriceType: OrderPriceType option;
-      Direction: Direction;
-      CombOffsetFlag: string;
-      CombHedgeFlag: string;
-      LimitPrice: decimal;
-      VolumeTotalOriginal: int;
-      TimeCondition: TimeCondition option;
-      GtdDate: string option;
-      VolumeCondition: VolumeCondition option;
-      MinVolume: int;
-      ContingentCondition: ContingentCondition option;
-      StopPrice: decimal;
-      ForceCloseReason: ForceCloseReason option;
-      IsAutoSuspend: int;
-      BusinessUnit: string option;
-      RequestId: int;
-      UserForceClose: int;
-      ExchangeId: string option;
-      ParkedOrderId: string;
-      UserType: UserType option;
-      Status: char option;
-      ErrorId: int;
-      ErrorMsg: string;
-      IsSwapOrder: int;
-      AccountId: string option;
-      CurrencyId: string option;
-      ClientId: string option;
-      InvestUnitId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      OrderRef: string
+      UserId: string option
+      OrderPriceType: OrderPriceType option
+      Direction: Direction
+      CombOffsetFlag: string
+      CombHedgeFlag: string
+      LimitPrice: decimal
+      VolumeTotalOriginal: int
+      TimeCondition: TimeCondition option
+      GtdDate: string option
+      VolumeCondition: VolumeCondition option
+      MinVolume: int
+      ContingentCondition: ContingentCondition option
+      StopPrice: decimal
+      ForceCloseReason: ForceCloseReason option
+      IsAutoSuspend: int
+      BusinessUnit: string option
+      RequestId: int
+      UserForceClose: int
+      ExchangeId: string option
+      ParkedOrderId: string
+      UserType: UserType option
+      Status: char option
+      ErrorId: int
+      ErrorMsg: string
+      IsSwapOrder: int
+      AccountId: string option
+      CurrencyId: string option
+      ClientId: string option
+      InvestUnitId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string
       IpAddress: string option }
 
 type ParkedOrderAction =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      OrderActionRef: int;
-      OrderRef: string;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string option;
-      OrderSysId: string;
-      ActionFlag: ActionFlag;
-      LimitPrice: decimal;
-      VolumeChange: int;
-      UserId: string option;
-      Reserve1: string option;
-      ParkedOrderActionId: string;
-      UserType: UserType option;
-      Status: char option;
-      ErrorId: int;
-      ErrorMsg: string;
-      InvestUnitId: string option;
-      Reserve2: string option;
-      MacAddress: string option;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      OrderActionRef: int
+      OrderRef: string
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string option
+      OrderSysId: string
+      ActionFlag: ActionFlag
+      LimitPrice: decimal
+      VolumeChange: int
+      UserId: string option
+      Reserve1: string option
+      ParkedOrderActionId: string
+      UserType: UserType option
+      Status: char option
+      ErrorId: int
+      ErrorMsg: string
+      InvestUnitId: string option
+      Reserve2: string option
+      MacAddress: string option
+      InstrumentId: string
       IpAddress: string option }
 
 type ParkedOrderRequest = ParkedOrder
@@ -1620,786 +1547,598 @@ type ParkedOrderActionRequest = ParkedOrderAction
 type ParkedOrderActionResponse = ParkedOrderAction
 
 type ProductResponse =
-    { 
-      Reserve1: string;
-      ProductName: string;
-      ExchangeId: string;
-      ProductClass: ProductClass option;
-      VolumeMultiple: int;
-      PriceTick: decimal;
-      MaxMarketOrderVolume: int;
-      MinMarketOrderVolume: int;
-      MaxLimitOrderVolume: int;
-      MinLimitOrderVolume: int;
-      PositionType: PositionType option;
-      PositionDateType: PositionDateType option;
-      CloseDealType: CloseDealType option;
-      TradeCurrencyId: string;
-      MortgageFundUseRange: MortgageFundUseRange option;
-      Reserve2: string;
-      UnderlyingMultiple: decimal;
-      ProductId: string;
-      ExchangeProductId: string;
-      OpenLimitControlLevel: OpenLimitControlLevel option;
+    { Reserve1: string
+      ProductName: string
+      ExchangeId: string
+      ProductClass: ProductClass option
+      VolumeMultiple: int
+      PriceTick: decimal
+      MaxMarketOrderVolume: int
+      MinMarketOrderVolume: int
+      MaxLimitOrderVolume: int
+      MinLimitOrderVolume: int
+      PositionType: PositionType option
+      PositionDateType: PositionDateType option
+      CloseDealType: CloseDealType option
+      TradeCurrencyId: string
+      MortgageFundUseRange: MortgageFundUseRange option
+      Reserve2: string
+      UnderlyingMultiple: decimal
+      ProductId: string
+      ExchangeProductId: string
+      OpenLimitControlLevel: OpenLimitControlLevel option
       OrderFreqControlLevel: OrderFreqControlLevel option }
 
 type ProductExchRateResponse =
-    { 
-      Reserve1: string;
-      QuoteCurrencyId: string;
-      ExchangeRateResponse: decimal;
-      ExchangeId: string;
+    { Reserve1: string
+      QuoteCurrencyId: string
+      ExchangeRateResponse: decimal
+      ExchangeId: string
       ProductId: string }
 
 type ProductGroupResponse =
-    { 
-      Reserve1: string;
-      ExchangeId: string;
-      Reserve2: string;
-      ProductId: string;
+    { Reserve1: string
+      ExchangeId: string
+      Reserve2: string
+      ProductId: string
       ProductGroupId: string }
 
 type QryAccountregisterRequest =
-    {
-      BrokerId: string option;
-      AccountId: string option;
-      BankId: string option;
-      BankBranchId: string option;
+    { BrokerId: string option
+      AccountId: string option
+      BankId: string option
+      BankBranchId: string option
       CurrencyId: string option }
 
 type QryBrokerTradingAlgosRequest =
-    {
-      BrokerId: string;
-      ExchangeId: string;
-      Reserve1: string option;
+    { BrokerId: string
+      ExchangeId: string
+      Reserve1: string option
       InstrumentId: string }
 
 type QryBrokerTradingParamsRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      CurrencyId: string;
+    { BrokerId: string
+      InvestorId: string
+      CurrencyId: string
       AccountId: string option }
 
-type QryCfmmcTradingAccountKeyRequest =
-    {
-      BrokerId: string option;
-      InvestorId: string option }
+type QryCfmmcTradingAccountKeyRequest = { BrokerId: string option; InvestorId: string option }
 
 type QryClassifiedInstrumentRequest =
-    {
-      InstrumentId: string option;
-      ExchangeId: string option;
-      ExchangeInstId: string option;
-      ProductId: string option;
-      TradingType: TradingType;
+    { InstrumentId: string option
+      ExchangeId: string option
+      ExchangeInstId: string option
+      ProductId: string option
+      TradingType: TradingType
       ClassType: ClassType }
 
 type QryCombActionRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryCombInstrumentGuardRequest =
-    {
-      BrokerId: string option;
-      Reserve1: string option;
-      ExchangeId: string;
+    { BrokerId: string option
+      Reserve1: string option
+      ExchangeId: string
       InstrumentId: string option }
 
-type QryCombLegRequest =
-    {
-      LegInstrumentId: string }
+type QryCombLegRequest = { LegInstrumentId: string }
 
-type QryCombPromotionParamRequest =
-    {
-      ExchangeId: string option;
-      InstrumentId: string option }
+type QryCombPromotionParamRequest = { ExchangeId: string option; InstrumentId: string option }
 
-type QryContractBankRequest =
-    {
-      BrokerId: string;
-      BankId: string;
-      BankBrchId: string }
+type QryContractBankRequest = { BrokerId: string; BankId: string; BankBrchId: string }
 
 type QryDepthMarketDataRequest =
-    {
-      Reserve1: string option;
-      ExchangeId: string option;
-      InstrumentId: string;
+    { Reserve1: string option
+      ExchangeId: string option
+      InstrumentId: string
       ProductClass: ProductClass }
 
 type QryEWarrantOffsetRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      Reserve1: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      ExchangeId: string
+      Reserve1: string option
+      InvestUnitId: string option
       InstrumentId: string }
 
-type QryExchangeRequest =
-    {
-      ExchangeId: string }
+type QryExchangeRequest = { ExchangeId: string }
 
 type QryExchangeMarginRateAdjustRequest =
-    {
-      BrokerId: string;
-      Reserve1: string option;
-      HedgeFlag: HedgeFlag;
+    { BrokerId: string
+      Reserve1: string option
+      HedgeFlag: HedgeFlag
       InstrumentId: string }
 
-type QryExchangeRateRequest =
-    {
-      BrokerId: string;
-      FromCurrencyId: string;
-      ToCurrencyId: string }
+type QryExchangeRateRequest = { BrokerId: string; FromCurrencyId: string; ToCurrencyId: string }
 
 type QryExecOrderRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      ExecOrderSysId: string;
-      InsertTimeStart: string;
-      InsertTimeEnd: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      ExecOrderSysId: string
+      InsertTimeStart: string
+      InsertTimeEnd: string
       InstrumentId: string }
 
 type QryForQuoteRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      InsertTimeStart: string;
-      InsertTimeEnd: string;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      InsertTimeStart: string
+      InsertTimeEnd: string
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryHedgeCfmRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      OrderSysId: string;
+    { BrokerId: string
+      InvestorId: string
+      ExchangeId: string
+      OrderSysId: string
       InstrumentId: string }
 
 type QryInstrumentRequest =
-    {
-      Reserve1: string option;
-      ExchangeId: string;
-      Reserve2: string option;
-      Reserve3: string option;
-      InstrumentId: string;
-      ExchangeInstId: string;
+    { Reserve1: string option
+      ExchangeId: string
+      Reserve2: string option
+      Reserve3: string option
+      InstrumentId: string
+      ExchangeInstId: string
       ProductId: string }
 
 type QryInstrumentOrderCommRateRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
       InstrumentId: string }
 
 type QryInvestUnitRequest =
-    {
-      BrokerId: string option;
-      InvestorId: string option;
+    { BrokerId: string option
+      InvestorId: string option
       InvestUnitId: string option }
 
-type QryInvestorRequest =
-    {
-      BrokerId: string;
-      InvestorId: string }
+type QryInvestorRequest = { BrokerId: string; InvestorId: string }
 
-type QryInvestorCommodityGroupSpmmMarginRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      CommodityGroupId: string }
+type QryInvestorCommodityGroupSpmmMarginRequest = { BrokerId: string; InvestorId: string; CommodityGroupId: string }
 
-type QryInvestorCommoditySpmmMarginRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      CommodityId: string }
+type QryInvestorCommoditySpmmMarginRequest = { BrokerId: string; InvestorId: string; CommodityId: string }
 
-type QryInvestorInfoCommRecRequest =
-    {
-      InvestorId: string;
-      InstrumentId: string;
-      BrokerId: string }
+type QryInvestorInfoCommRecRequest = { InvestorId: string; InstrumentId: string; BrokerId: string }
 
 type QryInvestorPortfMarginRatioRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ExchangeId: string;
+    { BrokerId: string
+      InvestorId: string
+      ExchangeId: string
       ProductGroupId: string option }
 
-type QryInvestorPortfSettingRequest =
-    {
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string }
+type QryInvestorPortfSettingRequest = { ExchangeId: string; BrokerId: string; InvestorId: string }
 
 type QryInvestorPositionCombineDetailRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string option
+      InvestUnitId: string option
       CombInstrumentId: string }
 
 type QryInvestorPositionDetailRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string option
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryInvestorProdRcamsMarginRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      CombProductId: string;
+    { BrokerId: string
+      InvestorId: string
+      CombProductId: string
       ProductGroupId: string }
 
 type QryInvestorProdRuleMarginRequest =
-    {
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      ProdFamilyCode: string;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      ProdFamilyCode: string
       CommodityGroupId: string }
 
 type QryInvestorProdSpbmDetailRequest =
-    {
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
       ProdFamilyCode: string }
 
 type QryInvestorProductGroupMarginRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      HedgeFlag: HedgeFlag option;
-      ExchangeId: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      HedgeFlag: HedgeFlag option
+      ExchangeId: string option
+      InvestUnitId: string option
       ProductGroupId: string }
 
 type QryMaxOrderVolumeRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      Direction: Direction;
-      OffsetFlag: OffsetFlag;
-      HedgeFlag: HedgeFlag;
-      MaxVolume: int option;
-      ExchangeId: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      Direction: Direction
+      OffsetFlag: OffsetFlag
+      HedgeFlag: HedgeFlag
+      MaxVolume: int option
+      ExchangeId: string option
+      InvestUnitId: string option
       InstrumentId: string }
 
 type MaxOrderVolumeResponse = QryMaxOrderVolumeRequest
 
 type QryMmInstrumentCommissionRateRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
       InstrumentId: string }
 
 type QryMmOptionInstrCommRateRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
       InstrumentId: string }
 
-type QryNoticeRequest =
-    { 
-      BrokerId: string }
+type QryNoticeRequest = { BrokerId: string }
 
 type QryOffsetSettingRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ProductId: string;
+    { BrokerId: string
+      InvestorId: string
+      ProductId: string
       OffsetType: OffsetType }
 
 type QryOptionInstrCommRateRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string option
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryOptionInstrTradeCostRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      HedgeFlag: HedgeFlag;
-      InputPrice: decimal;
-      UnderlyingPrice: decimal;
-      ExchangeId: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      HedgeFlag: HedgeFlag
+      InputPrice: decimal
+      UnderlyingPrice: decimal
+      ExchangeId: string option
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryOptionSelfCloseRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      OptionSelfCloseSysId: string;
-      InsertTimeStart: string;
-      InsertTimeEnd: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      OptionSelfCloseSysId: string
+      InsertTimeStart: string
+      InsertTimeEnd: string
       InstrumentId: string }
 
 type QryOrderRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      OrderSysId: string;
-      InsertTimeStart: string;
-      InsertTimeEnd: string;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      OrderSysId: string
+      InsertTimeStart: string
+      InsertTimeEnd: string
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryParkedOrderRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryParkedOrderActionRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      InvestUnitId: string option
       InstrumentId: string }
 
 type QryProductRequest =
-    {
-      Reserve1: string option;
-      ProductClass: ProductClass option;
-      ExchangeId: string option;
+    { Reserve1: string option
+      ProductClass: ProductClass option
+      ExchangeId: string option
       ProductId: string }
 
-type QryProductExchRateRequest =
-    {
-      Reserve1: string option;
-      ExchangeId: string option;
-      ProductId: string }
+type QryProductExchRateRequest = { Reserve1: string option; ExchangeId: string option; ProductId: string }
 
-type QryProductGroupRequest =
-    {
-      Reserve1: string option;
-      ExchangeId: string;
-      ProductId: string }
+type QryProductGroupRequest = { Reserve1: string option; ExchangeId: string; ProductId: string }
 
 type QryQuoteRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string;
-      QuoteSysId: string;
-      InsertTimeStart: string;
-      InsertTimeEnd: string;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string
+      QuoteSysId: string
+      InsertTimeStart: string
+      InsertTimeEnd: string
+      InvestUnitId: string option
       InstrumentId: string }
 
-type QryRcamsCombProductInfoRequest =
-    {
-      ProductId: string;
-      CombProductId: string;
-      ProductGroupId: string }
+type QryRcamsCombProductInfoRequest = { ProductId: string; CombProductId: string; ProductGroupId: string }
 
-type QryRcamsInstrParameterRequest =
-    {
-      ProductId: string }
+type QryRcamsInstrParameterRequest = { ProductId: string }
 
-type QryRcamsInterParameterRequest =
-    {
-      ProductGroupId: string;
-      CombProduct1: string;
-      CombProduct2: string }
+type QryRcamsInterParameterRequest = { ProductGroupId: string; CombProduct1: string; CombProduct2: string }
 
-type QryRcamsIntraParameterRequest =
-    {
-      CombProductId: string }
+type QryRcamsIntraParameterRequest = { CombProductId: string }
 
 type QryRcamsInvestorCombPositionRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      InstrumentId: string
       CombInstrumentId: string }
 
-type QryRcamsShortOptAdjustParamRequest =
-    {
-      CombProductId: string }
+type QryRcamsShortOptAdjustParamRequest = { CombProductId: string }
 
 type QryRiskSettleInvstPositionRequest =
-    {
-      BrokerId: string option;
-      InvestorId: string option;
+    { BrokerId: string option
+      InvestorId: string option
       InstrumentId: string option }
 
-type QryRiskSettleProductStatusRequest =
-    {
-      ProductId: string option }
+type QryRiskSettleProductStatusRequest = { ProductId: string option }
 
-type QryRuleInstrParameterRequest =
-    {
-      ExchangeId: string;
-      InstrumentId: string }
+type QryRuleInstrParameterRequest = { ExchangeId: string; InstrumentId: string }
 
 type QryRuleInterParameterRequest =
-    {
-      ExchangeId: string;
-      Leg1ProdFamilyCode: string;
-      Leg2ProdFamilyCode: string option;
+    { ExchangeId: string
+      Leg1ProdFamilyCode: string
+      Leg2ProdFamilyCode: string option
       CommodityGroupId: string }
 
-type QryRuleIntraParameterRequest =
-    {
-      ExchangeId: string;
-      ProdFamilyCode: string }
+type QryRuleIntraParameterRequest = { ExchangeId: string; ProdFamilyCode: string }
 
-type QrySecAgentAcIdMapRequest =
-    {
-      BrokerId: string;
-      UserId: string;
-      AccountId: string;
-      CurrencyId: string }
+type QrySecAgentAcIdMapRequest = { BrokerId: string; UserId: string; AccountId: string; CurrencyId: string }
 
-type QrySecAgentCheckModeRequest =
-    { 
-      BrokerId: string;
-      InvestorId: string }
+type QrySecAgentCheckModeRequest = { BrokerId: string; InvestorId: string }
 
-type QrySecAgentTradeInfoRequest =
-    {
-      BrokerId: string;
-      BrokerSecAgentId: string }
+type QrySecAgentTradeInfoRequest = { BrokerId: string; BrokerSecAgentId: string }
 
 type QrySettlementInfoRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      TradingDay: string;
-      AccountId: string option;
+    { BrokerId: string
+      InvestorId: string
+      TradingDay: string
+      AccountId: string option
       CurrencyId: string option }
 
 type QrySettlementInfoConfirmRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      AccountId: string option;
+    { BrokerId: string
+      InvestorId: string
+      AccountId: string option
       CurrencyId: string option }
 
-type QrySpbmAddOnInterParameterRequest =
-    {
-      ExchangeId: string;
-      Leg1ProdFamilyCode: string;
-      Leg2ProdFamilyCode: string }
+type QrySpbmAddOnInterParameterRequest = { ExchangeId: string; Leg1ProdFamilyCode: string; Leg2ProdFamilyCode: string }
 
-type QrySpbmFutureParameterRequest =
-    {
-      ExchangeId: string;
-      InstrumentId: string;
-      ProdFamilyCode: string }
+type QrySpbmFutureParameterRequest = { ExchangeId: string; InstrumentId: string; ProdFamilyCode: string }
 
-type QrySpbmInterParameterRequest =
-    {
-      ExchangeId: string;
-      Leg1ProdFamilyCode: string;
-      Leg2ProdFamilyCode: string }
+type QrySpbmInterParameterRequest = { ExchangeId: string; Leg1ProdFamilyCode: string; Leg2ProdFamilyCode: string }
 
-type QrySpbmIntraParameterRequest =
-    {
-      ExchangeId: string;
-      ProdFamilyCode: string }
+type QrySpbmIntraParameterRequest = { ExchangeId: string; ProdFamilyCode: string }
 
-type QrySpbmInvestorPortfDefRequest =
-    {
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string }
+type QrySpbmInvestorPortfDefRequest = { ExchangeId: string; BrokerId: string; InvestorId: string }
 
-type QrySpbmOptionParameterRequest =
-    {
-      ExchangeId: string;
-      InstrumentId: string;
-      ProdFamilyCode: string }
+type QrySpbmOptionParameterRequest = { ExchangeId: string; InstrumentId: string; ProdFamilyCode: string }
 
-type QrySpbmPortfDefinitionRequest =
-    {
-      ExchangeId: string;
-      PortfolioDefId: string;
-      ProdFamilyCode: string }
+type QrySpbmPortfDefinitionRequest = { ExchangeId: string; PortfolioDefId: string; ProdFamilyCode: string }
 
 type QrySpdApplyRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      OrderSysId: string;
-      FirstLegInstrumentId: string;
+    { BrokerId: string
+      InvestorId: string
+      ExchangeId: string
+      OrderSysId: string
+      FirstLegInstrumentId: string
       SecondLegInstrumentId: string }
 
-type QrySpmmInstParamRequest =
-    {
-      InstrumentId: string }
+type QrySpmmInstParamRequest = { InstrumentId: string }
 
-type QrySpmmProductParamRequest =
-    {
-      ProductId: string }
+type QrySpmmProductParamRequest = { ProductId: string }
 
 type QryTradeRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string option;
-      ExchangeId: string option;
-      TradeId: string option;
-      TradeTimeStart: string option;
-      TradeTimeEnd: string option;
-      InvestUnitId: string option;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string option
+      ExchangeId: string option
+      TradeId: string option
+      TradeTimeStart: string option
+      TradeTimeEnd: string option
+      InvestUnitId: string option
       InstrumentId: string option }
 
 type QryTraderOfferRequest =
-    {
-      ExchangeId: string option;
-      ParticipantId: string option;
+    { ExchangeId: string option
+      ParticipantId: string option
       TraderId: string option }
 
 type QryTradingCodeRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ExchangeId: string;
-      ClientId: string;
-      ClientIdType: ClientIdType;
+    { BrokerId: string
+      InvestorId: string
+      ExchangeId: string
+      ClientId: string
+      ClientIdType: ClientIdType
       InvestUnitId: string option }
 
-type QryTradingNoticeRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      InvestUnitId: string option }
+type QryTradingNoticeRequest = { BrokerId: string; InvestorId: string; InvestUnitId: string option }
 
-type QryTransferBankRequest =
-    {
-      BankId: string option;
-      BankBrchId: string option }
+type QryTransferBankRequest = { BankId: string option; BankBrchId: string option }
 
-type QryTransferSerialRequest =
-    {
-      BrokerId: string;
-      AccountId: string;
-      BankId: string;
-      CurrencyId: string }
+type QryTransferSerialRequest = { BrokerId: string; AccountId: string; BankId: string; CurrencyId: string }
 
-type QryUserSessionRequest =
-    { 
-      FrontId: int;
-      SessionId: int;
-      BrokerId: string;
-      UserId: string }
+type QryUserSessionRequest = { FrontId: int; SessionId: int; BrokerId: string; UserId: string }
 
-type QueryCfmmcTradingAccountTokenRequest =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      InvestUnitId: string option }
+type QueryCfmmcTradingAccountTokenRequest = { BrokerId: string; InvestorId: string; InvestUnitId: string option }
 
 type QueryCfmmcTradingAccountTokenResponse = QueryCfmmcTradingAccountTokenRequest
 
 type QuoteResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      Reserve1: string;
-      QuoteRef: string;
-      UserId: string;
-      AskPrice: decimal;
-      BidPrice: decimal;
-      AskVolume: int;
-      BidVolume: int;
-      RequestId: int;
-      BusinessUnit: string;
-      AskOffsetFlag: char option;
-      BidOffsetFlag: char option;
-      AskHedgeFlag: char option;
-      BidHedgeFlag: char option;
-      QuoteLocalId: string;
-      ExchangeId: string;
-      ParticipantId: string;
-      ClientId: string;
-      Reserve2: string;
-      TraderId: string;
-      InstallId: int;
-      NotifySequence: int;
-      OrderSubmitStatus: OrderSubmitStatus option;
-      TradingDay: string;
-      SettlementId: int;
-      QuoteSysId: string;
-      InsertDate: string;
-      InsertTime: string;
-      CancelTime: string;
-      QuoteStatus: char option;
-      ClearingPartId: string;
-      SequenceNo: int;
-      AskOrderSysId: string;
-      BidOrderSysId: string;
-      FrontId: int;
-      SessionId: int;
-      UserProductInfo: string;
-      StatusMsg: string;
-      ActiveUserId: string;
-      BrokerQuoteSeq: int;
-      AskOrderRef: string;
-      BidOrderRef: string;
-      ForQuoteSysId: string;
-      BranchId: string;
-      InvestUnitId: string;
-      AccountId: string;
-      CurrencyId: string;
-      Reserve3: string;
-      MacAddress: string;
-      InstrumentId: string;
-      ExchangeInstId: string;
-      IpAddress: string;
-      ReplaceSysId: string;
-      TimeCondition: TimeCondition option;
-      OrderMemo: string;
+    { BrokerId: string
+      InvestorId: string
+      Reserve1: string
+      QuoteRef: string
+      UserId: string
+      AskPrice: decimal
+      BidPrice: decimal
+      AskVolume: int
+      BidVolume: int
+      RequestId: int
+      BusinessUnit: string
+      AskOffsetFlag: char option
+      BidOffsetFlag: char option
+      AskHedgeFlag: char option
+      BidHedgeFlag: char option
+      QuoteLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      Reserve2: string
+      TraderId: string
+      InstallId: int
+      NotifySequence: int
+      OrderSubmitStatus: OrderSubmitStatus option
+      TradingDay: string
+      SettlementId: int
+      QuoteSysId: string
+      InsertDate: string
+      InsertTime: string
+      CancelTime: string
+      QuoteStatus: char option
+      ClearingPartId: string
+      SequenceNo: int
+      AskOrderSysId: string
+      BidOrderSysId: string
+      FrontId: int
+      SessionId: int
+      UserProductInfo: string
+      StatusMsg: string
+      ActiveUserId: string
+      BrokerQuoteSeq: int
+      AskOrderRef: string
+      BidOrderRef: string
+      ForQuoteSysId: string
+      BranchId: string
+      InvestUnitId: string
+      AccountId: string
+      CurrencyId: string
+      Reserve3: string
+      MacAddress: string
+      InstrumentId: string
+      ExchangeInstId: string
+      IpAddress: string
+      ReplaceSysId: string
+      TimeCondition: TimeCondition option
+      OrderMemo: string
       SessionReqSeq: int }
 
 type QuoteActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      QuoteActionRef: int;
-      QuoteRef: string;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      ExchangeId: string;
-      QuoteSysId: string;
-      ActionFlag: ActionFlag option;
-      ActionDate: string;
-      ActionTime: string;
-      TraderId: string;
-      InstallId: int;
-      QuoteLocalId: string;
-      ActionLocalId: string;
-      ParticipantId: string;
-      ClientId: string;
-      BusinessUnit: string;
-      OrderActionStatus: OrderActionStatus option;
-      UserId: string;
-      StatusMsg: string;
-      Reserve1: string;
-      BranchId: string;
-      InvestUnitId: string;
-      Reserve2: string;
-      MacAddress: string;
-      InstrumentId: string;
-      IpAddress: string;
-      OrderMemo: string;
+    { BrokerId: string
+      InvestorId: string
+      QuoteActionRef: int
+      QuoteRef: string
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      ExchangeId: string
+      QuoteSysId: string
+      ActionFlag: ActionFlag option
+      ActionDate: string
+      ActionTime: string
+      TraderId: string
+      InstallId: int
+      QuoteLocalId: string
+      ActionLocalId: string
+      ParticipantId: string
+      ClientId: string
+      BusinessUnit: string
+      OrderActionStatus: OrderActionStatus option
+      UserId: string
+      StatusMsg: string
+      Reserve1: string
+      BranchId: string
+      InvestUnitId: string
+      Reserve2: string
+      MacAddress: string
+      InstrumentId: string
+      IpAddress: string
+      OrderMemo: string
       SessionReqSeq: int }
 
 type RcamsCombProductInfoResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      ProductId: string;
-      CombProductId: string;
+    { TradingDay: string
+      ExchangeId: string
+      ProductId: string
+      CombProductId: string
       ProductGroupId: string }
 
 type RcamsInstrParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      ProductId: string;
+    { TradingDay: string
+      ExchangeId: string
+      ProductId: string
       HedgeRate: decimal }
 
 type RcamsInterParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      ProductGroupId: string;
-      Priority: int;
-      CreditRate: decimal;
-      CombProduct1: string;
+    { TradingDay: string
+      ExchangeId: string
+      ProductGroupId: string
+      Priority: int
+      CreditRate: decimal
+      CombProduct1: string
       CombProduct2: string }
 
 type RcamsIntraParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      CombProductId: string;
+    { TradingDay: string
+      ExchangeId: string
+      CombProductId: string
       HedgeRate: decimal }
 
 type RcamsInvestorCombPositionResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
-      InstrumentId: string;
-      HedgeFlag: HedgeFlag option;
-      PosiDirection: PosiDirection option;
-      CombInstrumentId: string;
-      LegId: int;
-      ExchangeInstId: string;
-      TotalAmt: int;
-      ExchMargin: decimal;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
+      InstrumentId: string
+      HedgeFlag: HedgeFlag option
+      PosiDirection: PosiDirection option
+      CombInstrumentId: string
+      LegId: int
+      ExchangeInstId: string
+      TotalAmt: int
+      ExchMargin: decimal
       Margin: decimal }
 
 type RcamsShortOptAdjustParamResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      CombProductId: string;
-      HedgeFlag: HedgeFlag option;
+    { TradingDay: string
+      ExchangeId: string
+      CombProductId: string
+      HedgeFlag: HedgeFlag option
       AdjustValue: decimal }
 
 type RemoveParkedOrder =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ParkedOrderId: string;
+    { BrokerId: string
+      InvestorId: string
+      ParkedOrderId: string
       InvestUnitId: string option }
 
 type RemoveParkedOrderAction =
-    {
-      BrokerId: string;
-      InvestorId: string;
-      ParkedOrderActionId: string;
+    { BrokerId: string
+      InvestorId: string
+      ParkedOrderActionId: string
       InvestUnitId: string option }
 
 type RemoveParkedOrderRequest = RemoveParkedOrder
@@ -2407,663 +2146,583 @@ type RemoveParkedOrderResponse = RemoveParkedOrder
 type RemoveParkedOrderActionRequest = RemoveParkedOrderAction
 type RemoveParkedOrderActionResponse = RemoveParkedOrderAction
 
-type GenSmsCodeRequest =
-    {
-      BrokerId: string;
-      UserId: string;
-      Mobile: string }
+type GenSmsCodeRequest = { BrokerId: string; UserId: string; Mobile: string }
 
-type GenUserCaptchaRequest =
-    {
-      TradingDay: string option;
-      BrokerId: string option;
-      UserId: string option }
+type GenUserCaptchaRequest = { TradingDay: string option; BrokerId: string option; UserId: string option }
 
-type GenUserTextRequest =
-    {
-      TradingDay: string option;
-      BrokerId: string option;
-      UserId: string option }
+type GenUserTextRequest = { TradingDay: string option; BrokerId: string option; UserId: string option }
 
 type ReqQueryAccount =
-    { 
-      TradeCode: string;
-      BankId: string;
-      BankBranchId: string;
-      BrokerId: string;
-      BrokerBranchId: string;
-      TradeDate: string;
-      TradeTime: string;
-      BankSerial: string;
-      TradingDay: string;
-      PlateSerial: int;
-      LastFragment: LastFragment option;
-      SessionId: int;
-      CustomerName: string;
-      IdCardType: IdCardType option;
-      IdentifiedCardNo: string;
-      CustType: CustType option;
-      BankAccount: string;
-      BankPassWord: string;
-      AccountId: string;
-      Password: string;
-      FutureSerial: int;
-      InstallId: int;
-      UserId: string;
-      VerifyCertNoFlag: char option;
-      CurrencyId: string;
-      Digest: string;
-      BankAccType: BankAccType option;
-      DeviceId: string;
-      BankSecuAccType: char option;
-      BrokerIdByBank: string;
-      BankSecuAcc: string;
-      BankPwdFlag: char option;
-      SecuPwdFlag: char option;
-      OperNo: string;
-      RequestId: int;
-      TId: int;
+    { TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: string
+      TradeTime: string
+      BankSerial: string
+      TradingDay: string
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CustType: CustType option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      FutureSerial: int
+      InstallId: int
+      UserId: string
+      VerifyCertNoFlag: char option
+      CurrencyId: string
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: char option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: char option
+      SecuPwdFlag: char option
+      OperNo: string
+      RequestId: int
+      TId: int
       LongCustomerName: string }
 
 type QueryBankAccountMoneyRequest = ReqQueryAccount
 type QueryBankAccountMoneyResponse = ReqQueryAccount
 
 type TransferRequest =
-    { 
-      TradeCode: string;
-      BankId: string;
-      BankBranchId: string;
-      BrokerId: string;
-      BrokerBranchId: string;
-      TradeDate: string;
-      TradeTime: string;
-      BankSerial: string;
-      TradingDay: string;
-      PlateSerial: int;
-      LastFragment: LastFragment option;
-      SessionId: int;
-      CustomerName: string;
-      IdCardType: IdCardType option;
-      IdentifiedCardNo: string;
-      CustType: CustType option;
-      BankAccount: string;
-      BankPassWord: string;
-      AccountId: string;
-      Password: string;
-      InstallId: int;
-      FutureSerial: int;
-      UserId: string;
-      VerifyCertNoFlag: char option;
-      CurrencyId: string;
-      TradeAmount: decimal;
-      FutureFetchAmount: decimal;
-      FeePayFlag: FeePayFlag option;
-      CustFee: decimal;
-      BrokerFee: decimal;
-      Message: string;
-      Digest: string;
-      BankAccType: BankAccType option;
-      DeviceId: string;
-      BankSecuAccType: char option;
-      BrokerIdByBank: string;
-      BankSecuAcc: string;
-      BankPwdFlag: char option;
-      SecuPwdFlag: char option;
-      OperNo: string;
-      RequestId: int;
-      TId: int;
-      TransferStatus: TransferStatus option;
+    { TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: string
+      TradeTime: string
+      BankSerial: string
+      TradingDay: string
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CustType: CustType option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      InstallId: int
+      FutureSerial: int
+      UserId: string
+      VerifyCertNoFlag: char option
+      CurrencyId: string
+      TradeAmount: decimal
+      FutureFetchAmount: decimal
+      FeePayFlag: FeePayFlag option
+      CustFee: decimal
+      BrokerFee: decimal
+      Message: string
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: char option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: char option
+      SecuPwdFlag: char option
+      OperNo: string
+      RequestId: int
+      TId: int
+      TransferStatus: TransferStatus option
       LongCustomerName: string }
 
 type TransferAckResponse = TransferRequest
 
-type UserAuthMethodRequest =
-    {
-      TradingDay: string option;
-      BrokerId: string option;
-      UserId: string option }
+type UserAuthMethodRequest = { TradingDay: string option; BrokerId: string option; UserId: string option }
 
 type UserLoginWithCaptchaRequest =
-    {
-      TradingDay: string option;
-      BrokerId: string;
-      UserId: string;
-      Password: string;
-      UserProductInfo: string option;
-      InterfaceProductInfo: string option;
-      ProtocolInfo: string option;
-      MacAddress: string option;
-      Reserve1: string option;
-      LoginRemark: string option;
-      Captcha: string;
-      ClientIpPort: int option;
+    { TradingDay: string option
+      BrokerId: string
+      UserId: string
+      Password: string
+      UserProductInfo: string option
+      InterfaceProductInfo: string option
+      ProtocolInfo: string option
+      MacAddress: string option
+      Reserve1: string option
+      LoginRemark: string option
+      Captcha: string
+      ClientIpPort: int option
       ClientIpAddress: string option }
 
 type UserLoginWithOtpRequest =
-    {
-      TradingDay: string option;
-      BrokerId: string;
-      UserId: string;
-      Password: string;
-      UserProductInfo: string option;
-      InterfaceProductInfo: string option;
-      ProtocolInfo: string option;
-      MacAddress: string option;
-      Reserve1: string option;
-      LoginRemark: string option;
-      OtpPassword: string;
-      ClientIpPort: int option;
+    { TradingDay: string option
+      BrokerId: string
+      UserId: string
+      Password: string
+      UserProductInfo: string option
+      InterfaceProductInfo: string option
+      ProtocolInfo: string option
+      MacAddress: string option
+      Reserve1: string option
+      LoginRemark: string option
+      OtpPassword: string
+      ClientIpPort: int option
       ClientIpAddress: string option }
 
 type UserLoginWithTextRequest =
-    {
-      TradingDay: string option;
-      BrokerId: string;
-      UserId: string;
-      Password: string;
-      UserProductInfo: string option;
-      InterfaceProductInfo: string option;
-      ProtocolInfo: string option;
-      MacAddress: string option;
-      Reserve1: string option;
-      LoginRemark: string option;
-      Text: string;
-      ClientIpPort: int option;
+    { TradingDay: string option
+      BrokerId: string
+      UserId: string
+      Password: string
+      UserProductInfo: string option
+      InterfaceProductInfo: string option
+      ProtocolInfo: string option
+      MacAddress: string option
+      Reserve1: string option
+      LoginRemark: string option
+      Text: string
+      ClientIpPort: int option
       ClientIpAddress: string option }
 
 type RiskSettleInvstPositionResponse =
-    { 
-      InstrumentId: string;
-      BrokerId: string;
-      InvestorId: string;
-      PosiDirection: PosiDirection option;
-      HedgeFlag: HedgeFlag option;
-      PositionDate: PositionDate option;
-      YdPosition: int;
-      Position: int;
-      LongFrozen: int;
-      ShortFrozen: int;
-      LongFrozenAmount: decimal;
-      ShortFrozenAmount: decimal;
-      OpenVolume: int;
-      CloseVolume: int;
-      OpenAmount: decimal;
-      CloseAmount: decimal;
-      PositionCost: decimal;
-      PreMargin: decimal;
-      UseMargin: decimal;
-      FrozenMargin: decimal;
-      FrozenCash: decimal;
-      FrozenCommission: decimal;
-      CashIn: decimal;
-      Commission: decimal;
-      CloseProfit: decimal;
-      PositionProfit: decimal;
-      PreSettlementPrice: decimal;
-      SettlementPrice: decimal;
-      TradingDay: string;
-      SettlementId: int;
-      OpenCost: decimal;
-      ExchangeMargin: decimal;
-      CombPosition: int;
-      CombLongFrozen: int;
-      CombShortFrozen: int;
-      CloseProfitByDate: decimal;
-      CloseProfitByTrade: decimal;
-      TodayPosition: int;
-      MarginRateByMoney: decimal;
-      MarginRateByVolume: decimal;
-      StrikeFrozen: int;
-      StrikeFrozenAmount: decimal;
-      AbandonFrozen: int;
-      ExchangeId: string;
-      YdStrikeFrozen: int;
-      InvestUnitId: string;
-      PositionCostOffset: decimal;
-      TasPosition: int;
+    { InstrumentId: string
+      BrokerId: string
+      InvestorId: string
+      PosiDirection: PosiDirection option
+      HedgeFlag: HedgeFlag option
+      PositionDate: PositionDate option
+      YdPosition: int
+      Position: int
+      LongFrozen: int
+      ShortFrozen: int
+      LongFrozenAmount: decimal
+      ShortFrozenAmount: decimal
+      OpenVolume: int
+      CloseVolume: int
+      OpenAmount: decimal
+      CloseAmount: decimal
+      PositionCost: decimal
+      PreMargin: decimal
+      UseMargin: decimal
+      FrozenMargin: decimal
+      FrozenCash: decimal
+      FrozenCommission: decimal
+      CashIn: decimal
+      Commission: decimal
+      CloseProfit: decimal
+      PositionProfit: decimal
+      PreSettlementPrice: decimal
+      SettlementPrice: decimal
+      TradingDay: string
+      SettlementId: int
+      OpenCost: decimal
+      ExchangeMargin: decimal
+      CombPosition: int
+      CombLongFrozen: int
+      CombShortFrozen: int
+      CloseProfitByDate: decimal
+      CloseProfitByTrade: decimal
+      TodayPosition: int
+      MarginRateByMoney: decimal
+      MarginRateByVolume: decimal
+      StrikeFrozen: int
+      StrikeFrozenAmount: decimal
+      AbandonFrozen: int
+      ExchangeId: string
+      YdStrikeFrozen: int
+      InvestUnitId: string
+      PositionCostOffset: decimal
+      TasPosition: int
       TasPositionCost: decimal }
 
-type RiskSettleProductStatusResponse =
-    { 
-      ExchangeId: string;
-      ProductId: string;
-      ProductStatus: ProductStatus option }
+type RiskSettleProductStatusResponse = { ExchangeId: string; ProductId: string; ProductStatus: ProductStatus option }
 
-type GenSmsCodeResponse =
-    { 
-      BrokerId: string;
-      UserId: string;
-      GenTime: string }
+type GenSmsCodeResponse = { BrokerId: string; UserId: string; GenTime: string }
 
-type GenUserCaptchaResponse =
-    { 
-      BrokerId: string;
-      UserId: string;
-      CaptchaInfoLen: int;
-      CaptchaInfo: string }
+type GenUserCaptchaResponse = { BrokerId: string; UserId: string; CaptchaInfoLen: int; CaptchaInfo: string }
 
-type GenUserTextResponse =
-    { 
-      UserTextSeq: int }
+type GenUserTextResponse = { UserTextSeq: int }
 
 type TransferResponse =
-    { 
-      TradeCode: string;
-      BankId: string;
-      BankBranchId: string;
-      BrokerId: string;
-      BrokerBranchId: string;
-      TradeDate: string;
-      TradeTime: string;
-      BankSerial: string;
-      TradingDay: string;
-      PlateSerial: int;
-      LastFragment: LastFragment option;
-      SessionId: int;
-      CustomerName: string;
-      IdCardType: IdCardType option;
-      IdentifiedCardNo: string;
-      CustType: CustType option;
-      BankAccount: string;
-      BankPassWord: string;
-      AccountId: string;
-      Password: string;
-      InstallId: int;
-      FutureSerial: int;
-      UserId: string;
-      VerifyCertNoFlag: char option;
-      CurrencyId: string;
-      TradeAmount: decimal;
-      FutureFetchAmount: decimal;
-      FeePayFlag: FeePayFlag option;
-      CustFee: decimal;
-      BrokerFee: decimal;
-      Message: string;
-      Digest: string;
-      BankAccType: BankAccType option;
-      DeviceId: string;
-      BankSecuAccType: char option;
-      BrokerIdByBank: string;
-      BankSecuAcc: string;
-      BankPwdFlag: char option;
-      SecuPwdFlag: char option;
-      OperNo: string;
-      RequestId: int;
-      TId: int;
-      TransferStatus: TransferStatus option;
-      ErrorId: int;
-      ErrorMsg: string;
+    { TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: string
+      TradeTime: string
+      BankSerial: string
+      TradingDay: string
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CustType: CustType option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      InstallId: int
+      FutureSerial: int
+      UserId: string
+      VerifyCertNoFlag: char option
+      CurrencyId: string
+      TradeAmount: decimal
+      FutureFetchAmount: decimal
+      FeePayFlag: FeePayFlag option
+      CustFee: decimal
+      BrokerFee: decimal
+      Message: string
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: char option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: char option
+      SecuPwdFlag: char option
+      OperNo: string
+      RequestId: int
+      TId: int
+      TransferStatus: TransferStatus option
+      ErrorId: int
+      ErrorMsg: string
       LongCustomerName: string }
 
-type UserAuthMethodResponse =
-    { 
-      UsableAuthMethod: int }
+type UserAuthMethodResponse = { UsableAuthMethod: int }
 
 type RuleInstrParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      InstrumentId: string;
-      InstrumentClass: InstrumentClass option;
-      StdInstrumentId: string;
-      BSpecRatio: decimal;
-      SSpecRatio: decimal;
-      BHedgeRatio: decimal;
-      SHedgeRatio: decimal;
-      BAddOnMargin: decimal;
-      SAddOnMargin: decimal;
+    { TradingDay: string
+      ExchangeId: string
+      InstrumentId: string
+      InstrumentClass: InstrumentClass option
+      StdInstrumentId: string
+      BSpecRatio: decimal
+      SSpecRatio: decimal
+      BHedgeRatio: decimal
+      SHedgeRatio: decimal
+      BAddOnMargin: decimal
+      SAddOnMargin: decimal
       CommodityGroupId: int }
 
 type RuleInterParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      SpreadId: int;
-      InterRate: decimal;
-      Leg1ProdFamilyCode: string;
-      Leg2ProdFamilyCode: string;
-      Leg1PropFactor: int;
-      Leg2PropFactor: int;
-      CommodityGroupId: int;
+    { TradingDay: string
+      ExchangeId: string
+      SpreadId: int
+      InterRate: decimal
+      Leg1ProdFamilyCode: string
+      Leg2ProdFamilyCode: string
+      Leg1PropFactor: int
+      Leg2PropFactor: int
+      CommodityGroupId: int
       CommodityGroupName: string }
 
 type RuleIntraParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      ProdFamilyCode: string;
-      StdInstrumentId: string;
-      StdInstrMargin: decimal;
-      UsualIntraRate: decimal;
+    { TradingDay: string
+      ExchangeId: string
+      ProdFamilyCode: string
+      StdInstrumentId: string
+      StdInstrMargin: decimal
+      UsualIntraRate: decimal
       DeliveryIntraRate: decimal }
 
 type SecAgentAcIdMapResponse =
-    { 
-      BrokerId: string;
-      UserId: string;
-      AccountId: string;
-      CurrencyId: string;
+    { BrokerId: string
+      UserId: string
+      AccountId: string
+      CurrencyId: string
       BrokerSecAgentId: string }
 
 type SecAgentCheckModeResponse =
-    { 
-      InvestorId: string;
-      BrokerId: string;
-      CurrencyId: string;
-      BrokerSecAgentId: string;
+    { InvestorId: string
+      BrokerId: string
+      CurrencyId: string
+      BrokerSecAgentId: string
       CheckSelfAccount: int }
 
 type SecAgentTradeInfoResponse =
-    { 
-      BrokerId: string;
-      BrokerSecAgentId: string;
-      InvestorId: string;
+    { BrokerId: string
+      BrokerSecAgentId: string
+      InvestorId: string
       LongCustomerName: string }
 
 type SettlementInfoResponse =
-    { 
-      TradingDay: string;
-      SettlementId: int;
-      BrokerId: string;
-      InvestorId: string;
-      SequenceNo: int;
-      Content: string;
-      AccountId: string;
+    { TradingDay: string
+      SettlementId: int
+      BrokerId: string
+      InvestorId: string
+      SequenceNo: int
+      Content: string
+      AccountId: string
       CurrencyId: string }
 
 type SpbmAddOnInterParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      SpreadId: int;
-      AddOnInterRateZ2: decimal;
-      Leg1ProdFamilyCode: string;
+    { TradingDay: string
+      ExchangeId: string
+      SpreadId: int
+      AddOnInterRateZ2: decimal
+      Leg1ProdFamilyCode: string
       Leg2ProdFamilyCode: string }
 
 type SpbmFutureParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      InstrumentId: string;
-      ProdFamilyCode: string;
-      Cvf: int;
-      TimeRange: TimeRange option;
-      MarginRate: decimal;
-      LockRateX: decimal;
-      AddOnRate: decimal;
-      PreSettlementPrice: decimal;
+    { TradingDay: string
+      ExchangeId: string
+      InstrumentId: string
+      ProdFamilyCode: string
+      Cvf: int
+      TimeRange: TimeRange option
+      MarginRate: decimal
+      LockRateX: decimal
+      AddOnRate: decimal
+      PreSettlementPrice: decimal
       AddOnLockRateX2: decimal }
 
 type SpbmInterParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      SpreadId: int;
-      InterRateZ: decimal;
-      Leg1ProdFamilyCode: string;
+    { TradingDay: string
+      ExchangeId: string
+      SpreadId: int
+      InterRateZ: decimal
+      Leg1ProdFamilyCode: string
       Leg2ProdFamilyCode: string }
 
 type SpbmIntraParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      ProdFamilyCode: string;
-      IntraRateY: decimal;
+    { TradingDay: string
+      ExchangeId: string
+      ProdFamilyCode: string
+      IntraRateY: decimal
       AddOnIntraRateY2: decimal }
 
 type SpbmInvestorPortfDefResponse =
-    { 
-      ExchangeId: string;
-      BrokerId: string;
-      InvestorId: string;
+    { ExchangeId: string
+      BrokerId: string
+      InvestorId: string
       PortfolioDefId: int }
 
 type SpbmOptionParameterResponse =
-    { 
-      TradingDay: string;
-      ExchangeId: string;
-      InstrumentId: string;
-      ProdFamilyCode: string;
-      Cvf: int;
-      DownPrice: decimal;
-      Delta: decimal;
-      SlimiDelta: decimal;
+    { TradingDay: string
+      ExchangeId: string
+      InstrumentId: string
+      ProdFamilyCode: string
+      Cvf: int
+      DownPrice: decimal
+      Delta: decimal
+      SlimiDelta: decimal
       PreSettlementPrice: decimal }
 
 type SpbmPortfDefinitionResponse =
-    { 
-      ExchangeId: string;
-      PortfolioDefId: int;
-      ProdFamilyCode: string;
-      IsSpbm: int }
+    { ExchangeId: string; PortfolioDefId: int; ProdFamilyCode: string; IsSpbm: int }
 
 type SpdApplyResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      FirstLegInstrumentId: string;
-      SecondLegInstrumentId: string;
-      UserId: string;
-      Volume: int;
-      Direction: Direction option;
-      RequestId: int;
-      FrontId: int;
-      SessionId: int;
-      OrderRef: string;
-      ActiveUserId: string;
-      BrokerOrderSeq: int;
-      OrderSysId: string;
-      ApplyStatus: ApplyStatus option;
-      SequenceNo: int;
-      InsertDate: string;
-      InsertTime: string;
-      CancelTime: string;
-      OrderLocalId: string;
-      ExchangeId: string;
-      ParticipantId: string;
-      ClientId: string;
-      ExchangeInstId: string;
-      TraderId: string;
-      InstallId: int;
-      OrderSubmitStatus: OrderSubmitStatus option;
-      NotifySequence: int;
-      TradingDay: string;
-      SettlementId: int;
-      IpAddress: string;
-      MacAddress: string;
-      CmbType: CmbType option;
+    { BrokerId: string
+      InvestorId: string
+      FirstLegInstrumentId: string
+      SecondLegInstrumentId: string
+      UserId: string
+      Volume: int
+      Direction: Direction option
+      RequestId: int
+      FrontId: int
+      SessionId: int
+      OrderRef: string
+      ActiveUserId: string
+      BrokerOrderSeq: int
+      OrderSysId: string
+      ApplyStatus: ApplyStatus option
+      SequenceNo: int
+      InsertDate: string
+      InsertTime: string
+      CancelTime: string
+      OrderLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      ExchangeInstId: string
+      TraderId: string
+      InstallId: int
+      OrderSubmitStatus: OrderSubmitStatus option
+      NotifySequence: int
+      TradingDay: string
+      SettlementId: int
+      IpAddress: string
+      MacAddress: string
+      CmbType: CmbType option
       StatusMsg: string }
 
 type SpdApplyActionResponse =
-    { 
-      BrokerId: string;
-      InvestorId: string;
-      ActionDate: string;
-      ActionTime: string;
-      TraderId: string;
-      InstallId: int;
-      OrderLocalId: string;
-      ActionLocalId: string;
-      ParticipantId: string;
-      ClientId: string;
-      OrderActionStatus: OrderActionStatus option;
-      UserId: string;
-      ExchangeId: string;
-      OrderSysId: string;
-      RequestId: int;
-      StatusMsg: string;
-      OrderRef: string;
-      FrontId: int;
-      SessionId: int;
-      IpAddress: string;
+    { BrokerId: string
+      InvestorId: string
+      ActionDate: string
+      ActionTime: string
+      TraderId: string
+      InstallId: int
+      OrderLocalId: string
+      ActionLocalId: string
+      ParticipantId: string
+      ClientId: string
+      OrderActionStatus: OrderActionStatus option
+      UserId: string
+      ExchangeId: string
+      OrderSysId: string
+      RequestId: int
+      StatusMsg: string
+      OrderRef: string
+      FrontId: int
+      SessionId: int
+      IpAddress: string
       MacAddress: string }
 
 type SpmmInstParamResponse =
-    { 
-      ExchangeId: string;
-      InstrumentId: string;
-      InstMarginCalId: InstMarginCalId option;
-      CommodityId: string;
+    { ExchangeId: string
+      InstrumentId: string
+      InstMarginCalId: InstMarginCalId option
+      CommodityId: string
       CommodityGroupId: string }
 
 type SpmmProductParamResponse =
-    { 
-      ExchangeId: string;
-      ProductId: string;
-      CommodityId: string;
+    { ExchangeId: string
+      ProductId: string
+      CommodityId: string
       CommodityGroupId: string }
 
 type TraderOfferResponse =
-    { 
-      ExchangeId: string;
-      TraderId: string;
-      ParticipantId: string;
-      Password: string;
-      InstallId: int;
-      OrderLocalId: string;
-      TraderConnectStatus: TraderConnectStatus option;
-      ConnectRequestDate: string;
-      ConnectRequestTime: string;
-      LastReportDate: string;
-      LastReportTime: string;
-      ConnectDate: string;
-      ConnectTime: string;
-      StartDate: string;
-      StartTime: string;
-      TradingDay: string;
-      BrokerId: string;
-      MaxTradeId: string;
-      MaxOrderMessageReference: string;
+    { ExchangeId: string
+      TraderId: string
+      ParticipantId: string
+      Password: string
+      InstallId: int
+      OrderLocalId: string
+      TraderConnectStatus: TraderConnectStatus option
+      ConnectRequestDate: string
+      ConnectRequestTime: string
+      LastReportDate: string
+      LastReportTime: string
+      ConnectDate: string
+      ConnectTime: string
+      StartDate: string
+      StartTime: string
+      TradingDay: string
+      BrokerId: string
+      MaxTradeId: string
+      MaxOrderMessageReference: string
       OrderCancelAlg: OrderCancelAlg option }
 
 type TradingAccountPasswordUpdate =
-    {
-      BrokerId: string;
-      AccountId: string;
-      OldPassword: string;
-      NewPassword: string;
+    { BrokerId: string
+      AccountId: string
+      OldPassword: string
+      NewPassword: string
       CurrencyId: string }
 
 type TradingAccountPasswordUpdateRequest = TradingAccountPasswordUpdate
 type TradingAccountPasswordUpdateResponse = TradingAccountPasswordUpdate
 
 type TradingCodeResponse =
-    { 
-      InvestorId: string;
-      BrokerId: string;
-      ExchangeId: string;
-      ClientId: string;
-      IsActive: int;
-      ClientIdType: ClientIdType option;
-      BranchId: string;
-      BizType: BizType option;
+    { InvestorId: string
+      BrokerId: string
+      ExchangeId: string
+      ClientId: string
+      IsActive: int
+      ClientIdType: ClientIdType option
+      BranchId: string
+      BizType: BizType option
       InvestUnitId: string }
 
 type TradingNoticeResponse =
-    { 
-      BrokerId: string;
-      InvestorRange: InvestorRange option;
-      InvestorId: string;
-      SequenceSeries: int;
-      UserId: string;
-      SendTime: string;
-      SequenceNo: int;
-      FieldContent: string;
+    { BrokerId: string
+      InvestorRange: InvestorRange option
+      InvestorId: string
+      SequenceSeries: int
+      UserId: string
+      SendTime: string
+      SequenceNo: int
+      FieldContent: string
       InvestUnitId: string }
 
-type TransferBankResponse =
-    { 
-      BankId: string;
-      BankBrchId: string;
-      BankName: string;
-      IsActive: int }
+type TransferBankResponse = { BankId: string; BankBrchId: string; BankName: string; IsActive: int }
 
 type TransferSerialResponse =
-    { 
-      PlateSerial: int;
-      TradeDate: string;
-      TradingDay: string;
-      TradeTime: string;
-      TradeCode: string;
-      SessionId: int;
-      BankId: string;
-      BankBranchId: string;
-      BankAccType: BankAccType option;
-      BankAccount: string;
-      BankSerial: string;
-      BrokerId: string;
-      BrokerBranchId: string;
-      FutureAccType: FutureAccType option;
-      AccountId: string;
-      InvestorId: string;
-      FutureSerial: int;
-      IdCardType: IdCardType option;
-      IdentifiedCardNo: string;
-      CurrencyId: string;
-      TradeAmount: decimal;
-      CustFee: decimal;
-      BrokerFee: decimal;
-      AvailabilityFlag: AvailabilityFlag option;
-      OperatorCode: string;
-      BankNewAccount: string;
-      ErrorId: int;
+    { PlateSerial: int
+      TradeDate: string
+      TradingDay: string
+      TradeTime: string
+      TradeCode: string
+      SessionId: int
+      BankId: string
+      BankBranchId: string
+      BankAccType: BankAccType option
+      BankAccount: string
+      BankSerial: string
+      BrokerId: string
+      BrokerBranchId: string
+      FutureAccType: FutureAccType option
+      AccountId: string
+      InvestorId: string
+      FutureSerial: int
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CurrencyId: string
+      TradeAmount: decimal
+      CustFee: decimal
+      BrokerFee: decimal
+      AvailabilityFlag: AvailabilityFlag option
+      OperatorCode: string
+      BankNewAccount: string
+      ErrorId: int
       ErrorMsg: string }
 
-type UserPasswordUpdate =
-    { 
-      BrokerId: string;
-      UserId: string;
-      OldPassword: string;
-      NewPassword: string }
+type UserPasswordUpdate = { BrokerId: string; UserId: string; OldPassword: string; NewPassword: string }
 
 type UserPasswordUpdateRequest = UserPasswordUpdate
 type UserPasswordUpdateResponse = UserPasswordUpdate
 
 type UserSessionResponse =
-    { 
-      FrontId: int;
-      SessionId: int;
-      BrokerId: string;
-      UserId: string;
-      LoginDate: string;
-      LoginTime: string;
-      Reserve1: string;
-      UserProductInfo: string;
-      InterfaceProductInfo: string;
-      ProtocolInfo: string;
-      MacAddress: string;
-      LoginRemark: string;
+    { FrontId: int
+      SessionId: int
+      BrokerId: string
+      UserId: string
+      LoginDate: string
+      LoginTime: string
+      Reserve1: string
+      UserProductInfo: string
+      InterfaceProductInfo: string
+      ProtocolInfo: string
+      MacAddress: string
+      LoginRemark: string
       IpAddress: string }
 
 type UserSystemInfoRequest =
-    { 
-      BrokerId: string;
-      UserId: string;
-      ClientSystemInfoLen: int;
-      ClientSystemInfo: string;
-      Reserve1: string;
-      ClientIpPort: int;
-      ClientLoginTime: string;
-      ClientAppId: string;
-      ClientPublicIp: string;
-      ClientLoginRemark: string;
+    { BrokerId: string
+      UserId: string
+      ClientSystemInfoLen: int
+      ClientSystemInfo: string
+      Reserve1: string
+      ClientIpPort: int
+      ClientLoginTime: string
+      ClientAppId: string
+      ClientPublicIp: string
+      ClientLoginRemark: string
       Mac: string }
 
 type WechatUserSystemInfoRequest =
-    { 
-      BrokerId: string;
-      UserId: string;
-      WechatCltSysInfoLen: int;
-      WechatCltSysInfo: string;
-      ClientIpPort: int;
-      ClientLoginTime: string;
-      ClientAppId: string;
-      ClientPublicIp: string;
+    { BrokerId: string
+      UserId: string
+      WechatCltSysInfoLen: int
+      WechatCltSysInfo: string
+      ClientIpPort: int
+      ClientLoginTime: string
+      ClientAppId: string
+      ClientPublicIp: string
       ClientLoginRemark: string }
 
 type TraderCallbacks =
-    {
-      FrontConnected: (unit -> unit) option
+    { FrontConnected: (unit -> unit) option
       FrontDisconnected: (int -> unit) option
       HeartBeatWarning: (int -> unit) option
       RtnPrivateSeqNo: (int -> unit) option
@@ -3076,7 +2735,8 @@ type TraderCallbacks =
       RspQryInvestorPosition: (InvestorPositionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryInstrumentMarginRate: (InstrumentMarginRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryExchangeMarginRate: (ExchangeMarginRateResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInstrumentCommissionRate: (InstrumentCommissionRateResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInstrumentCommissionRate:
+          (InstrumentCommissionRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspOrderInsert: (InputOrderResponse option -> RspInfo option -> int -> bool -> unit) option
       RspOrderAction: (InputOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RtnOrder: (OrderUpdateResponse -> unit) option
@@ -3115,45 +2775,60 @@ type TraderCallbacks =
       RspHedgeCfm: (InputHedgeCfmResponse option -> RspInfo option -> int -> bool -> unit) option
       RspHedgeCfmAction: (InputHedgeCfmActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspOffsetSetting: (InputOffsetSettingResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspOptionSelfCloseAction: (InputOptionSelfCloseActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspOptionSelfCloseAction:
+          (InputOptionSelfCloseActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspOptionSelfCloseInsert: (InputOptionSelfCloseResponse option -> RspInfo option -> int -> bool -> unit) option
       RspParkedOrderAction: (ParkedOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspParkedOrderInsert: (ParkedOrderResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryAccountregister: (AccountregisterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryBrokerTradingAlgos: (BrokerTradingAlgosResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryBrokerTradingParams: (BrokerTradingParamsResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryCfmmcTradingAccountKey: (CfmmcTradingAccountKeyResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryCfmmcTradingAccountKey:
+          (CfmmcTradingAccountKeyResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryClassifiedInstrument: (InstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryCombAction: (CombActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryCombInstrumentGuard: (CombInstrumentGuardResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryCombLeg: (CombLegResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryCombPromotionParam: (CombPromotionParamResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryContractBank: (ContractBankResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryDepthMarketData: (DepthMarketDataResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryDepthMarketData: (DepthMarketData option -> RspInfo option -> int -> bool -> unit) option
       RspQryEWarrantOffset: (EWarrantOffsetResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryExchange: (ExchangeResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryExchangeMarginRateAdjust: (ExchangeMarginRateAdjustResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryExchangeMarginRateAdjust:
+          (ExchangeMarginRateAdjustResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryExchangeRate: (ExchangeRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryExecOrder: (ExecOrderResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryForQuote: (ForQuoteResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryHedgeCfm: (HedgeCfmResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryInstrument: (InstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInstrumentOrderCommRate: (InstrumentOrderCommRateResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInstrumentOrderCommRate:
+          (InstrumentOrderCommRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryInvestUnit: (InvestUnitResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryInvestor: (InvestorResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorCommodityGroupSpmmMargin: (InvestorCommodityGroupSpmmMarginResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorCommoditySpmmMargin: (InvestorCommoditySpmmMarginResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorCommodityGroupSpmmMargin:
+          (InvestorCommodityGroupSpmmMarginResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorCommoditySpmmMargin:
+          (InvestorCommoditySpmmMarginResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryInvestorInfoCommRec: (InvestorInfoCommRecResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorPortfMarginRatio: (InvestorPortfMarginRatioResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorPortfMarginRatio:
+          (InvestorPortfMarginRatioResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryInvestorPortfSetting: (InvestorPortfSettingResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorPositionCombineDetail: (InvestorPositionCombineDetailResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorPositionDetail: (InvestorPositionDetailResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorProdRcamsMargin: (InvestorProdRcamsMarginResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorProdRuleMargin: (InvestorProdRuleMarginResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorProdSpbmDetail: (InvestorProdSpbmDetailResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryInvestorProductGroupMargin: (InvestorProductGroupMarginResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryMmInstrumentCommissionRate: (MmInstrumentCommissionRateResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryMmOptionInstrCommRate: (MmOptionInstrCommRateResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorPositionCombineDetail:
+          (InvestorPositionCombineDetailResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorPositionDetail:
+          (InvestorPositionDetailResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProdRcamsMargin:
+          (InvestorProdRcamsMarginResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProdRuleMargin:
+          (InvestorProdRuleMarginResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProdSpbmDetail:
+          (InvestorProdSpbmDetailResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryInvestorProductGroupMargin:
+          (InvestorProductGroupMarginResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryMmInstrumentCommissionRate:
+          (MmInstrumentCommissionRateResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryMmOptionInstrCommRate:
+          (MmOptionInstrCommRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryMaxOrderVolume: (MaxOrderVolumeResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryNotice: (NoticeResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryOffsetSetting: (OffsetSettingResponse option -> RspInfo option -> int -> bool -> unit) option
@@ -3171,14 +2846,19 @@ type TraderCallbacks =
       RspQryRcamsInstrParameter: (RcamsInstrParameterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryRcamsInterParameter: (RcamsInterParameterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryRcamsIntraParameter: (RcamsIntraParameterResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryRcamsInvestorCombPosition: (RcamsInvestorCombPositionResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryRcamsShortOptAdjustParam: (RcamsShortOptAdjustParamResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsInvestorCombPosition:
+          (RcamsInvestorCombPositionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRcamsShortOptAdjustParam:
+          (RcamsShortOptAdjustParamResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryRuleInstrParameter: (RuleInstrParameterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryRuleInterParameter: (RuleInterParameterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryRuleIntraParameter: (RuleIntraParameterResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryRiskSettleInvstPosition: (RiskSettleInvstPositionResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryRiskSettleProductStatus: (RiskSettleProductStatusResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQrySpbmAddOnInterParameter: (SpbmAddOnInterParameterResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRiskSettleInvstPosition:
+          (RiskSettleInvstPositionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryRiskSettleProductStatus:
+          (RiskSettleProductStatusResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySpbmAddOnInterParameter:
+          (SpbmAddOnInterParameterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySpbmFutureParameter: (SpbmFutureParameterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySpbmInterParameter: (SpbmInterParameterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySpbmIntraParameter: (SpbmIntraParameterResponse option -> RspInfo option -> int -> bool -> unit) option
@@ -3192,7 +2872,8 @@ type TraderCallbacks =
       RspQrySecAgentTradeInfo: (SecAgentTradeInfoResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySecAgentTradingAccount: (TradingAccountResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySettlementInfo: (SettlementInfoResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQrySettlementInfoConfirm: (SettlementInfoConfirmResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySettlementInfoConfirm:
+          (SettlementInfoConfirmResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySpdApply: (SpdApplyResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryTrade: (TradeUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryTraderOffer: (TraderOfferResponse option -> RspInfo option -> int -> bool -> unit) option
@@ -3201,15 +2882,19 @@ type TraderCallbacks =
       RspQryTransferBank: (TransferBankResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryTransferSerial: (TransferSerialResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryUserSession: (UserSessionResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQueryBankAccountMoneyByFuture: (QueryBankAccountMoneyResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQueryCfmmcTradingAccountToken: (QueryCfmmcTradingAccountTokenResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQueryBankAccountMoneyByFuture:
+          (QueryBankAccountMoneyResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQueryCfmmcTradingAccountToken:
+          (QueryCfmmcTradingAccountTokenResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQuoteAction: (InputQuoteActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQuoteInsert: (InputQuoteResponse option -> RspInfo option -> int -> bool -> unit) option
       RspRemoveParkedOrder: (RemoveParkedOrderResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspRemoveParkedOrderAction: (RemoveParkedOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspRemoveParkedOrderAction:
+          (RemoveParkedOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspSpdApply: (InputSpdApplyResponse option -> RspInfo option -> int -> bool -> unit) option
       RspSpdApplyAction: (InputSpdApplyActionResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspTradingAccountPasswordUpdate: (TradingAccountPasswordUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspTradingAccountPasswordUpdate:
+          (TradingAccountPasswordUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
       UserAuthMethodResponse: (UserAuthMethodResponse option -> RspInfo option -> int -> bool -> unit) option
       RspUserPasswordUpdate: (UserPasswordUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
       RtnCombAction: (CombActionResponse -> unit) option
@@ -3222,8 +2907,7 @@ type TraderCallbacks =
       RtnOptionSelfClose: (OptionSelfCloseResponse -> unit) option
       RtnQueryBankBalanceByFuture: (NotifyQueryAccountResponse -> unit) option
       RtnQuote: (QuoteResponse -> unit) option
-      RtnSpdApply: (SpdApplyResponse -> unit) option
-    }
+      RtnSpdApply: (SpdApplyResponse -> unit) option }
 
     static member Empty =
         { FrontConnected = None
@@ -12648,13 +12332,15 @@ type private TraderRspQryTradingAccountDelegate = delegate of nativeint * native
 type private TraderRspQryInvestorPositionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInstrumentMarginRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInstrumentMarginRateDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryExchangeMarginRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInstrumentCommissionRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInstrumentCommissionRateDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspOrderInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12747,10 +12433,12 @@ type private TraderRspExecOrderInsertDelegate = delegate of nativeint * nativein
 type private TraderRspForQuoteInsertDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspFromBankToFutureByFutureDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspFromBankToFutureByFutureDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspFromFutureToBankByFutureDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspFromFutureToBankByFutureDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspGenSmsCodeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12792,10 +12480,12 @@ type private TraderRspQryBrokerTradingAlgosDelegate = delegate of nativeint * na
 type private TraderRspQryBrokerTradingParamsDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryCfmmcTradingAccountKeyDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryCfmmcTradingAccountKeyDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryClassifiedInstrumentDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryClassifiedInstrumentDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryCombActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12822,7 +12512,8 @@ type private TraderRspQryEWarrantOffsetDelegate = delegate of nativeint * native
 type private TraderRspQryExchangeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryExchangeMarginRateAdjustDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryExchangeMarginRateAdjustDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryExchangeRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12840,7 +12531,8 @@ type private TraderRspQryHedgeCfmDelegate = delegate of nativeint * nativeint * 
 type private TraderRspQryInstrumentDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInstrumentOrderCommRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInstrumentOrderCommRateDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryInvestUnitDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12849,43 +12541,55 @@ type private TraderRspQryInvestUnitDelegate = delegate of nativeint * nativeint 
 type private TraderRspQryInvestorDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorCommodityGroupSpmmMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorCommodityGroupSpmmMarginDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorCommoditySpmmMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorCommoditySpmmMarginDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryInvestorInfoCommRecDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorPortfMarginRatioDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorPortfMarginRatioDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorPortfSettingDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorPortfSettingDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorPositionCombineDetailDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorPositionCombineDetailDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorPositionDetailDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorPositionDetailDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorProdRcamsMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorProdRcamsMarginDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorProdRuleMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorProdRuleMarginDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorProdSpbmDetailDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorProdSpbmDetailDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryInvestorProductGroupMarginDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryInvestorProductGroupMarginDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryMmInstrumentCommissionRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryMmInstrumentCommissionRateDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryMmOptionInstrCommRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryMmOptionInstrCommRateDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryMaxOrderVolumeDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12900,7 +12604,8 @@ type private TraderRspQryOffsetSettingDelegate = delegate of nativeint * nativei
 type private TraderRspQryOptionInstrCommRateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryOptionInstrTradeCostDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryOptionInstrTradeCostDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryOptionSelfCloseDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12927,7 +12632,8 @@ type private TraderRspQryProductGroupDelegate = delegate of nativeint * nativein
 type private TraderRspQryQuoteDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryRcamsCombProductInfoDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryRcamsCombProductInfoDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryRcamsInstrParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12939,10 +12645,12 @@ type private TraderRspQryRcamsInterParameterDelegate = delegate of nativeint * n
 type private TraderRspQryRcamsIntraParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryRcamsInvestorCombPositionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryRcamsInvestorCombPositionDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryRcamsShortOptAdjustParamDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryRcamsShortOptAdjustParamDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQryRuleInstrParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12954,13 +12662,16 @@ type private TraderRspQryRuleInterParameterDelegate = delegate of nativeint * na
 type private TraderRspQryRuleIntraParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryRiskSettleInvstPositionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryRiskSettleInvstPositionDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQryRiskSettleProductStatusDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQryRiskSettleProductStatusDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQrySpbmAddOnInterParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQrySpbmAddOnInterParameterDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQrySpbmFutureParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12972,7 +12683,8 @@ type private TraderRspQrySpbmInterParameterDelegate = delegate of nativeint * na
 type private TraderRspQrySpbmIntraParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQrySpbmInvestorPortfDefDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQrySpbmInvestorPortfDefDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQrySpbmOptionParameterDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -12996,13 +12708,15 @@ type private TraderRspQrySecAgentCheckModeDelegate = delegate of nativeint * nat
 type private TraderRspQrySecAgentTradeInfoDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQrySecAgentTradingAccountDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQrySecAgentTradingAccountDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQrySettlementInfoDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQrySettlementInfoConfirmDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQrySettlementInfoConfirmDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQrySpdApplyDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -13029,10 +12743,12 @@ type private TraderRspQryTransferSerialDelegate = delegate of nativeint * native
 type private TraderRspQryUserSessionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQueryBankAccountMoneyByFutureDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQueryBankAccountMoneyByFutureDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspQueryCfmmcTradingAccountTokenDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspQueryCfmmcTradingAccountTokenDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspQuoteActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -13044,7 +12760,8 @@ type private TraderRspQuoteInsertDelegate = delegate of nativeint * nativeint * 
 type private TraderRspRemoveParkedOrderDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspRemoveParkedOrderActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspRemoveParkedOrderActionDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspSpdApplyDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -13053,7 +12770,8 @@ type private TraderRspSpdApplyDelegate = delegate of nativeint * nativeint * int
 type private TraderRspSpdApplyActionDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
-type private TraderRspTradingAccountPasswordUpdateDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+type private TraderRspTradingAccountPasswordUpdateDelegate =
+    delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRspUserAuthMethodDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
@@ -13770,7 +13488,9 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_authenticate")>]
     extern int reqAuthenticate(nativeint handle, NativeReqAuthenticate& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_settlement_info_confirm")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_settlement_info_confirm")>]
     extern int reqSettlementInfoConfirm(nativeint handle, NativeSettlementInfoConfirm& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_login")>]
@@ -13782,17 +13502,29 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trading_account")>]
     extern int reqQryTradingAccount(nativeint handle, NativeQryTradingAccount& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_position")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_position")>]
     extern int reqQryInvestorPosition(nativeint handle, NativeQryInvestorPosition& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument_margin_rate")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_instrument_margin_rate")>]
     extern int reqQryInstrumentMarginRate(nativeint handle, NativeQryInstrumentMarginRate& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exchange_margin_rate")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_exchange_margin_rate")>]
     extern int reqQryExchangeMarginRate(nativeint handle, NativeQryExchangeMarginRate& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument_commission_rate")>]
-    extern int reqQryInstrumentCommissionRate(nativeint handle, NativeQryInstrumentCommissionRate& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_instrument_commission_rate")>]
+    extern int reqQryInstrumentCommissionRate(
+        nativeint handle,
+        NativeQryInstrumentCommissionRate& request,
+        int requestId
+    )
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_order_insert")>]
     extern int reqOrderInsert(nativeint handle, NativeInputOrder& request, int requestId)
@@ -13812,23 +13544,35 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_register_fens_user_info")>]
     extern int registerFensUserInfo(nativeint handle, NativeFensUserInfo& request)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_register_user_system_info")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_register_user_system_info")>]
     extern int registerUserSystemInfo(nativeint handle, NativeUserSystemInfo& request)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_submit_user_system_info")>]
     extern int submitUserSystemInfo(nativeint handle, NativeUserSystemInfo& request)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_register_wechat_user_system_info")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_register_wechat_user_system_info")>]
     extern int registerWechatUserSystemInfo(nativeint handle, NativeWechatUserSystemInfo& request)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_submit_wechat_user_system_info")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_submit_wechat_user_system_info")>]
     extern int submitWechatUserSystemInfo(nativeint handle, NativeWechatUserSystemInfo& request)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_password_update")>]
     extern int reqUserPasswordUpdate(nativeint handle, NativeUserPasswordUpdate& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_trading_account_password_update")>]
-    extern int reqTradingAccountPasswordUpdate(nativeint handle, NativeTradingAccountPasswordUpdate& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_trading_account_password_update")>]
+    extern int reqTradingAccountPasswordUpdate(
+        nativeint handle,
+        NativeTradingAccountPasswordUpdate& request,
+        int requestId
+    )
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_auth_method")>]
     extern int reqUserAuthMethod(nativeint handle, NativeReqUserAuthMethod& request, int requestId)
@@ -13839,7 +13583,9 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_gen_user_text")>]
     extern int reqGenUserText(nativeint handle, NativeReqGenUserText& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_login_with_captcha")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_user_login_with_captcha")>]
     extern int reqUserLoginWithCaptcha(nativeint handle, NativeReqUserLoginWithCaptcha& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_user_login_with_text")>]
@@ -13863,7 +13609,9 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_remove_parked_order")>]
     extern int reqRemoveParkedOrder(nativeint handle, NativeRemoveParkedOrder& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_remove_parked_order_action")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_remove_parked_order_action")>]
     extern int reqRemoveParkedOrderAction(nativeint handle, NativeRemoveParkedOrderAction& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_exec_order_insert")>]
@@ -13884,10 +13632,14 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_batch_order_action")>]
     extern int reqBatchOrderAction(nativeint handle, NativeInputBatchOrderAction& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_option_self_close_insert")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_option_self_close_insert")>]
     extern int reqOptionSelfCloseInsert(nativeint handle, NativeInputOptionSelfClose& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_option_self_close_action")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_option_self_close_action")>]
     extern int reqOptionSelfCloseAction(nativeint handle, NativeInputOptionSelfCloseAction& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_comb_action_insert")>]
@@ -13896,7 +13648,9 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_offset_setting")>]
     extern int reqOffsetSetting(nativeint handle, NativeInputOffsetSetting& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_cancel_offset_setting")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_cancel_offset_setting")>]
     extern int reqCancelOffsetSetting(nativeint handle, NativeInputOffsetSetting& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_spd_apply")>]
@@ -13935,7 +13689,9 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument")>]
     extern int reqQryInstrument(nativeint handle, NativeQryInstrument& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_depth_market_data")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_depth_market_data")>]
     extern int reqQryDepthMarketData(nativeint handle, NativeQryDepthMarketData& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trader_offer")>]
@@ -13947,64 +13703,112 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_transfer_bank")>]
     extern int reqQryTransferBank(nativeint handle, NativeQryTransferBank& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_position_detail")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_position_detail")>]
     extern int reqQryInvestorPositionDetail(nativeint handle, NativeQryInvestorPositionDetail& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_notice")>]
     extern int reqQryNotice(nativeint handle, NativeQryNotice& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_settlement_info_confirm")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_settlement_info_confirm")>]
     extern int reqQrySettlementInfoConfirm(nativeint handle, NativeQrySettlementInfoConfirm& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_position_combine_detail")>]
-    extern int reqQryInvestorPositionCombineDetail(nativeint handle, NativeQryInvestorPositionCombineDetail& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_position_combine_detail")>]
+    extern int reqQryInvestorPositionCombineDetail(
+        nativeint handle,
+        NativeQryInvestorPositionCombineDetail& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_cfmmc_trading_account_key")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_cfmmc_trading_account_key")>]
     extern int reqQryCfmmcTradingAccountKey(nativeint handle, NativeQryCfmmcTradingAccountKey& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_e_warrant_offset")>]
     extern int reqQryEWarrantOffset(nativeint handle, NativeQryEWarrantOffset& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_product_group_margin")>]
-    extern int reqQryInvestorProductGroupMargin(nativeint handle, NativeQryInvestorProductGroupMargin& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_product_group_margin")>]
+    extern int reqQryInvestorProductGroupMargin(
+        nativeint handle,
+        NativeQryInvestorProductGroupMargin& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exchange_margin_rate_adjust")>]
-    extern int reqQryExchangeMarginRateAdjust(nativeint handle, NativeQryExchangeMarginRateAdjust& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_exchange_margin_rate_adjust")>]
+    extern int reqQryExchangeMarginRateAdjust(
+        nativeint handle,
+        NativeQryExchangeMarginRateAdjust& request,
+        int requestId
+    )
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exchange_rate")>]
     extern int reqQryExchangeRate(nativeint handle, NativeQryExchangeRate& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_ac_id_map")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_sec_agent_ac_id_map")>]
     extern int reqQrySecAgentAcIdMap(nativeint handle, NativeQrySecAgentAcIdMap& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_product_exch_rate")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_product_exch_rate")>]
     extern int reqQryProductExchRate(nativeint handle, NativeQryProductExchRate& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_product_group")>]
     extern int reqQryProductGroup(nativeint handle, NativeQryProductGroup& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_mm_instrument_commission_rate")>]
-    extern int reqQryMmInstrumentCommissionRate(nativeint handle, NativeQryMmInstrumentCommissionRate& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_mm_instrument_commission_rate")>]
+    extern int reqQryMmInstrumentCommissionRate(
+        nativeint handle,
+        NativeQryMmInstrumentCommissionRate& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_mm_option_instr_comm_rate")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_mm_option_instr_comm_rate")>]
     extern int reqQryMmOptionInstrCommRate(nativeint handle, NativeQryMmOptionInstrCommRate& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_instrument_order_comm_rate")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_instrument_order_comm_rate")>]
     extern int reqQryInstrumentOrderCommRate(nativeint handle, NativeQryInstrumentOrderCommRate& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_trading_account")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_sec_agent_trading_account")>]
     extern int reqQrySecAgentTradingAccount(nativeint handle, NativeQryTradingAccount& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_check_mode")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_sec_agent_check_mode")>]
     extern int reqQrySecAgentCheckMode(nativeint handle, NativeQrySecAgentCheckMode& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_sec_agent_trade_info")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_sec_agent_trade_info")>]
     extern int reqQrySecAgentTradeInfo(nativeint handle, NativeQrySecAgentTradeInfo& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_option_instr_trade_cost")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_option_instr_trade_cost")>]
     extern int reqQryOptionInstrTradeCost(nativeint handle, NativeQryOptionInstrTradeCost& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_option_instr_comm_rate")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_option_instr_comm_rate")>]
     extern int reqQryOptionInstrCommRate(nativeint handle, NativeQryOptionInstrCommRate& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_exec_order")>]
@@ -14016,13 +13820,17 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_quote")>]
     extern int reqQryQuote(nativeint handle, NativeQryQuote& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_option_self_close")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_option_self_close")>]
     extern int reqQryOptionSelfClose(nativeint handle, NativeQryOptionSelfClose& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_invest_unit")>]
     extern int reqQryInvestUnit(nativeint handle, NativeQryInvestUnit& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_instrument_guard")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_comb_instrument_guard")>]
     extern int reqQryCombInstrumentGuard(nativeint handle, NativeQryCombInstrumentGuard& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_action")>]
@@ -14040,109 +13848,199 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_parked_order")>]
     extern int reqQryParkedOrder(nativeint handle, NativeQryParkedOrder& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_parked_order_action")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_parked_order_action")>]
     extern int reqQryParkedOrderAction(nativeint handle, NativeQryParkedOrderAction& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_trading_notice")>]
     extern int reqQryTradingNotice(nativeint handle, NativeQryTradingNotice& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_broker_trading_params")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_broker_trading_params")>]
     extern int reqQryBrokerTradingParams(nativeint handle, NativeQryBrokerTradingParams& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_broker_trading_algos")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_broker_trading_algos")>]
     extern int reqQryBrokerTradingAlgos(nativeint handle, NativeQryBrokerTradingAlgos& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_query_cfmmc_trading_account_token")>]
-    extern int reqQueryCfmmcTradingAccountToken(nativeint handle, NativeQueryCfmmcTradingAccountToken& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_query_cfmmc_trading_account_token")>]
+    extern int reqQueryCfmmcTradingAccountToken(
+        nativeint handle,
+        NativeQueryCfmmcTradingAccountToken& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_classified_instrument")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_classified_instrument")>]
     extern int reqQryClassifiedInstrument(nativeint handle, NativeQryClassifiedInstrument& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_promotion_param")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_comb_promotion_param")>]
     extern int reqQryCombPromotionParam(nativeint handle, NativeQryCombPromotionParam& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_risk_settle_invst_position")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_risk_settle_invst_position")>]
     extern int reqQryRiskSettleInvstPosition(nativeint handle, NativeQryRiskSettleInvstPosition& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_risk_settle_product_status")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_risk_settle_product_status")>]
     extern int reqQryRiskSettleProductStatus(nativeint handle, NativeQryRiskSettleProductStatus& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_future_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spbm_future_parameter")>]
     extern int reqQrySpbmFutureParameter(nativeint handle, NativeQrySpbmFutureParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_option_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spbm_option_parameter")>]
     extern int reqQrySpbmOptionParameter(nativeint handle, NativeQrySpbmOptionParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_intra_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spbm_intra_parameter")>]
     extern int reqQrySpbmIntraParameter(nativeint handle, NativeQrySpbmIntraParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_inter_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spbm_inter_parameter")>]
     extern int reqQrySpbmInterParameter(nativeint handle, NativeQrySpbmInterParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_portf_definition")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spbm_portf_definition")>]
     extern int reqQrySpbmPortfDefinition(nativeint handle, NativeQrySpbmPortfDefinition& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_investor_portf_def")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spbm_investor_portf_def")>]
     extern int reqQrySpbmInvestorPortfDef(nativeint handle, NativeQrySpbmInvestorPortfDef& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_portf_margin_ratio")>]
-    extern int reqQryInvestorPortfMarginRatio(nativeint handle, NativeQryInvestorPortfMarginRatio& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_portf_margin_ratio")>]
+    extern int reqQryInvestorPortfMarginRatio(
+        nativeint handle,
+        NativeQryInvestorPortfMarginRatio& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_prod_spbm_detail")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_prod_spbm_detail")>]
     extern int reqQryInvestorProdSpbmDetail(nativeint handle, NativeQryInvestorProdSpbmDetail& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_commodity_spmm_margin")>]
-    extern int reqQryInvestorCommoditySpmmMargin(nativeint handle, NativeQryInvestorCommoditySpmmMargin& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_commodity_spmm_margin")>]
+    extern int reqQryInvestorCommoditySpmmMargin(
+        nativeint handle,
+        NativeQryInvestorCommoditySpmmMargin& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_commodity_group_spmm_margin")>]
-    extern int reqQryInvestorCommodityGroupSpmmMargin(nativeint handle, NativeQryInvestorCommodityGroupSpmmMargin& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_commodity_group_spmm_margin")>]
+    extern int reqQryInvestorCommodityGroupSpmmMargin(
+        nativeint handle,
+        NativeQryInvestorCommodityGroupSpmmMargin& request,
+        int requestId
+    )
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spmm_inst_param")>]
     extern int reqQrySpmmInstParam(nativeint handle, NativeQrySpmmInstParam& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spmm_product_param")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spmm_product_param")>]
     extern int reqQrySpmmProductParam(nativeint handle, NativeQrySpmmProductParam& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_spbm_add_on_inter_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_spbm_add_on_inter_parameter")>]
     extern int reqQrySpbmAddOnInterParameter(nativeint handle, NativeQrySpbmAddOnInterParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_comb_product_info")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rcams_comb_product_info")>]
     extern int reqQryRcamsCombProductInfo(nativeint handle, NativeQryRcamsCombProductInfo& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_instr_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rcams_instr_parameter")>]
     extern int reqQryRcamsInstrParameter(nativeint handle, NativeQryRcamsInstrParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_intra_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rcams_intra_parameter")>]
     extern int reqQryRcamsIntraParameter(nativeint handle, NativeQryRcamsIntraParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_inter_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rcams_inter_parameter")>]
     extern int reqQryRcamsInterParameter(nativeint handle, NativeQryRcamsInterParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_short_opt_adjust_param")>]
-    extern int reqQryRcamsShortOptAdjustParam(nativeint handle, NativeQryRcamsShortOptAdjustParam& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rcams_short_opt_adjust_param")>]
+    extern int reqQryRcamsShortOptAdjustParam(
+        nativeint handle,
+        NativeQryRcamsShortOptAdjustParam& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rcams_investor_comb_position")>]
-    extern int reqQryRcamsInvestorCombPosition(nativeint handle, NativeQryRcamsInvestorCombPosition& request, int requestId)
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rcams_investor_comb_position")>]
+    extern int reqQryRcamsInvestorCombPosition(
+        nativeint handle,
+        NativeQryRcamsInvestorCombPosition& request,
+        int requestId
+    )
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_prod_rcams_margin")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_prod_rcams_margin")>]
     extern int reqQryInvestorProdRcamsMargin(nativeint handle, NativeQryInvestorProdRcamsMargin& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rule_instr_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rule_instr_parameter")>]
     extern int reqQryRuleInstrParameter(nativeint handle, NativeQryRuleInstrParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rule_intra_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rule_intra_parameter")>]
     extern int reqQryRuleIntraParameter(nativeint handle, NativeQryRuleIntraParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_rule_inter_parameter")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_rule_inter_parameter")>]
     extern int reqQryRuleInterParameter(nativeint handle, NativeQryRuleInterParameter& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_prod_rule_margin")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_prod_rule_margin")>]
     extern int reqQryInvestorProdRuleMargin(nativeint handle, NativeQryInvestorProdRuleMargin& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_portf_setting")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_portf_setting")>]
     extern int reqQryInvestorPortfSetting(nativeint handle, NativeQryInvestorPortfSetting& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_investor_info_comm_rec")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_qry_investor_info_comm_rec")>]
     extern int reqQryInvestorInfoCommRec(nativeint handle, NativeQryInvestorInfoCommRec& request, int requestId)
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_comb_leg")>]
@@ -14157,13 +14055,19 @@ module private TraderNativeInterop =
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_qry_hedge_cfm")>]
     extern int reqQryHedgeCfm(nativeint handle, NativeQryHedgeCfm& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_from_bank_to_future_by_future")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_from_bank_to_future_by_future")>]
     extern int reqFromBankToFutureByFuture(nativeint handle, NativeReqTransfer& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_from_future_to_bank_by_future")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_from_future_to_bank_by_future")>]
     extern int reqFromFutureToBankByFuture(nativeint handle, NativeReqTransfer& request, int requestId)
 
-    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_trader_req_query_bank_account_money_by_future")>]
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_trader_req_query_bank_account_money_by_future")>]
     extern int reqQueryBankAccountMoneyByFuture(nativeint handle, NativeReqQueryAccount& request, int requestId)
 
 type private TraderApiSafeHandle private () =
@@ -14186,7 +14090,12 @@ module private TraderBridgeGenerated =
         |> Option.map (fun attribute -> (attribute :?> MarshalAsAttribute).SizeConst)
 
     let private nativeFieldMap<'T> =
-        typeof<'T>.GetFields(System.Reflection.BindingFlags.Instance ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic)
+        typeof<'T>
+            .GetFields(
+                System.Reflection.BindingFlags.Instance
+                ||| System.Reflection.BindingFlags.Public
+                ||| System.Reflection.BindingFlags.NonPublic
+            )
         |> Array.map (fun field -> field.Name, field)
         |> dict
 
@@ -14198,6 +14107,7 @@ module private TraderBridgeGenerated =
 
     let mapNative<'Record, 'Native> encoding (value: 'Native) : 'Record =
         let nativeFields = nativeFieldMap<'Native>
+
         let values =
             FSharpType.GetRecordFields typeof<'Record>
             |> Array.map (fun field ->
@@ -14211,18 +14121,20 @@ module private TraderBridgeGenerated =
                     box (EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array))
                 elif field.PropertyType = typeof<char option> then
                     box (EncodingHelpers.byteToChar (unbox<byte> nativeValue))
-                elif field.PropertyType.IsGenericType
-                     && field.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
-                     && FSharpType.IsUnion(field.PropertyType.GetGenericArguments().[0]) then
+                elif
+                    field.PropertyType.IsGenericType
+                    && field.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
+                    && FSharpType.IsUnion(field.PropertyType.GetGenericArguments().[0])
+                then
                     match EncodingHelpers.byteToChar (unbox<byte> nativeValue) with
                     | None -> null
                     | Some cv ->
                         let duType = field.PropertyType.GetGenericArguments().[0]
+
                         let duValue =
                             try
                                 duType.GetMethod("FromChar").Invoke(null, [| cv |])
-                            with
-                            | :? System.Reflection.TargetInvocationException as ex ->
+                            with :? System.Reflection.TargetInvocationException as ex ->
                                 if ex.InnerException :? ArgumentException then
                                     null
                                 else
@@ -14231,7 +14143,10 @@ module private TraderBridgeGenerated =
                         if isNull duValue then
                             null
                         else
-                            let someCase = FSharpType.GetUnionCases(field.PropertyType) |> Array.find (fun c -> c.Name = "Some")
+                            let someCase =
+                                FSharpType.GetUnionCases(field.PropertyType)
+                                |> Array.find (fun c -> c.Name = "Some")
+
                             FSharpValue.MakeUnion(someCase, [| duValue |])
                 elif FSharpType.IsUnion field.PropertyType then
                     match EncodingHelpers.byteToChar (unbox<byte> nativeValue) with
@@ -14245,16 +14160,22 @@ module private TraderBridgeGenerated =
                     else
                         nativeValue
                 else
-                    invalidOp $"Unsupported record field type '{field.PropertyType.FullName}' for generated trader bridge mapping."
-            )
+                    invalidOp
+                        $"Unsupported record field type '{field.PropertyType.FullName}' for generated trader bridge mapping.")
 
         FSharpValue.MakeRecord(typeof<'Record>, values) :?> 'Record
 
     let private setFieldValue (boxedNative: obj) (fieldInfo: System.Reflection.FieldInfo) value =
         fieldInfo.SetValue(boxedNative, value)
 
-    let private buildNativeInternal<'Record, 'Native when 'Native: struct> encoding requestIdOpt (record: 'Record) : 'Native =
+    let private buildNativeInternal<'Record, 'Native when 'Native: struct>
+        encoding
+        requestIdOpt
+        (record: 'Record)
+        : 'Native
+        =
         let nativeFields = nativeFieldMap<'Native>
+
         let recordFields =
             FSharpType.GetRecordFields typeof<'Record>
             |> Array.map (fun field -> field.Name, field)
@@ -14266,45 +14187,68 @@ module private TraderBridgeGenerated =
             match recordFields.TryGetValue nativeField.Name with
             | true, recordField ->
                 let recordValue = recordField.GetValue(box record)
+
                 let nativeValue =
                     if nativeField.FieldType = typeof<byte array> then
-                        let size = getFieldSize nativeField |> Option.defaultWith (fun () -> invalidOp $"Missing MarshalAs size for field '{nativeField.Name}'.")
+                        let size =
+                            getFieldSize nativeField
+                            |> Option.defaultWith (fun () ->
+                                invalidOp $"Missing MarshalAs size for field '{nativeField.Name}'.")
+
                         if recordField.PropertyType = typeof<string option> then
                             box (EncodingHelpers.encodeFixed encoding size (recordValue :?> string option))
                         else
                             box (encodeStringField encoding size (recordValue :?> string))
-                    elif nativeField.FieldType = typeof<byte> && recordField.PropertyType.IsGenericType
-                         && recordField.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
-                         && FSharpType.IsUnion(recordField.PropertyType.GetGenericArguments().[0]) then
+                    elif
+                        nativeField.FieldType = typeof<byte>
+                        && recordField.PropertyType.IsGenericType
+                        && recordField.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
+                        && FSharpType.IsUnion(recordField.PropertyType.GetGenericArguments().[0])
+                    then
                         let charOpt =
-                            if isNull recordValue then None
+                            if isNull recordValue then
+                                None
                             else
                                 let valueProp = recordField.PropertyType.GetProperty("Value")
                                 let duValue = valueProp.GetValue(recordValue)
-                                if isNull duValue then None
+
+                                if isNull duValue then
+                                    None
                                 else
                                     let duType = recordField.PropertyType.GetGenericArguments().[0]
                                     let toChar = duType.GetMethod("ToChar")
                                     Some(toChar.Invoke(null, [| duValue |]) :?> char)
+
                         box (EncodingHelpers.charToByte charOpt)
-                    elif nativeField.FieldType = typeof<byte> && FSharpType.IsUnion(recordField.PropertyType) then
+                    elif
+                        nativeField.FieldType = typeof<byte>
+                        && FSharpType.IsUnion(recordField.PropertyType)
+                    then
                         let toChar = recordField.PropertyType.GetMethod("ToChar")
                         box (byte (toChar.Invoke(null, [| recordValue |]) :?> char))
-                    elif nativeField.FieldType = typeof<byte> && recordField.PropertyType = typeof<char option> then
+                    elif
+                        nativeField.FieldType = typeof<byte>
+                        && recordField.PropertyType = typeof<char option>
+                    then
                         box (EncodingHelpers.charToByte (recordValue :?> char option))
-                    elif nativeField.FieldType = typeof<float> && recordField.PropertyType = typeof<decimal> then
+                    elif
+                        nativeField.FieldType = typeof<float>
+                        && recordField.PropertyType = typeof<decimal>
+                    then
                         box (float (unbox<decimal> recordValue))
                     elif nativeField.FieldType = typeof<int16> && recordField.PropertyType = typeof<int> then
                         box (int16 (unbox<int> recordValue))
                     else
                         recordValue
+
                 setFieldValue boxedNative nativeField nativeValue
             | _ -> ()
 
         match requestIdOpt with
         | Some requestId ->
             match nativeFields.TryGetValue "RequestId" with
-            | true, nativeField when nativeField.FieldType = typeof<int> -> setFieldValue boxedNative nativeField (box requestId)
+            | true, nativeField when nativeField.FieldType = typeof<int> ->
+                setFieldValue boxedNative nativeField (box requestId)
             | _ -> ()
         | None -> ()
 
@@ -14359,9 +14303,13 @@ module private TraderBridgeMapping =
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
-          PosiDirection = EncodingHelpers.byteToChar value.PosiDirection |> Option.map PosiDirection.FromChar
+          PosiDirection =
+            EncodingHelpers.byteToChar value.PosiDirection
+            |> Option.map PosiDirection.FromChar
           HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag |> Option.map HedgeFlag.FromChar
-          PositionDate = EncodingHelpers.byteToChar value.PositionDate |> Option.map PositionDate.FromChar
+          PositionDate =
+            EncodingHelpers.byteToChar value.PositionDate
+            |> Option.map PositionDate.FromChar
           YdPosition = value.YdPosition
           Position = value.Position
           TodayPosition = value.TodayPosition
@@ -14376,7 +14324,9 @@ module private TraderBridgeMapping =
           OpenCost = toDecimal value.OpenCost }
 
     let instrumentMarginRate encoding (value: NativeInstrumentMarginRate) =
-        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange |> Option.map InvestorRange.FromChar
+        { InvestorRange =
+            EncodingHelpers.byteToChar value.InvestorRange
+            |> Option.map InvestorRange.FromChar
           BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
           HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag |> Option.map HedgeFlag.FromChar
@@ -14400,7 +14350,9 @@ module private TraderBridgeMapping =
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
 
     let instrumentCommissionRate encoding (value: NativeInstrumentCommissionRate) =
-        { InvestorRange = EncodingHelpers.byteToChar value.InvestorRange |> Option.map InvestorRange.FromChar
+        { InvestorRange =
+            EncodingHelpers.byteToChar value.InvestorRange
+            |> Option.map InvestorRange.FromChar
           BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
           OpenRatioByMoney = toDecimal value.OpenRatioByMoney
@@ -14419,7 +14371,9 @@ module private TraderBridgeMapping =
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           OrderRef = EncodingHelpers.decodeFixed encoding value.OrderRef
-          UserId = Some(EncodingHelpers.decodeFixed encoding value.UserId) |> EncodingHelpers.normalize
+          UserId =
+            Some(EncodingHelpers.decodeFixed encoding value.UserId)
+            |> EncodingHelpers.normalize
           OrderPriceType = OrderPriceType.FromChar(char value.OrderPriceType)
           Direction = Direction.FromChar(char value.Direction)
           CombOffsetFlag = EncodingHelpers.decodeFixed encoding value.CombOffsetFlag
@@ -14499,7 +14453,9 @@ module private TraderBridgeMapping =
           OrderRef = EncodingHelpers.decodeFixed encoding value.OrderRef
           OrderSysId = EncodingHelpers.decodeFixed encoding value.OrderSysId
           UserId = EncodingHelpers.decodeFixed encoding value.UserId
-          OrderPriceType = EncodingHelpers.byteToChar value.OrderPriceType |> Option.map OrderPriceType.FromChar
+          OrderPriceType =
+            EncodingHelpers.byteToChar value.OrderPriceType
+            |> Option.map OrderPriceType.FromChar
           Direction = EncodingHelpers.byteToChar value.Direction |> Option.map Direction.FromChar
           CombOffsetFlag = EncodingHelpers.decodeFixed encoding value.CombOffsetFlag
           CombHedgeFlag = EncodingHelpers.decodeFixed encoding value.CombHedgeFlag
@@ -14510,7 +14466,9 @@ module private TraderBridgeMapping =
           FrontId = value.FrontId
           SessionId = value.SessionId
           OrderStatus = EncodingHelpers.byteToChar value.OrderStatus |> Option.map OrderStatus.FromChar
-          OrderSubmitStatus = EncodingHelpers.byteToChar value.OrderSubmitStatus |> Option.map OrderSubmitStatus.FromChar
+          OrderSubmitStatus =
+            EncodingHelpers.byteToChar value.OrderSubmitStatus
+            |> Option.map OrderSubmitStatus.FromChar
           StatusMessage = EncodingHelpers.decodeFixed encoding value.StatusMsg
           InsertDate = EncodingHelpers.decodeFixed encoding value.InsertDate
           InsertTime = EncodingHelpers.decodeFixed encoding value.InsertTime
@@ -14570,8 +14528,8 @@ module private TraderBridgeMapping =
     let contractBank encoding (value: NativeContractBank) : ContractBankResponse =
         TraderBridgeGenerated.mapNative<ContractBankResponse, NativeContractBank> encoding value
 
-    let depthMarketData encoding (value: NativeTraderDepthMarketData) : DepthMarketDataResponse =
-        TraderBridgeGenerated.mapNative<DepthMarketDataResponse, NativeTraderDepthMarketData> encoding value
+    let depthMarketData encoding (value: NativeTraderDepthMarketData) : DepthMarketData =
+        TraderBridgeGenerated.mapNative<DepthMarketData, NativeTraderDepthMarketData> encoding value
 
     let eWarrantOffset encoding (value: NativeEWarrantOffset) : EWarrantOffsetResponse =
         TraderBridgeGenerated.mapNative<EWarrantOffsetResponse, NativeEWarrantOffset> encoding value
@@ -14636,8 +14594,14 @@ module private TraderBridgeMapping =
     let inputOptionSelfClose encoding (value: NativeInputOptionSelfClose) : InputOptionSelfCloseResponse =
         TraderBridgeGenerated.mapNative<InputOptionSelfCloseResponse, NativeInputOptionSelfClose> encoding value
 
-    let inputOptionSelfCloseAction encoding (value: NativeInputOptionSelfCloseAction) : InputOptionSelfCloseActionResponse =
-        TraderBridgeGenerated.mapNative<InputOptionSelfCloseActionResponse, NativeInputOptionSelfCloseAction> encoding value
+    let inputOptionSelfCloseAction
+        encoding
+        (value: NativeInputOptionSelfCloseAction)
+        : InputOptionSelfCloseActionResponse
+        =
+        TraderBridgeGenerated.mapNative<InputOptionSelfCloseActionResponse, NativeInputOptionSelfCloseAction>
+            encoding
+            value
 
     let inputQuote encoding (value: NativeInputQuote) : InputQuoteResponse =
         TraderBridgeGenerated.mapNative<InputQuoteResponse, NativeInputQuote> encoding value
@@ -14663,11 +14627,23 @@ module private TraderBridgeMapping =
     let investor encoding (value: NativeInvestor) : InvestorResponse =
         TraderBridgeGenerated.mapNative<InvestorResponse, NativeInvestor> encoding value
 
-    let investorCommodityGroupSpmmMargin encoding (value: NativeInvestorCommodityGroupSpmmMargin) : InvestorCommodityGroupSpmmMarginResponse =
-        TraderBridgeGenerated.mapNative<InvestorCommodityGroupSpmmMarginResponse, NativeInvestorCommodityGroupSpmmMargin> encoding value
+    let investorCommodityGroupSpmmMargin
+        encoding
+        (value: NativeInvestorCommodityGroupSpmmMargin)
+        : InvestorCommodityGroupSpmmMarginResponse
+        =
+        TraderBridgeGenerated.mapNative<InvestorCommodityGroupSpmmMarginResponse, NativeInvestorCommodityGroupSpmmMargin>
+            encoding
+            value
 
-    let investorCommoditySpmmMargin encoding (value: NativeInvestorCommoditySpmmMargin) : InvestorCommoditySpmmMarginResponse =
-        TraderBridgeGenerated.mapNative<InvestorCommoditySpmmMarginResponse, NativeInvestorCommoditySpmmMargin> encoding value
+    let investorCommoditySpmmMargin
+        encoding
+        (value: NativeInvestorCommoditySpmmMargin)
+        : InvestorCommoditySpmmMarginResponse
+        =
+        TraderBridgeGenerated.mapNative<InvestorCommoditySpmmMarginResponse, NativeInvestorCommoditySpmmMargin>
+            encoding
+            value
 
     let investorInfoCommRec encoding (value: NativeInvestorInfoCommRec) : InvestorInfoCommRecResponse =
         TraderBridgeGenerated.mapNative<InvestorInfoCommRecResponse, NativeInvestorInfoCommRec> encoding value
@@ -14678,8 +14654,14 @@ module private TraderBridgeMapping =
     let investorPortfSetting encoding (value: NativeInvestorPortfSetting) : InvestorPortfSettingResponse =
         TraderBridgeGenerated.mapNative<InvestorPortfSettingResponse, NativeInvestorPortfSetting> encoding value
 
-    let investorPositionCombineDetail encoding (value: NativeInvestorPositionCombineDetail) : InvestorPositionCombineDetailResponse =
-        TraderBridgeGenerated.mapNative<InvestorPositionCombineDetailResponse, NativeInvestorPositionCombineDetail> encoding value
+    let investorPositionCombineDetail
+        encoding
+        (value: NativeInvestorPositionCombineDetail)
+        : InvestorPositionCombineDetailResponse
+        =
+        TraderBridgeGenerated.mapNative<InvestorPositionCombineDetailResponse, NativeInvestorPositionCombineDetail>
+            encoding
+            value
 
     let investorPositionDetail encoding (value: NativeInvestorPositionDetail) : InvestorPositionDetailResponse =
         TraderBridgeGenerated.mapNative<InvestorPositionDetailResponse, NativeInvestorPositionDetail> encoding value
@@ -14693,11 +14675,23 @@ module private TraderBridgeMapping =
     let investorProdSpbmDetail encoding (value: NativeInvestorProdSpbmDetail) : InvestorProdSpbmDetailResponse =
         TraderBridgeGenerated.mapNative<InvestorProdSpbmDetailResponse, NativeInvestorProdSpbmDetail> encoding value
 
-    let investorProductGroupMargin encoding (value: NativeInvestorProductGroupMargin) : InvestorProductGroupMarginResponse =
-        TraderBridgeGenerated.mapNative<InvestorProductGroupMarginResponse, NativeInvestorProductGroupMargin> encoding value
+    let investorProductGroupMargin
+        encoding
+        (value: NativeInvestorProductGroupMargin)
+        : InvestorProductGroupMarginResponse
+        =
+        TraderBridgeGenerated.mapNative<InvestorProductGroupMarginResponse, NativeInvestorProductGroupMargin>
+            encoding
+            value
 
-    let mmInstrumentCommissionRate encoding (value: NativeMmInstrumentCommissionRate) : MmInstrumentCommissionRateResponse =
-        TraderBridgeGenerated.mapNative<MmInstrumentCommissionRateResponse, NativeMmInstrumentCommissionRate> encoding value
+    let mmInstrumentCommissionRate
+        encoding
+        (value: NativeMmInstrumentCommissionRate)
+        : MmInstrumentCommissionRateResponse
+        =
+        TraderBridgeGenerated.mapNative<MmInstrumentCommissionRateResponse, NativeMmInstrumentCommissionRate>
+            encoding
+            value
 
     let mmOptionInstrCommRate encoding (value: NativeMmOptionInstrCommRate) : MmOptionInstrCommRateResponse =
         TraderBridgeGenerated.mapNative<MmOptionInstrCommRateResponse, NativeMmOptionInstrCommRate> encoding value
@@ -14751,7 +14745,9 @@ module private TraderBridgeMapping =
         TraderBridgeGenerated.mapNative<QryBrokerTradingParamsRequest, NativeQryBrokerTradingParams> encoding value
 
     let qryCfmmcTradingAccountKey encoding (value: NativeQryCfmmcTradingAccountKey) : QryCfmmcTradingAccountKeyRequest =
-        TraderBridgeGenerated.mapNative<QryCfmmcTradingAccountKeyRequest, NativeQryCfmmcTradingAccountKey> encoding value
+        TraderBridgeGenerated.mapNative<QryCfmmcTradingAccountKeyRequest, NativeQryCfmmcTradingAccountKey>
+            encoding
+            value
 
     let qryClassifiedInstrument encoding (value: NativeQryClassifiedInstrument) : QryClassifiedInstrumentRequest =
         TraderBridgeGenerated.mapNative<QryClassifiedInstrumentRequest, NativeQryClassifiedInstrument> encoding value
@@ -14780,8 +14776,14 @@ module private TraderBridgeMapping =
     let qryExchange encoding (value: NativeQryExchange) : QryExchangeRequest =
         TraderBridgeGenerated.mapNative<QryExchangeRequest, NativeQryExchange> encoding value
 
-    let qryExchangeMarginRateAdjust encoding (value: NativeQryExchangeMarginRateAdjust) : QryExchangeMarginRateAdjustRequest =
-        TraderBridgeGenerated.mapNative<QryExchangeMarginRateAdjustRequest, NativeQryExchangeMarginRateAdjust> encoding value
+    let qryExchangeMarginRateAdjust
+        encoding
+        (value: NativeQryExchangeMarginRateAdjust)
+        : QryExchangeMarginRateAdjustRequest
+        =
+        TraderBridgeGenerated.mapNative<QryExchangeMarginRateAdjustRequest, NativeQryExchangeMarginRateAdjust>
+            encoding
+            value
 
     let qryExchangeRate encoding (value: NativeQryExchangeRate) : QryExchangeRateRequest =
         TraderBridgeGenerated.mapNative<QryExchangeRateRequest, NativeQryExchangeRate> encoding value
@@ -14798,8 +14800,14 @@ module private TraderBridgeMapping =
     let qryInstrument encoding (value: NativeQryInstrument) : QryInstrumentRequest =
         TraderBridgeGenerated.mapNative<QryInstrumentRequest, NativeQryInstrument> encoding value
 
-    let qryInstrumentOrderCommRate encoding (value: NativeQryInstrumentOrderCommRate) : QryInstrumentOrderCommRateRequest =
-        TraderBridgeGenerated.mapNative<QryInstrumentOrderCommRateRequest, NativeQryInstrumentOrderCommRate> encoding value
+    let qryInstrumentOrderCommRate
+        encoding
+        (value: NativeQryInstrumentOrderCommRate)
+        : QryInstrumentOrderCommRateRequest
+        =
+        TraderBridgeGenerated.mapNative<QryInstrumentOrderCommRateRequest, NativeQryInstrumentOrderCommRate>
+            encoding
+            value
 
     let qryInvestUnit encoding (value: NativeQryInvestUnit) : QryInvestUnitRequest =
         TraderBridgeGenerated.mapNative<QryInvestUnitRequest, NativeQryInvestUnit> encoding value
@@ -14807,44 +14815,95 @@ module private TraderBridgeMapping =
     let qryInvestor encoding (value: NativeQryInvestor) : QryInvestorRequest =
         TraderBridgeGenerated.mapNative<QryInvestorRequest, NativeQryInvestor> encoding value
 
-    let qryInvestorCommodityGroupSpmmMargin encoding (value: NativeQryInvestorCommodityGroupSpmmMargin) : QryInvestorCommodityGroupSpmmMarginRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorCommodityGroupSpmmMarginRequest, NativeQryInvestorCommodityGroupSpmmMargin> encoding value
+    let qryInvestorCommodityGroupSpmmMargin
+        encoding
+        (value: NativeQryInvestorCommodityGroupSpmmMargin)
+        : QryInvestorCommodityGroupSpmmMarginRequest
+        =
+        TraderBridgeGenerated.mapNative<
+            QryInvestorCommodityGroupSpmmMarginRequest,
+            NativeQryInvestorCommodityGroupSpmmMargin
+         >
+            encoding
+            value
 
-    let qryInvestorCommoditySpmmMargin encoding (value: NativeQryInvestorCommoditySpmmMargin) : QryInvestorCommoditySpmmMarginRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorCommoditySpmmMarginRequest, NativeQryInvestorCommoditySpmmMargin> encoding value
+    let qryInvestorCommoditySpmmMargin
+        encoding
+        (value: NativeQryInvestorCommoditySpmmMargin)
+        : QryInvestorCommoditySpmmMarginRequest
+        =
+        TraderBridgeGenerated.mapNative<QryInvestorCommoditySpmmMarginRequest, NativeQryInvestorCommoditySpmmMargin>
+            encoding
+            value
 
     let qryInvestorInfoCommRec encoding (value: NativeQryInvestorInfoCommRec) : QryInvestorInfoCommRecRequest =
         TraderBridgeGenerated.mapNative<QryInvestorInfoCommRecRequest, NativeQryInvestorInfoCommRec> encoding value
 
-    let qryInvestorPortfMarginRatio encoding (value: NativeQryInvestorPortfMarginRatio) : QryInvestorPortfMarginRatioRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorPortfMarginRatioRequest, NativeQryInvestorPortfMarginRatio> encoding value
+    let qryInvestorPortfMarginRatio
+        encoding
+        (value: NativeQryInvestorPortfMarginRatio)
+        : QryInvestorPortfMarginRatioRequest
+        =
+        TraderBridgeGenerated.mapNative<QryInvestorPortfMarginRatioRequest, NativeQryInvestorPortfMarginRatio>
+            encoding
+            value
 
     let qryInvestorPortfSetting encoding (value: NativeQryInvestorPortfSetting) : QryInvestorPortfSettingRequest =
         TraderBridgeGenerated.mapNative<QryInvestorPortfSettingRequest, NativeQryInvestorPortfSetting> encoding value
 
-    let qryInvestorPositionCombineDetail encoding (value: NativeQryInvestorPositionCombineDetail) : QryInvestorPositionCombineDetailRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorPositionCombineDetailRequest, NativeQryInvestorPositionCombineDetail> encoding value
+    let qryInvestorPositionCombineDetail
+        encoding
+        (value: NativeQryInvestorPositionCombineDetail)
+        : QryInvestorPositionCombineDetailRequest
+        =
+        TraderBridgeGenerated.mapNative<QryInvestorPositionCombineDetailRequest, NativeQryInvestorPositionCombineDetail>
+            encoding
+            value
 
     let qryInvestorPositionDetail encoding (value: NativeQryInvestorPositionDetail) : QryInvestorPositionDetailRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorPositionDetailRequest, NativeQryInvestorPositionDetail> encoding value
+        TraderBridgeGenerated.mapNative<QryInvestorPositionDetailRequest, NativeQryInvestorPositionDetail>
+            encoding
+            value
 
-    let qryInvestorProdRcamsMargin encoding (value: NativeQryInvestorProdRcamsMargin) : QryInvestorProdRcamsMarginRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorProdRcamsMarginRequest, NativeQryInvestorProdRcamsMargin> encoding value
+    let qryInvestorProdRcamsMargin
+        encoding
+        (value: NativeQryInvestorProdRcamsMargin)
+        : QryInvestorProdRcamsMarginRequest
+        =
+        TraderBridgeGenerated.mapNative<QryInvestorProdRcamsMarginRequest, NativeQryInvestorProdRcamsMargin>
+            encoding
+            value
 
     let qryInvestorProdRuleMargin encoding (value: NativeQryInvestorProdRuleMargin) : QryInvestorProdRuleMarginRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorProdRuleMarginRequest, NativeQryInvestorProdRuleMargin> encoding value
+        TraderBridgeGenerated.mapNative<QryInvestorProdRuleMarginRequest, NativeQryInvestorProdRuleMargin>
+            encoding
+            value
 
     let qryInvestorProdSpbmDetail encoding (value: NativeQryInvestorProdSpbmDetail) : QryInvestorProdSpbmDetailRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorProdSpbmDetailRequest, NativeQryInvestorProdSpbmDetail> encoding value
+        TraderBridgeGenerated.mapNative<QryInvestorProdSpbmDetailRequest, NativeQryInvestorProdSpbmDetail>
+            encoding
+            value
 
-    let qryInvestorProductGroupMargin encoding (value: NativeQryInvestorProductGroupMargin) : QryInvestorProductGroupMarginRequest =
-        TraderBridgeGenerated.mapNative<QryInvestorProductGroupMarginRequest, NativeQryInvestorProductGroupMargin> encoding value
+    let qryInvestorProductGroupMargin
+        encoding
+        (value: NativeQryInvestorProductGroupMargin)
+        : QryInvestorProductGroupMarginRequest
+        =
+        TraderBridgeGenerated.mapNative<QryInvestorProductGroupMarginRequest, NativeQryInvestorProductGroupMargin>
+            encoding
+            value
 
     let qryMaxOrderVolume encoding (value: NativeQryMaxOrderVolume) : QryMaxOrderVolumeRequest =
         TraderBridgeGenerated.mapNative<QryMaxOrderVolumeRequest, NativeQryMaxOrderVolume> encoding value
 
-    let qryMmInstrumentCommissionRate encoding (value: NativeQryMmInstrumentCommissionRate) : QryMmInstrumentCommissionRateRequest =
-        TraderBridgeGenerated.mapNative<QryMmInstrumentCommissionRateRequest, NativeQryMmInstrumentCommissionRate> encoding value
+    let qryMmInstrumentCommissionRate
+        encoding
+        (value: NativeQryMmInstrumentCommissionRate)
+        : QryMmInstrumentCommissionRateRequest
+        =
+        TraderBridgeGenerated.mapNative<QryMmInstrumentCommissionRateRequest, NativeQryMmInstrumentCommissionRate>
+            encoding
+            value
 
     let qryMmOptionInstrCommRate encoding (value: NativeQryMmOptionInstrCommRate) : QryMmOptionInstrCommRateRequest =
         TraderBridgeGenerated.mapNative<QryMmOptionInstrCommRateRequest, NativeQryMmOptionInstrCommRate> encoding value
@@ -14897,17 +14956,41 @@ module private TraderBridgeMapping =
     let qryRcamsIntraParameter encoding (value: NativeQryRcamsIntraParameter) : QryRcamsIntraParameterRequest =
         TraderBridgeGenerated.mapNative<QryRcamsIntraParameterRequest, NativeQryRcamsIntraParameter> encoding value
 
-    let qryRcamsInvestorCombPosition encoding (value: NativeQryRcamsInvestorCombPosition) : QryRcamsInvestorCombPositionRequest =
-        TraderBridgeGenerated.mapNative<QryRcamsInvestorCombPositionRequest, NativeQryRcamsInvestorCombPosition> encoding value
+    let qryRcamsInvestorCombPosition
+        encoding
+        (value: NativeQryRcamsInvestorCombPosition)
+        : QryRcamsInvestorCombPositionRequest
+        =
+        TraderBridgeGenerated.mapNative<QryRcamsInvestorCombPositionRequest, NativeQryRcamsInvestorCombPosition>
+            encoding
+            value
 
-    let qryRcamsShortOptAdjustParam encoding (value: NativeQryRcamsShortOptAdjustParam) : QryRcamsShortOptAdjustParamRequest =
-        TraderBridgeGenerated.mapNative<QryRcamsShortOptAdjustParamRequest, NativeQryRcamsShortOptAdjustParam> encoding value
+    let qryRcamsShortOptAdjustParam
+        encoding
+        (value: NativeQryRcamsShortOptAdjustParam)
+        : QryRcamsShortOptAdjustParamRequest
+        =
+        TraderBridgeGenerated.mapNative<QryRcamsShortOptAdjustParamRequest, NativeQryRcamsShortOptAdjustParam>
+            encoding
+            value
 
-    let qryRiskSettleInvstPosition encoding (value: NativeQryRiskSettleInvstPosition) : QryRiskSettleInvstPositionRequest =
-        TraderBridgeGenerated.mapNative<QryRiskSettleInvstPositionRequest, NativeQryRiskSettleInvstPosition> encoding value
+    let qryRiskSettleInvstPosition
+        encoding
+        (value: NativeQryRiskSettleInvstPosition)
+        : QryRiskSettleInvstPositionRequest
+        =
+        TraderBridgeGenerated.mapNative<QryRiskSettleInvstPositionRequest, NativeQryRiskSettleInvstPosition>
+            encoding
+            value
 
-    let qryRiskSettleProductStatus encoding (value: NativeQryRiskSettleProductStatus) : QryRiskSettleProductStatusRequest =
-        TraderBridgeGenerated.mapNative<QryRiskSettleProductStatusRequest, NativeQryRiskSettleProductStatus> encoding value
+    let qryRiskSettleProductStatus
+        encoding
+        (value: NativeQryRiskSettleProductStatus)
+        : QryRiskSettleProductStatusRequest
+        =
+        TraderBridgeGenerated.mapNative<QryRiskSettleProductStatusRequest, NativeQryRiskSettleProductStatus>
+            encoding
+            value
 
     let qryRuleInstrParameter encoding (value: NativeQryRuleInstrParameter) : QryRuleInstrParameterRequest =
         TraderBridgeGenerated.mapNative<QryRuleInstrParameterRequest, NativeQryRuleInstrParameter> encoding value
@@ -14933,8 +15016,14 @@ module private TraderBridgeMapping =
     let qrySettlementInfoConfirm encoding (value: NativeQrySettlementInfoConfirm) : QrySettlementInfoConfirmRequest =
         TraderBridgeGenerated.mapNative<QrySettlementInfoConfirmRequest, NativeQrySettlementInfoConfirm> encoding value
 
-    let qrySpbmAddOnInterParameter encoding (value: NativeQrySpbmAddOnInterParameter) : QrySpbmAddOnInterParameterRequest =
-        TraderBridgeGenerated.mapNative<QrySpbmAddOnInterParameterRequest, NativeQrySpbmAddOnInterParameter> encoding value
+    let qrySpbmAddOnInterParameter
+        encoding
+        (value: NativeQrySpbmAddOnInterParameter)
+        : QrySpbmAddOnInterParameterRequest
+        =
+        TraderBridgeGenerated.mapNative<QrySpbmAddOnInterParameterRequest, NativeQrySpbmAddOnInterParameter>
+            encoding
+            value
 
     let qrySpbmFutureParameter encoding (value: NativeQrySpbmFutureParameter) : QrySpbmFutureParameterRequest =
         TraderBridgeGenerated.mapNative<QrySpbmFutureParameterRequest, NativeQrySpbmFutureParameter> encoding value
@@ -14984,8 +15073,14 @@ module private TraderBridgeMapping =
     let qryUserSession encoding (value: NativeQryUserSession) : QryUserSessionRequest =
         TraderBridgeGenerated.mapNative<QryUserSessionRequest, NativeQryUserSession> encoding value
 
-    let queryCfmmcTradingAccountToken encoding (value: NativeQueryCfmmcTradingAccountToken) : QueryCfmmcTradingAccountTokenRequest =
-        TraderBridgeGenerated.mapNative<QueryCfmmcTradingAccountTokenRequest, NativeQueryCfmmcTradingAccountToken> encoding value
+    let queryCfmmcTradingAccountToken
+        encoding
+        (value: NativeQueryCfmmcTradingAccountToken)
+        : QueryCfmmcTradingAccountTokenRequest
+        =
+        TraderBridgeGenerated.mapNative<QueryCfmmcTradingAccountTokenRequest, NativeQueryCfmmcTradingAccountToken>
+            encoding
+            value
 
     let quote encoding (value: NativeQuote) : QuoteResponse =
         TraderBridgeGenerated.mapNative<QuoteResponse, NativeQuote> encoding value
@@ -15005,8 +15100,14 @@ module private TraderBridgeMapping =
     let rcamsIntraParameter encoding (value: NativeRcamsIntraParameter) : RcamsIntraParameterResponse =
         TraderBridgeGenerated.mapNative<RcamsIntraParameterResponse, NativeRcamsIntraParameter> encoding value
 
-    let rcamsInvestorCombPosition encoding (value: NativeRcamsInvestorCombPosition) : RcamsInvestorCombPositionResponse =
-        TraderBridgeGenerated.mapNative<RcamsInvestorCombPositionResponse, NativeRcamsInvestorCombPosition> encoding value
+    let rcamsInvestorCombPosition
+        encoding
+        (value: NativeRcamsInvestorCombPosition)
+        : RcamsInvestorCombPositionResponse
+        =
+        TraderBridgeGenerated.mapNative<RcamsInvestorCombPositionResponse, NativeRcamsInvestorCombPosition>
+            encoding
+            value
 
     let rcamsShortOptAdjustParam encoding (value: NativeRcamsShortOptAdjustParam) : RcamsShortOptAdjustParamResponse =
         TraderBridgeGenerated.mapNative<RcamsShortOptAdjustParamResponse, NativeRcamsShortOptAdjustParam> encoding value
@@ -15122,7 +15223,11 @@ module private TraderBridgeMapping =
     let traderOffer encoding (value: NativeTraderOffer) : TraderOfferResponse =
         TraderBridgeGenerated.mapNative<TraderOfferResponse, NativeTraderOffer> encoding value
 
-    let tradingAccountPasswordUpdate encoding (value: NativeTradingAccountPasswordUpdate) : TradingAccountPasswordUpdate =
+    let tradingAccountPasswordUpdate
+        encoding
+        (value: NativeTradingAccountPasswordUpdate)
+        : TradingAccountPasswordUpdate
+        =
         TraderBridgeGenerated.mapNative<TradingAccountPasswordUpdate, NativeTradingAccountPasswordUpdate> encoding value
 
     let tradingCode encoding (value: NativeTradingCode) : TradingCodeResponse =
@@ -15193,7 +15298,7 @@ module private TraderBridgeBuilders =
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
         native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
-        native.HedgeFlag <- EncodingHelpers.charToByte (Some (HedgeFlag.ToChar request.HedgeFlag))
+        native.HedgeFlag <- EncodingHelpers.charToByte (Some(HedgeFlag.ToChar request.HedgeFlag))
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
@@ -15203,12 +15308,16 @@ module private TraderBridgeBuilders =
         let mutable native = NativeQryExchangeMarginRate()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
-        native.HedgeFlag <- EncodingHelpers.charToByte (Some (HedgeFlag.ToChar request.HedgeFlag))
+        native.HedgeFlag <- EncodingHelpers.charToByte (Some(HedgeFlag.ToChar request.HedgeFlag))
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native
 
-    let qryInstrumentCommissionRate encoding (request: QueryInstrumentCommissionRateRequest) : NativeQryInstrumentCommissionRate =
+    let qryInstrumentCommissionRate
+        encoding
+        (request: QueryInstrumentCommissionRateRequest)
+        : NativeQryInstrumentCommissionRate
+        =
         let mutable native = NativeQryInstrumentCommissionRate()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
@@ -15279,52 +15388,96 @@ module private TraderBridgeBuilders =
         TraderBridgeGenerated.buildNative<FensUserInfoRequest, NativeFensUserInfo> encoding request
 
     let inputBatchOrderAction encoding requestId (request: InputBatchOrderActionRequest) : NativeInputBatchOrderAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputBatchOrderActionRequest, NativeInputBatchOrderAction> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputBatchOrderActionRequest, NativeInputBatchOrderAction>
+            encoding
+            requestId
+            request
 
     let inputCombAction encoding (request: InputCombActionRequest) : NativeInputCombAction =
         TraderBridgeGenerated.buildNative<InputCombActionRequest, NativeInputCombAction> encoding request
 
     let inputExecOrder encoding requestId (request: InputExecOrderRequest) : NativeInputExecOrder =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderRequest, NativeInputExecOrder> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderRequest, NativeInputExecOrder>
+            encoding
+            requestId
+            request
 
     let inputExecOrderAction encoding requestId (request: InputExecOrderActionRequest) : NativeInputExecOrderAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderActionRequest, NativeInputExecOrderAction> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputExecOrderActionRequest, NativeInputExecOrderAction>
+            encoding
+            requestId
+            request
 
     let inputForQuote encoding (request: InputForQuoteRequest) : NativeInputForQuote =
         TraderBridgeGenerated.buildNative<InputForQuoteRequest, NativeInputForQuote> encoding request
 
     let inputHedgeCfm encoding requestId (request: InputHedgeCfmRequest) : NativeInputHedgeCfm =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmRequest, NativeInputHedgeCfm> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmRequest, NativeInputHedgeCfm>
+            encoding
+            requestId
+            request
 
     let inputHedgeCfmAction encoding requestId (request: InputHedgeCfmActionRequest) : NativeInputHedgeCfmAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmActionRequest, NativeInputHedgeCfmAction> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputHedgeCfmActionRequest, NativeInputHedgeCfmAction>
+            encoding
+            requestId
+            request
 
     let inputOffsetSetting encoding requestId (request: InputOffsetSettingRequest) : NativeInputOffsetSetting =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputOffsetSettingRequest, NativeInputOffsetSetting> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOffsetSettingRequest, NativeInputOffsetSetting>
+            encoding
+            requestId
+            request
 
     let inputOptionSelfClose encoding requestId (request: InputOptionSelfCloseRequest) : NativeInputOptionSelfClose =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfCloseRequest, NativeInputOptionSelfClose> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfCloseRequest, NativeInputOptionSelfClose>
+            encoding
+            requestId
+            request
 
-    let inputOptionSelfCloseAction encoding requestId (request: InputOptionSelfCloseActionRequest) : NativeInputOptionSelfCloseAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputOptionSelfCloseActionRequest, NativeInputOptionSelfCloseAction> encoding requestId request
+    let inputOptionSelfCloseAction
+        encoding
+        requestId
+        (request: InputOptionSelfCloseActionRequest)
+        : NativeInputOptionSelfCloseAction
+        =
+        TraderBridgeGenerated.buildNativeWithRequestId<
+            InputOptionSelfCloseActionRequest,
+            NativeInputOptionSelfCloseAction
+         >
+            encoding
+            requestId
+            request
 
     let inputQuote encoding requestId (request: InputQuoteRequest) : NativeInputQuote =
         TraderBridgeGenerated.buildNativeWithRequestId<InputQuoteRequest, NativeInputQuote> encoding requestId request
 
     let inputQuoteAction encoding requestId (request: InputQuoteActionRequest) : NativeInputQuoteAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputQuoteActionRequest, NativeInputQuoteAction> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputQuoteActionRequest, NativeInputQuoteAction>
+            encoding
+            requestId
+            request
 
     let inputSpdApply encoding requestId (request: InputSpdApplyRequest) : NativeInputSpdApply =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyRequest, NativeInputSpdApply> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyRequest, NativeInputSpdApply>
+            encoding
+            requestId
+            request
 
     let inputSpdApplyAction encoding requestId (request: InputSpdApplyActionRequest) : NativeInputSpdApplyAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyActionRequest, NativeInputSpdApplyAction> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<InputSpdApplyActionRequest, NativeInputSpdApplyAction>
+            encoding
+            requestId
+            request
 
     let parkedOrder encoding requestId (request: ParkedOrder) : NativeParkedOrder =
         TraderBridgeGenerated.buildNativeWithRequestId<ParkedOrder, NativeParkedOrder> encoding requestId request
 
     let parkedOrderAction encoding requestId (request: ParkedOrderAction) : NativeParkedOrderAction =
-        TraderBridgeGenerated.buildNativeWithRequestId<ParkedOrderAction, NativeParkedOrderAction> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<ParkedOrderAction, NativeParkedOrderAction>
+            encoding
+            requestId
+            request
 
     let qryAccountregister encoding (request: QryAccountregisterRequest) : NativeQryAccountregister =
         TraderBridgeGenerated.buildNative<QryAccountregisterRequest, NativeQryAccountregister> encoding request
@@ -15335,11 +15488,19 @@ module private TraderBridgeBuilders =
     let qryBrokerTradingParams encoding (request: QryBrokerTradingParamsRequest) : NativeQryBrokerTradingParams =
         TraderBridgeGenerated.buildNative<QryBrokerTradingParamsRequest, NativeQryBrokerTradingParams> encoding request
 
-    let qryCfmmcTradingAccountKey encoding (request: QryCfmmcTradingAccountKeyRequest) : NativeQryCfmmcTradingAccountKey =
-        TraderBridgeGenerated.buildNative<QryCfmmcTradingAccountKeyRequest, NativeQryCfmmcTradingAccountKey> encoding request
+    let qryCfmmcTradingAccountKey
+        encoding
+        (request: QryCfmmcTradingAccountKeyRequest)
+        : NativeQryCfmmcTradingAccountKey
+        =
+        TraderBridgeGenerated.buildNative<QryCfmmcTradingAccountKeyRequest, NativeQryCfmmcTradingAccountKey>
+            encoding
+            request
 
     let qryClassifiedInstrument encoding (request: QryClassifiedInstrumentRequest) : NativeQryClassifiedInstrument =
-        TraderBridgeGenerated.buildNative<QryClassifiedInstrumentRequest, NativeQryClassifiedInstrument> encoding request
+        TraderBridgeGenerated.buildNative<QryClassifiedInstrumentRequest, NativeQryClassifiedInstrument>
+            encoding
+            request
 
     let qryCombAction encoding (request: QryCombActionRequest) : NativeQryCombAction =
         TraderBridgeGenerated.buildNative<QryCombActionRequest, NativeQryCombAction> encoding request
@@ -15365,8 +15526,14 @@ module private TraderBridgeBuilders =
     let qryExchange encoding (request: QryExchangeRequest) : NativeQryExchange =
         TraderBridgeGenerated.buildNative<QryExchangeRequest, NativeQryExchange> encoding request
 
-    let qryExchangeMarginRateAdjust encoding (request: QryExchangeMarginRateAdjustRequest) : NativeQryExchangeMarginRateAdjust =
-        TraderBridgeGenerated.buildNative<QryExchangeMarginRateAdjustRequest, NativeQryExchangeMarginRateAdjust> encoding request
+    let qryExchangeMarginRateAdjust
+        encoding
+        (request: QryExchangeMarginRateAdjustRequest)
+        : NativeQryExchangeMarginRateAdjust
+        =
+        TraderBridgeGenerated.buildNative<QryExchangeMarginRateAdjustRequest, NativeQryExchangeMarginRateAdjust>
+            encoding
+            request
 
     let qryExchangeRate encoding (request: QryExchangeRateRequest) : NativeQryExchangeRate =
         TraderBridgeGenerated.buildNative<QryExchangeRateRequest, NativeQryExchangeRate> encoding request
@@ -15383,8 +15550,14 @@ module private TraderBridgeBuilders =
     let qryInstrument encoding (request: QryInstrumentRequest) : NativeQryInstrument =
         TraderBridgeGenerated.buildNative<QryInstrumentRequest, NativeQryInstrument> encoding request
 
-    let qryInstrumentOrderCommRate encoding (request: QryInstrumentOrderCommRateRequest) : NativeQryInstrumentOrderCommRate =
-        TraderBridgeGenerated.buildNative<QryInstrumentOrderCommRateRequest, NativeQryInstrumentOrderCommRate> encoding request
+    let qryInstrumentOrderCommRate
+        encoding
+        (request: QryInstrumentOrderCommRateRequest)
+        : NativeQryInstrumentOrderCommRate
+        =
+        TraderBridgeGenerated.buildNative<QryInstrumentOrderCommRateRequest, NativeQryInstrumentOrderCommRate>
+            encoding
+            request
 
     let qryInvestUnit encoding (request: QryInvestUnitRequest) : NativeQryInvestUnit =
         TraderBridgeGenerated.buildNative<QryInvestUnitRequest, NativeQryInvestUnit> encoding request
@@ -15392,47 +15565,117 @@ module private TraderBridgeBuilders =
     let qryInvestor encoding (request: QryInvestorRequest) : NativeQryInvestor =
         TraderBridgeGenerated.buildNative<QryInvestorRequest, NativeQryInvestor> encoding request
 
-    let qryInvestorCommodityGroupSpmmMargin encoding (request: QryInvestorCommodityGroupSpmmMarginRequest) : NativeQryInvestorCommodityGroupSpmmMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorCommodityGroupSpmmMarginRequest, NativeQryInvestorCommodityGroupSpmmMargin> encoding request
+    let qryInvestorCommodityGroupSpmmMargin
+        encoding
+        (request: QryInvestorCommodityGroupSpmmMarginRequest)
+        : NativeQryInvestorCommodityGroupSpmmMargin
+        =
+        TraderBridgeGenerated.buildNative<
+            QryInvestorCommodityGroupSpmmMarginRequest,
+            NativeQryInvestorCommodityGroupSpmmMargin
+         >
+            encoding
+            request
 
-    let qryInvestorCommoditySpmmMargin encoding (request: QryInvestorCommoditySpmmMarginRequest) : NativeQryInvestorCommoditySpmmMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorCommoditySpmmMarginRequest, NativeQryInvestorCommoditySpmmMargin> encoding request
+    let qryInvestorCommoditySpmmMargin
+        encoding
+        (request: QryInvestorCommoditySpmmMarginRequest)
+        : NativeQryInvestorCommoditySpmmMargin
+        =
+        TraderBridgeGenerated.buildNative<QryInvestorCommoditySpmmMarginRequest, NativeQryInvestorCommoditySpmmMargin>
+            encoding
+            request
 
     let qryInvestorInfoCommRec encoding (request: QryInvestorInfoCommRecRequest) : NativeQryInvestorInfoCommRec =
         TraderBridgeGenerated.buildNative<QryInvestorInfoCommRecRequest, NativeQryInvestorInfoCommRec> encoding request
 
-    let qryInvestorPortfMarginRatio encoding (request: QryInvestorPortfMarginRatioRequest) : NativeQryInvestorPortfMarginRatio =
-        TraderBridgeGenerated.buildNative<QryInvestorPortfMarginRatioRequest, NativeQryInvestorPortfMarginRatio> encoding request
+    let qryInvestorPortfMarginRatio
+        encoding
+        (request: QryInvestorPortfMarginRatioRequest)
+        : NativeQryInvestorPortfMarginRatio
+        =
+        TraderBridgeGenerated.buildNative<QryInvestorPortfMarginRatioRequest, NativeQryInvestorPortfMarginRatio>
+            encoding
+            request
 
     let qryInvestorPortfSetting encoding (request: QryInvestorPortfSettingRequest) : NativeQryInvestorPortfSetting =
-        TraderBridgeGenerated.buildNative<QryInvestorPortfSettingRequest, NativeQryInvestorPortfSetting> encoding request
+        TraderBridgeGenerated.buildNative<QryInvestorPortfSettingRequest, NativeQryInvestorPortfSetting>
+            encoding
+            request
 
-    let qryInvestorPositionCombineDetail encoding (request: QryInvestorPositionCombineDetailRequest) : NativeQryInvestorPositionCombineDetail =
-        TraderBridgeGenerated.buildNative<QryInvestorPositionCombineDetailRequest, NativeQryInvestorPositionCombineDetail> encoding request
+    let qryInvestorPositionCombineDetail
+        encoding
+        (request: QryInvestorPositionCombineDetailRequest)
+        : NativeQryInvestorPositionCombineDetail
+        =
+        TraderBridgeGenerated.buildNative<
+            QryInvestorPositionCombineDetailRequest,
+            NativeQryInvestorPositionCombineDetail
+         >
+            encoding
+            request
 
-    let qryInvestorPositionDetail encoding (request: QryInvestorPositionDetailRequest) : NativeQryInvestorPositionDetail =
-        TraderBridgeGenerated.buildNative<QryInvestorPositionDetailRequest, NativeQryInvestorPositionDetail> encoding request
+    let qryInvestorPositionDetail
+        encoding
+        (request: QryInvestorPositionDetailRequest)
+        : NativeQryInvestorPositionDetail
+        =
+        TraderBridgeGenerated.buildNative<QryInvestorPositionDetailRequest, NativeQryInvestorPositionDetail>
+            encoding
+            request
 
-    let qryInvestorProdRcamsMargin encoding (request: QryInvestorProdRcamsMarginRequest) : NativeQryInvestorProdRcamsMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorProdRcamsMarginRequest, NativeQryInvestorProdRcamsMargin> encoding request
+    let qryInvestorProdRcamsMargin
+        encoding
+        (request: QryInvestorProdRcamsMarginRequest)
+        : NativeQryInvestorProdRcamsMargin
+        =
+        TraderBridgeGenerated.buildNative<QryInvestorProdRcamsMarginRequest, NativeQryInvestorProdRcamsMargin>
+            encoding
+            request
 
-    let qryInvestorProdRuleMargin encoding (request: QryInvestorProdRuleMarginRequest) : NativeQryInvestorProdRuleMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorProdRuleMarginRequest, NativeQryInvestorProdRuleMargin> encoding request
+    let qryInvestorProdRuleMargin
+        encoding
+        (request: QryInvestorProdRuleMarginRequest)
+        : NativeQryInvestorProdRuleMargin
+        =
+        TraderBridgeGenerated.buildNative<QryInvestorProdRuleMarginRequest, NativeQryInvestorProdRuleMargin>
+            encoding
+            request
 
-    let qryInvestorProdSpbmDetail encoding (request: QryInvestorProdSpbmDetailRequest) : NativeQryInvestorProdSpbmDetail =
-        TraderBridgeGenerated.buildNative<QryInvestorProdSpbmDetailRequest, NativeQryInvestorProdSpbmDetail> encoding request
+    let qryInvestorProdSpbmDetail
+        encoding
+        (request: QryInvestorProdSpbmDetailRequest)
+        : NativeQryInvestorProdSpbmDetail
+        =
+        TraderBridgeGenerated.buildNative<QryInvestorProdSpbmDetailRequest, NativeQryInvestorProdSpbmDetail>
+            encoding
+            request
 
-    let qryInvestorProductGroupMargin encoding (request: QryInvestorProductGroupMarginRequest) : NativeQryInvestorProductGroupMargin =
-        TraderBridgeGenerated.buildNative<QryInvestorProductGroupMarginRequest, NativeQryInvestorProductGroupMargin> encoding request
+    let qryInvestorProductGroupMargin
+        encoding
+        (request: QryInvestorProductGroupMarginRequest)
+        : NativeQryInvestorProductGroupMargin
+        =
+        TraderBridgeGenerated.buildNative<QryInvestorProductGroupMarginRequest, NativeQryInvestorProductGroupMargin>
+            encoding
+            request
 
     let qryMaxOrderVolume encoding (request: QryMaxOrderVolumeRequest) : NativeQryMaxOrderVolume =
         TraderBridgeGenerated.buildNative<QryMaxOrderVolumeRequest, NativeQryMaxOrderVolume> encoding request
 
-    let qryMmInstrumentCommissionRate encoding (request: QryMmInstrumentCommissionRateRequest) : NativeQryMmInstrumentCommissionRate =
-        TraderBridgeGenerated.buildNative<QryMmInstrumentCommissionRateRequest, NativeQryMmInstrumentCommissionRate> encoding request
+    let qryMmInstrumentCommissionRate
+        encoding
+        (request: QryMmInstrumentCommissionRateRequest)
+        : NativeQryMmInstrumentCommissionRate
+        =
+        TraderBridgeGenerated.buildNative<QryMmInstrumentCommissionRateRequest, NativeQryMmInstrumentCommissionRate>
+            encoding
+            request
 
     let qryMmOptionInstrCommRate encoding (request: QryMmOptionInstrCommRateRequest) : NativeQryMmOptionInstrCommRate =
-        TraderBridgeGenerated.buildNative<QryMmOptionInstrCommRateRequest, NativeQryMmOptionInstrCommRate> encoding request
+        TraderBridgeGenerated.buildNative<QryMmOptionInstrCommRateRequest, NativeQryMmOptionInstrCommRate>
+            encoding
+            request
 
     let qryNotice encoding (request: QryNoticeRequest) : NativeQryNotice =
         TraderBridgeGenerated.buildNative<QryNoticeRequest, NativeQryNotice> encoding request
@@ -15444,7 +15687,9 @@ module private TraderBridgeBuilders =
         TraderBridgeGenerated.buildNative<QryOptionInstrCommRateRequest, NativeQryOptionInstrCommRate> encoding request
 
     let qryOptionInstrTradeCost encoding (request: QryOptionInstrTradeCostRequest) : NativeQryOptionInstrTradeCost =
-        TraderBridgeGenerated.buildNative<QryOptionInstrTradeCostRequest, NativeQryOptionInstrTradeCost> encoding request
+        TraderBridgeGenerated.buildNative<QryOptionInstrTradeCostRequest, NativeQryOptionInstrTradeCost>
+            encoding
+            request
 
     let qryOptionSelfClose encoding (request: QryOptionSelfCloseRequest) : NativeQryOptionSelfClose =
         TraderBridgeGenerated.buildNative<QryOptionSelfCloseRequest, NativeQryOptionSelfClose> encoding request
@@ -15471,7 +15716,9 @@ module private TraderBridgeBuilders =
         TraderBridgeGenerated.buildNative<QryQuoteRequest, NativeQryQuote> encoding request
 
     let qryRcamsCombProductInfo encoding (request: QryRcamsCombProductInfoRequest) : NativeQryRcamsCombProductInfo =
-        TraderBridgeGenerated.buildNative<QryRcamsCombProductInfoRequest, NativeQryRcamsCombProductInfo> encoding request
+        TraderBridgeGenerated.buildNative<QryRcamsCombProductInfoRequest, NativeQryRcamsCombProductInfo>
+            encoding
+            request
 
     let qryRcamsInstrParameter encoding (request: QryRcamsInstrParameterRequest) : NativeQryRcamsInstrParameter =
         TraderBridgeGenerated.buildNative<QryRcamsInstrParameterRequest, NativeQryRcamsInstrParameter> encoding request
@@ -15482,17 +15729,41 @@ module private TraderBridgeBuilders =
     let qryRcamsIntraParameter encoding (request: QryRcamsIntraParameterRequest) : NativeQryRcamsIntraParameter =
         TraderBridgeGenerated.buildNative<QryRcamsIntraParameterRequest, NativeQryRcamsIntraParameter> encoding request
 
-    let qryRcamsInvestorCombPosition encoding (request: QryRcamsInvestorCombPositionRequest) : NativeQryRcamsInvestorCombPosition =
-        TraderBridgeGenerated.buildNative<QryRcamsInvestorCombPositionRequest, NativeQryRcamsInvestorCombPosition> encoding request
+    let qryRcamsInvestorCombPosition
+        encoding
+        (request: QryRcamsInvestorCombPositionRequest)
+        : NativeQryRcamsInvestorCombPosition
+        =
+        TraderBridgeGenerated.buildNative<QryRcamsInvestorCombPositionRequest, NativeQryRcamsInvestorCombPosition>
+            encoding
+            request
 
-    let qryRcamsShortOptAdjustParam encoding (request: QryRcamsShortOptAdjustParamRequest) : NativeQryRcamsShortOptAdjustParam =
-        TraderBridgeGenerated.buildNative<QryRcamsShortOptAdjustParamRequest, NativeQryRcamsShortOptAdjustParam> encoding request
+    let qryRcamsShortOptAdjustParam
+        encoding
+        (request: QryRcamsShortOptAdjustParamRequest)
+        : NativeQryRcamsShortOptAdjustParam
+        =
+        TraderBridgeGenerated.buildNative<QryRcamsShortOptAdjustParamRequest, NativeQryRcamsShortOptAdjustParam>
+            encoding
+            request
 
-    let qryRiskSettleInvstPosition encoding (request: QryRiskSettleInvstPositionRequest) : NativeQryRiskSettleInvstPosition =
-        TraderBridgeGenerated.buildNative<QryRiskSettleInvstPositionRequest, NativeQryRiskSettleInvstPosition> encoding request
+    let qryRiskSettleInvstPosition
+        encoding
+        (request: QryRiskSettleInvstPositionRequest)
+        : NativeQryRiskSettleInvstPosition
+        =
+        TraderBridgeGenerated.buildNative<QryRiskSettleInvstPositionRequest, NativeQryRiskSettleInvstPosition>
+            encoding
+            request
 
-    let qryRiskSettleProductStatus encoding (request: QryRiskSettleProductStatusRequest) : NativeQryRiskSettleProductStatus =
-        TraderBridgeGenerated.buildNative<QryRiskSettleProductStatusRequest, NativeQryRiskSettleProductStatus> encoding request
+    let qryRiskSettleProductStatus
+        encoding
+        (request: QryRiskSettleProductStatusRequest)
+        : NativeQryRiskSettleProductStatus
+        =
+        TraderBridgeGenerated.buildNative<QryRiskSettleProductStatusRequest, NativeQryRiskSettleProductStatus>
+            encoding
+            request
 
     let qryRuleInstrParameter encoding (request: QryRuleInstrParameterRequest) : NativeQryRuleInstrParameter =
         TraderBridgeGenerated.buildNative<QryRuleInstrParameterRequest, NativeQryRuleInstrParameter> encoding request
@@ -15516,10 +15787,18 @@ module private TraderBridgeBuilders =
         TraderBridgeGenerated.buildNative<QrySettlementInfoRequest, NativeQrySettlementInfo> encoding request
 
     let qrySettlementInfoConfirm encoding (request: QrySettlementInfoConfirmRequest) : NativeQrySettlementInfoConfirm =
-        TraderBridgeGenerated.buildNative<QrySettlementInfoConfirmRequest, NativeQrySettlementInfoConfirm> encoding request
+        TraderBridgeGenerated.buildNative<QrySettlementInfoConfirmRequest, NativeQrySettlementInfoConfirm>
+            encoding
+            request
 
-    let qrySpbmAddOnInterParameter encoding (request: QrySpbmAddOnInterParameterRequest) : NativeQrySpbmAddOnInterParameter =
-        TraderBridgeGenerated.buildNative<QrySpbmAddOnInterParameterRequest, NativeQrySpbmAddOnInterParameter> encoding request
+    let qrySpbmAddOnInterParameter
+        encoding
+        (request: QrySpbmAddOnInterParameterRequest)
+        : NativeQrySpbmAddOnInterParameter
+        =
+        TraderBridgeGenerated.buildNative<QrySpbmAddOnInterParameterRequest, NativeQrySpbmAddOnInterParameter>
+            encoding
+            request
 
     let qrySpbmFutureParameter encoding (request: QrySpbmFutureParameterRequest) : NativeQrySpbmFutureParameter =
         TraderBridgeGenerated.buildNative<QrySpbmFutureParameterRequest, NativeQrySpbmFutureParameter> encoding request
@@ -15531,7 +15810,9 @@ module private TraderBridgeBuilders =
         TraderBridgeGenerated.buildNative<QrySpbmIntraParameterRequest, NativeQrySpbmIntraParameter> encoding request
 
     let qrySpbmInvestorPortfDef encoding (request: QrySpbmInvestorPortfDefRequest) : NativeQrySpbmInvestorPortfDef =
-        TraderBridgeGenerated.buildNative<QrySpbmInvestorPortfDefRequest, NativeQrySpbmInvestorPortfDef> encoding request
+        TraderBridgeGenerated.buildNative<QrySpbmInvestorPortfDefRequest, NativeQrySpbmInvestorPortfDef>
+            encoding
+            request
 
     let qrySpbmOptionParameter encoding (request: QrySpbmOptionParameterRequest) : NativeQrySpbmOptionParameter =
         TraderBridgeGenerated.buildNative<QrySpbmOptionParameterRequest, NativeQrySpbmOptionParameter> encoding request
@@ -15569,8 +15850,14 @@ module private TraderBridgeBuilders =
     let qryUserSession encoding (request: QryUserSessionRequest) : NativeQryUserSession =
         TraderBridgeGenerated.buildNative<QryUserSessionRequest, NativeQryUserSession> encoding request
 
-    let queryCfmmcTradingAccountToken encoding (request: QueryCfmmcTradingAccountTokenRequest) : NativeQueryCfmmcTradingAccountToken =
-        TraderBridgeGenerated.buildNative<QueryCfmmcTradingAccountTokenRequest, NativeQueryCfmmcTradingAccountToken> encoding request
+    let queryCfmmcTradingAccountToken
+        encoding
+        (request: QueryCfmmcTradingAccountTokenRequest)
+        : NativeQueryCfmmcTradingAccountToken
+        =
+        TraderBridgeGenerated.buildNative<QueryCfmmcTradingAccountTokenRequest, NativeQueryCfmmcTradingAccountToken>
+            encoding
+            request
 
     let removeParkedOrder encoding (request: RemoveParkedOrder) : NativeRemoveParkedOrder =
         TraderBridgeGenerated.buildNative<RemoveParkedOrder, NativeRemoveParkedOrder> encoding request
@@ -15588,7 +15875,10 @@ module private TraderBridgeBuilders =
         TraderBridgeGenerated.buildNative<GenUserTextRequest, NativeReqGenUserText> encoding request
 
     let reqQueryAccount encoding requestId (request: ReqQueryAccount) : NativeReqQueryAccount =
-        TraderBridgeGenerated.buildNativeWithRequestId<ReqQueryAccount, NativeReqQueryAccount> encoding requestId request
+        TraderBridgeGenerated.buildNativeWithRequestId<ReqQueryAccount, NativeReqQueryAccount>
+            encoding
+            requestId
+            request
 
     let reqTransfer encoding requestId (request: TransferRequest) : NativeReqTransfer =
         TraderBridgeGenerated.buildNativeWithRequestId<TransferRequest, NativeReqTransfer> encoding requestId request
@@ -15605,8 +15895,14 @@ module private TraderBridgeBuilders =
     let reqUserLoginWithText encoding (request: UserLoginWithTextRequest) : NativeReqUserLoginWithText =
         TraderBridgeGenerated.buildNative<UserLoginWithTextRequest, NativeReqUserLoginWithText> encoding request
 
-    let tradingAccountPasswordUpdate encoding (request: TradingAccountPasswordUpdate) : NativeTradingAccountPasswordUpdate =
-        TraderBridgeGenerated.buildNative<TradingAccountPasswordUpdate, NativeTradingAccountPasswordUpdate> encoding request
+    let tradingAccountPasswordUpdate
+        encoding
+        (request: TradingAccountPasswordUpdate)
+        : NativeTradingAccountPasswordUpdate
+        =
+        TraderBridgeGenerated.buildNative<TradingAccountPasswordUpdate, NativeTradingAccountPasswordUpdate>
+            encoding
+            request
 
     let userLogoutResponse encoding (request: UserLogoutResponse) : NativeUserLogout =
         TraderBridgeGenerated.buildNative<UserLogoutResponse, NativeUserLogout> encoding request
@@ -18295,9 +18591,11 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
 
     member this.GetFrontInfo() =
         let mutable native = NativeFrontInfo()
+
         TraderNativeInterop.getFrontInfo (this.Handle, &native)
         |> BridgeHelpers.throwOnNonZero
         <| "ctp_trader_get_front_info"
+
         TraderBridgeMapping.frontInfo encodings.InboundEncoding native
 
     member this.RegisterNameServer(nsAddress: string) =
@@ -18331,7 +18629,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqUserPasswordUpdate (this.Handle, &native, requestId)
 
     member this.ReqTradingAccountPasswordUpdate(request: TradingAccountPasswordUpdateRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.tradingAccountPasswordUpdate encodings.OutboundEncoding request
+        let mutable native =
+            TraderBridgeBuilders.tradingAccountPasswordUpdate encodings.OutboundEncoding request
+
         TraderNativeInterop.reqTradingAccountPasswordUpdate (this.Handle, &native, requestId)
 
     member this.ReqUserAuthMethod(request: UserAuthMethodRequest, requestId: int) =
@@ -18387,7 +18687,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqExecOrderInsert (this.Handle, &native, requestId)
 
     member this.ReqExecOrderAction(request: InputExecOrderActionRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputExecOrderAction encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputExecOrderAction encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqExecOrderAction (this.Handle, &native, requestId)
 
     member this.ReqForQuoteInsert(request: InputForQuoteRequest, requestId: int) =
@@ -18403,15 +18705,21 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqQuoteAction (this.Handle, &native, requestId)
 
     member this.ReqBatchOrderAction(request: InputBatchOrderActionRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputBatchOrderAction encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputBatchOrderAction encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqBatchOrderAction (this.Handle, &native, requestId)
 
     member this.ReqOptionSelfCloseInsert(request: InputOptionSelfCloseRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputOptionSelfClose encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputOptionSelfClose encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqOptionSelfCloseInsert (this.Handle, &native, requestId)
 
     member this.ReqOptionSelfCloseAction(request: InputOptionSelfCloseActionRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputOptionSelfCloseAction encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputOptionSelfCloseAction encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqOptionSelfCloseAction (this.Handle, &native, requestId)
 
     member this.ReqCombActionInsert(request: InputCombActionRequest, requestId: int) =
@@ -18419,11 +18727,15 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqCombActionInsert (this.Handle, &native, requestId)
 
     member this.ReqOffsetSetting(request: InputOffsetSettingRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqOffsetSetting (this.Handle, &native, requestId)
 
     member this.ReqCancelOffsetSetting(request: InputOffsetSettingRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputOffsetSetting encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqCancelOffsetSetting (this.Handle, &native, requestId)
 
     member this.ReqSpdApply(request: InputSpdApplyRequest, requestId: int) =
@@ -18431,7 +18743,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqSpdApply (this.Handle, &native, requestId)
 
     member this.ReqSpdApplyAction(request: InputSpdApplyActionRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputSpdApplyAction encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputSpdApplyAction encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqSpdApplyAction (this.Handle, &native, requestId)
 
     member this.ReqHedgeCfm(request: InputHedgeCfmRequest, requestId: int) =
@@ -18439,7 +18753,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqHedgeCfm (this.Handle, &native, requestId)
 
     member this.ReqHedgeCfmAction(request: InputHedgeCfmActionRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.inputHedgeCfmAction encodings.OutboundEncoding requestId request
+        let mutable native =
+            TraderBridgeBuilders.inputHedgeCfmAction encodings.OutboundEncoding requestId request
+
         TraderNativeInterop.reqHedgeCfmAction (this.Handle, &native, requestId)
 
     member this.ReqQryOrder(request: QryOrderRequest, requestId: int) =
@@ -18503,7 +18819,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqQrySettlementInfoConfirm (this.Handle, &native, requestId)
 
     member this.ReqQryInvestorPositionCombineDetail(request: QryInvestorPositionCombineDetailRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.qryInvestorPositionCombineDetail encodings.OutboundEncoding request
+        let mutable native =
+            TraderBridgeBuilders.qryInvestorPositionCombineDetail encodings.OutboundEncoding request
+
         TraderNativeInterop.reqQryInvestorPositionCombineDetail (this.Handle, &native, requestId)
 
     member this.ReqQryCfmmcTradingAccountKey(request: QryCfmmcTradingAccountKeyRequest, requestId: int) =
@@ -18515,7 +18833,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqQryEWarrantOffset (this.Handle, &native, requestId)
 
     member this.ReqQryInvestorProductGroupMargin(request: QryInvestorProductGroupMarginRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.qryInvestorProductGroupMargin encodings.OutboundEncoding request
+        let mutable native =
+            TraderBridgeBuilders.qryInvestorProductGroupMargin encodings.OutboundEncoding request
+
         TraderNativeInterop.reqQryInvestorProductGroupMargin (this.Handle, &native, requestId)
 
     member this.ReqQryExchangeMarginRateAdjust(request: QryExchangeMarginRateAdjustRequest, requestId: int) =
@@ -18539,7 +18859,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqQryProductGroup (this.Handle, &native, requestId)
 
     member this.ReqQryMmInstrumentCommissionRate(request: QryMmInstrumentCommissionRateRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.qryMmInstrumentCommissionRate encodings.OutboundEncoding request
+        let mutable native =
+            TraderBridgeBuilders.qryMmInstrumentCommissionRate encodings.OutboundEncoding request
+
         TraderNativeInterop.reqQryMmInstrumentCommissionRate (this.Handle, &native, requestId)
 
     member this.ReqQryMmOptionInstrCommRate(request: QryMmOptionInstrCommRateRequest, requestId: int) =
@@ -18631,7 +18953,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqQryBrokerTradingAlgos (this.Handle, &native, requestId)
 
     member this.ReqQueryCfmmcTradingAccountToken(request: QueryCfmmcTradingAccountTokenRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.queryCfmmcTradingAccountToken encodings.OutboundEncoding request
+        let mutable native =
+            TraderBridgeBuilders.queryCfmmcTradingAccountToken encodings.OutboundEncoding request
+
         TraderNativeInterop.reqQueryCfmmcTradingAccountToken (this.Handle, &native, requestId)
 
     member this.ReqQryClassifiedInstrument(request: QryClassifiedInstrumentRequest, requestId: int) =
@@ -18683,11 +19007,17 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqQryInvestorProdSpbmDetail (this.Handle, &native, requestId)
 
     member this.ReqQryInvestorCommoditySpmmMargin(request: QryInvestorCommoditySpmmMarginRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.qryInvestorCommoditySpmmMargin encodings.OutboundEncoding request
+        let mutable native =
+            TraderBridgeBuilders.qryInvestorCommoditySpmmMargin encodings.OutboundEncoding request
+
         TraderNativeInterop.reqQryInvestorCommoditySpmmMargin (this.Handle, &native, requestId)
 
-    member this.ReqQryInvestorCommodityGroupSpmmMargin(request: QryInvestorCommodityGroupSpmmMarginRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.qryInvestorCommodityGroupSpmmMargin encodings.OutboundEncoding request
+    member this.ReqQryInvestorCommodityGroupSpmmMargin
+        (request: QryInvestorCommodityGroupSpmmMarginRequest, requestId: int)
+        =
+        let mutable native =
+            TraderBridgeBuilders.qryInvestorCommodityGroupSpmmMargin encodings.OutboundEncoding request
+
         TraderNativeInterop.reqQryInvestorCommodityGroupSpmmMargin (this.Handle, &native, requestId)
 
     member this.ReqQrySpmmInstParam(request: QrySpmmInstParamRequest, requestId: int) =
@@ -18723,7 +19053,9 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         TraderNativeInterop.reqQryRcamsShortOptAdjustParam (this.Handle, &native, requestId)
 
     member this.ReqQryRcamsInvestorCombPosition(request: QryRcamsInvestorCombPositionRequest, requestId: int) =
-        let mutable native = TraderBridgeBuilders.qryRcamsInvestorCombPosition encodings.OutboundEncoding request
+        let mutable native =
+            TraderBridgeBuilders.qryRcamsInvestorCombPosition encodings.OutboundEncoding request
+
         TraderNativeInterop.reqQryRcamsInvestorCombPosition (this.Handle, &native, requestId)
 
     member this.ReqQryInvestorProdRcamsMargin(request: QryInvestorProdRcamsMarginRequest, requestId: int) =

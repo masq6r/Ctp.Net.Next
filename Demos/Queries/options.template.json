@@ -1,0 +1,25 @@
+{
+    "ctpOptions": {
+        "frontAddress": "tcp://182.254.243.31:30001",
+        "flowPath": "/tmp/ctp-flow",
+        "productionMode": true,
+        "brokerId": "***",
+        "userId": "***",
+        "password": "***",
+        "userProductInfo": "***",
+        "appId": "simnow_client_test",
+        "authCode": "0000000000000000"
+    },
+    "ctpFlowControlOptions": {
+        "maxDispatchesPerSecond": 5,
+        "maxQueriesPerSecond": 2,
+        "maxNativeReturnCodeRetries": 3,
+        "nativeReturnCodeRetryDelayMs": 250,
+        "maxQueryRspErrorRetries": 3,
+        "queryRspErrorRetryDelayMs": 500,
+        "queryCompletionTimeoutMs": 120000,
+        "subscriptionBatchSize": 50,
+        "subscriptionBatchDelayMs": 1000
+    },
+    "connectTimeoutMs": 15000
+}

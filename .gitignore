@@ -35,4 +35,6 @@ Thumbs.db
 Tests/Ctp.Net.SmokeTests/smoke.local.json
 
 # Local demos
-CtpDemo*/
+Demos/*.[Ll]ocal*/
+Demos/Queries/options.local.json
+Demos/Subscrption/options.local.json
