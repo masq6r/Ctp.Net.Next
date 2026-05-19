@@ -1,6 +1,7 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
-[![Build & Test](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/ci.yml)
+[![Build](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/build.yml)
+[![Test](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/test.yml)
 
 # Ctp.Net
 
