@@ -56,6 +56,77 @@ type EncodingTests() =
         Assert.Equal("9999", logout.BrokerId)
         Assert.Equal("demo", logout.UserId)
 
+type TraderBridgeGeneratedTests() =
+
+    let assembly = typeof<InstrumentResponse>.Assembly
+    let flags = System.Reflection.BindingFlags.Instance ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic
+
+    let getType name =
+        match assembly.GetType(name, false) with
+        | null -> failwith $"Expected type '{name}' to exist."
+        | t -> t
+
+    let zeroInitializeByteArrays (instance: obj) =
+        let nativeType = instance.GetType()
+
+        for field in nativeType.GetFields(flags) do
+            if field.FieldType = typeof<byte array> then
+                let size =
+                    field.GetCustomAttributes(typeof<System.Runtime.InteropServices.MarshalAsAttribute>, false)
+                    |> Array.tryHead
+                    |> Option.map (fun attr -> (attr :?> System.Runtime.InteropServices.MarshalAsAttribute).SizeConst)
+                    |> Option.defaultValue 0
+
+                field.SetValue(instance, Array.zeroCreate<byte> size)
+
+    let mapInstrument fields =
+        let nativeType = getType "Ctp.Net.Bridge.NativeInstrument"
+        let native = Activator.CreateInstance(nativeType)
+        zeroInitializeByteArrays native
+
+        for name, value in fields do
+            let field = nativeType.GetField(name, flags)
+            field.SetValue(native, byte value)
+
+        let generatedType = getType "Ctp.Net.Bridge.TraderBridgeGenerated"
+        let mapNative =
+            generatedType.GetMethod(
+                "mapNative",
+                System.Reflection.BindingFlags.Static ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic
+            )
+
+        mapNative
+            .MakeGenericMethod(typeof<InstrumentResponse>, nativeType)
+            .Invoke(null, [| Encoding.UTF8; native |])
+        :?> InstrumentResponse
+
+    [<Fact>]
+    member _.``instrument mapping supports optional union fields``() =
+        let instrument =
+            mapInstrument
+                [ "ProductClass", '1'
+                  "InstLifePhase", '1'
+                  "PositionType", '1'
+                  "PositionDateType", '1'
+                  "MaxMarginSideAlgorithm", '1'
+                  "OptionsType", '1'
+                  "CombinationType", '3' ]
+
+        Assert.Equal(Some ProductClass.Futures, instrument.ProductClass)
+        Assert.Equal(Some InstLifePhase.Started, instrument.InstLifePhase)
+        Assert.Equal(Some PositionType.Net, instrument.PositionType)
+        Assert.Equal(Some PositionDateType.UseHistory, instrument.PositionDateType)
+        Assert.Equal(Some MaxMarginSideAlgorithm.Yes, instrument.MaxMarginSideAlgorithm)
+        Assert.Equal(Some OptionsType.CallOptions, instrument.OptionsType)
+        Assert.Equal(Some CombinationType.STD, instrument.CombinationType)
+
+    [<Fact>]
+    member _.``instrument mapping treats invalid optional union values as none``() =
+        let instrument = mapInstrument [ "CombinationType", '0' ]
+
+        Assert.True(instrument.CombinationType.IsNone)
+
+
 type OptionHelperTests() =
 
     [<Fact>]

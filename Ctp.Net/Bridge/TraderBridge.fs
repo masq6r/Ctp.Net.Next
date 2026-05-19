@@ -21,6 +21,9 @@ type SettlementInfoConfirm =
       AccountId: string
       CurrencyId: string }
 
+type SettlementInfoConfirmRequest = SettlementInfoConfirm
+type SettlementInfoConfirmResponse = SettlementInfoConfirm
+
 type TradingAccountResponse =
     { BrokerId: string
       AccountId: string
@@ -150,6 +153,9 @@ type InputOrderActionRequest =
       MacAddress: string option
       IpAddress: string option
       OrderMemo: string option }
+
+type InputOrderResponse = InputOrderRequest
+type InputOrderActionResponse = InputOrderActionRequest
 
 type OrderUpdateResponse =
     { BrokerId: string
@@ -630,6 +636,21 @@ type HedgeCfmResponse =
       StatusMsg: string;
       IpAddress: string;
       MacAddress: string }
+
+type InputBatchOrderActionResponse = InputBatchOrderActionRequest
+type InputCombActionResponse = InputCombActionRequest
+type InputExecOrderResponse = InputExecOrderRequest
+type InputExecOrderActionResponse = InputExecOrderActionRequest
+type InputForQuoteResponse = InputForQuoteRequest
+type InputHedgeCfmResponse = InputHedgeCfmRequest
+type InputHedgeCfmActionResponse = InputHedgeCfmActionRequest
+type InputOffsetSettingResponse = InputOffsetSettingRequest
+type InputOptionSelfCloseResponse = InputOptionSelfCloseRequest
+type InputOptionSelfCloseActionResponse = InputOptionSelfCloseActionRequest
+type InputQuoteResponse = InputQuoteRequest
+type InputQuoteActionResponse = InputQuoteActionRequest
+type InputSpdApplyResponse = InputSpdApplyRequest
+type InputSpdApplyActionResponse = InputSpdApplyActionRequest
 
 type HedgeCfmActionResponse =
     { 
@@ -1593,6 +1614,11 @@ type ParkedOrderAction =
       InstrumentId: string;
       IpAddress: string option }
 
+type ParkedOrderRequest = ParkedOrder
+type ParkedOrderResponse = ParkedOrder
+type ParkedOrderActionRequest = ParkedOrderAction
+type ParkedOrderActionResponse = ParkedOrderAction
+
 type ProductResponse =
     { 
       Reserve1: string;
@@ -1884,6 +1910,8 @@ type QryMaxOrderVolumeRequest =
       ExchangeId: string option;
       InvestUnitId: string option;
       InstrumentId: string }
+
+type MaxOrderVolumeResponse = QryMaxOrderVolumeRequest
 
 type QryMmInstrumentCommissionRateRequest =
     {
@@ -2209,6 +2237,8 @@ type QueryCfmmcTradingAccountTokenRequest =
       InvestorId: string;
       InvestUnitId: string option }
 
+type QueryCfmmcTradingAccountTokenResponse = QueryCfmmcTradingAccountTokenRequest
+
 type QuoteResponse =
     { 
       BrokerId: string;
@@ -2372,6 +2402,11 @@ type RemoveParkedOrderAction =
       ParkedOrderActionId: string;
       InvestUnitId: string option }
 
+type RemoveParkedOrderRequest = RemoveParkedOrder
+type RemoveParkedOrderResponse = RemoveParkedOrder
+type RemoveParkedOrderActionRequest = RemoveParkedOrderAction
+type RemoveParkedOrderActionResponse = RemoveParkedOrderAction
+
 type GenSmsCodeRequest =
     {
       BrokerId: string;
@@ -2430,6 +2465,9 @@ type ReqQueryAccount =
       TId: int;
       LongCustomerName: string }
 
+type QueryBankAccountMoneyRequest = ReqQueryAccount
+type QueryBankAccountMoneyResponse = ReqQueryAccount
+
 type TransferRequest =
     { 
       TradeCode: string;
@@ -2476,6 +2514,8 @@ type TransferRequest =
       TId: int;
       TransferStatus: TransferStatus option;
       LongCustomerName: string }
+
+type TransferAckResponse = TransferRequest
 
 type UserAuthMethodRequest =
     {
@@ -2904,6 +2944,9 @@ type TradingAccountPasswordUpdate =
       NewPassword: string;
       CurrencyId: string }
 
+type TradingAccountPasswordUpdateRequest = TradingAccountPasswordUpdate
+type TradingAccountPasswordUpdateResponse = TradingAccountPasswordUpdate
+
 type TradingCodeResponse =
     { 
       InvestorId: string;
@@ -2973,6 +3016,9 @@ type UserPasswordUpdate =
       OldPassword: string;
       NewPassword: string }
 
+type UserPasswordUpdateRequest = UserPasswordUpdate
+type UserPasswordUpdateResponse = UserPasswordUpdate
+
 type UserSessionResponse =
     { 
       FrontId: int;
@@ -3022,7 +3068,7 @@ type TraderCallbacks =
       HeartBeatWarning: (int -> unit) option
       RtnPrivateSeqNo: (int -> unit) option
       RspAuthenticate: (AuthenticateResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspSettlementInfoConfirm: (SettlementInfoConfirm option -> RspInfo option -> int -> bool -> unit) option
+      RspSettlementInfoConfirm: (SettlementInfoConfirmResponse option -> RspInfo option -> int -> bool -> unit) option
       RspUserLogin: (UserLoginResponse option -> RspInfo option -> int -> bool -> unit) option
       RspUserLogout: (UserLogoutResponse option -> RspInfo option -> int -> bool -> unit) option
       RspError: (RspInfo option -> int -> bool -> unit) option
@@ -3031,48 +3077,48 @@ type TraderCallbacks =
       RspQryInstrumentMarginRate: (InstrumentMarginRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryExchangeMarginRate: (ExchangeMarginRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryInstrumentCommissionRate: (InstrumentCommissionRateResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspOrderInsert: (InputOrderRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspOrderAction: (InputOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspOrderInsert: (InputOrderResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspOrderAction: (InputOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RtnOrder: (OrderUpdateResponse -> unit) option
       RtnTrade: (TradeUpdateResponse -> unit) option
-      ErrRtnBankToFutureByFuture: (TransferRequest option -> RspInfo option -> unit) option
+      ErrRtnBankToFutureByFuture: (TransferAckResponse option -> RspInfo option -> unit) option
       ErrRtnBatchOrderAction: (BatchOrderActionResponse option -> RspInfo option -> unit) option
       ErrRtnCancelOffsetSetting: (CancelOffsetSettingResponse option -> RspInfo option -> unit) option
-      ErrRtnCombActionInsert: (InputCombActionRequest option -> RspInfo option -> unit) option
+      ErrRtnCombActionInsert: (InputCombActionResponse option -> RspInfo option -> unit) option
       ErrRtnExecOrderAction: (ExecOrderActionResponse option -> RspInfo option -> unit) option
-      ErrRtnExecOrderInsert: (InputExecOrderRequest option -> RspInfo option -> unit) option
-      ErrRtnForQuoteInsert: (InputForQuoteRequest option -> RspInfo option -> unit) option
-      ErrRtnFutureToBankByFuture: (TransferRequest option -> RspInfo option -> unit) option
-      ErrRtnHedgeCfm: (InputHedgeCfmRequest option -> RspInfo option -> unit) option
+      ErrRtnExecOrderInsert: (InputExecOrderResponse option -> RspInfo option -> unit) option
+      ErrRtnForQuoteInsert: (InputForQuoteResponse option -> RspInfo option -> unit) option
+      ErrRtnFutureToBankByFuture: (TransferAckResponse option -> RspInfo option -> unit) option
+      ErrRtnHedgeCfm: (InputHedgeCfmResponse option -> RspInfo option -> unit) option
       ErrRtnHedgeCfmAction: (HedgeCfmActionResponse option -> RspInfo option -> unit) option
-      ErrRtnOffsetSetting: (InputOffsetSettingRequest option -> RspInfo option -> unit) option
+      ErrRtnOffsetSetting: (InputOffsetSettingResponse option -> RspInfo option -> unit) option
       ErrRtnOptionSelfCloseAction: (OptionSelfCloseActionResponse option -> RspInfo option -> unit) option
-      ErrRtnOptionSelfCloseInsert: (InputOptionSelfCloseRequest option -> RspInfo option -> unit) option
+      ErrRtnOptionSelfCloseInsert: (InputOptionSelfCloseResponse option -> RspInfo option -> unit) option
       ErrRtnOrderAction: (OrderActionResponse option -> RspInfo option -> unit) option
-      ErrRtnOrderInsert: (InputOrderRequest option -> RspInfo option -> unit) option
-      ErrRtnQueryBankBalanceByFuture: (ReqQueryAccount option -> RspInfo option -> unit) option
+      ErrRtnOrderInsert: (InputOrderResponse option -> RspInfo option -> unit) option
+      ErrRtnQueryBankBalanceByFuture: (QueryBankAccountMoneyResponse option -> RspInfo option -> unit) option
       ErrRtnQuoteAction: (QuoteActionResponse option -> RspInfo option -> unit) option
-      ErrRtnQuoteInsert: (InputQuoteRequest option -> RspInfo option -> unit) option
-      ErrRtnSpdApply: (InputSpdApplyRequest option -> RspInfo option -> unit) option
+      ErrRtnQuoteInsert: (InputQuoteResponse option -> RspInfo option -> unit) option
+      ErrRtnSpdApply: (InputSpdApplyResponse option -> RspInfo option -> unit) option
       ErrRtnSpdApplyAction: (SpdApplyActionResponse option -> RspInfo option -> unit) option
-      RspBatchOrderAction: (InputBatchOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspCancelOffsetSetting: (InputOffsetSettingRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspCombActionInsert: (InputCombActionRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspExecOrderAction: (InputExecOrderActionRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspExecOrderInsert: (InputExecOrderRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspForQuoteInsert: (InputForQuoteRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspFromBankToFutureByFuture: (TransferRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspFromFutureToBankByFuture: (TransferRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspBatchOrderAction: (InputBatchOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspCancelOffsetSetting: (InputOffsetSettingResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspCombActionInsert: (InputCombActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspExecOrderAction: (InputExecOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspExecOrderInsert: (InputExecOrderResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspForQuoteInsert: (InputForQuoteResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspFromBankToFutureByFuture: (TransferAckResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspFromFutureToBankByFuture: (TransferAckResponse option -> RspInfo option -> int -> bool -> unit) option
       GenSmsCodeResponse: (GenSmsCodeResponse option -> RspInfo option -> int -> bool -> unit) option
       GenUserCaptchaResponse: (GenUserCaptchaResponse option -> RspInfo option -> int -> bool -> unit) option
       GenUserTextResponse: (GenUserTextResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspHedgeCfm: (InputHedgeCfmRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspHedgeCfmAction: (InputHedgeCfmActionRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspOffsetSetting: (InputOffsetSettingRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspOptionSelfCloseAction: (InputOptionSelfCloseActionRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspOptionSelfCloseInsert: (InputOptionSelfCloseRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspParkedOrderAction: (ParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
-      RspParkedOrderInsert: (ParkedOrder option -> RspInfo option -> int -> bool -> unit) option
+      RspHedgeCfm: (InputHedgeCfmResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspHedgeCfmAction: (InputHedgeCfmActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspOffsetSetting: (InputOffsetSettingResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspOptionSelfCloseAction: (InputOptionSelfCloseActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspOptionSelfCloseInsert: (InputOptionSelfCloseResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspParkedOrderAction: (ParkedOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspParkedOrderInsert: (ParkedOrderResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryAccountregister: (AccountregisterResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryBrokerTradingAlgos: (BrokerTradingAlgosResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryBrokerTradingParams: (BrokerTradingParamsResponse option -> RspInfo option -> int -> bool -> unit) option
@@ -3108,15 +3154,15 @@ type TraderCallbacks =
       RspQryInvestorProductGroupMargin: (InvestorProductGroupMarginResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryMmInstrumentCommissionRate: (MmInstrumentCommissionRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryMmOptionInstrCommRate: (MmOptionInstrCommRateResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryMaxOrderVolume: (QryMaxOrderVolumeRequest option -> RspInfo option -> int -> bool -> unit) option
+      RspQryMaxOrderVolume: (MaxOrderVolumeResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryNotice: (NoticeResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryOffsetSetting: (OffsetSettingResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryOptionInstrCommRate: (OptionInstrCommRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryOptionInstrTradeCost: (OptionInstrTradeCostResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryOptionSelfClose: (OptionSelfCloseResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryOrder: (OrderUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQryParkedOrder: (ParkedOrder option -> RspInfo option -> int -> bool -> unit) option
-      RspQryParkedOrderAction: (ParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
+      RspQryParkedOrder: (ParkedOrderResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQryParkedOrderAction: (ParkedOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryProduct: (ProductResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryProductExchRate: (ProductExchRateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryProductGroup: (ProductGroupResponse option -> RspInfo option -> int -> bool -> unit) option
@@ -3146,7 +3192,7 @@ type TraderCallbacks =
       RspQrySecAgentTradeInfo: (SecAgentTradeInfoResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySecAgentTradingAccount: (TradingAccountResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySettlementInfo: (SettlementInfoResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQrySettlementInfoConfirm: (SettlementInfoConfirm option -> RspInfo option -> int -> bool -> unit) option
+      RspQrySettlementInfoConfirm: (SettlementInfoConfirmResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQrySpdApply: (SpdApplyResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryTrade: (TradeUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryTraderOffer: (TraderOfferResponse option -> RspInfo option -> int -> bool -> unit) option
@@ -3155,17 +3201,17 @@ type TraderCallbacks =
       RspQryTransferBank: (TransferBankResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryTransferSerial: (TransferSerialResponse option -> RspInfo option -> int -> bool -> unit) option
       RspQryUserSession: (UserSessionResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspQueryBankAccountMoneyByFuture: (ReqQueryAccount option -> RspInfo option -> int -> bool -> unit) option
-      RspQueryCfmmcTradingAccountToken: (QueryCfmmcTradingAccountTokenRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspQuoteAction: (InputQuoteActionRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspQuoteInsert: (InputQuoteRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspRemoveParkedOrder: (RemoveParkedOrder option -> RspInfo option -> int -> bool -> unit) option
-      RspRemoveParkedOrderAction: (RemoveParkedOrderAction option -> RspInfo option -> int -> bool -> unit) option
-      RspSpdApply: (InputSpdApplyRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspSpdApplyAction: (InputSpdApplyActionRequest option -> RspInfo option -> int -> bool -> unit) option
-      RspTradingAccountPasswordUpdate: (TradingAccountPasswordUpdate option -> RspInfo option -> int -> bool -> unit) option
+      RspQueryBankAccountMoneyByFuture: (QueryBankAccountMoneyResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQueryCfmmcTradingAccountToken: (QueryCfmmcTradingAccountTokenResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQuoteAction: (InputQuoteActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspQuoteInsert: (InputQuoteResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspRemoveParkedOrder: (RemoveParkedOrderResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspRemoveParkedOrderAction: (RemoveParkedOrderActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspSpdApply: (InputSpdApplyResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspSpdApplyAction: (InputSpdApplyActionResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspTradingAccountPasswordUpdate: (TradingAccountPasswordUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
       UserAuthMethodResponse: (UserAuthMethodResponse option -> RspInfo option -> int -> bool -> unit) option
-      RspUserPasswordUpdate: (UserPasswordUpdate option -> RspInfo option -> int -> bool -> unit) option
+      RspUserPasswordUpdate: (UserPasswordUpdateResponse option -> RspInfo option -> int -> bool -> unit) option
       RtnCombAction: (CombActionResponse -> unit) option
       RtnExecOrder: (ExecOrderResponse -> unit) option
       RtnForQuoteRsp: (ForQuoteRspResponse -> unit) option
@@ -14165,10 +14211,6 @@ module private TraderBridgeGenerated =
                     box (EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array))
                 elif field.PropertyType = typeof<char option> then
                     box (EncodingHelpers.byteToChar (unbox<byte> nativeValue))
-                elif FSharpType.IsUnion field.PropertyType then
-                    match EncodingHelpers.byteToChar (unbox<byte> nativeValue) with
-                    | Some cv -> field.PropertyType.GetMethod("FromChar").Invoke(null, [| cv |])
-                    | None -> null
                 elif field.PropertyType.IsGenericType
                      && field.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
                      && FSharpType.IsUnion(field.PropertyType.GetGenericArguments().[0]) then
@@ -14176,9 +14218,25 @@ module private TraderBridgeGenerated =
                     | None -> null
                     | Some cv ->
                         let duType = field.PropertyType.GetGenericArguments().[0]
-                        let duValue = duType.GetMethod("FromChar").Invoke(null, [| cv |])
-                        let someCase = FSharpType.GetUnionCases(field.PropertyType) |> Array.find (fun c -> c.Name = "Some")
-                        FSharpValue.MakeUnion(someCase, [| duValue |])
+                        let duValue =
+                            try
+                                duType.GetMethod("FromChar").Invoke(null, [| cv |])
+                            with
+                            | :? System.Reflection.TargetInvocationException as ex ->
+                                if ex.InnerException :? ArgumentException then
+                                    null
+                                else
+                                    reraise ()
+
+                        if isNull duValue then
+                            null
+                        else
+                            let someCase = FSharpType.GetUnionCases(field.PropertyType) |> Array.find (fun c -> c.Name = "Some")
+                            FSharpValue.MakeUnion(someCase, [| duValue |])
+                elif FSharpType.IsUnion field.PropertyType then
+                    match EncodingHelpers.byteToChar (unbox<byte> nativeValue) with
+                    | Some cv -> field.PropertyType.GetMethod("FromChar").Invoke(null, [| cv |])
+                    | None -> null
                 elif field.PropertyType = typeof<decimal> then
                     box (NumericHelpers.priceOrInvalid (unbox<float> nativeValue))
                 elif field.PropertyType = typeof<int> then
@@ -14215,9 +14273,6 @@ module private TraderBridgeGenerated =
                             box (EncodingHelpers.encodeFixed encoding size (recordValue :?> string option))
                         else
                             box (encodeStringField encoding size (recordValue :?> string))
-                    elif nativeField.FieldType = typeof<byte> && FSharpType.IsUnion(recordField.PropertyType) then
-                        let toChar = recordField.PropertyType.GetMethod("ToChar")
-                        box (byte (toChar.Invoke(null, [| recordValue |]) :?> char))
                     elif nativeField.FieldType = typeof<byte> && recordField.PropertyType.IsGenericType
                          && recordField.PropertyType.GetGenericTypeDefinition() = typedefof<option<_>>
                          && FSharpType.IsUnion(recordField.PropertyType.GetGenericArguments().[0]) then
@@ -14232,6 +14287,9 @@ module private TraderBridgeGenerated =
                                     let toChar = duType.GetMethod("ToChar")
                                     Some(toChar.Invoke(null, [| duValue |]) :?> char)
                         box (EncodingHelpers.charToByte charOpt)
+                    elif nativeField.FieldType = typeof<byte> && FSharpType.IsUnion(recordField.PropertyType) then
+                        let toChar = recordField.PropertyType.GetMethod("ToChar")
+                        box (byte (toChar.Invoke(null, [| recordValue |]) :?> char))
                     elif nativeField.FieldType = typeof<byte> && recordField.PropertyType = typeof<char option> then
                         box (EncodingHelpers.charToByte (recordValue :?> char option))
                     elif nativeField.FieldType = typeof<float> && recordField.PropertyType = typeof<decimal> then
@@ -14551,47 +14609,47 @@ module private TraderBridgeMapping =
     let hedgeCfmAction encoding (value: NativeHedgeCfmAction) : HedgeCfmActionResponse =
         TraderBridgeGenerated.mapNative<HedgeCfmActionResponse, NativeHedgeCfmAction> encoding value
 
-    let inputBatchOrderAction encoding (value: NativeInputBatchOrderAction) : InputBatchOrderActionRequest =
-        TraderBridgeGenerated.mapNative<InputBatchOrderActionRequest, NativeInputBatchOrderAction> encoding value
+    let inputBatchOrderAction encoding (value: NativeInputBatchOrderAction) : InputBatchOrderActionResponse =
+        TraderBridgeGenerated.mapNative<InputBatchOrderActionResponse, NativeInputBatchOrderAction> encoding value
 
-    let inputCombAction encoding (value: NativeInputCombAction) : InputCombActionRequest =
-        TraderBridgeGenerated.mapNative<InputCombActionRequest, NativeInputCombAction> encoding value
+    let inputCombAction encoding (value: NativeInputCombAction) : InputCombActionResponse =
+        TraderBridgeGenerated.mapNative<InputCombActionResponse, NativeInputCombAction> encoding value
 
-    let inputExecOrder encoding (value: NativeInputExecOrder) : InputExecOrderRequest =
-        TraderBridgeGenerated.mapNative<InputExecOrderRequest, NativeInputExecOrder> encoding value
+    let inputExecOrder encoding (value: NativeInputExecOrder) : InputExecOrderResponse =
+        TraderBridgeGenerated.mapNative<InputExecOrderResponse, NativeInputExecOrder> encoding value
 
-    let inputExecOrderAction encoding (value: NativeInputExecOrderAction) : InputExecOrderActionRequest =
-        TraderBridgeGenerated.mapNative<InputExecOrderActionRequest, NativeInputExecOrderAction> encoding value
+    let inputExecOrderAction encoding (value: NativeInputExecOrderAction) : InputExecOrderActionResponse =
+        TraderBridgeGenerated.mapNative<InputExecOrderActionResponse, NativeInputExecOrderAction> encoding value
 
-    let inputForQuote encoding (value: NativeInputForQuote) : InputForQuoteRequest =
-        TraderBridgeGenerated.mapNative<InputForQuoteRequest, NativeInputForQuote> encoding value
+    let inputForQuote encoding (value: NativeInputForQuote) : InputForQuoteResponse =
+        TraderBridgeGenerated.mapNative<InputForQuoteResponse, NativeInputForQuote> encoding value
 
-    let inputHedgeCfm encoding (value: NativeInputHedgeCfm) : InputHedgeCfmRequest =
-        TraderBridgeGenerated.mapNative<InputHedgeCfmRequest, NativeInputHedgeCfm> encoding value
+    let inputHedgeCfm encoding (value: NativeInputHedgeCfm) : InputHedgeCfmResponse =
+        TraderBridgeGenerated.mapNative<InputHedgeCfmResponse, NativeInputHedgeCfm> encoding value
 
-    let inputHedgeCfmAction encoding (value: NativeInputHedgeCfmAction) : InputHedgeCfmActionRequest =
-        TraderBridgeGenerated.mapNative<InputHedgeCfmActionRequest, NativeInputHedgeCfmAction> encoding value
+    let inputHedgeCfmAction encoding (value: NativeInputHedgeCfmAction) : InputHedgeCfmActionResponse =
+        TraderBridgeGenerated.mapNative<InputHedgeCfmActionResponse, NativeInputHedgeCfmAction> encoding value
 
-    let inputOffsetSetting encoding (value: NativeInputOffsetSetting) : InputOffsetSettingRequest =
-        TraderBridgeGenerated.mapNative<InputOffsetSettingRequest, NativeInputOffsetSetting> encoding value
+    let inputOffsetSetting encoding (value: NativeInputOffsetSetting) : InputOffsetSettingResponse =
+        TraderBridgeGenerated.mapNative<InputOffsetSettingResponse, NativeInputOffsetSetting> encoding value
 
-    let inputOptionSelfClose encoding (value: NativeInputOptionSelfClose) : InputOptionSelfCloseRequest =
-        TraderBridgeGenerated.mapNative<InputOptionSelfCloseRequest, NativeInputOptionSelfClose> encoding value
+    let inputOptionSelfClose encoding (value: NativeInputOptionSelfClose) : InputOptionSelfCloseResponse =
+        TraderBridgeGenerated.mapNative<InputOptionSelfCloseResponse, NativeInputOptionSelfClose> encoding value
 
-    let inputOptionSelfCloseAction encoding (value: NativeInputOptionSelfCloseAction) : InputOptionSelfCloseActionRequest =
-        TraderBridgeGenerated.mapNative<InputOptionSelfCloseActionRequest, NativeInputOptionSelfCloseAction> encoding value
+    let inputOptionSelfCloseAction encoding (value: NativeInputOptionSelfCloseAction) : InputOptionSelfCloseActionResponse =
+        TraderBridgeGenerated.mapNative<InputOptionSelfCloseActionResponse, NativeInputOptionSelfCloseAction> encoding value
 
-    let inputQuote encoding (value: NativeInputQuote) : InputQuoteRequest =
-        TraderBridgeGenerated.mapNative<InputQuoteRequest, NativeInputQuote> encoding value
+    let inputQuote encoding (value: NativeInputQuote) : InputQuoteResponse =
+        TraderBridgeGenerated.mapNative<InputQuoteResponse, NativeInputQuote> encoding value
 
-    let inputQuoteAction encoding (value: NativeInputQuoteAction) : InputQuoteActionRequest =
-        TraderBridgeGenerated.mapNative<InputQuoteActionRequest, NativeInputQuoteAction> encoding value
+    let inputQuoteAction encoding (value: NativeInputQuoteAction) : InputQuoteActionResponse =
+        TraderBridgeGenerated.mapNative<InputQuoteActionResponse, NativeInputQuoteAction> encoding value
 
-    let inputSpdApply encoding (value: NativeInputSpdApply) : InputSpdApplyRequest =
-        TraderBridgeGenerated.mapNative<InputSpdApplyRequest, NativeInputSpdApply> encoding value
+    let inputSpdApply encoding (value: NativeInputSpdApply) : InputSpdApplyResponse =
+        TraderBridgeGenerated.mapNative<InputSpdApplyResponse, NativeInputSpdApply> encoding value
 
-    let inputSpdApplyAction encoding (value: NativeInputSpdApplyAction) : InputSpdApplyActionRequest =
-        TraderBridgeGenerated.mapNative<InputSpdApplyActionRequest, NativeInputSpdApplyAction> encoding value
+    let inputSpdApplyAction encoding (value: NativeInputSpdApplyAction) : InputSpdApplyActionResponse =
+        TraderBridgeGenerated.mapNative<InputSpdApplyActionResponse, NativeInputSpdApplyAction> encoding value
 
     let instrument encoding (value: NativeInstrument) : InstrumentResponse =
         TraderBridgeGenerated.mapNative<InstrumentResponse, NativeInstrument> encoding value
@@ -18192,7 +18250,7 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.reqAuthenticate encodings.OutboundEncoding request
         TraderNativeInterop.reqAuthenticate (this.Handle, &native, requestId)
 
-    member this.ReqSettlementInfoConfirm(request: SettlementInfoConfirm, requestId: int) =
+    member this.ReqSettlementInfoConfirm(request: SettlementInfoConfirmRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.settlementInfoConfirm encodings.OutboundEncoding request
         TraderNativeInterop.reqSettlementInfoConfirm (this.Handle, &native, requestId)
 
@@ -18268,11 +18326,11 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.wechatUserSystemInfo encodings.OutboundEncoding request
         TraderNativeInterop.submitWechatUserSystemInfo (this.Handle, &native)
 
-    member this.ReqUserPasswordUpdate(request: UserPasswordUpdate, requestId: int) =
+    member this.ReqUserPasswordUpdate(request: UserPasswordUpdateRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.userPasswordUpdate encodings.OutboundEncoding request
         TraderNativeInterop.reqUserPasswordUpdate (this.Handle, &native, requestId)
 
-    member this.ReqTradingAccountPasswordUpdate(request: TradingAccountPasswordUpdate, requestId: int) =
+    member this.ReqTradingAccountPasswordUpdate(request: TradingAccountPasswordUpdateRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.tradingAccountPasswordUpdate encodings.OutboundEncoding request
         TraderNativeInterop.reqTradingAccountPasswordUpdate (this.Handle, &native, requestId)
 
@@ -18304,11 +18362,11 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.reqGenSmsCode encodings.OutboundEncoding request
         TraderNativeInterop.reqGenSmsCode (this.Handle, &native, requestId)
 
-    member this.ReqParkedOrderInsert(request: ParkedOrder, requestId: int) =
+    member this.ReqParkedOrderInsert(request: ParkedOrderRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.parkedOrder encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqParkedOrderInsert (this.Handle, &native, requestId)
 
-    member this.ReqParkedOrderAction(request: ParkedOrderAction, requestId: int) =
+    member this.ReqParkedOrderAction(request: ParkedOrderActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.parkedOrderAction encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqParkedOrderAction (this.Handle, &native, requestId)
 
@@ -18316,11 +18374,11 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.qryMaxOrderVolume encodings.OutboundEncoding request
         TraderNativeInterop.reqQryMaxOrderVolume (this.Handle, &native, requestId)
 
-    member this.ReqRemoveParkedOrder(request: RemoveParkedOrder, requestId: int) =
+    member this.ReqRemoveParkedOrder(request: RemoveParkedOrderRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.removeParkedOrder encodings.OutboundEncoding request
         TraderNativeInterop.reqRemoveParkedOrder (this.Handle, &native, requestId)
 
-    member this.ReqRemoveParkedOrderAction(request: RemoveParkedOrderAction, requestId: int) =
+    member this.ReqRemoveParkedOrderAction(request: RemoveParkedOrderActionRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.removeParkedOrderAction encodings.OutboundEncoding request
         TraderNativeInterop.reqRemoveParkedOrderAction (this.Handle, &native, requestId)
 
@@ -18720,7 +18778,7 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         let mutable native = TraderBridgeBuilders.reqTransfer encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqFromFutureToBankByFuture (this.Handle, &native, requestId)
 
-    member this.ReqQueryBankAccountMoneyByFuture(request: ReqQueryAccount, requestId: int) =
+    member this.ReqQueryBankAccountMoneyByFuture(request: QueryBankAccountMoneyRequest, requestId: int) =
         let mutable native = TraderBridgeBuilders.reqQueryAccount encodings.OutboundEncoding requestId request
         TraderNativeInterop.reqQueryBankAccountMoneyByFuture (this.Handle, &native, requestId)
 

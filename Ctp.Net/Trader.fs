@@ -548,7 +548,7 @@ type TraderClient
     member this.SettlementInfoConfirmAsync(?cancellationToken: CancellationToken) =
         let request = OptionHelpers.createSettlementInfoConfirmRequest options
 
-        this.RunPendingRequestAsync<SettlementInfoConfirm, SettlementInfoConfirm>
+        this.RunPendingRequestAsync<SettlementInfoConfirmResponse, SettlementInfoConfirmRequest>
             "SettlementInfoConfirm"
             request
             api.ReqSettlementInfoConfirm
@@ -701,13 +701,13 @@ type TraderClient
     member this.ReqUserPasswordUpdateAsync
         (oldPassword: string, newPassword: string, ?cancellationToken: CancellationToken)
         =
-        let request: UserPasswordUpdate =
+        let request: UserPasswordUpdateRequest =
             { BrokerId = options.BrokerId
               UserId = options.UserId
               OldPassword = oldPassword
               NewPassword = newPassword }
 
-        this.RunPendingRequestAsync<UserPasswordUpdate, UserPasswordUpdate>
+        this.RunPendingRequestAsync<UserPasswordUpdateResponse, UserPasswordUpdateRequest>
             "UserPasswordUpdate"
             request
             api.ReqUserPasswordUpdate
@@ -723,14 +723,14 @@ type TraderClient
             ?cancellationToken: CancellationToken
         )
         =
-        let request: TradingAccountPasswordUpdate =
+        let request: TradingAccountPasswordUpdateRequest =
             { BrokerId = options.BrokerId
               AccountId = accountId
               OldPassword = oldPassword
               NewPassword = newPassword
               CurrencyId = currencyId }
 
-        this.RunPendingRequestAsync<TradingAccountPasswordUpdate, TradingAccountPasswordUpdate>
+        this.RunPendingRequestAsync<TradingAccountPasswordUpdateResponse, TradingAccountPasswordUpdateRequest>
             "TradingAccountPasswordUpdate"
             request
             api.ReqTradingAccountPasswordUpdate
@@ -1020,16 +1020,16 @@ type TraderClient
 
     // ---- Parked order methods (FinalOnly) ----
 
-    member this.ReqParkedOrderInsertAsync(request: ParkedOrder, ?cancellationToken: CancellationToken) =
-        this.RunPendingRequestAsync<ParkedOrder, ParkedOrder>
+    member this.ReqParkedOrderInsertAsync(request: ParkedOrderRequest, ?cancellationToken: CancellationToken) =
+        this.RunPendingRequestAsync<ParkedOrderResponse, ParkedOrderRequest>
             "ParkedOrderInsert"
             request
             api.ReqParkedOrderInsert
             ignore
             cancellationToken
 
-    member this.ReqParkedOrderActionAsync(request: ParkedOrderAction, ?cancellationToken: CancellationToken) =
-        this.RunPendingRequestAsync<ParkedOrderAction, ParkedOrderAction>
+    member this.ReqParkedOrderActionAsync(request: ParkedOrderActionRequest, ?cancellationToken: CancellationToken) =
+        this.RunPendingRequestAsync<ParkedOrderActionResponse, ParkedOrderActionRequest>
             "ParkedOrderAction"
             request
             api.ReqParkedOrderAction
@@ -1039,13 +1039,13 @@ type TraderClient
     member this.ReqRemoveParkedOrderAsync
         (parkedOrderId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
         =
-        let request: RemoveParkedOrder =
+        let request: RemoveParkedOrderRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
               ParkedOrderId = parkedOrderId
               InvestUnitId = investUnitId }
 
-        this.RunPendingRequestAsync<RemoveParkedOrder, RemoveParkedOrder>
+        this.RunPendingRequestAsync<RemoveParkedOrderResponse, RemoveParkedOrderRequest>
             "RemoveParkedOrder"
             request
             api.ReqRemoveParkedOrder
@@ -1055,13 +1055,13 @@ type TraderClient
     member this.ReqRemoveParkedOrderActionAsync
         (parkedOrderActionId: string, ?investUnitId: string, ?cancellationToken: CancellationToken)
         =
-        let request: RemoveParkedOrderAction =
+        let request: RemoveParkedOrderActionRequest =
             { BrokerId = options.BrokerId
               InvestorId = options.UserId
               ParkedOrderActionId = parkedOrderActionId
               InvestUnitId = investUnitId }
 
-        this.RunPendingRequestAsync<RemoveParkedOrderAction, RemoveParkedOrderAction>
+        this.RunPendingRequestAsync<RemoveParkedOrderActionResponse, RemoveParkedOrderActionRequest>
             "RemoveParkedOrderAction"
             request
             api.ReqRemoveParkedOrderAction
@@ -1082,8 +1082,8 @@ type TraderClient
             (fun requestId -> api.ReqFromFutureToBankByFuture(request, requestId))
             cancellationToken
 
-    member this.QueryBankAccountMoneyByFutureAsync(request: ReqQueryAccount, ?cancellationToken: CancellationToken) =
-        this.RunPendingRequestAsync<ReqQueryAccount, ReqQueryAccount>
+    member this.QueryBankAccountMoneyByFutureAsync(request: QueryBankAccountMoneyRequest, ?cancellationToken: CancellationToken) =
+        this.RunPendingRequestAsync<QueryBankAccountMoneyResponse, QueryBankAccountMoneyRequest>
             "QueryBankAccountMoneyByFuture"
             request
             api.ReqQueryBankAccountMoneyByFuture
@@ -1116,7 +1116,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<QryMaxOrderVolumeRequest, QryMaxOrderVolumeRequest>
+        this.QueryAsync<MaxOrderVolumeResponse, QryMaxOrderVolumeRequest>
             (nameof QryMaxOrderVolumeRequest)
             request
             api.ReqQryMaxOrderVolume
@@ -1345,7 +1345,7 @@ type TraderClient
               AccountId = accountId
               CurrencyId = currencyId }
 
-        this.QueryAsync<SettlementInfoConfirm, QrySettlementInfoConfirmRequest>
+        this.QueryAsync<SettlementInfoConfirmResponse, QrySettlementInfoConfirmRequest>
             (nameof QrySettlementInfoConfirmRequest)
             request
             api.ReqQrySettlementInfoConfirm
@@ -1808,7 +1808,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ParkedOrder, QryParkedOrderRequest>
+        this.QueryAsync<ParkedOrderResponse, QryParkedOrderRequest>
             (nameof QryParkedOrderRequest)
             request
             api.ReqQryParkedOrder
@@ -1825,7 +1825,7 @@ type TraderClient
               InvestUnitId = investUnitId
               InstrumentId = instrumentId }
 
-        this.QueryAsync<ParkedOrderAction, QryParkedOrderActionRequest>
+        this.QueryAsync<ParkedOrderActionResponse, QryParkedOrderActionRequest>
             (nameof QryParkedOrderActionRequest)
             request
             api.ReqQryParkedOrderAction
@@ -1879,7 +1879,7 @@ type TraderClient
               InvestorId = options.UserId
               InvestUnitId = investUnitId }
 
-        this.QueryAsync<QueryCfmmcTradingAccountTokenRequest, QueryCfmmcTradingAccountTokenRequest>
+        this.QueryAsync<QueryCfmmcTradingAccountTokenResponse, QueryCfmmcTradingAccountTokenRequest>
             (nameof QueryCfmmcTradingAccountTokenRequest)
             request
             api.ReqQueryCfmmcTradingAccountToken
