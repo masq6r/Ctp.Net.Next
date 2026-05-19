@@ -1,7 +1,7 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
 [![Build](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/build.yml)
-[![Test](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/test.yml)
+[![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/masq6r/Ctp.Net.Next/master/badges/test-results.json)](https://github.com/masq6r/Ctp.Net.Next/actions/workflows/test.yml)
 
 # Ctp.Net
 

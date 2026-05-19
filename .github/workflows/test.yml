@@ -3,8 +3,13 @@ name: Test
 on:
   push:
     branches: [master, devel]
+    paths-ignore:
+      - 'badges/**'
   pull_request:
     branches: [master]
+
+permissions:
+  contents: write
 
 jobs:
   test:
@@ -20,4 +25,53 @@ jobs:
         run: dotnet build Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj -m:1
 
       - name: Test
-        run: dotnet run --project Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj --no-build
+        id: test
+        run: |
+          set +e
+          dotnet run --project Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj --no-build 2>&1 | tee test-output.txt
+          TEST_EXIT=$?
+          set -e
+
+          TOTAL=$(grep -oP 'Total:\s*\K\d+' test-output.txt | head -1)
+          ERRORS=$(grep -oP 'Errors:\s*\K\d+' test-output.txt | head -1)
+          FAILED=$(grep -oP 'Failed:\s*\K\d+' test-output.txt | head -1)
+          SKIPPED=$(grep -oP 'Skipped:\s*\K\d+' test-output.txt | head -1)
+
+          TOTAL=${TOTAL:-0}
+          ERRORS=${ERRORS:-0}
+          FAILED=${FAILED:-0}
+          SKIPPED=${SKIPPED:-0}
+
+          if [ "$FAILED" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
+            COLOR="brightgreen"
+          elif [ "$TOTAL" -eq 0 ]; then
+            COLOR="red"
+          else
+            COLOR="yellow"
+          fi
+
+          MESSAGE="${TOTAL} total, ${FAILED} failed, ${ERRORS} errors"
+          if [ "$SKIPPED" -gt 0 ]; then
+            MESSAGE="${MESSAGE}, ${SKIPPED} skipped"
+          fi
+
+          mkdir -p badges
+          cat > badges/test-results.json << JSONEOF
+          {
+            "schemaVersion": 1,
+            "label": "tests",
+            "message": "${MESSAGE}",
+            "color": "${COLOR}"
+          }
+          JSONEOF
+
+          exit $TEST_EXIT
+
+      - name: Update badge
+        if: (success() || failure()) && github.ref == 'refs/heads/master'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add badges/test-results.json
+          git diff --staged --quiet || git commit -m "update test results badge [skip ci]"
+          git push
