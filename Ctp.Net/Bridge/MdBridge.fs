@@ -5,7 +5,7 @@ open Microsoft.Win32.SafeHandles
 open System.Runtime.InteropServices
 
 type DepthMarketData =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       LastPrice: decimal
       PreSettlementPrice: decimal
@@ -23,8 +23,7 @@ type DepthMarketData =
       LowerLimitPrice: decimal
       PreDelta: decimal
       CurrDelta: decimal
-      UpdateTime: string
-      UpdateMillisec: int
+      UpdateTime: TimeOnly
       BidPrice1: decimal
       BidVolume1: int
       AskPrice1: decimal
@@ -46,7 +45,7 @@ type DepthMarketData =
       AskPrice5: decimal
       AskVolume5: int
       AveragePrice: decimal
-      ActionDay: string
+      ActionDay: DateOnly
       InstrumentId: string
       ExchangeInstId: string
       BandingUpperPrice: decimal
@@ -336,7 +335,7 @@ module private MdBridgeMapping =
     let private toDecimal value = NumericHelpers.priceOrInvalid value
 
     let depthMarketData encoding (value: NativeDepthMarketData) =
-        { TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay
+        { TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
           LastPrice = toDecimal value.LastPrice
           PreSettlementPrice = toDecimal value.PreSettlementPrice
@@ -354,8 +353,10 @@ module private MdBridgeMapping =
           LowerLimitPrice = toDecimal value.LowerLimitPrice
           PreDelta = toDecimal value.PreDelta
           CurrDelta = toDecimal value.CurrDelta
-          UpdateTime = EncodingHelpers.decodeFixed encoding value.UpdateTime
-          UpdateMillisec = value.UpdateMillisec
+          UpdateTime =
+            TemporalHelpers.parseTimeWithMillis
+                (EncodingHelpers.decodeFixed encoding value.UpdateTime)
+                value.UpdateMillisec
           BidPrice1 = toDecimal value.BidPrice1
           BidVolume1 = value.BidVolume1
           AskPrice1 = toDecimal value.AskPrice1
@@ -377,7 +378,7 @@ module private MdBridgeMapping =
           AskPrice5 = toDecimal value.AskPrice5
           AskVolume5 = value.AskVolume5
           AveragePrice = toDecimal value.AveragePrice
-          ActionDay = EncodingHelpers.decodeFixed encoding value.ActionDay
+          ActionDay = EncodingHelpers.decodeFixed encoding value.ActionDay |> TemporalHelpers.parseDate
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           ExchangeInstId = EncodingHelpers.decodeFixed encoding value.ExchangeInstId
           BandingUpperPrice = toDecimal value.BandingUpperPrice

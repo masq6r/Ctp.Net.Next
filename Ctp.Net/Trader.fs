@@ -737,7 +737,7 @@ type TraderClient
             ignore
             cancellationToken
 
-    member this.ReqUserAuthMethodAsync(?tradingDay: string, ?cancellationToken: CancellationToken) =
+    member this.ReqUserAuthMethodAsync(?tradingDay: DateOnly, ?cancellationToken: CancellationToken) =
         let request: UserAuthMethodRequest =
             { BrokerId = Some options.BrokerId
               UserId = Some options.UserId
@@ -750,7 +750,7 @@ type TraderClient
             ignore
             cancellationToken
 
-    member this.ReqGenUserCaptchaAsync(?tradingDay: string, ?cancellationToken: CancellationToken) =
+    member this.ReqGenUserCaptchaAsync(?tradingDay: DateOnly, ?cancellationToken: CancellationToken) =
         let request: GenUserCaptchaRequest =
             { BrokerId = Some options.BrokerId
               UserId = Some options.UserId
@@ -763,7 +763,7 @@ type TraderClient
             ignore
             cancellationToken
 
-    member this.ReqGenUserTextAsync(?tradingDay: string, ?cancellationToken: CancellationToken) =
+    member this.ReqGenUserTextAsync(?tradingDay: DateOnly, ?cancellationToken: CancellationToken) =
         let request: GenUserTextRequest =
             { BrokerId = Some options.BrokerId
               UserId = Some options.UserId
@@ -779,7 +779,7 @@ type TraderClient
     member this.ReqUserLoginWithCaptchaAsync
         (
             captcha: string,
-            ?tradingDay: string,
+            ?tradingDay: DateOnly,
             ?userProductInfo: string,
             ?interfaceProductInfo: string,
             ?protocolInfo: string,
@@ -815,7 +815,7 @@ type TraderClient
     member this.ReqUserLoginWithTextAsync
         (
             text: string,
-            ?tradingDay: string,
+            ?tradingDay: DateOnly,
             ?userProductInfo: string,
             ?interfaceProductInfo: string,
             ?protocolInfo: string,
@@ -851,7 +851,7 @@ type TraderClient
     member this.ReqUserLoginWithOtpAsync
         (
             otpPassword: string,
-            ?tradingDay: string,
+            ?tradingDay: DateOnly,
             ?userProductInfo: string,
             ?interfaceProductInfo: string,
             ?protocolInfo: string,
@@ -1307,7 +1307,7 @@ type TraderClient
             cancellationToken
 
     member this.QuerySettlementInfoAsync
-        (tradingDay: string, ?accountId: string, ?currencyId: string, ?cancellationToken: CancellationToken)
+        (tradingDay: DateOnly, ?accountId: string, ?currencyId: string, ?cancellationToken: CancellationToken)
         =
         let request: QrySettlementInfoRequest =
             { BrokerId = options.BrokerId

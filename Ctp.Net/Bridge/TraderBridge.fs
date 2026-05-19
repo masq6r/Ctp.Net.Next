@@ -15,8 +15,8 @@ type AuthenticateResponse =
 type SettlementInfoConfirm =
     { BrokerId: string
       InvestorId: string
-      ConfirmDate: string
-      ConfirmTime: string
+      ConfirmDate: DateOnly
+      ConfirmTime: TimeOnly
       SettlementId: int
       AccountId: string
       CurrencyId: string }
@@ -28,7 +28,7 @@ type TradingAccountResponse =
     { BrokerId: string
       AccountId: string
       CurrencyId: string
-      TradingDay: string
+      TradingDay: DateOnly
       Deposit: decimal
       Withdraw: decimal
       Balance: decimal
@@ -116,7 +116,7 @@ type InputOrderRequest =
       LimitPrice: decimal
       VolumeTotalOriginal: int
       TimeCondition: TimeCondition
-      GtdDate: string option
+      GtdDate: DateOnly option
       VolumeCondition: VolumeCondition
       MinVolume: int
       ContingentCondition: ContingentCondition
@@ -178,12 +178,12 @@ type OrderUpdateResponse =
       OrderStatus: OrderStatus option
       OrderSubmitStatus: OrderSubmitStatus option
       StatusMessage: string
-      InsertDate: string
-      InsertTime: string
-      ActiveTime: string
-      SuspendTime: string
-      UpdateTime: string
-      CancelTime: string }
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      ActiveTime: TimeOnly
+      SuspendTime: TimeOnly
+      UpdateTime: TimeOnly
+      CancelTime: TimeOnly }
 
 type TradeUpdateResponse =
     { BrokerId: string
@@ -199,9 +199,9 @@ type TradeUpdateResponse =
       HedgeFlag: HedgeFlag option
       Price: decimal
       Volume: int
-      TradeDate: string
-      TradeTime: string
-      TradingDay: string }
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
+      TradingDay: DateOnly }
 
 type AuthenticateRequest =
     { BrokerId: string
@@ -250,7 +250,7 @@ type QueryInstrumentCommissionRateRequest =
       Reserve1: string option }
 
 type AccountregisterResponse =
-    { TradeDay: string
+    { TradeDay: DateOnly
       BankId: string
       BankBranchId: string
       BankAccount: string
@@ -262,8 +262,8 @@ type AccountregisterResponse =
       CustomerName: string
       CurrencyId: string
       OpenOrDestroy: OpenOrDestroy option
-      RegDate: string
-      OutDate: string
+      RegDate: DateOnly
+      OutDate: DateOnly
       TId: int
       CustType: CustType option
       BankAccType: BankAccType option
@@ -277,8 +277,8 @@ type BatchOrderActionResponse =
       FrontId: int
       SessionId: int
       ExchangeId: string
-      ActionDate: string
-      ActionTime: string
+      ActionDate: DateOnly
+      ActionTime: TimeOnly
       TraderId: string
       InstallId: int
       ActionLocalId: string
@@ -336,8 +336,8 @@ type CancelOffsetSettingResponse =
       OrderActionStatus: OrderActionStatus option
       StatusMsg: string
       ActionLocalId: string
-      ActionDate: string
-      ActionTime: string }
+      ActionDate: DateOnly
+      ActionTime: TimeOnly }
 
 type CfmmcTradingAccountKeyResponse =
     { BrokerId: string
@@ -365,7 +365,7 @@ type CombActionResponse =
       InstallId: int
       ActionStatus: char option
       NotifySequence: int
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       SequenceNo: int
       FrontId: int
@@ -410,7 +410,7 @@ type ContractBankResponse =
       CsrcBankId: string }
 
 type EWarrantOffsetResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       BrokerId: string
       InvestorId: string
       ExchangeId: string
@@ -475,12 +475,12 @@ type ExecOrderResponse =
       InstallId: int
       OrderSubmitStatus: OrderSubmitStatus option
       NotifySequence: int
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       ExecOrderSysId: string
-      InsertDate: string
-      InsertTime: string
-      CancelTime: string
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      CancelTime: TimeOnly
       ExecResult: ExecResult option
       ClearingPartId: string
       SequenceNo: int
@@ -511,8 +511,8 @@ type ExecOrderActionResponse =
       ExchangeId: string
       ExecOrderSysId: string
       ActionFlag: ActionFlag option
-      ActionDate: string
-      ActionTime: string
+      ActionDate: DateOnly
+      ActionTime: TimeOnly
       TraderId: string
       InstallId: int
       ExecOrderLocalId: string
@@ -547,8 +547,8 @@ type ForQuoteResponse =
       Reserve2: string
       TraderId: string
       InstallId: int
-      InsertDate: string
-      InsertTime: string
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
       ForQuoteStatus: ForQuoteStatus option
       FrontId: int
       SessionId: int
@@ -563,11 +563,11 @@ type ForQuoteResponse =
       IpAddress: string }
 
 type ForQuoteRspResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       Reserve1: string
       ForQuoteSysId: string
-      ForQuoteTime: string
-      ActionDay: string
+      ForQuoteTime: TimeOnly
+      ActionDay: DateOnly
       ExchangeId: string
       InstrumentId: string }
 
@@ -590,10 +590,10 @@ type HedgeCfmResponse =
       ApplyStatus: ApplyStatus option
       SequenceNo: int
       DealVolume: int
-      InsertDate: string
-      InsertTime: string
-      CancelTime: string
-      ReqDate: string
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      CancelTime: TimeOnly
+      ReqDate: DateOnly
       OrderLocalId: string
       ExchangeId: string
       ParticipantId: string
@@ -603,7 +603,7 @@ type HedgeCfmResponse =
       InstallId: int
       OrderSubmitStatus: OrderSubmitStatus option
       NotifySequence: int
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       StatusMsg: string
       IpAddress: string
@@ -627,8 +627,8 @@ type InputSpdApplyActionResponse = InputSpdApplyActionRequest
 type HedgeCfmActionResponse =
     { BrokerId: string
       InvestorId: string
-      ActionDate: string
-      ActionTime: string
+      ActionDate: DateOnly
+      ActionTime: TimeOnly
       TraderId: string
       InstallId: int
       OrderLocalId: string
@@ -914,11 +914,11 @@ type InstrumentResponse =
       MinLimitOrderVolume: int
       VolumeMultiple: int
       PriceTick: decimal
-      CreateDate: string
-      OpenDate: string
-      ExpireDate: string
-      StartDelivDate: string
-      EndDelivDate: string
+      CreateDate: DateOnly
+      OpenDate: DateOnly
+      ExpireDate: DateOnly
+      StartDelivDate: DateOnly
+      EndDelivDate: DateOnly
       InstLifePhase: InstLifePhase option
       IsTrading: int
       PositionType: PositionType option
@@ -971,7 +971,7 @@ type InvestorResponse =
       IsActive: int
       Telephone: string
       Address: string
-      OpenDate: string
+      OpenDate: DateOnly
       Mobile: string
       CommModelId: string
       MarginModelId: string
@@ -1055,8 +1055,8 @@ type InvestorPortfSettingResponse =
       UsePortf: int }
 
 type InvestorPositionCombineDetailResponse =
-    { TradingDay: string
-      OpenDate: string
+    { TradingDay: DateOnly
+      OpenDate: DateOnly
       ExchangeId: string
       SettlementId: int
       BrokerId: string
@@ -1085,11 +1085,11 @@ type InvestorPositionDetailResponse =
       InvestorId: string
       HedgeFlag: HedgeFlag option
       Direction: Direction option
-      OpenDate: string
+      OpenDate: DateOnly
       TradeId: string
       Volume: int
       OpenPrice: decimal
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       TradeType: TradeType option
       Reserve2: string
@@ -1197,7 +1197,7 @@ type InvestorProductGroupMarginResponse =
     { Reserve1: string
       BrokerId: string
       InvestorId: string
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       FrozenMargin: decimal
       LongFrozenMargin: decimal
@@ -1261,10 +1261,10 @@ type NotifyQueryAccountResponse =
       BankBranchId: string
       BrokerId: string
       BrokerBranchId: string
-      TradeDate: string
-      TradeTime: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
       BankSerial: string
-      TradingDay: string
+      TradingDay: DateOnly
       PlateSerial: int
       LastFragment: LastFragment option
       SessionId: int
@@ -1320,11 +1320,11 @@ type OffsetSettingResponse =
       TraderId: string
       InstallId: int
       OrderSubmitStatus: OrderSubmitStatus option
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
-      InsertDate: string
-      InsertTime: string
-      CancelTime: string
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      CancelTime: TimeOnly
       ExecResult: ExecResult option
       SequenceNo: int
       FrontId: int
@@ -1385,12 +1385,12 @@ type OptionSelfCloseResponse =
       InstallId: int
       OrderSubmitStatus: OrderSubmitStatus option
       NotifySequence: int
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       OptionSelfCloseSysId: string
-      InsertDate: string
-      InsertTime: string
-      CancelTime: string
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      CancelTime: TimeOnly
       ExecResult: ExecResult option
       ClearingPartId: string
       SequenceNo: int
@@ -1421,8 +1421,8 @@ type OptionSelfCloseActionResponse =
       ExchangeId: string
       OptionSelfCloseSysId: string
       ActionFlag: ActionFlag option
-      ActionDate: string
-      ActionTime: string
+      ActionDate: DateOnly
+      ActionTime: TimeOnly
       TraderId: string
       InstallId: int
       OptionSelfCloseLocalId: string
@@ -1454,8 +1454,8 @@ type OrderActionResponse =
       ActionFlag: ActionFlag option
       LimitPrice: decimal
       VolumeChange: int
-      ActionDate: string
-      ActionTime: string
+      ActionDate: DateOnly
+      ActionTime: TimeOnly
       TraderId: string
       InstallId: int
       OrderLocalId: string
@@ -1489,7 +1489,7 @@ type ParkedOrder =
       LimitPrice: decimal
       VolumeTotalOriginal: int
       TimeCondition: TimeCondition option
-      GtdDate: string option
+      GtdDate: DateOnly option
       VolumeCondition: VolumeCondition option
       MinVolume: int
       ContingentCondition: ContingentCondition option
@@ -1916,7 +1916,7 @@ type QrySecAgentTradeInfoRequest = { BrokerId: string; BrokerSecAgentId: string 
 type QrySettlementInfoRequest =
     { BrokerId: string
       InvestorId: string
-      TradingDay: string
+      TradingDay: DateOnly
       AccountId: string option
       CurrencyId: string option }
 
@@ -2013,12 +2013,12 @@ type QuoteResponse =
       InstallId: int
       NotifySequence: int
       OrderSubmitStatus: OrderSubmitStatus option
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       QuoteSysId: string
-      InsertDate: string
-      InsertTime: string
-      CancelTime: string
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      CancelTime: TimeOnly
       QuoteStatus: char option
       ClearingPartId: string
       SequenceNo: int
@@ -2058,8 +2058,8 @@ type QuoteActionResponse =
       ExchangeId: string
       QuoteSysId: string
       ActionFlag: ActionFlag option
-      ActionDate: string
-      ActionTime: string
+      ActionDate: DateOnly
+      ActionTime: TimeOnly
       TraderId: string
       InstallId: int
       QuoteLocalId: string
@@ -2081,20 +2081,20 @@ type QuoteActionResponse =
       SessionReqSeq: int }
 
 type RcamsCombProductInfoResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       ProductId: string
       CombProductId: string
       ProductGroupId: string }
 
 type RcamsInstrParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       ProductId: string
       HedgeRate: decimal }
 
 type RcamsInterParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       ProductGroupId: string
       Priority: int
@@ -2103,7 +2103,7 @@ type RcamsInterParameterResponse =
       CombProduct2: string }
 
 type RcamsIntraParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       CombProductId: string
       HedgeRate: decimal }
@@ -2123,7 +2123,7 @@ type RcamsInvestorCombPositionResponse =
       Margin: decimal }
 
 type RcamsShortOptAdjustParamResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       CombProductId: string
       HedgeFlag: HedgeFlag option
@@ -2148,9 +2148,9 @@ type RemoveParkedOrderActionResponse = RemoveParkedOrderAction
 
 type GenSmsCodeRequest = { BrokerId: string; UserId: string; Mobile: string }
 
-type GenUserCaptchaRequest = { TradingDay: string option; BrokerId: string option; UserId: string option }
+type GenUserCaptchaRequest = { TradingDay: DateOnly option; BrokerId: string option; UserId: string option }
 
-type GenUserTextRequest = { TradingDay: string option; BrokerId: string option; UserId: string option }
+type GenUserTextRequest = { TradingDay: DateOnly option; BrokerId: string option; UserId: string option }
 
 type ReqQueryAccount =
     { TradeCode: string
@@ -2158,10 +2158,10 @@ type ReqQueryAccount =
       BankBranchId: string
       BrokerId: string
       BrokerBranchId: string
-      TradeDate: string
-      TradeTime: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
       BankSerial: string
-      TradingDay: string
+      TradingDay: DateOnly
       PlateSerial: int
       LastFragment: LastFragment option
       SessionId: int
@@ -2200,10 +2200,10 @@ type TransferRequest =
       BankBranchId: string
       BrokerId: string
       BrokerBranchId: string
-      TradeDate: string
-      TradeTime: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
       BankSerial: string
-      TradingDay: string
+      TradingDay: DateOnly
       PlateSerial: int
       LastFragment: LastFragment option
       SessionId: int
@@ -2242,10 +2242,10 @@ type TransferRequest =
 
 type TransferAckResponse = TransferRequest
 
-type UserAuthMethodRequest = { TradingDay: string option; BrokerId: string option; UserId: string option }
+type UserAuthMethodRequest = { TradingDay: DateOnly option; BrokerId: string option; UserId: string option }
 
 type UserLoginWithCaptchaRequest =
-    { TradingDay: string option
+    { TradingDay: DateOnly option
       BrokerId: string
       UserId: string
       Password: string
@@ -2260,7 +2260,7 @@ type UserLoginWithCaptchaRequest =
       ClientIpAddress: string option }
 
 type UserLoginWithOtpRequest =
-    { TradingDay: string option
+    { TradingDay: DateOnly option
       BrokerId: string
       UserId: string
       Password: string
@@ -2275,7 +2275,7 @@ type UserLoginWithOtpRequest =
       ClientIpAddress: string option }
 
 type UserLoginWithTextRequest =
-    { TradingDay: string option
+    { TradingDay: DateOnly option
       BrokerId: string
       UserId: string
       Password: string
@@ -2318,7 +2318,7 @@ type RiskSettleInvstPositionResponse =
       PositionProfit: decimal
       PreSettlementPrice: decimal
       SettlementPrice: decimal
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       OpenCost: decimal
       ExchangeMargin: decimal
@@ -2342,7 +2342,7 @@ type RiskSettleInvstPositionResponse =
 
 type RiskSettleProductStatusResponse = { ExchangeId: string; ProductId: string; ProductStatus: ProductStatus option }
 
-type GenSmsCodeResponse = { BrokerId: string; UserId: string; GenTime: string }
+type GenSmsCodeResponse = { BrokerId: string; UserId: string; GenTime: TimeOnly }
 
 type GenUserCaptchaResponse = { BrokerId: string; UserId: string; CaptchaInfoLen: int; CaptchaInfo: string }
 
@@ -2354,10 +2354,10 @@ type TransferResponse =
       BankBranchId: string
       BrokerId: string
       BrokerBranchId: string
-      TradeDate: string
-      TradeTime: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
       BankSerial: string
-      TradingDay: string
+      TradingDay: DateOnly
       PlateSerial: int
       LastFragment: LastFragment option
       SessionId: int
@@ -2399,7 +2399,7 @@ type TransferResponse =
 type UserAuthMethodResponse = { UsableAuthMethod: int }
 
 type RuleInstrParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       InstrumentId: string
       InstrumentClass: InstrumentClass option
@@ -2413,7 +2413,7 @@ type RuleInstrParameterResponse =
       CommodityGroupId: int }
 
 type RuleInterParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       SpreadId: int
       InterRate: decimal
@@ -2425,7 +2425,7 @@ type RuleInterParameterResponse =
       CommodityGroupName: string }
 
 type RuleIntraParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       ProdFamilyCode: string
       StdInstrumentId: string
@@ -2454,7 +2454,7 @@ type SecAgentTradeInfoResponse =
       LongCustomerName: string }
 
 type SettlementInfoResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       SettlementId: int
       BrokerId: string
       InvestorId: string
@@ -2464,7 +2464,7 @@ type SettlementInfoResponse =
       CurrencyId: string }
 
 type SpbmAddOnInterParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       SpreadId: int
       AddOnInterRateZ2: decimal
@@ -2472,7 +2472,7 @@ type SpbmAddOnInterParameterResponse =
       Leg2ProdFamilyCode: string }
 
 type SpbmFutureParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       InstrumentId: string
       ProdFamilyCode: string
@@ -2485,7 +2485,7 @@ type SpbmFutureParameterResponse =
       AddOnLockRateX2: decimal }
 
 type SpbmInterParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       SpreadId: int
       InterRateZ: decimal
@@ -2493,7 +2493,7 @@ type SpbmInterParameterResponse =
       Leg2ProdFamilyCode: string }
 
 type SpbmIntraParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       ProdFamilyCode: string
       IntraRateY: decimal
@@ -2506,7 +2506,7 @@ type SpbmInvestorPortfDefResponse =
       PortfolioDefId: int }
 
 type SpbmOptionParameterResponse =
-    { TradingDay: string
+    { TradingDay: DateOnly
       ExchangeId: string
       InstrumentId: string
       ProdFamilyCode: string
@@ -2536,9 +2536,9 @@ type SpdApplyResponse =
       OrderSysId: string
       ApplyStatus: ApplyStatus option
       SequenceNo: int
-      InsertDate: string
-      InsertTime: string
-      CancelTime: string
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      CancelTime: TimeOnly
       OrderLocalId: string
       ExchangeId: string
       ParticipantId: string
@@ -2548,7 +2548,7 @@ type SpdApplyResponse =
       InstallId: int
       OrderSubmitStatus: OrderSubmitStatus option
       NotifySequence: int
-      TradingDay: string
+      TradingDay: DateOnly
       SettlementId: int
       IpAddress: string
       MacAddress: string
@@ -2558,8 +2558,8 @@ type SpdApplyResponse =
 type SpdApplyActionResponse =
     { BrokerId: string
       InvestorId: string
-      ActionDate: string
-      ActionTime: string
+      ActionDate: DateOnly
+      ActionTime: TimeOnly
       TraderId: string
       InstallId: int
       OrderLocalId: string
@@ -2599,15 +2599,15 @@ type TraderOfferResponse =
       InstallId: int
       OrderLocalId: string
       TraderConnectStatus: TraderConnectStatus option
-      ConnectRequestDate: string
-      ConnectRequestTime: string
-      LastReportDate: string
-      LastReportTime: string
-      ConnectDate: string
-      ConnectTime: string
-      StartDate: string
-      StartTime: string
-      TradingDay: string
+      ConnectRequestDate: DateOnly
+      ConnectRequestTime: TimeOnly
+      LastReportDate: DateOnly
+      LastReportTime: TimeOnly
+      ConnectDate: DateOnly
+      ConnectTime: TimeOnly
+      StartDate: DateOnly
+      StartTime: TimeOnly
+      TradingDay: DateOnly
       BrokerId: string
       MaxTradeId: string
       MaxOrderMessageReference: string
@@ -2640,7 +2640,7 @@ type TradingNoticeResponse =
       InvestorId: string
       SequenceSeries: int
       UserId: string
-      SendTime: string
+      SendTime: TimeOnly
       SequenceNo: int
       FieldContent: string
       InvestUnitId: string }
@@ -2649,9 +2649,9 @@ type TransferBankResponse = { BankId: string; BankBrchId: string; BankName: stri
 
 type TransferSerialResponse =
     { PlateSerial: int
-      TradeDate: string
-      TradingDay: string
-      TradeTime: string
+      TradeDate: DateOnly
+      TradingDay: DateOnly
+      TradeTime: TimeOnly
       TradeCode: string
       SessionId: int
       BankId: string
@@ -2687,8 +2687,8 @@ type UserSessionResponse =
       SessionId: int
       BrokerId: string
       UserId: string
-      LoginDate: string
-      LoginTime: string
+      LoginDate: DateOnly
+      LoginTime: TimeOnly
       Reserve1: string
       UserProductInfo: string
       InterfaceProductInfo: string
@@ -2704,7 +2704,7 @@ type UserSystemInfoRequest =
       ClientSystemInfo: string
       Reserve1: string
       ClientIpPort: int
-      ClientLoginTime: string
+      ClientLoginTime: TimeOnly
       ClientAppId: string
       ClientPublicIp: string
       ClientLoginRemark: string
@@ -2716,7 +2716,7 @@ type WechatUserSystemInfoRequest =
       WechatCltSysInfoLen: int
       WechatCltSysInfo: string
       ClientIpPort: int
-      ClientLoginTime: string
+      ClientLoginTime: TimeOnly
       ClientAppId: string
       ClientPublicIp: string
       ClientLoginRemark: string }
@@ -14119,6 +14119,51 @@ module private TraderBridgeGenerated =
                     box (EncodingHelpers.normalize (Some decoded))
                 elif field.PropertyType = typeof<string> then
                     box (EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array))
+                elif field.PropertyType = typeof<DateOnly option> then
+                    let decoded = EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array)
+                    box (TemporalHelpers.parseDateOption decoded)
+                elif field.PropertyType = typeof<DateOnly> then
+                    let decoded = EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array)
+                    box (TemporalHelpers.parseDate decoded)
+                elif field.PropertyType = typeof<TimeOnly option> then
+                    let decoded = EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array)
+
+                    let millis =
+                        if field.Name.EndsWith("Time", StringComparison.Ordinal) then
+                            let millisFieldName = $"{field.Name.Substring(0, field.Name.Length - 4)}Millisec"
+
+                            match nativeFields.TryGetValue millisFieldName with
+                            | true, millisField when millisField.FieldType = typeof<int> ->
+                                Some(unbox<int> (millisField.GetValue(box value)))
+                            | _ -> None
+                        else
+                            None
+
+                    box (
+                        match millis with
+                        | Some millis when not (String.IsNullOrWhiteSpace decoded) ->
+                            Some(TemporalHelpers.parseTimeWithMillis decoded millis)
+                        | _ -> TemporalHelpers.parseTimeOption decoded
+                    )
+                elif field.PropertyType = typeof<TimeOnly> then
+                    let decoded = EncodingHelpers.decodeFixed encoding (nativeValue :?> byte array)
+
+                    let millis =
+                        if field.Name.EndsWith("Time", StringComparison.Ordinal) then
+                            let millisFieldName = $"{field.Name.Substring(0, field.Name.Length - 4)}Millisec"
+
+                            match nativeFields.TryGetValue millisFieldName with
+                            | true, millisField when millisField.FieldType = typeof<int> ->
+                                Some(unbox<int> (millisField.GetValue(box value)))
+                            | _ -> None
+                        else
+                            None
+
+                    box (
+                        match millis with
+                        | Some millis -> TemporalHelpers.parseTimeWithMillis decoded millis
+                        | None -> TemporalHelpers.parseTime decoded
+                    )
                 elif field.PropertyType = typeof<char option> then
                     box (EncodingHelpers.byteToChar (unbox<byte> nativeValue))
                 elif
@@ -14197,8 +14242,31 @@ module private TraderBridgeGenerated =
 
                         if recordField.PropertyType = typeof<string option> then
                             box (EncodingHelpers.encodeFixed encoding size (recordValue :?> string option))
-                        else
+                        elif recordField.PropertyType = typeof<string> then
                             box (encodeStringField encoding size (recordValue :?> string))
+                        elif recordField.PropertyType = typeof<DateOnly option> then
+                            let value =
+                                if isNull recordValue then
+                                    None
+                                else
+                                    recordValue :?> DateOnly option
+
+                            box (EncodingHelpers.encodeFixed encoding size (TemporalHelpers.formatDateOption value))
+                        elif recordField.PropertyType = typeof<DateOnly> then
+                            box (EncodingHelpers.encodeFixed encoding size (TemporalHelpers.formatDate (unbox<DateOnly> recordValue)))
+                        elif recordField.PropertyType = typeof<TimeOnly option> then
+                            let value =
+                                if isNull recordValue then
+                                    None
+                                else
+                                    recordValue :?> TimeOnly option
+
+                            box (EncodingHelpers.encodeFixed encoding size (TemporalHelpers.formatTimeOption value))
+                        elif recordField.PropertyType = typeof<TimeOnly> then
+                            box (EncodingHelpers.encodeFixed encoding size (TemporalHelpers.formatTime (unbox<TimeOnly> recordValue)))
+                        else
+                            invalidOp
+                                $"Unsupported record field type '{recordField.PropertyType.FullName}' for generated trader bridge encoding."
                     elif
                         nativeField.FieldType = typeof<byte>
                         && recordField.PropertyType.IsGenericType
@@ -14242,6 +14310,25 @@ module private TraderBridgeGenerated =
                         recordValue
 
                 setFieldValue boxedNative nativeField nativeValue
+            | _ when nativeField.FieldType = typeof<int> && nativeField.Name.EndsWith("Millisec", StringComparison.Ordinal) ->
+                let timeFieldName = $"{nativeField.Name.Substring(0, nativeField.Name.Length - 8)}Time"
+
+                match recordFields.TryGetValue timeFieldName with
+                | true, recordField when recordField.PropertyType = typeof<TimeOnly> ->
+                    let recordValue = recordField.GetValue(box record) |> unbox<TimeOnly>
+                    setFieldValue boxedNative nativeField (box (TemporalHelpers.timeMillis recordValue))
+                | true, recordField when recordField.PropertyType = typeof<TimeOnly option> ->
+                    let millis =
+                        if recordField.GetValue(box record) |> isNull then
+                            0
+                        else
+                            recordField.GetValue(box record)
+                            :?> TimeOnly option
+                            |> Option.map TemporalHelpers.timeMillis
+                            |> Option.defaultValue 0
+
+                    setFieldValue boxedNative nativeField (box millis)
+                | _ -> ()
             | _ -> ()
 
         match requestIdOpt with
@@ -14273,8 +14360,8 @@ module private TraderBridgeMapping =
     let settlementInfoConfirm encoding (value: NativeSettlementInfoConfirm) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
           InvestorId = EncodingHelpers.decodeFixed encoding value.InvestorId
-          ConfirmDate = EncodingHelpers.decodeFixed encoding value.ConfirmDate
-          ConfirmTime = EncodingHelpers.decodeFixed encoding value.ConfirmTime
+          ConfirmDate = EncodingHelpers.decodeFixed encoding value.ConfirmDate |> TemporalHelpers.parseDate
+          ConfirmTime = EncodingHelpers.decodeFixed encoding value.ConfirmTime |> TemporalHelpers.parseTime
           SettlementId = value.SettlementId
           AccountId = EncodingHelpers.decodeFixed encoding value.AccountId
           CurrencyId = EncodingHelpers.decodeFixed encoding value.CurrencyId }
@@ -14283,7 +14370,7 @@ module private TraderBridgeMapping =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
           AccountId = EncodingHelpers.decodeFixed encoding value.AccountId
           CurrencyId = EncodingHelpers.decodeFixed encoding value.CurrencyId
-          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay
+          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
           Deposit = toDecimal value.Deposit
           Withdraw = toDecimal value.Withdraw
           Balance = toDecimal value.Balance
@@ -14382,8 +14469,8 @@ module private TraderBridgeMapping =
           VolumeTotalOriginal = value.VolumeTotalOriginal
           TimeCondition = TimeCondition.FromChar(char value.TimeCondition)
           GtdDate =
-            Some(EncodingHelpers.decodeFixed encoding value.GtdDate)
-            |> EncodingHelpers.normalize
+            EncodingHelpers.decodeFixed encoding value.GtdDate
+            |> TemporalHelpers.parseDateOption
           VolumeCondition = VolumeCondition.FromChar(char value.VolumeCondition)
           MinVolume = value.MinVolume
           ContingentCondition = ContingentCondition.FromChar(char value.ContingentCondition)
@@ -14470,12 +14557,12 @@ module private TraderBridgeMapping =
             EncodingHelpers.byteToChar value.OrderSubmitStatus
             |> Option.map OrderSubmitStatus.FromChar
           StatusMessage = EncodingHelpers.decodeFixed encoding value.StatusMsg
-          InsertDate = EncodingHelpers.decodeFixed encoding value.InsertDate
-          InsertTime = EncodingHelpers.decodeFixed encoding value.InsertTime
-          ActiveTime = EncodingHelpers.decodeFixed encoding value.ActiveTime
-          SuspendTime = EncodingHelpers.decodeFixed encoding value.SuspendTime
-          UpdateTime = EncodingHelpers.decodeFixed encoding value.UpdateTime
-          CancelTime = EncodingHelpers.decodeFixed encoding value.CancelTime }
+          InsertDate = EncodingHelpers.decodeFixed encoding value.InsertDate |> TemporalHelpers.parseDate
+          InsertTime = EncodingHelpers.decodeFixed encoding value.InsertTime |> TemporalHelpers.parseTime
+          ActiveTime = EncodingHelpers.decodeFixed encoding value.ActiveTime |> TemporalHelpers.parseTime
+          SuspendTime = EncodingHelpers.decodeFixed encoding value.SuspendTime |> TemporalHelpers.parseTime
+          UpdateTime = EncodingHelpers.decodeFixed encoding value.UpdateTime |> TemporalHelpers.parseTime
+          CancelTime = EncodingHelpers.decodeFixed encoding value.CancelTime |> TemporalHelpers.parseTime }
 
     let tradeUpdate encoding (value: NativeTrade) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -14491,9 +14578,9 @@ module private TraderBridgeMapping =
           HedgeFlag = EncodingHelpers.byteToChar value.HedgeFlag |> Option.map HedgeFlag.FromChar
           Price = toDecimal value.Price
           Volume = value.Volume
-          TradeDate = EncodingHelpers.decodeFixed encoding value.TradeDate
-          TradeTime = EncodingHelpers.decodeFixed encoding value.TradeTime
-          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay }
+          TradeDate = EncodingHelpers.decodeFixed encoding value.TradeDate |> TemporalHelpers.parseDate
+          TradeTime = EncodingHelpers.decodeFixed encoding value.TradeTime |> TemporalHelpers.parseTime
+          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate }
 
     let accountregister encoding (value: NativeAccountregister) : AccountregisterResponse =
         TraderBridgeGenerated.mapNative<AccountregisterResponse, NativeAccountregister> encoding value
@@ -15268,8 +15355,8 @@ module private TraderBridgeBuilders =
         let mutable native = NativeSettlementInfoConfirm()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
-        native.ConfirmDate <- EncodingHelpers.encodeFixed encoding 9 (Some request.ConfirmDate)
-        native.ConfirmTime <- EncodingHelpers.encodeFixed encoding 9 (Some request.ConfirmTime)
+        native.ConfirmDate <- EncodingHelpers.encodeFixed encoding 9 (TemporalHelpers.formatDate request.ConfirmDate)
+        native.ConfirmTime <- EncodingHelpers.encodeFixed encoding 9 (TemporalHelpers.formatTime request.ConfirmTime)
         native.SettlementId <- request.SettlementId
         native.AccountId <- EncodingHelpers.encodeFixed encoding 13 (Some request.AccountId)
         native.CurrencyId <- EncodingHelpers.encodeFixed encoding 4 (Some request.CurrencyId)
@@ -15341,7 +15428,7 @@ module private TraderBridgeBuilders =
         native.LimitPrice <- float request.LimitPrice
         native.VolumeTotalOriginal <- request.VolumeTotalOriginal
         native.TimeCondition <- byte (TimeCondition.ToChar request.TimeCondition)
-        native.GtdDate <- EncodingHelpers.encodeFixed encoding 9 request.GtdDate
+        native.GtdDate <- EncodingHelpers.encodeFixed encoding 9 (TemporalHelpers.formatDateOption request.GtdDate)
         native.VolumeCondition <- byte (VolumeCondition.ToChar request.VolumeCondition)
         native.MinVolume <- request.MinVolume
         native.ContingentCondition <- byte (ContingentCondition.ToChar request.ContingentCondition)

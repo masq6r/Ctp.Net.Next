@@ -222,7 +222,7 @@ module Demo =
         | Error error -> failwith $"{operationName} failed: [{error.ErrorId}] {error.ErrorMessage}"
 
     let private printDepthMarketData (data: DepthMarketData) =
-        printfn "%s@%s.%03d: %M" data.InstrumentId data.UpdateTime data.UpdateMillisec data.LastPrice
+        printfn "%s@%s: %M" data.InstrumentId (data.UpdateTime.ToString("HH:mm:ss.fff")) data.LastPrice
 
     let run () =
         task {

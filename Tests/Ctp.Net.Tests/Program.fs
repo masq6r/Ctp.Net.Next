@@ -61,6 +61,9 @@ type TraderBridgeGeneratedTests() =
     let assembly = typeof<InstrumentResponse>.Assembly
     let flags = System.Reflection.BindingFlags.Instance ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic
 
+    let staticFlags =
+        System.Reflection.BindingFlags.Static ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic
+
     let getType name =
         match assembly.GetType(name, false) with
         | null -> failwith $"Expected type '{name}' to exist."
@@ -79,6 +82,41 @@ type TraderBridgeGeneratedTests() =
 
                 field.SetValue(instance, Array.zeroCreate<byte> size)
 
+    let setFixedStringField (instance: obj) fieldName (value: string) =
+        let nativeType = instance.GetType()
+        let field = nativeType.GetField(fieldName, flags)
+
+        let size =
+            field.GetCustomAttributes(typeof<System.Runtime.InteropServices.MarshalAsAttribute>, false)
+            |> Array.tryHead
+            |> Option.map (fun attr -> (attr :?> System.Runtime.InteropServices.MarshalAsAttribute).SizeConst)
+            |> Option.defaultValue 0
+
+        let buffer = Array.zeroCreate<byte> size
+        let encoded = Encoding.UTF8.GetBytes(value)
+        encoded.CopyTo(buffer, 0)
+        field.SetValue(instance, buffer)
+
+    let getFixedStringField (instance: obj) fieldName =
+        let nativeType = instance.GetType()
+        let field = nativeType.GetField(fieldName, flags)
+        let bytes = field.GetValue(instance) :?> byte array
+        let zeroIndex = bytes |> Array.tryFindIndex ((=) 0uy) |> Option.defaultValue bytes.Length
+        Encoding.UTF8.GetString(bytes, 0, zeroIndex)
+
+    let generatedType = getType "Ctp.Net.Bridge.TraderBridgeGenerated"
+
+    let mapNativeAs recordType nativeTypeName (native: obj) =
+        let nativeType = getType nativeTypeName
+        let mapNative = generatedType.GetMethod("mapNative", staticFlags)
+
+        mapNative.MakeGenericMethod(recordType, nativeType).Invoke(null, [| Encoding.UTF8; native |])
+
+    let buildNativeAs recordType nativeTypeName (record: obj) =
+        let nativeType = getType nativeTypeName
+        let buildNative = generatedType.GetMethod("buildNative", staticFlags)
+        buildNative.MakeGenericMethod(recordType, nativeType).Invoke(null, [| Encoding.UTF8; record |])
+
     let mapInstrument fields =
         let nativeType = getType "Ctp.Net.Bridge.NativeInstrument"
         let native = Activator.CreateInstance(nativeType)
@@ -88,17 +126,7 @@ type TraderBridgeGeneratedTests() =
             let field = nativeType.GetField(name, flags)
             field.SetValue(native, byte value)
 
-        let generatedType = getType "Ctp.Net.Bridge.TraderBridgeGenerated"
-        let mapNative =
-            generatedType.GetMethod(
-                "mapNative",
-                System.Reflection.BindingFlags.Static ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic
-            )
-
-        mapNative
-            .MakeGenericMethod(typeof<InstrumentResponse>, nativeType)
-            .Invoke(null, [| Encoding.UTF8; native |])
-        :?> InstrumentResponse
+        mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Bridge.NativeInstrument" native :?> InstrumentResponse
 
     [<Fact>]
     member _.``instrument mapping supports optional union fields``() =
@@ -125,6 +153,56 @@ type TraderBridgeGeneratedTests() =
         let instrument = mapInstrument [ "CombinationType", '0' ]
 
         Assert.True(instrument.CombinationType.IsNone)
+
+    [<Fact>]
+    member _.``generated mapping parses dateonly timeonly and millisec fields``() =
+        let nativeType = getType "Ctp.Net.Bridge.NativeTraderDepthMarketData"
+        let native = Activator.CreateInstance(nativeType)
+        zeroInitializeByteArrays native
+        setFixedStringField native "TradingDay" "20260519"
+        setFixedStringField native "UpdateTime" "13:14:15"
+        setFixedStringField native "ActionDay" "20260520"
+        nativeType.GetField("UpdateMillisec", flags).SetValue(native, 789)
+
+        let depth =
+            mapNativeAs typeof<DepthMarketData> "Ctp.Net.Bridge.NativeTraderDepthMarketData" native
+            :?> DepthMarketData
+
+        Assert.Equal(DateOnly(2026, 5, 19), depth.TradingDay)
+        Assert.Equal(TimeOnly(13, 14, 15, 789), depth.UpdateTime)
+        Assert.Equal(DateOnly(2026, 5, 20), depth.ActionDay)
+
+    [<Fact>]
+    member _.``generated builder encodes dateonly fields``() =
+        let request: QrySettlementInfoRequest =
+            { BrokerId = "9999"
+              InvestorId = "demo"
+              TradingDay = DateOnly(2026, 5, 19)
+              AccountId = None
+              CurrencyId = None }
+
+        let native = buildNativeAs typeof<QrySettlementInfoRequest> "Ctp.Net.Bridge.NativeQrySettlementInfo" (box request)
+
+        Assert.Equal("20260519", getFixedStringField native "TradingDay")
+
+    [<Fact>]
+    member _.``generated builder encodes timeonly fields``() =
+        let request: UserSystemInfoRequest =
+            { BrokerId = "9999"
+              UserId = "demo"
+              ClientSystemInfoLen = 0
+              ClientSystemInfo = ""
+              Reserve1 = ""
+              ClientIpPort = 0
+              ClientLoginTime = TimeOnly(1, 2, 3, 456)
+              ClientAppId = ""
+              ClientPublicIp = ""
+              ClientLoginRemark = ""
+              Mac = "" }
+
+        let native = buildNativeAs typeof<UserSystemInfoRequest> "Ctp.Net.Bridge.NativeUserSystemInfo" (box request)
+
+        Assert.Equal("01:02:03", getFixedStringField native "ClientLoginTime")
 
 
 type OptionHelperTests() =
@@ -191,8 +269,8 @@ type OptionHelperTests() =
 
         Assert.Equal("9999", request.BrokerId)
         Assert.Equal("demo", request.InvestorId)
-        Assert.Equal("", request.ConfirmDate)
-        Assert.Equal("", request.ConfirmTime)
+        Assert.Equal(DateOnly.MinValue, request.ConfirmDate)
+        Assert.Equal(TimeOnly.MinValue, request.ConfirmTime)
         Assert.Equal(0, request.SettlementId)
         Assert.Equal("", request.AccountId)
         Assert.Equal("", request.CurrencyId)

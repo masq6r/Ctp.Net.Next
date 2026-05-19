@@ -3,6 +3,7 @@ namespace Ctp.Net.Bridge
 open System
 open System.IO
 open System.Text
+open System.Globalization
 open System.Reflection
 open System.Runtime.InteropServices
 
@@ -165,35 +166,103 @@ module internal NumericHelpers =
 
     let priceOrInvalid value = decimalOr invalidPrice value
 
+module internal TemporalHelpers =
+    let private culture = CultureInfo.InvariantCulture
+    let private dateFormat = "yyyyMMdd"
+    let private timeFormat = "HH:mm:ss"
+
+    let private dateTimeFormat = "yyyyMMddHH:mm:ss"
+
+    let parseDate value =
+        if String.IsNullOrWhiteSpace value then
+            DateOnly.MinValue
+        else
+            DateOnly.ParseExact(value, dateFormat, culture)
+
+    let parseDateOption value =
+        if String.IsNullOrWhiteSpace value then
+            None
+        else
+            Some(DateOnly.ParseExact(value, dateFormat, culture))
+
+    let parseTime value =
+        if String.IsNullOrWhiteSpace value then
+            TimeOnly.MinValue
+        else
+            TimeOnly.ParseExact(value, timeFormat, culture)
+
+    let parseTimeOption value =
+        if String.IsNullOrWhiteSpace value then
+            None
+        else
+            Some(TimeOnly.ParseExact(value, timeFormat, culture))
+
+    let parseDateTime value =
+        if String.IsNullOrWhiteSpace value then
+            DateTime.MinValue
+        else
+            DateTime.ParseExact(value, dateTimeFormat, culture)
+
+    let parseTimeWithMillis value millis =
+        if String.IsNullOrWhiteSpace value then
+            TimeOnly.MinValue
+        else
+            let time = TimeOnly.ParseExact(value, timeFormat, culture)
+            time.Add(TimeSpan.FromMilliseconds(float millis))
+
+    let formatDate value =
+        if value = DateOnly.MinValue then
+            None
+        else
+            Some(value.ToString(dateFormat, culture))
+
+    let formatDateOption = Option.bind formatDate
+
+    let formatTime value =
+        if value = TimeOnly.MinValue then
+            None
+        else
+            Some(value.ToString(timeFormat, culture))
+
+    let formatTimeOption = Option.bind formatTime
+
+    let formatDateTime value =
+        if value = DateTime.MinValue then
+            None
+        else
+            Some(value.ToString(dateTimeFormat, culture))
+
+    let timeMillis (value: TimeOnly) = value.Millisecond
+
 type RspInfo = { ErrorId: int; ErrorMessage: string; RawErrorMessage: byte array }
 
 type SpecificInstrumentResponse = { InstrumentId: string }
 
 type UserLoginResponse =
-    { TradingDay: string
-      LoginTime: string
+    { TradingDay: DateOnly
+      LoginTime: TimeOnly
       BrokerId: string
       UserId: string
       SystemName: string
       FrontId: int
       SessionId: int
       MaxOrderRef: string
-      ShfeTime: string
-      DceTime: string
-      CzceTime: string
-      FfexTime: string
-      IneTime: string
+      ShfeTime: TimeOnly
+      DceTime: TimeOnly
+      CzceTime: TimeOnly
+      FfexTime: TimeOnly
+      IneTime: TimeOnly
       SysVersion: string
-      GfexTime: string
+      GfexTime: TimeOnly
       LoginDrIdentityId: int
       UserDrIdentityId: int
-      LastLoginTime: string
+      LastLoginTime: DateTime
       ReserveInfo: string }
 
 type UserLogoutResponse = { BrokerId: string; UserId: string }
 
 type UserLoginRequest =
-    { TradingDay: string option
+    { TradingDay: DateOnly option
       BrokerId: string
       UserId: string
       Password: string
@@ -416,24 +485,24 @@ module internal BridgeMapping =
         { InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
 
     let userLogin encoding (value: NativeRspUserLogin) =
-        { TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay
-          LoginTime = EncodingHelpers.decodeFixed encoding value.LoginTime
+        { TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
+          LoginTime = EncodingHelpers.decodeFixed encoding value.LoginTime |> TemporalHelpers.parseTime
           BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
           UserId = EncodingHelpers.decodeFixed encoding value.UserId
           SystemName = EncodingHelpers.decodeFixed encoding value.SystemName
           FrontId = value.FrontId
           SessionId = value.SessionId
           MaxOrderRef = EncodingHelpers.decodeFixed encoding value.MaxOrderRef
-          ShfeTime = EncodingHelpers.decodeFixed encoding value.ShfeTime
-          DceTime = EncodingHelpers.decodeFixed encoding value.DceTime
-          CzceTime = EncodingHelpers.decodeFixed encoding value.CzceTime
-          FfexTime = EncodingHelpers.decodeFixed encoding value.FfexTime
-          IneTime = EncodingHelpers.decodeFixed encoding value.IneTime
+          ShfeTime = EncodingHelpers.decodeFixed encoding value.ShfeTime |> TemporalHelpers.parseTime
+          DceTime = EncodingHelpers.decodeFixed encoding value.DceTime |> TemporalHelpers.parseTime
+          CzceTime = EncodingHelpers.decodeFixed encoding value.CzceTime |> TemporalHelpers.parseTime
+          FfexTime = EncodingHelpers.decodeFixed encoding value.FfexTime |> TemporalHelpers.parseTime
+          IneTime = EncodingHelpers.decodeFixed encoding value.IneTime |> TemporalHelpers.parseTime
           SysVersion = EncodingHelpers.decodeFixed encoding value.SysVersion
-          GfexTime = EncodingHelpers.decodeFixed encoding value.GfexTime
+          GfexTime = EncodingHelpers.decodeFixed encoding value.GfexTime |> TemporalHelpers.parseTime
           LoginDrIdentityId = value.LoginDrIdentityId
           UserDrIdentityId = value.UserDrIdentityId
-          LastLoginTime = EncodingHelpers.decodeFixed encoding value.LastLoginTime
+          LastLoginTime = EncodingHelpers.decodeFixed encoding value.LastLoginTime |> TemporalHelpers.parseDateTime
           ReserveInfo = EncodingHelpers.decodeFixed encoding value.ReserveInfo }
 
     let userLogout encoding (value: NativeUserLogout) : UserLogoutResponse =
@@ -443,7 +512,7 @@ module internal BridgeMapping =
 module internal BridgeBuilders =
     let reqUserLogin encoding (request: UserLoginRequest) =
         let mutable native = NativeReqUserLogin()
-        native.TradingDay <- EncodingHelpers.encodeFixed encoding 9 request.TradingDay
+        native.TradingDay <- EncodingHelpers.encodeFixed encoding 9 (TemporalHelpers.formatDateOption request.TradingDay)
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.UserId <- EncodingHelpers.encodeFixed encoding 16 (Some request.UserId)
         native.Password <- EncodingHelpers.encodeFixed encoding 41 (Some request.Password)
