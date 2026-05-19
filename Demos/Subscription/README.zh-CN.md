@@ -1,10 +1,10 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
-# Subscrption
+# Subscription
 
 ## 项目目的
 
-`Demos/Subscrption` 是一个基于 `MdClient` 的控制台示例，用来演示：
+`Demos/Subscription` 是一个基于 `MdClient` 的控制台示例，用来演示：
 
 - 从 `options.local.json` 读取 `CtpOptions`、`CtpFlowControlOptions` 和订阅列表
 - 初始化 `MdClient`
@@ -27,14 +27,14 @@
 
 配置文件要求：
 
-- 本项目运行时读取 `Demos/Subscrption/options.local.json`
-- 目录中已提供 `Demos/Subscrption/options.template.json`
+- 本项目运行时读取 `Demos/Subscription/options.local.json`
+- 目录中已提供 `Demos/Subscription/options.template.json`
 - 请以 `options.template.json` 为基础复制并修改，生成自己的 `options.local.json`
 
 例如：
 
 ```bash
-cp Demos/Subscrption/options.template.json Demos/Subscrption/options.local.json
+cp Demos/Subscription/options.template.json Demos/Subscription/options.local.json
 ```
 
 然后按实际环境填写：
@@ -54,7 +54,7 @@ cp Demos/Subscrption/options.template.json Demos/Subscrption/options.local.json
 在仓库根目录执行：
 
 ```bash
-dotnet build Demos/Subscrption/Subscrption.fsproj -m:1
+dotnet build Demos/Subscription/Subscription.fsproj -m:1
 ```
 
 说明：
@@ -68,7 +68,7 @@ dotnet build Demos/Subscrption/Subscrption.fsproj -m:1
 在仓库根目录执行：
 
 ```bash
-dotnet run --project Demos/Subscrption/Subscrption.fsproj
+dotnet run --project Demos/Subscription/Subscription.fsproj
 ```
 
 运行成功后，控制台会依次输出：

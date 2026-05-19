@@ -5,23 +5,38 @@
 
 # Ctp.Net
 
-F#-first `.NET 10` wrapper for the CTP SDK.
+A `.NET` wrapper for the CTP SDK.
 
 This repository keeps the vendor C++ SDK behind a thin native bridge so the managed layer can expose `Async<Result<...>>` APIs, .NET events, and managed domain types on Linux and Windows.
 
+As a core infrastructure component of the personal automated trading system `eXp`, `Ctp.Net.Next` has powered its 24/7 uninterrupted stable operation for 5 years without downtime, achieving a 42% CAGR. This component is open-sourced with the hope of helping individuals who aspire to engage in automated trading — may you find your own holy grail.
+
+## Disclaimer
+
+**This software is provided "as is", without warranty of any kind.** Use it at your own risk. The authors are not responsible for any financial losses, trading errors, or damages arising from its use. This project is not affiliated with the CTP SDK vendor. Nothing in this repository constitutes financial or investment advice.
+
 ## Highlights
 
-- `MdClient` for market-data connect / login / subscribe workflows
-- `TraderClient` for authenticate / login / settlement confirmation, trading, and a broad query surface
-- `CtpFlowControlOptions` for query throttling, native retry handling, and subscription batching
-- managed `decimal`-based price and money fields instead of raw native floating-point values
-- asymmetric encoding policy aligned with common CTP deployments: outbound `GBK`, inbound `GB18030`
+- Query with **async workflows** (C# `async`/`await`, F# `async` computation expressions) to avoid callback hell
+- `CtpFlowControlOptions` for query **throttling, native retry handling, and subscription batching**
+- Cancel in-flight queries at any time with `CancellationToken`
+- Stable disconnection/reconnection with subscription recovery
+- Use **managed types** such as `DateOnly`, `DateTime` etc. instead of strings
+- Asymmetric encoding policy aligned with common CTP deployments: outbound `GBK`, inbound `GB18030`
+- Keeping up with the latest CTP SDK releases
+
+## Related demos and consumers
+
+- `Demos/Subscription` — `MdClient` example covering login and market-data subscription
+- `Demos/Queries` — `TraderClient` example covering authentication, settlement confirmation, and concurrent queries under managed flow control
+- `Demos/CtpDemo.Local.Native` — native C++ Trader example for inspecting request/callback behavior against the official API
+- `eXp` — a personal automated trading system that has been running on `Ctp.Net.Next` for 5 years
 
 ## Repository layout
 
 - `Ctp.Net` — managed F# library; `Bridge/` contains low-level interop and the top-level files expose public clients
 - `NativeBridge` — C++ bridge, exported C ABI, bundled `ctp-sdk`, and native-only build entrypoints
-- `Demos/Subscrption` — `MdClient` demo for login and market-data subscription
+- `Demos/Subscription` — `MdClient` demo for login and market-data subscription
 - `Demos/Queries` — `TraderClient` demo for authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ trader demo for inspecting request / callback behavior against the official API
 - `Tests/Ctp.Net.Tests` — fast unit tests
@@ -111,21 +126,21 @@ dotnet run --project Tests/Ctp.Net.SmokeTests/Ctp.Net.SmokeTests.fsproj --no-bui
 
 ## Demos
 
-### `Demos/Subscrption`
+### `Demos/Subscription`
 
 Build:
 
 ```bash
-dotnet build Demos/Subscrption/Subscrption.fsproj -m:1
+dotnet build Demos/Subscription/Subscription.fsproj -m:1
 ```
 
 Run:
 
 ```bash
-dotnet run --project Demos/Subscrption/Subscrption.fsproj
+dotnet run --project Demos/Subscription/Subscription.fsproj
 ```
 
-This demo reads `Demos/Subscrption/options.local.json`, connects an `MdClient`, logs in, subscribes to configured instruments, and prints lightweight market-data updates.
+This demo reads `Demos/Subscription/options.local.json`, connects an `MdClient`, logs in, subscribes to configured instruments, and prints lightweight market-data updates.
 
 ### `Demos/Queries`
 

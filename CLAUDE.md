@@ -14,8 +14,8 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - Run one smoke test: `dotnet run --project Tests/Ctp.Net.SmokeTests/Ctp.Net.SmokeTests.fsproj --no-build -- -method "Ctp.Net.SmokeTests.MdSmokeTests.md client can connect login subscribe and receive market data"`
 - Build native bridge only on Linux: `./NativeBridge/build.sh`
 - Build native bridge only on Windows: `./NativeBridge/build.ps1 -CtpSdkRoot <path-to-ctp-sdk>`
-- Build market-data demo: `dotnet build Demos/Subscrption/Subscrption.fsproj -m:1`
-- Run market-data demo: `dotnet run --project Demos/Subscrption/Subscrption.fsproj`
+- Build market-data demo: `dotnet build Demos/Subscription/Subscription.fsproj -m:1`
+- Run market-data demo: `dotnet run --project Demos/Subscription/Subscription.fsproj`
 - Build trader query demo: `dotnet build Demos/Queries/Queries.fsproj -m:1`
 - Run trader query demo: `dotnet run --project Demos/Queries/Queries.fsproj`
 
@@ -37,7 +37,7 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - `Ctp.Net/Common.fs` contains shared public options, `CtpFlowControlOptions`, connection coordination, and managed flow-control primitives.
 - `Tests/Ctp.Net.Tests/Program.fs` is the fast behavioral suite.
 - `Tests/Ctp.Net.SmokeTests/Program.fs` is the end-to-end suite against real fronts.
-- `Demos/Subscrption` and `Demos/Queries` are the fastest examples of current managed usage.
+- `Demos/Subscription` and `Demos/Queries` are the fastest examples of current managed usage.
 
 ## Hard invariants
 

@@ -1,9 +1,9 @@
 open System
+open Ctp.Net
 open System.IO
+open Ctp.Net.Bridge
 open System.Text.Json
 open System.Threading.Tasks
-open Ctp.Net
-open Ctp.Net.Bridge
 
 [<CLIMutable>]
 type CtpOptionsFile =
@@ -55,11 +55,7 @@ module Config =
         else
             invalidOp $"{configFileName} is missing required field CtpOptions.{fieldName}."
 
-    let private trimToOption (value: string) =
-        if isPresent value then
-            Some(value.Trim())
-        else
-            None
+    let private trimToOption (value: string) = if isPresent value then Some(value.Trim()) else None
 
     let private allAncestorDirectories startPath =
         let rec loop (current: DirectoryInfo option) = seq {
@@ -86,7 +82,8 @@ module Config =
                 if File.Exists path then Some path else None))
 
     let private tryGetConfigPath () =
-        [ configFileName; Path.Combine("Demos", "Subscrption", configFileName) ] |> tryFindFile
+        [ configFileName; Path.Combine("Demos", "Subscrption", configFileName) ]
+        |> tryFindFile
 
     let private tryGetProjectDirectory () =
         [ projectFileName; Path.Combine("Demos", "Subscrption", projectFileName) ]
@@ -117,7 +114,13 @@ module Config =
 
     let private createCtpOptions (config: CtpOptionsFile) =
         let flowPath = trimToOption config.FlowPath
-        let productionMode = if config.ProductionMode.HasValue then config.ProductionMode.Value else true
+
+        let productionMode =
+            if config.ProductionMode.HasValue then
+                config.ProductionMode.Value
+            else
+                true
+
         let userProductInfo = trimToOption config.UserProductInfo |> Option.defaultValue ""
         let appId = trimToOption config.AppId |> Option.defaultValue ""
         let authCode = trimToOption config.AuthCode |> Option.defaultValue ""
@@ -137,8 +140,7 @@ module Config =
     let private createFlowControlOptions (config: CtpFlowControlOptionsFile) =
         let defaults = CtpFlowControlOptions.Default
 
-        let valueOrDefault (value: Nullable<int>) defaultValue =
-            if value.HasValue then value.Value else defaultValue
+        let valueOrDefault (value: Nullable<int>) defaultValue = if value.HasValue then value.Value else defaultValue
 
         { MaxDispatchesPerSecond = valueOrDefault config.MaxDispatchesPerSecond defaults.MaxDispatchesPerSecond
           MaxQueriesPerSecond = valueOrDefault config.MaxQueriesPerSecond defaults.MaxQueriesPerSecond
@@ -150,25 +152,18 @@ module Config =
                 (int defaults.NativeReturnCodeRetryDelay.TotalMilliseconds)
             |> float
             |> TimeSpan.FromMilliseconds
-          MaxQueryRspErrorRetries =
-            valueOrDefault config.MaxQueryRspErrorRetries defaults.MaxQueryRspErrorRetries
+          MaxQueryRspErrorRetries = valueOrDefault config.MaxQueryRspErrorRetries defaults.MaxQueryRspErrorRetries
           QueryRspErrorRetryDelay =
-            valueOrDefault
-                config.QueryRspErrorRetryDelayMs
-                (int defaults.QueryRspErrorRetryDelay.TotalMilliseconds)
+            valueOrDefault config.QueryRspErrorRetryDelayMs (int defaults.QueryRspErrorRetryDelay.TotalMilliseconds)
             |> float
             |> TimeSpan.FromMilliseconds
           QueryCompletionTimeout =
-            valueOrDefault
-                config.QueryCompletionTimeoutMs
-                (int defaults.QueryCompletionTimeout.TotalMilliseconds)
+            valueOrDefault config.QueryCompletionTimeoutMs (int defaults.QueryCompletionTimeout.TotalMilliseconds)
             |> float
             |> TimeSpan.FromMilliseconds
           SubscriptionBatchSize = valueOrDefault config.SubscriptionBatchSize defaults.SubscriptionBatchSize
           SubscriptionBatchDelay =
-            valueOrDefault
-                config.SubscriptionBatchDelayMs
-                (int defaults.SubscriptionBatchDelay.TotalMilliseconds)
+            valueOrDefault config.SubscriptionBatchDelayMs (int defaults.SubscriptionBatchDelay.TotalMilliseconds)
             |> float
             |> TimeSpan.FromMilliseconds }
 
@@ -176,11 +171,7 @@ module Config =
         if obj.ReferenceEquals(box instrumentIds, null) then
             invalidOp $"{configFileName} must contain an InstrumentIds array."
 
-        let sanitized =
-            instrumentIds
-            |> Array.map _.Trim()
-            |> Array.filter isPresent
-            |> Array.toList
+        let sanitized = instrumentIds |> Array.map _.Trim() |> Array.filter isPresent |> Array.toList
 
         if List.isEmpty sanitized then
             invalidOp $"{configFileName} must contain at least one non-empty InstrumentIds entry."
@@ -208,13 +199,13 @@ module Config =
                 $"Create a valid {configLocationMessage ()} with CtpOptions, CtpFlowControlOptions and InstrumentIds before running this demo."
 
 module Demo =
-    let private expectConnected = function
-        | Ok () -> ()
+    let private expectConnected =
+        function
+        | Ok() -> ()
         | Error(ConnectError.Timeout timeout) ->
             failwith $"Connect failed: timeout after {timeout.TotalSeconds} seconds."
         | Error ConnectError.Cancelled -> failwith "Connect failed: cancelled."
-        | Error(ConnectError.NativeOperationFailed message) ->
-            failwith $"Connect failed: {message}"
+        | Error(ConnectError.NativeOperationFailed message) -> failwith $"Connect failed: {message}"
 
     let private expectOk operationName (result: Result<'T, RspInfo>) =
         match result with
@@ -224,33 +215,32 @@ module Demo =
     let private printDepthMarketData (data: DepthMarketData) =
         printfn "%s@%s: %M" data.InstrumentId (data.UpdateTime.ToString("HH:mm:ss.fff")) data.LastPrice
 
-    let run () =
-        task {
-            let config = Config.load ()
-            use client = new MdClient(config.CtpOptions, flowControl = config.CtpFlowControlOptions)
+    let run () = task {
+        let config = Config.load ()
+        use client = new MdClient(config.CtpOptions, flowControl = config.CtpFlowControlOptions)
 
-            client.DepthMarketDataReceived.Add printDepthMarketData
+        client.DepthMarketDataReceived.Add printDepthMarketData
 
-            printfn "Connecting to %s" config.CtpOptions.FrontAddress
-            let! connectResult = client.Connect(timeout = config.ConnectTimeout) |> Async.StartAsTask
-            connectResult |> expectConnected
+        printfn "Connecting to %s" config.CtpOptions.FrontAddress
+        let! connectResult = client.Connect(timeout = config.ConnectTimeout) |> Async.StartAsTask
+        connectResult |> expectConnected
 
-            printfn "Logging in..."
-            let! loginResult = client.LoginAsync() |> Async.StartAsTask
-            loginResult |> expectOk "LoginAsync" |> ignore
+        printfn "Logging in..."
+        let! loginResult = client.LoginAsync() |> Async.StartAsTask
+        loginResult |> expectOk "LoginAsync" |> ignore
 
-            printfn "Subscribing to %s" (String.concat "," config.InstrumentIds)
-            let! subscribedResult = client.SubscribeMarketDataAsync config.InstrumentIds |> Async.StartAsTask
-            subscribedResult |> expectOk "SubscribeMarketDataAsync" |> ignore
+        printfn "Subscribing to %s" (String.concat "," config.InstrumentIds)
+        let! subscribedResult = client.SubscribeMarketDataAsync config.InstrumentIds |> Async.StartAsTask
+        subscribedResult |> expectOk "SubscribeMarketDataAsync" |> ignore
 
-            printfn "Receiving depth market data. Press any key to exit."
-            Console.ReadKey true |> ignore
-        }
+        printfn "Receiving depth market data. Press any key to exit."
+        Console.ReadKey true |> ignore
+    }
 
 [<EntryPoint>]
 let main _ =
     try
-        (Demo.run()).GetAwaiter().GetResult()
+        (Demo.run ()).GetAwaiter().GetResult()
         0
     with ex ->
         eprintfn "%s" ex.Message

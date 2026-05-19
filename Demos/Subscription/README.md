@@ -1,10 +1,10 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
-# Subscrption
+# Subscription
 
 ## Purpose
 
-`Demos/Subscrption` is a console demo based on `MdClient` that demonstrates:
+`Demos/Subscription` is a console demo based on `MdClient` that demonstrates:
 
 - Reading `CtpOptions`, `CtpFlowControlOptions`, and a subscription list from `options.local.json`
 - Initializing `MdClient`
@@ -27,14 +27,14 @@ Before running this demo:
 
 Configuration file:
 
-- The demo reads `Demos/Subscrption/options.local.json` at runtime
-- A template is provided at `Demos/Subscrption/options.template.json`
+- The demo reads `Demos/Subscription/options.local.json` at runtime
+- A template is provided at `Demos/Subscription/options.template.json`
 - Copy and modify the template to create your own `options.local.json`
 
 For example:
 
 ```bash
-cp Demos/Subscrption/options.template.json Demos/Subscrption/options.local.json
+cp Demos/Subscription/options.template.json Demos/Subscription/options.local.json
 ```
 
 Then fill in your actual environment values:
@@ -54,7 +54,7 @@ Then fill in your actual environment values:
 From the repository root:
 
 ```bash
-dotnet build Demos/Subscrption/Subscrption.fsproj -m:1
+dotnet build Demos/Subscription/Subscription.fsproj -m:1
 ```
 
 Notes:
@@ -68,7 +68,7 @@ Notes:
 From the repository root:
 
 ```bash
-dotnet run --project Demos/Subscrption/Subscrption.fsproj
+dotnet run --project Demos/Subscription/Subscription.fsproj
 ```
 
 On success, the console outputs:

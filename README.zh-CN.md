@@ -5,23 +5,31 @@
 
 # Ctp.Net
 
-面向 CTP SDK 的 F# 优先 `.NET 10` 封装库。
+CTP SDK 的 `.NET` 封装库。
 
 本仓库将厂商 C++ SDK 置于一个轻量原生桥接层之后，使托管层可以在 Linux 和 Windows 上暴露 `Async<Result<...>>` API、.NET 事件以及托管领域类型。
 
+作为个人自动化交易系统`eXp`的基础设施的重要组成部分，`Ctp.Net.Next`为其7x24小时不间断稳定运行长达5年不宕机，达成42%年复合收益率提供了坚实保障。这部分组件开源，希望为有志于投身自动化交易的个人提供帮助，愿你们能早日找到属于自己的圣杯。
+
+## 免责声明
+
+**本软件按「原样」提供，不作任何明示或默示的保证。** 使用风险自负。作者对因使用本软件而产生的任何财务损失、交易错误或其他损害不承担责任。本项目与 CTP SDK 厂商无任何关联。本仓库中的任何内容均不构成财务或投资建议。
+
 ## 亮点
 
-- `MdClient` 用于行情连接 / 登录 / 订阅工作流
-- `TraderClient` 用于认证 / 登录 / 结算确认、交易以及广泛的查询接口
-- `CtpFlowControlOptions` 用于查询节流、原生重试处理以及订阅批次控制
-- 使用托管 `decimal` 类型表示价格和资金字段，而非原生浮点数
+- 使用**异步工作流**（C#的`async`与`await`，F#的`async`计算表达式）进行查询，避免回调地狱
+- `CtpFlowControlOptions` 用于查询**节流、原生重试处理以及订阅批次控制**
+- 使用`CancellationToken`随时**取消**在途查询
+- 稳定的断线重连与订阅恢复机制
+- 使用**托管类型**例如`DateOnly`, `DateTime`等代替CTP SDK的字符串
 - 与常见 CTP 部署对齐的非对称编码策略：出站 `GBK`，入站 `GB18030`
+- 紧跟最新CTP SDK更新
 
 ## 仓库结构
 
 - `Ctp.Net` — 托管 F# 库；`Bridge/` 包含底层互操作，顶层文件暴露公开客户端
 - `NativeBridge` — C++ 桥接层，导出 C ABI，内置 `ctp-sdk`，以及原生构建入口
-- `Demos/Subscrption` — 用于登录和行情订阅的 `MdClient` 示例
+- `Demos/Subscription` — 用于登录和行情订阅的 `MdClient` 示例
 - `Demos/Queries` — 用于认证、结算确认以及托管流控下并发查询的 `TraderClient` 示例
 - `Demos/CtpDemo.Local.Native` — 原生 C++ Trader 示例，用于对照官方 API 检查请求/回调行为
 - `Tests/Ctp.Net.Tests` — 快速单元测试
@@ -111,21 +119,21 @@ dotnet run --project Tests/Ctp.Net.SmokeTests/Ctp.Net.SmokeTests.fsproj --no-bui
 
 ## 示例
 
-### `Demos/Subscrption`
+### `Demos/Subscription`
 
 构建：
 
 ```bash
-dotnet build Demos/Subscrption/Subscrption.fsproj -m:1
+dotnet build Demos/Subscription/Subscription.fsproj -m:1
 ```
 
 运行：
 
 ```bash
-dotnet run --project Demos/Subscrption/Subscrption.fsproj
+dotnet run --project Demos/Subscription/Subscription.fsproj
 ```
 
-此示例读取 `Demos/Subscrption/options.local.json`，连接 `MdClient`，登录，订阅配置的合约，并打印简短的行情更新。
+此示例读取 `Demos/Subscription/options.local.json`，连接 `MdClient`，登录，订阅配置的合约，并打印简短的行情更新。
 
 ### `Demos/Queries`
 
