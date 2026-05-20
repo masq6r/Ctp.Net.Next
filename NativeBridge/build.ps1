@@ -12,5 +12,12 @@ if ([string]::IsNullOrWhiteSpace($CtpSdkRoot)) {
     $CtpSdkRoot = Join-Path $scriptDir "ctp-sdk"
 }
 
-cmake -S $scriptDir -B $buildDir -DCTP_SDK_ROOT=$CtpSdkRoot -DCTP_SDK_VERSION=$CtpSdkVersion
-cmake --build $buildDir --config Release
+$configureArgs = @(
+    '-S', $scriptDir,
+    '-B', $buildDir,
+    "-DCTP_SDK_ROOT=$CtpSdkRoot",
+    "-DCTP_SDK_VERSION=$CtpSdkVersion"
+)
+
+& cmake @configureArgs
+& cmake --build $buildDir --config Release
