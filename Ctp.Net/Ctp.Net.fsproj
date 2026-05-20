@@ -6,6 +6,22 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NativeBridgeProjectDir>$(MSBuildThisFileDirectory)..\NativeBridge\</NativeBridgeProjectDir>
     <NativeBridgeBuildDir>$(NativeBridgeProjectDir)build\</NativeBridgeBuildDir>
+    <!-- NuGet metadata -->
+    <PackageId>Ctp.Net</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Ctp.Net Contributors</Authors>
+    <Description>Managed F# wrapper for the CTP futures trading API with async/event-driven MD and Trader clients.</Description>
+    <PackageTags>ctp;futures;trading;market-data;shfe;china</PackageTags>
+    <RepositoryUrl>https://github.com/your-org/Ctp.Net</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- Set to false to skip native bridge build (e.g. during dotnet pack with pre-built runtimes/) -->
+    <BuildNativeBridge Condition="'$(BuildNativeBridge)' == ''">true</BuildNativeBridge>
+    <PrepareNuGetRuntimeAssets Condition="'$(PrepareNuGetRuntimeAssets)' == ''">true</PrepareNuGetRuntimeAssets>
+    <CurrentNativeRuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</CurrentNativeRuntimeIdentifier>
+    <CurrentNativeRuntimeIdentifier Condition="!$([MSBuild]::IsOSPlatform('Windows'))">linux-x64</CurrentNativeRuntimeIdentifier>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);CollectNuGetRuntimeAssets</TargetsForTfmSpecificContentInPackage>
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../'))</RepoRoot>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,12 +43,12 @@
     <InternalsVisibleTo Include="Ctp.Net.Tests" />
   </ItemGroup>
 
-  <Target Name="BuildNativeBridge">
+  <Target Name="BuildNativeBridge" Condition="'$(BuildNativeBridge)' == 'true'">
     <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(NativeBridgeProjectDir)build.ps1&quot;" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
     <Exec Command="&quot;$(NativeBridgeProjectDir)build.sh&quot;" Condition="!$([MSBuild]::IsOSPlatform('Windows'))" />
   </Target>
 
-  <Target Name="IncludeNativeBridgeArtifacts" BeforeTargets="AssignTargetPaths" DependsOnTargets="BuildNativeBridge">
+  <Target Name="IncludeNativeBridgeArtifacts" BeforeTargets="AssignTargetPaths" DependsOnTargets="BuildNativeBridge" Condition="'$(BuildNativeBridge)' == 'true'">
     <ItemGroup>
       <Content Include="$(NativeBridgeBuildDir)*.dll" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
         <Link>%(Filename)%(Extension)</Link>
@@ -60,5 +76,42 @@
       </Content>
     </ItemGroup>
   </Target>
+
+  <Target Name="PrepareNuGetRuntimeAssets"
+          DependsOnTargets="BuildNativeBridge"
+          Condition="'$(PrepareNuGetRuntimeAssets)' == 'true' and '$(BuildNativeBridge)' == 'true'">
+    <PropertyGroup>
+      <CurrentNativeRuntimeDir>$(MSBuildThisFileDirectory)runtimes/$(CurrentNativeRuntimeIdentifier)/native/</CurrentNativeRuntimeDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <CurrentNativeRuntimeAsset Include="$(NativeBridgeBuildDir)*.dll" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+      <CurrentNativeRuntimeAsset Include="$(NativeBridgeBuildDir)*.so" Condition="!$([MSBuild]::IsOSPlatform('Windows'))" />
+    </ItemGroup>
+
+    <RemoveDir Directories="$(CurrentNativeRuntimeDir)" Condition="Exists('$(CurrentNativeRuntimeDir)')" />
+    <MakeDir Directories="$(CurrentNativeRuntimeDir)" />
+    <Copy SourceFiles="@(CurrentNativeRuntimeAsset)"
+          DestinationFolder="$(CurrentNativeRuntimeDir)"
+          SkipUnchangedFiles="true"
+          Condition="@(CurrentNativeRuntimeAsset->Count()) &gt; 0" />
+  </Target>
+
+  <Target Name="CollectNuGetRuntimeAssets" DependsOnTargets="PrepareNuGetRuntimeAssets">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)runtimes/linux-x64/native/*"
+                              PackagePath="runtimes/linux-x64/native/"
+                              Condition="Exists('$(MSBuildThisFileDirectory)runtimes/linux-x64/native/')" />
+      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)runtimes/win-x64/native/*"
+                              PackagePath="runtimes/win-x64/native/"
+                              Condition="Exists('$(MSBuildThisFileDirectory)runtimes/win-x64/native/')" />
+    </ItemGroup>
+  </Target>
+
+  <!-- NuGet package: MSBuild targets for dev-scenario native library copying -->
+  <ItemGroup>
+    <None Include="build/Ctp.Net.targets" Pack="true" PackagePath="build/Ctp.Net.targets" />
+    <None Include="$(RepoRoot)README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>

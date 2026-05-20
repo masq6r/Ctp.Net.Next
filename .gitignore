@@ -16,6 +16,9 @@ packages/
 # C++ native CMake build output
 NativeBridge/build/
 
+# Ctp.Net NuGet runtime assets (pre-built native binaries for packaging)
+Ctp.Net/runtimes/
+
 # clangd
 .clangd/
 

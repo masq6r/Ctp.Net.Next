@@ -1,0 +1,32 @@
+<Project>
+  <!--
+    Copies native bridge libraries from the NuGet package to the build output.
+    Only runs during Build (not Publish) and when the package's runtimes/ folder exists.
+    dotnet publish handles runtime assets natively via the runtimes/{rid}/native convention.
+  -->
+
+  <PropertyGroup>
+    <_CtpNetPackageRuntimeRoot Condition="Exists('$(MSBuildThisFileDirectory)../runtimes/')">$(MSBuildThisFileDirectory)../runtimes/</_CtpNetPackageRuntimeRoot>
+  </PropertyGroup>
+
+  <Target Name="CopyCtpNetNativeLibraries"
+          BeforeTargets="Build"
+          Condition="'$(_CtpNetPackageRuntimeRoot)' != ''">
+
+    <ItemGroup>
+      <!-- Linux x64 native libraries (bridge + optional CTP SDK) -->
+      <_CtpNetLinuxNative Include="$(_CtpNetPackageRuntimeRoot)linux-x64/native/*"
+                          Condition="Exists('$(_CtpNetPackageRuntimeRoot)linux-x64/native/') AND !$([MSBuild]::IsOSPlatform('Windows'))" />
+
+      <!-- Windows x64 native libraries (bridge + optional CTP SDK) -->
+      <_CtpNetWindowsNative Include="$(_CtpNetPackageRuntimeRoot)win-x64/native/*"
+                            Condition="Exists('$(_CtpNetPackageRuntimeRoot)win-x64/native/') AND $([MSBuild]::IsOSPlatform('Windows'))" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(_CtpNetLinuxNative);@(_CtpNetWindowsNative)"
+          DestinationFolder="$(OutputPath)"
+          SkipUnchangedFiles="true"
+          Condition="@(_CtpNetLinuxNative->Count()) > 0 OR @(_CtpNetWindowsNative->Count()) > 0" />
+  </Target>
+
+</Project>
