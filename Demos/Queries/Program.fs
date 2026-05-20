@@ -44,147 +44,46 @@ type QueriesConfig =
 type QueryOutcome = { Name: string; Summary: string; Succeeded: bool }
 
 module Config =
-    let private configFileName = "options.local.json"
-    let private projectFileName = "Queries.fsproj"
+    let private defaultConfigFileName = "options.local.json"
     let private jsonOptions = JsonSerializerOptions(PropertyNameCaseInsensitive = true)
 
-    let private isPresent (value: string) = not (String.IsNullOrWhiteSpace value)
-
-    let private trimRequired fieldName (value: string) =
-        if isPresent value then
-            value.Trim()
-        else
-            invalidOp $"{configFileName} is missing required field CtpOptions.{fieldName}."
-
-    let private trimToOption (value: string) = if isPresent value then Some(value.Trim()) else None
-
-    let private allAncestorDirectories startPath =
-        let rec loop (current: DirectoryInfo option) = seq {
-            match current with
-            | Some directory ->
-                yield directory.FullName
-                yield! loop (Option.ofObj directory.Parent)
-            | None -> ()
-        }
-
-        loop (Some(DirectoryInfo startPath))
-
-    let private searchStartDirectories () =
-        [ Directory.GetCurrentDirectory(); AppContext.BaseDirectory ] |> Seq.distinct
-
-    let private tryFindFile relativePaths =
-        searchStartDirectories ()
-        |> Seq.collect allAncestorDirectories
-        |> Seq.distinct
-        |> Seq.tryPick (fun directory ->
-            relativePaths
-            |> Seq.tryPick (fun relativePath ->
-                let path = Path.Combine(directory, relativePath)
-                if File.Exists path then Some path else None))
-
-    let private tryGetConfigPath () =
-        [ configFileName; Path.Combine("Demos", "Queries", configFileName) ]
-        |> tryFindFile
-
-    let private tryGetProjectDirectory () =
-        [ projectFileName; Path.Combine("Demos", "Queries", projectFileName) ]
-        |> tryFindFile
-        |> Option.bind (Path.GetDirectoryName >> Option.ofObj)
-
-    let private configLocationMessage () =
-        match tryGetProjectDirectory () with
-        | Some directory -> Path.Combine(directory, configFileName)
-        | None -> Path.Combine("Demos", "Queries", configFileName)
-
-    let private tryLoadConfigFile () =
-        try
-            tryGetConfigPath ()
-            |> Option.bind (fun path ->
-                let json = File.ReadAllText path
-
-                JsonSerializer.Deserialize<QueriesConfigFile>(json, jsonOptions) |> Option.ofObj)
-        with _ ->
-            None
-
-    let private requireSection sectionName value =
-        if obj.ReferenceEquals(value, null) then
-            invalidOp $"{configFileName} must contain a {sectionName} section."
-
-        value
+    let private trimToOption (value: string) = if String.IsNullOrWhiteSpace value then None else Some(value.Trim())
 
     let private createCtpOptions (config: CtpOptionsFile) =
         let flowPath = trimToOption config.FlowPath
 
-        let productionMode =
-            if config.ProductionMode.HasValue then
-                config.ProductionMode.Value
-            else
-                true
-
-        let userProductInfo = trimToOption config.UserProductInfo |> Option.defaultValue ""
-        let appId = trimToOption config.AppId |> Option.defaultValue ""
-        let authCode = trimToOption config.AuthCode |> Option.defaultValue ""
-
         CtpOptions.Create(
-            trimRequired "FrontAddress" config.FrontAddress,
-            trimRequired "BrokerId" config.BrokerId,
-            trimRequired "UserId" config.UserId,
-            trimRequired "Password" config.Password,
+            config.FrontAddress.Trim(),
+            config.BrokerId.Trim(),
+            config.UserId.Trim(),
+            config.Password.Trim(),
             ?flowPath = flowPath,
-            productionMode = productionMode,
-            userProductInfo = userProductInfo,
-            appId = appId,
-            authCode = authCode
+            productionMode = config.ProductionMode.Value,
+            userProductInfo = config.UserProductInfo.Trim(),
+            appId = config.AppId.Trim(),
+            authCode = config.AuthCode.Trim()
         )
 
     let private createFlowControlOptions (config: CtpFlowControlOptionsFile) =
-        let defaults = CtpFlowControlOptions.Default
+        { MaxDispatchesPerSecond = config.MaxDispatchesPerSecond.Value
+          MaxQueriesPerSecond = config.MaxQueriesPerSecond.Value
+          MaxNativeReturnCodeRetries = config.MaxNativeReturnCodeRetries.Value
+          NativeReturnCodeRetryDelay = float config.NativeReturnCodeRetryDelayMs.Value |> TimeSpan.FromMilliseconds
+          MaxQueryRspErrorRetries = config.MaxQueryRspErrorRetries.Value
+          QueryRspErrorRetryDelay = float config.QueryRspErrorRetryDelayMs.Value |> TimeSpan.FromMilliseconds
+          QueryCompletionTimeout = float config.QueryCompletionTimeoutMs.Value |> TimeSpan.FromMilliseconds
+          SubscriptionBatchSize = config.SubscriptionBatchSize.Value
+          SubscriptionBatchDelay = float config.SubscriptionBatchDelayMs.Value |> TimeSpan.FromMilliseconds }
 
-        let valueOrDefault (value: Nullable<int>) defaultValue = if value.HasValue then value.Value else defaultValue
-
-        { MaxDispatchesPerSecond = valueOrDefault config.MaxDispatchesPerSecond defaults.MaxDispatchesPerSecond
-          MaxQueriesPerSecond = valueOrDefault config.MaxQueriesPerSecond defaults.MaxQueriesPerSecond
-          MaxNativeReturnCodeRetries =
-            valueOrDefault config.MaxNativeReturnCodeRetries defaults.MaxNativeReturnCodeRetries
-          NativeReturnCodeRetryDelay =
-            valueOrDefault
-                config.NativeReturnCodeRetryDelayMs
-                (int defaults.NativeReturnCodeRetryDelay.TotalMilliseconds)
-            |> float
-            |> TimeSpan.FromMilliseconds
-          MaxQueryRspErrorRetries = valueOrDefault config.MaxQueryRspErrorRetries defaults.MaxQueryRspErrorRetries
-          QueryRspErrorRetryDelay =
-            valueOrDefault config.QueryRspErrorRetryDelayMs (int defaults.QueryRspErrorRetryDelay.TotalMilliseconds)
-            |> float
-            |> TimeSpan.FromMilliseconds
-          QueryCompletionTimeout =
-            valueOrDefault config.QueryCompletionTimeoutMs (int defaults.QueryCompletionTimeout.TotalMilliseconds)
-            |> float
-            |> TimeSpan.FromMilliseconds
-          SubscriptionBatchSize = valueOrDefault config.SubscriptionBatchSize defaults.SubscriptionBatchSize
-          SubscriptionBatchDelay =
-            valueOrDefault config.SubscriptionBatchDelayMs (int defaults.SubscriptionBatchDelay.TotalMilliseconds)
-            |> float
-            |> TimeSpan.FromMilliseconds }
-
-    let load () =
-        match tryLoadConfigFile () with
+    let load (args: string[]) =
+        let path = if args.Length > 0 then args[0] else defaultConfigFileName
+        let json = File.ReadAllText path
+        match JsonSerializer.Deserialize<QueriesConfigFile>(json, jsonOptions) |> Option.ofObj with
         | Some config ->
-            { CtpOptions = config.CtpOptions |> requireSection "CtpOptions" |> createCtpOptions
-              CtpFlowControlOptions =
-                config.CtpFlowControlOptions
-                |> requireSection "CtpFlowControlOptions"
-                |> createFlowControlOptions
-              ConnectTimeout =
-                if config.ConnectTimeoutMs.HasValue then
-                    config.ConnectTimeoutMs.Value
-                else
-                    15000
-                |> float
-                |> TimeSpan.FromMilliseconds }
-        | None ->
-            failwith
-                $"Create a valid {configLocationMessage ()} with CtpOptions and CtpFlowControlOptions before running this demo."
+            { CtpOptions = createCtpOptions config.CtpOptions
+              CtpFlowControlOptions = createFlowControlOptions config.CtpFlowControlOptions
+              ConnectTimeout = float config.ConnectTimeoutMs.Value |> TimeSpan.FromMilliseconds }
+        | None -> failwith $"Failed to load config from {path}."
 
 module Demo =
     let private timestamp () = DateTimeOffset.Now.ToString("HH:mm:ss.fff")
@@ -261,8 +160,8 @@ module Demo =
                   Succeeded = false }
     }
 
-    let run () = task {
-        let config = Config.load ()
+    let run (args: string[]) = task {
+        let config = Config.load args
         use client = new TraderClient(config.CtpOptions, flowControl = config.CtpFlowControlOptions)
 
         printfn "Connecting to %s" config.CtpOptions.FrontAddress
@@ -304,9 +203,9 @@ module Demo =
     }
 
 [<EntryPoint>]
-let main _ =
+let main args =
     try
-        (Demo.run ()).GetAwaiter().GetResult()
+        (Demo.run args).GetAwaiter().GetResult()
         0
     with ex ->
         eprintfn "%s" ex.Message
