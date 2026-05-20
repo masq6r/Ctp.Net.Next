@@ -7,12 +7,12 @@
     <NativeBridgeProjectDir>$(MSBuildThisFileDirectory)..\NativeBridge\</NativeBridgeProjectDir>
     <NativeBridgeBuildDir>$(NativeBridgeProjectDir)build\</NativeBridgeBuildDir>
     <!-- NuGet metadata -->
-    <PackageId>Ctp.Net</PackageId>
+    <PackageId>Ctp.Net.Next</PackageId>
     <Version>0.1.0</Version>
     <Authors>Ctp.Net Contributors</Authors>
     <Description>Managed F# wrapper for the CTP futures trading API with async/event-driven MD and Trader clients.</Description>
     <PackageTags>ctp;futures;trading;market-data;shfe;china</PackageTags>
-    <RepositoryUrl>https://github.com/your-org/Ctp.Net</RepositoryUrl>
+    <RepositoryUrl>https://github.com/masq6r/Ctp.Net.Next</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <!-- Set to false to skip native bridge build (e.g. during dotnet pack with pre-built runtimes/) -->

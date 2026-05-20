@@ -136,14 +136,17 @@ jobs:
             exit 1
           }
 
+      - name: Clean previous NuGet package outputs
+        run: rm -f Ctp.Net/bin/Release/*.nupkg
+
       - name: Pack NuGet package
         run: dotnet pack Ctp.Net/Ctp.Net.fsproj -p:BuildNativeBridge=false -p:PrepareNuGetRuntimeAssets=false -m:1
 
       - name: Verify package contents
         run: |
-          unzip -l Ctp.Net/bin/Release/Ctp.Net.*.nupkg | grep 'build/Ctp.Net.targets'
-          unzip -l Ctp.Net/bin/Release/Ctp.Net.*.nupkg | grep 'runtimes/linux-x64/native/libctptrader_bridge.so'
-          unzip -l Ctp.Net/bin/Release/Ctp.Net.*.nupkg | grep 'runtimes/win-x64/native/ctptrader_bridge.dll'
+          unzip -l Ctp.Net/bin/Release/*.nupkg | grep 'build/Ctp.Net.targets'
+          unzip -l Ctp.Net/bin/Release/*.nupkg | grep 'runtimes/linux-x64/native/libctptrader_bridge.so'
+          unzip -l Ctp.Net/bin/Release/*.nupkg | grep 'runtimes/win-x64/native/ctptrader_bridge.dll'
 
       - name: Upload NuGet package artifact
         uses: actions/upload-artifact@v4
