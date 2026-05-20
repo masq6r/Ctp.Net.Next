@@ -106,7 +106,14 @@ add_library(ctpmd_bridge SHARED
 )
 target_include_directories(ctpmd_bridge PRIVATE include "${MD_INCLUDE_DIR}")
 add_library(ctp_sdk_md SHARED IMPORTED GLOBAL)
-set_target_properties(ctp_sdk_md PROPERTIES IMPORTED_LOCATION "${MD_IMPORT_LIB}")
+if(WIN32)
+  set_target_properties(ctp_sdk_md PROPERTIES
+    IMPORTED_IMPLIB "${MD_IMPORT_LIB}"
+    IMPORTED_LOCATION "${MD_RUNTIME_LIB}"
+  )
+else()
+  set_target_properties(ctp_sdk_md PROPERTIES IMPORTED_LOCATION "${MD_IMPORT_LIB}")
+endif()
 target_link_libraries(ctpmd_bridge PRIVATE ctp_sdk_md)
 target_compile_definitions(ctpmd_bridge PRIVATE CTP_MD_BRIDGE_EXPORTS=1)
 set_target_properties(ctpmd_bridge PROPERTIES
@@ -121,7 +128,14 @@ add_library(ctptrader_bridge SHARED
 )
 target_include_directories(ctptrader_bridge PRIVATE include "${TRADER_INCLUDE_DIR}")
 add_library(ctp_sdk_trader SHARED IMPORTED GLOBAL)
-set_target_properties(ctp_sdk_trader PROPERTIES IMPORTED_LOCATION "${TRADER_IMPORT_LIB}")
+if(WIN32)
+  set_target_properties(ctp_sdk_trader PROPERTIES
+    IMPORTED_IMPLIB "${TRADER_IMPORT_LIB}"
+    IMPORTED_LOCATION "${TRADER_RUNTIME_LIB}"
+  )
+else()
+  set_target_properties(ctp_sdk_trader PROPERTIES IMPORTED_LOCATION "${TRADER_IMPORT_LIB}")
+endif()
 target_link_libraries(ctptrader_bridge PRIVATE ctp_sdk_trader)
 target_compile_definitions(ctptrader_bridge PRIVATE CTP_TRADER_BRIDGE_EXPORTS=1)
 set_target_properties(ctptrader_bridge PROPERTIES
