@@ -144,7 +144,7 @@ jobs:
 
       - name: Verify package contents
         run: |
-          unzip -l Ctp.Net/bin/Release/*.nupkg | grep 'build/Ctp.Net.targets'
+          unzip -l Ctp.Net/bin/Release/*.nupkg | grep 'build/Ctp.Net.Next.targets'
           unzip -l Ctp.Net/bin/Release/*.nupkg | grep 'runtimes/linux-x64/native/libctptrader_bridge.so'
           unzip -l Ctp.Net/bin/Release/*.nupkg | grep 'runtimes/win-x64/native/ctptrader_bridge.dll'
 
