@@ -38,6 +38,8 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 
 - `Demos/Subscription.fsx` — F# script `MdClient` example covering login and market-data subscription
 - `Demos/Subscription.cs` — C# file-based app `MdClient` example covering the same login and market-data subscription flow against the local project
+- `Demos/QueryAccount.fsx` — F# script `TraderClient` example covering authentication, login, settlement confirmation, and trading-account query
+- `Demos/QueryAccount.cs` — C# file-based app `TraderClient` example covering the same account-query flow against the local project
 - `Demos/FlowControl` — `TraderClient` example covering authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ Trader example for inspecting request/callback behavior against the official API
 - `eXp` — a personal automated trading system that has been running on `Ctp.Net.Next` for 5 years
@@ -48,6 +50,8 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 - `NativeBridge` — C++ bridge, exported C ABI, bundled `ctp-sdk`, and native-only build entrypoints
 - `Demos/Subscription.fsx` — F# script `MdClient` demo for login and market-data subscription
 - `Demos/Subscription.cs` — C# file-based app `MdClient` demo for the same market-data flow
+- `Demos/QueryAccount.fsx` — F# script `TraderClient` demo for authentication, login, settlement confirmation, and trading-account query
+- `Demos/QueryAccount.cs` — C# file-based app `TraderClient` demo for the same trading-account flow
 - `Demos/FlowControl` — `TraderClient` demo for authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ trader demo for inspecting request / callback behavior against the official API
 - `Tests/Ctp.Net.Tests` — fast unit tests
@@ -208,6 +212,80 @@ Notes:
 
 - The file-based app is self-contained and does not use `options.local.json`.
 - `dotnet build -- Demos/Subscription.cs` uses `--` so the file is treated as a file-based app instead of an MSBuild project path.
+
+### `Demos/QueryAccount.fsx`
+
+This F# script demonstrates the `TraderClient` flow for connect, authenticate, login, settlement confirmation, and trading-account query.
+
+Before running it:
+
+1. Edit `Demos/QueryAccount.fsx` and update `ctpOpt` to match your environment:
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. Create the directory referenced by `flowPath` before `Init()` runs.
+3. Make sure the configured front actually expects authentication; many trader fronts require `userProductInfo`, `appId`, and `authCode`.
+
+Example:
+
+```bash
+mkdir -p /tmp/ctp-flow-trader
+```
+
+Run:
+
+```bash
+dotnet fsi Demos/QueryAccount.fsx
+```
+
+Notes:
+
+- The script is self-contained and does not use `options.local.json`.
+- The script currently references the published `Ctp.Net.Next` NuGet package via `#r "nuget: Ctp.Net.Next"`.
+- The flow intentionally calls `SettlementInfoConfirmAsync()` before `QueryTradingAccountAsync()` to mirror the existing trader demo sequence.
+
+### `Demos/QueryAccount.cs`
+
+This C# file-based app demonstrates the same `TraderClient` connect, authenticate, login, settlement-confirmation, and trading-account-query flow, but references the local `Ctp.Net` project from this repository.
+
+Before running it:
+
+1. Edit `Demos/QueryAccount.cs` and update `ctpOptions` to match your environment:
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. Create the directory referenced by `flowPath` before `Init()` runs.
+3. Make sure the configured front actually expects authentication; many trader fronts require `userProductInfo`, `appId`, and `authCode`.
+
+Build:
+
+```bash
+dotnet build -- Demos/QueryAccount.cs
+```
+
+Run:
+
+```bash
+dotnet run --file Demos/QueryAccount.cs
+```
+
+Notes:
+
+- The file-based app is self-contained and does not use `options.local.json`.
+- `dotnet build -- Demos/QueryAccount.cs` uses `--` so the file is treated as a file-based app instead of an MSBuild project path.
+- The demo prints a short settlement-confirmation summary and the first returned trading-account balance.
 
 ### `Demos/FlowControl`
 

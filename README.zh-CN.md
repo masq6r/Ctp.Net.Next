@@ -40,6 +40,8 @@ CTP SDK 的 `.NET` 封装库。
 - `NativeBridge` — C++ 桥接层，导出 C ABI，内置 `ctp-sdk`，以及原生构建入口
 - `Demos/Subscription.fsx` — 用于登录和行情订阅的 F# 脚本版 `MdClient` 示例
 - `Demos/Subscription.cs` — 使用本仓库本地 `Ctp.Net` 项目的 C# file-based app 版 `MdClient` 示例，演示同样的登录与行情订阅流程
+- `Demos/QueryAccount.fsx` — 用于认证、登录、结算确认和资金账户查询的 F# 脚本版 `TraderClient` 示例
+- `Demos/QueryAccount.cs` — 使用本仓库本地 `Ctp.Net` 项目的 C# file-based app 版 `TraderClient` 示例，演示同样的资金账户查询流程
 - `Demos/FlowControl` — 用于认证、结算确认以及托管流控下并发查询的 `TraderClient` 示例
 - `Demos/CtpDemo.Local.Native` — 原生 C++ Trader 示例，用于对照官方 API 检查请求/回调行为
 - `Tests/Ctp.Net.Tests` — 快速单元测试
@@ -200,6 +202,80 @@ dotnet run --file Demos/Subscription.cs
 
 - 这个 file-based app 是自包含的，不读取 `options.local.json`。
 - `dotnet build -- Demos/Subscription.cs` 里的 `--` 用于确保该文件被当作 file-based app，而不是 MSBuild 项目路径。
+
+### `Demos/QueryAccount.fsx`
+
+这个 F# 脚本演示了 `TraderClient` 的连接、认证、登录、结算确认和资金账户查询流程。
+
+运行前请先：
+
+1. 编辑 `Demos/QueryAccount.fsx` 中的 `ctpOpt`，按你的环境修改以下字段：
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. 在 `Init()` 之前先创建 `flowPath` 指向的目录。
+3. 确认你的 Trader Front 是否要求认证；很多前置都需要 `userProductInfo`、`appId` 和 `authCode`。
+
+例如：
+
+```bash
+mkdir -p /tmp/ctp-flow-trader
+```
+
+运行：
+
+```bash
+dotnet fsi Demos/QueryAccount.fsx
+```
+
+说明：
+
+- 这个脚本是自包含的，不读取 `options.local.json`。
+- 当前脚本通过 `#r "nuget: Ctp.Net.Next"` 引用已发布的 NuGet 包。
+- 该流程会先调用 `SettlementInfoConfirmAsync()`，再调用 `QueryTradingAccountAsync()`，以保持与现有 Trader 示例一致。
+
+### `Demos/QueryAccount.cs`
+
+这个 C# file-based app 演示了与上面相同的 `TraderClient` 连接、认证、登录、结算确认和资金账户查询流程，但它直接引用本仓库里的本地 `Ctp.Net` 项目。
+
+运行前请先：
+
+1. 编辑 `Demos/QueryAccount.cs` 中的 `ctpOptions`，按你的环境修改以下字段：
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. 在 `Init()` 之前先创建 `flowPath` 指向的目录。
+3. 确认你的 Trader Front 是否要求认证；很多前置都需要 `userProductInfo`、`appId` 和 `authCode`。
+
+构建：
+
+```bash
+dotnet build -- Demos/QueryAccount.cs
+```
+
+运行：
+
+```bash
+dotnet run --file Demos/QueryAccount.cs
+```
+
+说明：
+
+- 这个 file-based app 是自包含的，不读取 `options.local.json`。
+- `dotnet build -- Demos/QueryAccount.cs` 里的 `--` 用于确保该文件被当作 file-based app，而不是 MSBuild 项目路径。
+- 该示例会打印简短的结算确认摘要，以及第一条资金账户余额信息。
 
 ### `Demos/FlowControl`
 
