@@ -1,10 +1,10 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
-# Queries
+# FlowControl
 
 ## 项目目的
 
-`Demos/Queries` 是一个基于 `TraderClient` 的控制台示例，用来演示：
+`Demos/FlowControl` 是一个基于 `TraderClient` 的控制台示例，用来演示：
 
 - 从 `options.local.json` 读取 `CtpOptions` 和 `CtpFlowControlOptions`
 - 初始化 `TraderClient`
@@ -28,14 +28,14 @@
 
 配置文件要求：
 
-- 本项目运行时读取 `Demos/Queries/options.local.json`
-- 目录中已提供 `Demos/Queries/options.template.json`
+- 本项目运行时读取 `Demos/FlowControl/options.local.json`
+- 目录中已提供 `Demos/FlowControl/options.template.json`
 - 请以 `options.template.json` 为基础复制并修改，生成自己的 `options.local.json`
 
 例如：
 
 ```bash
-cp Demos/Queries/options.template.json Demos/Queries/options.local.json
+cp Demos/FlowControl/options.template.json Demos/FlowControl/options.local.json
 ```
 
 然后按实际环境填写：
@@ -56,7 +56,7 @@ cp Demos/Queries/options.template.json Demos/Queries/options.local.json
 在仓库根目录执行：
 
 ```bash
-dotnet build Demos/Queries/Queries.fsproj -m:1
+dotnet build Demos/FlowControl/FlowControl.fsproj -m:1
 ```
 
 说明：
@@ -70,7 +70,7 @@ dotnet build Demos/Queries/Queries.fsproj -m:1
 在仓库根目录执行：
 
 ```bash
-dotnet run --project Demos/Queries/Queries.fsproj
+dotnet run --project Demos/FlowControl/FlowControl.fsproj
 ```
 
 运行成功后，控制台会依次输出：

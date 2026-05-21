@@ -1,10 +1,10 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
-# Queries
+# FlowControl
 
 ## Purpose
 
-`Demos/Queries` is a console demo based on `TraderClient` that demonstrates:
+`Demos/FlowControl` is a console demo based on `TraderClient` that demonstrates:
 
 - Reading `CtpOptions` and `CtpFlowControlOptions` from `options.local.json`
 - Initializing `TraderClient`
@@ -28,14 +28,14 @@ Before running this demo:
 
 Configuration file:
 
-- The demo reads `Demos/Queries/options.local.json` at runtime
-- A template is provided at `Demos/Queries/options.template.json`
+- The demo reads `Demos/FlowControl/options.local.json` at runtime
+- A template is provided at `Demos/FlowControl/options.template.json`
 - Copy and modify the template to create your own `options.local.json`
 
 For example:
 
 ```bash
-cp Demos/Queries/options.template.json Demos/Queries/options.local.json
+cp Demos/FlowControl/options.template.json Demos/FlowControl/options.local.json
 ```
 
 Then fill in your actual environment values:
@@ -56,7 +56,7 @@ Then fill in your actual environment values:
 From the repository root:
 
 ```bash
-dotnet build Demos/Queries/Queries.fsproj -m:1
+dotnet build Demos/FlowControl/FlowControl.fsproj -m:1
 ```
 
 Notes:
@@ -70,7 +70,7 @@ Notes:
 From the repository root:
 
 ```bash
-dotnet run --project Demos/Queries/Queries.fsproj
+dotnet run --project Demos/FlowControl/FlowControl.fsproj
 ```
 
 On success, the console outputs:

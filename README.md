@@ -37,7 +37,7 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 ## Related demos and consumers
 
 - `Demos/Subscription` — `MdClient` example covering login and market-data subscription
-- `Demos/Queries` — `TraderClient` example covering authentication, settlement confirmation, and concurrent queries under managed flow control
+- `Demos/FlowControl` — `TraderClient` example covering authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ Trader example for inspecting request/callback behavior against the official API
 - `eXp` — a personal automated trading system that has been running on `Ctp.Net.Next` for 5 years
 
@@ -46,7 +46,7 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 - `Ctp.Net` — managed F# library; `Bridge/` contains low-level interop and the top-level files expose public clients
 - `NativeBridge` — C++ bridge, exported C ABI, bundled `ctp-sdk`, and native-only build entrypoints
 - `Demos/Subscription` — `MdClient` demo for login and market-data subscription
-- `Demos/Queries` — `TraderClient` demo for authentication, settlement confirmation, and concurrent queries under managed flow control
+- `Demos/FlowControl` — `TraderClient` demo for authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ trader demo for inspecting request / callback behavior against the official API
 - `Tests/Ctp.Net.Tests` — fast unit tests
 - `Tests/Ctp.Net.SmokeTests` — live integration tests against real CTP fronts
@@ -151,21 +151,21 @@ dotnet run --project Demos/Subscription/Subscription.fsproj
 
 This demo reads `Demos/Subscription/options.local.json`, connects an `MdClient`, logs in, subscribes to configured instruments, and prints lightweight market-data updates.
 
-### `Demos/Queries`
+### `Demos/FlowControl`
 
 Build:
 
 ```bash
-dotnet build Demos/Queries/Queries.fsproj -m:1
+dotnet build Demos/FlowControl/FlowControl.fsproj -m:1
 ```
 
 Run:
 
 ```bash
-dotnet run --project Demos/Queries/Queries.fsproj
+dotnet run --project Demos/FlowControl/FlowControl.fsproj
 ```
 
-This demo reads `Demos/Queries/options.local.json`, authenticates and logs in with `TraderClient`, confirms settlement when needed, then issues concurrent queries to demonstrate managed flow-control behavior.
+This demo reads `Demos/FlowControl/options.local.json`, authenticates and logs in with `TraderClient`, confirms settlement when needed, then issues concurrent queries to demonstrate managed flow-control behavior.
 
 ### `Demos/CtpDemo.Local.Native`
 

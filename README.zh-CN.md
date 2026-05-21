@@ -39,7 +39,7 @@ CTP SDK 的 `.NET` 封装库。
 - `Ctp.Net` — 托管 F# 库；`Bridge/` 包含底层互操作，顶层文件暴露公开客户端
 - `NativeBridge` — C++ 桥接层，导出 C ABI，内置 `ctp-sdk`，以及原生构建入口
 - `Demos/Subscription` — 用于登录和行情订阅的 `MdClient` 示例
-- `Demos/Queries` — 用于认证、结算确认以及托管流控下并发查询的 `TraderClient` 示例
+- `Demos/FlowControl` — 用于认证、结算确认以及托管流控下并发查询的 `TraderClient` 示例
 - `Demos/CtpDemo.Local.Native` — 原生 C++ Trader 示例，用于对照官方 API 检查请求/回调行为
 - `Tests/Ctp.Net.Tests` — 快速单元测试
 - `Tests/Ctp.Net.SmokeTests` — 针对真实 CTP 前置的集成测试
@@ -144,21 +144,21 @@ dotnet run --project Demos/Subscription/Subscription.fsproj
 
 此示例读取 `Demos/Subscription/options.local.json`，连接 `MdClient`，登录，订阅配置的合约，并打印简短的行情更新。
 
-### `Demos/Queries`
+### `Demos/FlowControl`
 
 构建：
 
 ```bash
-dotnet build Demos/Queries/Queries.fsproj -m:1
+dotnet build Demos/FlowControl/FlowControl.fsproj -m:1
 ```
 
 运行：
 
 ```bash
-dotnet run --project Demos/Queries/Queries.fsproj
+dotnet run --project Demos/FlowControl/FlowControl.fsproj
 ```
 
-此示例读取 `Demos/Queries/options.local.json`，通过 `TraderClient` 进行认证和登录，在需要时确认结算，然后发起并发查询以演示托管流控行为。
+此示例读取 `Demos/FlowControl/options.local.json`，通过 `TraderClient` 进行认证和登录，在需要时确认结算，然后发起并发查询以演示托管流控行为。
 
 ### `Demos/CtpDemo.Local.Native`
 

@@ -34,10 +34,5 @@ Ctp.Net/runtimes/
 .DS_Store
 Thumbs.db
 
-# Smoke test local config (contains credentials)
-Tests/Ctp.Net.SmokeTests/smoke.local.json
-
 # Local demos
-Demos/**/*.[Ll]ocal*/
-Demos/Queries/options.local.json
-Demos/Subscription/options.local.json
+**/*.[Ll]ocal*
