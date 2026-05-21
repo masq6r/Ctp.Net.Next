@@ -36,7 +36,8 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 
 ## Related demos and consumers
 
-- `Demos/Subscription` — `MdClient` example covering login and market-data subscription
+- `Demos/Subscription.fsx` — F# script `MdClient` example covering login and market-data subscription
+- `Demos/Subscription.cs` — C# file-based app `MdClient` example covering the same login and market-data subscription flow against the local project
 - `Demos/FlowControl` — `TraderClient` example covering authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ Trader example for inspecting request/callback behavior against the official API
 - `eXp` — a personal automated trading system that has been running on `Ctp.Net.Next` for 5 years
@@ -45,7 +46,8 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 
 - `Ctp.Net` — managed F# library; `Bridge/` contains low-level interop and the top-level files expose public clients
 - `NativeBridge` — C++ bridge, exported C ABI, bundled `ctp-sdk`, and native-only build entrypoints
-- `Demos/Subscription` — `MdClient` demo for login and market-data subscription
+- `Demos/Subscription.fsx` — F# script `MdClient` demo for login and market-data subscription
+- `Demos/Subscription.cs` — C# file-based app `MdClient` demo for the same market-data flow
 - `Demos/FlowControl` — `TraderClient` demo for authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ trader demo for inspecting request / callback behavior against the official API
 - `Tests/Ctp.Net.Tests` — fast unit tests
@@ -135,21 +137,77 @@ dotnet run --project Tests/Ctp.Net.SmokeTests/Ctp.Net.SmokeTests.fsproj --no-bui
 
 ## Demos
 
-### `Demos/Subscription`
+### `Demos/Subscription.fsx`
 
-Build:
+This F# script demonstrates the `MdClient` login and market-data subscription flow.
+
+Before running it:
+
+1. Edit `Demos/Subscription.fsx` and update `ctpOpt` to match your environment:
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. Update `instrumentIds` in the same file to the contracts you want to subscribe to.
+3. Create the directory referenced by `flowPath` before `Init()` runs.
+
+Example:
 
 ```bash
-dotnet build Demos/Subscription/Subscription.fsproj -m:1
+mkdir -p /tmp/ctp-flow-md
 ```
 
 Run:
 
 ```bash
-dotnet run --project Demos/Subscription/Subscription.fsproj
+dotnet fsi Demos/Subscription.fsx
 ```
 
-This demo reads `Demos/Subscription/options.local.json`, connects an `MdClient`, logs in, subscribes to configured instruments, and prints lightweight market-data updates.
+Notes:
+
+- The script is self-contained and does not use `options.local.json`.
+- The script currently references the published `Ctp.Net.Next` NuGet package via `#r "nuget: Ctp.Net.Next"`.
+
+### `Demos/Subscription.cs`
+
+This C# file-based app demonstrates the same `MdClient` login and market-data subscription flow, but references the local `Ctp.Net` project from this repository.
+
+Before running it:
+
+1. Edit `Demos/Subscription.cs` and update `ctpOptions` to match your environment:
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. Update `instrumentIds` in the same file to the contracts you want to subscribe to.
+3. Create the directory referenced by `flowPath` before `Init()` runs.
+
+Build:
+
+```bash
+dotnet build -- Demos/Subscription.cs
+```
+
+Run:
+
+```bash
+dotnet run --file Demos/Subscription.cs
+```
+
+Notes:
+
+- The file-based app is self-contained and does not use `options.local.json`.
+- `dotnet build -- Demos/Subscription.cs` uses `--` so the file is treated as a file-based app instead of an MSBuild project path.
 
 ### `Demos/FlowControl`
 

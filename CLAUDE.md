@@ -14,8 +14,9 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - Run one smoke test: `dotnet run --project Tests/Ctp.Net.SmokeTests/Ctp.Net.SmokeTests.fsproj --no-build -- -method "Ctp.Net.SmokeTests.MdSmokeTests.md client can connect login subscribe and receive market data"`
 - Build native bridge only on Linux: `./NativeBridge/build.sh`
 - Build native bridge only on Windows: `./NativeBridge/build.ps1 -CtpSdkRoot <path-to-ctp-sdk>`
-- Build market-data demo: `dotnet build Demos/Subscription/Subscription.fsproj -m:1`
-- Run market-data demo: `dotnet run --project Demos/Subscription/Subscription.fsproj`
+- Run F# market-data demo: `dotnet fsi Demos/Subscription.fsx`
+- Build C# market-data file-based demo: `dotnet build -- Demos/Subscription.cs`
+- Run C# market-data file-based demo: `dotnet run --file Demos/Subscription.cs`
 - Build trader flow-control demo: `dotnet build Demos/FlowControl/FlowControl.fsproj -m:1`
 - Run trader flow-control demo: `dotnet run --project Demos/FlowControl/FlowControl.fsproj`
 
@@ -25,7 +26,7 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - Building `Ctp.Net` also builds `NativeBridge` and copies native artifacts into the managed output directory.
 - Test projects use pure Microsoft.Testing.Platform via `Tests/*/global.json`. Prefer `dotnet run --project ... -- <xUnit args>` over VSTest compatibility mode.
 - Smoke tests are live integration tests. They stay skipped until `Tests/Ctp.Net.SmokeTests/smoke.local.json` exists and contains valid fronts and credentials.
-- Demo projects read local config from `Demos/*/options.local.json`.
+- `Demos/FlowControl` reads local config from `Demos/FlowControl/options.local.json`; `Demos/Subscription.fsx` and `Demos/Subscription.cs` are in-source demos, so edit `ctpOpt` / `ctpOptions` and `instrumentIds` before running.
 - `flowPath` directories must already exist before `Init()`.
 - There is no repo-specific lint or formatting command checked in here. Do not invent one in automation.
 
@@ -37,7 +38,7 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - `Ctp.Net/Common.fs` contains shared public options, `CtpFlowControlOptions`, connection coordination, and managed flow-control primitives.
 - `Tests/Ctp.Net.Tests/Program.fs` is the fast behavioral suite.
 - `Tests/Ctp.Net.SmokeTests/Program.fs` is the end-to-end suite against real fronts.
-- `Demos/Subscription` and `Demos/FlowControl` are the fastest examples of current managed usage.
+- `Demos/Subscription.fsx`, `Demos/Subscription.cs`, and `Demos/FlowControl` are the fastest examples of current managed usage.
 
 ## Hard invariants
 

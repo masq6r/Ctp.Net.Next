@@ -38,7 +38,8 @@ CTP SDK 的 `.NET` 封装库。
 
 - `Ctp.Net` — 托管 F# 库；`Bridge/` 包含底层互操作，顶层文件暴露公开客户端
 - `NativeBridge` — C++ 桥接层，导出 C ABI，内置 `ctp-sdk`，以及原生构建入口
-- `Demos/Subscription` — 用于登录和行情订阅的 `MdClient` 示例
+- `Demos/Subscription.fsx` — 用于登录和行情订阅的 F# 脚本版 `MdClient` 示例
+- `Demos/Subscription.cs` — 使用本仓库本地 `Ctp.Net` 项目的 C# file-based app 版 `MdClient` 示例，演示同样的登录与行情订阅流程
 - `Demos/FlowControl` — 用于认证、结算确认以及托管流控下并发查询的 `TraderClient` 示例
 - `Demos/CtpDemo.Local.Native` — 原生 C++ Trader 示例，用于对照官方 API 检查请求/回调行为
 - `Tests/Ctp.Net.Tests` — 快速单元测试
@@ -128,21 +129,77 @@ dotnet run --project Tests/Ctp.Net.SmokeTests/Ctp.Net.SmokeTests.fsproj --no-bui
 
 ## 示例
 
-### `Demos/Subscription`
+### `Demos/Subscription.fsx`
 
-构建：
+这个 F# 脚本演示了 `MdClient` 的连接、登录和行情订阅流程。
+
+运行前请先：
+
+1. 编辑 `Demos/Subscription.fsx` 中的 `ctpOpt`，按你的环境修改以下字段：
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. 编辑同一文件中的 `instrumentIds`，改成你要订阅的合约。
+3. 在 `Init()` 之前先创建 `flowPath` 指向的目录。
+
+例如：
 
 ```bash
-dotnet build Demos/Subscription/Subscription.fsproj -m:1
+mkdir -p /tmp/ctp-flow-md
 ```
 
 运行：
 
 ```bash
-dotnet run --project Demos/Subscription/Subscription.fsproj
+dotnet fsi Demos/Subscription.fsx
 ```
 
-此示例读取 `Demos/Subscription/options.local.json`，连接 `MdClient`，登录，订阅配置的合约，并打印简短的行情更新。
+说明：
+
+- 这个脚本是自包含的，不读取 `options.local.json`。
+- 当前脚本通过 `#r "nuget: Ctp.Net.Next"` 引用已发布的 NuGet 包。
+
+### `Demos/Subscription.cs`
+
+这个 C# file-based app 演示了与上面相同的 `MdClient` 连接、登录和行情订阅流程，但它直接引用本仓库里的本地 `Ctp.Net` 项目。
+
+运行前请先：
+
+1. 编辑 `Demos/Subscription.cs` 中的 `ctpOptions`，按你的环境修改以下字段：
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. 编辑同一文件中的 `instrumentIds`，改成你要订阅的合约。
+3. 在 `Init()` 之前先创建 `flowPath` 指向的目录。
+
+构建：
+
+```bash
+dotnet build -- Demos/Subscription.cs
+```
+
+运行：
+
+```bash
+dotnet run --file Demos/Subscription.cs
+```
+
+说明：
+
+- 这个 file-based app 是自包含的，不读取 `options.local.json`。
+- `dotnet build -- Demos/Subscription.cs` 里的 `--` 用于确保该文件被当作 file-based app，而不是 MSBuild 项目路径。
 
 ### `Demos/FlowControl`
 
