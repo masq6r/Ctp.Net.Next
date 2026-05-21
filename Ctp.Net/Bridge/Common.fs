@@ -22,41 +22,106 @@ module internal BridgeResolver =
     let private isBridgeLibrary (libraryName: string) =
         libraryName = "ctpmd_bridge" || libraryName = "ctptrader_bridge"
 
-    let private candidateDirectories () =
+    let private normalizeDirectory (directory: string) = Path.GetFullPath directory
+
+    let private currentRuntimeIdentifier () =
+        let os =
+            if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then
+                Some "win"
+            elif RuntimeInformation.IsOSPlatform(OSPlatform.Linux) then
+                Some "linux"
+            elif RuntimeInformation.IsOSPlatform(OSPlatform.OSX) then
+                Some "osx"
+            else
+                None
+
+        let architecture =
+            match RuntimeInformation.ProcessArchitecture with
+            | Architecture.X64 -> Some "x64"
+            | Architecture.X86 -> Some "x86"
+            | Architecture.Arm64 -> Some "arm64"
+            | Architecture.Arm -> Some "arm"
+            | _ -> None
+
+        match os, architecture with
+        | Some osName, Some archName -> Some $"{osName}-{archName}"
+        | _ -> None
+
+    let private assemblyDirectory () =
+        let location = Assembly.GetExecutingAssembly().Location
+
+        if String.IsNullOrWhiteSpace location then
+            None
+        else
+            Path.GetDirectoryName location |> Option.ofObj |> Option.map normalizeDirectory
+
+    let private tryGetEnvironmentVariable name =
+        match Environment.GetEnvironmentVariable name with
+        | null -> None
+        | value when String.IsNullOrWhiteSpace value -> None
+        | value -> Some value
+
+    let private candidateDirectoryEntries () =
+        let runtimeIdentifier = currentRuntimeIdentifier ()
+
         seq {
-            let fromEnv = Environment.GetEnvironmentVariable("CTP_BRIDGE_DIR")
+            match tryGetEnvironmentVariable "CTP_BRIDGE_DIR" with
+            | Some fromEnv -> yield "CTP_BRIDGE_DIR", normalizeDirectory fromEnv
+            | None -> ()
 
-            if not (String.IsNullOrWhiteSpace fromEnv) then
-                yield fromEnv
+            yield "AppContext.BaseDirectory", normalizeDirectory AppContext.BaseDirectory
+            yield "AppContext.BaseDirectory/native", normalizeDirectory (Path.Combine(AppContext.BaseDirectory, "native"))
 
-            yield AppContext.BaseDirectory
-            yield Path.Combine(AppContext.BaseDirectory, "native")
+            match runtimeIdentifier with
+            | Some rid ->
+                yield
+                    $"AppContext.BaseDirectory/runtimes/{rid}/native",
+                    normalizeDirectory (Path.Combine(AppContext.BaseDirectory, "runtimes", rid, "native"))
+            | None -> ()
+
+            match assemblyDirectory () with
+            | Some directory ->
+                yield "Ctp.Net assembly directory", directory
+                yield "Ctp.Net assembly directory/native", normalizeDirectory (Path.Combine(directory, "native"))
+
+                match runtimeIdentifier with
+                | Some rid ->
+                    yield
+                        $"NuGet package runtimes/{rid}/native beside Ctp.Net.dll",
+                        normalizeDirectory (Path.Combine(directory, "..", "..", "runtimes", rid, "native"))
+                | None -> ()
+            | None -> ()
         }
-        |> Seq.distinct
+        |> Seq.distinctBy snd
+
+    let private candidateDirectories () = candidateDirectoryEntries () |> Seq.map snd
 
     let private createMissingLibraryMessage (libraryName: string) =
         let fileName = libraryFileName libraryName
-        let configuredBridgeDir = Environment.GetEnvironmentVariable("CTP_BRIDGE_DIR")
+        let configuredBridgeDir = tryGetEnvironmentVariable "CTP_BRIDGE_DIR"
+        let candidateEntries = candidateDirectoryEntries () |> Seq.toList
 
         let searchedPaths =
-            candidateDirectories ()
-            |> Seq.map (fun directory -> Path.Combine(directory, fileName))
+            candidateEntries
+            |> Seq.map (fun (_, directory) -> Path.Combine(directory, fileName))
+            |> String.concat Environment.NewLine
+
+        let lookupOrder =
+            candidateEntries
+            |> Seq.mapi (fun index (label, _) -> $"  {index + 1}. {label}")
             |> String.concat Environment.NewLine
 
         let bridgeDirHint =
-            if String.IsNullOrWhiteSpace configuredBridgeDir then
-                "CTP_BRIDGE_DIR is not set."
-            else
-                $"CTP_BRIDGE_DIR is set to '{configuredBridgeDir}'."
+            match configuredBridgeDir with
+            | Some directory -> $"CTP_BRIDGE_DIR is set to '{directory}'."
+            | None -> "CTP_BRIDGE_DIR is not set."
 
         String.concat
             Environment.NewLine
             [ $"Unable to load native bridge library '{fileName}'."
               bridgeDirHint
               "Native bridge lookup order:"
-              "  1. CTP_BRIDGE_DIR"
-              "  2. AppContext.BaseDirectory"
-              "  3. AppContext.BaseDirectory/native"
+              lookupOrder
               "Set CTP_BRIDGE_DIR to the directory containing the Ctp.Bridge.C build output, for example:"
               "  export CTP_BRIDGE_DIR=/path/to/Ctp.Net/Ctp.Bridge.C/build"
               "Checked paths:"

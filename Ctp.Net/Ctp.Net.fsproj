@@ -110,7 +110,7 @@
 
   <!-- NuGet package: MSBuild targets for dev-scenario native library copying -->
   <ItemGroup>
-    <None Include="build/Ctp.Net.targets" Pack="true" PackagePath="build/Ctp.Net.targets" />
+    <None Include="build/Ctp.Net.targets" Pack="true" PackagePath="build/Ctp.Net.Next.targets" />
     <None Include="$(RepoRoot)README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 

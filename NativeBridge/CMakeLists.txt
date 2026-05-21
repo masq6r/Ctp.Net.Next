@@ -147,11 +147,11 @@ add_custom_command(TARGET ctptrader_bridge POST_BUILD
 
 if(UNIX AND NOT APPLE)
   set_target_properties(ctpmd_bridge PROPERTIES
-    BUILD_RPATH "${MD_INCLUDE_DIR}"
+    BUILD_RPATH "$ORIGIN"
     INSTALL_RPATH "$ORIGIN"
   )
   set_target_properties(ctptrader_bridge PROPERTIES
-    BUILD_RPATH "${TRADER_INCLUDE_DIR}"
+    BUILD_RPATH "$ORIGIN"
     INSTALL_RPATH "$ORIGIN"
   )
 endif()
