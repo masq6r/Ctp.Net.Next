@@ -15,8 +15,17 @@ As a core infrastructure component of the personal automated trading system `eXp
 
 **This software is provided "as is", without warranty of any kind.** Use it at your own risk. The authors are not responsible for any financial losses, trading errors, or damages arising from its use. This project is not affiliated with the CTP SDK vendor. Nothing in this repository constitutes financial or investment advice.
 
+### CTP SDK native library redistribution notice
+
+For packaging convenience, the NuGet package for this project may include native binary files originating from the CTP SDK. Those files remain the property of their respective rights holders.
+
+No statement in this repository should be interpreted as granting any separate license, authorization, endorsement, or legal opinion regarding redistribution of the upstream CTP SDK. Before using this project in production, internal distribution, commercial distribution, or any onward redistribution scenario, you are responsible for independently reviewing the upstream SDK terms, applicable laws and regulations, and your own compliance obligations, and for obtaining any permissions that may be required.
+
+If your intended use, distribution model, or jurisdiction imposes additional restrictions, do not rely solely on the bundled binaries. The maintainers reserve the right to change, limit, or remove bundled native files in future releases if legal, compliance, or upstream policy considerations require it.
+
 ## Highlights
 
+- OOTB experience, just download and trade, no extra setups
 - Query with **async workflows** (C# `async`/`await`, F# `async` computation expressions) to avoid callback hell
 - `CtpFlowControlOptions` for query **throttling, native retry handling, and subscription batching**
 - Cancel in-flight queries at any time with `CancellationToken`
