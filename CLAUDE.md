@@ -37,11 +37,18 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 
 - `NativeBridge` is the native C++ layer. It links the official CTP SDK and exposes a stable C ABI in `NativeBridge/include/ctp_bridge.h`.
 - `Ctp.Net/Bridge/` is the interop layer: `DllImport`, native structs, callback delegates, safe handles, and marshalling.
-- `Ctp.Net/Md.fs` and `Ctp.Net/Trader.fs` wrap callback-driven APIs into `Async<Result<...>>` methods and .NET events.
+- `Ctp.Net/Md.fs` and `Ctp.Net/Trader.fs` wrap callback-driven APIs into F#-first `Async<Result<...>>` methods and .NET events.
+- `Ctp.Net/CSharp/` provides C#-opinionated wrappers (`MdClient`, `TraderClient`) that convert `Async<Result<_,_>>` → `Task<T>` + typed exceptions, `IEvent` → `EventHandler<T>`, and `FSharpOption` → C# native optional parameters.
 - `Ctp.Net/Common.fs` contains shared public options, `CtpFlowControlOptions`, connection coordination, and managed flow-control primitives.
 - `Tests/Ctp.Net.Tests/Program.fs` is the fast behavioral suite.
 - `Tests/Ctp.Net.SmokeTests/Program.fs` is the end-to-end suite against real fronts.
 - `Demos/Subscription.fsx`, `Demos/Subscription.cs`, `Demos/QueryAccount.fsx`, `Demos/QueryAccount.cs`, and `Demos/FlowControl` are the fastest examples of current managed usage.
+
+## Two API surfaces
+
+- F#-first `Ctp.Net.MdClient` / `Ctp.Net.TraderClient` expose `Async<Result<_, RspInfo>>`, `FSharpOption`, and `IEvent<_>`. These are the core implementation; C#-friendly wrappers delegate to them.
+- C#-opinionated `Ctp.Net.CSharp.MdClient` / `Ctp.Net.CSharp.TraderClient` wrap the F# clients and convert to `Task<T>`, typed exceptions (`CtpException` hierarchy), `[<CLIEvent>]` + `EventHandler<T>`, `IReadOnlyList<T>`, and `[<Optional>]` parameters.
+- When adding a new method to `Md.fs` or `Trader.fs`, also add the corresponding wrapper method to the `CSharp/` files.
 
 ## Hard invariants
 
@@ -73,6 +80,9 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - Shared managed options and flow control: `Ctp.Net/Common.fs`
 - Managed MD client flow: `Ctp.Net/Md.fs`
 - Managed trader client flow: `Ctp.Net/Trader.fs`
+- C#-opinionated wrapper types and helpers: `Ctp.Net/CSharp/CtpException.fs`
+- C#-friendly MD client: `Ctp.Net/CSharp/MdClient.fs`
+- C#-friendly trader client: `Ctp.Net/CSharp/TraderClient.fs`
 
 ## Keep out of this file
 

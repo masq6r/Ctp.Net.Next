@@ -7,7 +7,7 @@
 
 A `.NET` wrapper for the CTP SDK.
 
-This repository keeps the vendor C++ SDK behind a thin native bridge so the managed layer can expose `Async<Result<...>>` APIs, .NET events, and managed domain types on Linux and Windows.
+This repository keeps the vendor C++ SDK behind a thin native bridge so the managed layer can expose F#-first `Async<Result<...>>` APIs alongside a C#-opinionated `Task<T>` wrapper in `Ctp.Net.CSharp`, plus .NET events and managed domain types on Linux and Windows.
 
 As a core infrastructure component of the personal automated trading system `eXp`, `Ctp.Net.Next` has powered its 24/7 uninterrupted stable operation for 5 years without downtime, achieving a 42% CAGR. This component is open-sourced with the hope of helping individuals who aspire to engage in automated trading — may you find your own holy grail.
 
@@ -26,7 +26,7 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 ## Highlights
 
 - OOTB experience, just download and trade, no extra setups
-- Query with **async workflows** (C# `async`/`await`, F# `async` computation expressions) to avoid callback hell
+- F#-first clients with `Async<Result<...>>`, plus **C#-opinionated wrappers** (`Ctp.Net.CSharp.MdClient` / `TraderClient`) returning native `Task` / `Task<T>` with standard `CancellationToken` and `EventHandler<T>` events — no `Microsoft.FSharp.*` imports needed from C#
 - `CtpFlowControlOptions` for query **throttling, native retry handling, and subscription batching**
 - Cancel in-flight queries at any time with `CancellationToken`
 - Stable disconnection/reconnection with subscription recovery
@@ -34,24 +34,83 @@ If your intended use, distribution model, or jurisdiction imposes additional res
 - Asymmetric encoding policy aligned with common CTP deployments: outbound `GBK`, inbound `GB18030`
 - Keeping up with the latest CTP SDK releases
 
+## Minimal usage
+### Minimal F# usage
+
+```fsharp
+open Ctp.Net
+
+let options =
+    CtpOptions.Create(
+        frontAddress = "tcp://180.168.146.187:10211",
+        brokerId = "9999",
+        userId = "demo",
+        password = "secret",
+        flowPath = "/tmp/ctp-flow-md",
+        productionMode = false
+    )
+
+async {
+    use md = new MdClient(options)
+    match! md.Connect() with
+    | Error error ->
+        return Error error
+    | Ok () ->
+        let! loginResult = md.LoginAsync()
+        return loginResult
+}
+|> Async.RunSynchronously
+```
+
+Create the flow directory before running the client.
+
+### Minimal C# usage
+
+```csharp
+using Ctp.Net;
+using Ctp.Net.CSharp;
+
+var options = CtpOptions.Create(
+    frontAddress: "tcp://180.168.146.187:10211",
+    brokerId: "9999",
+    userId: "demo",
+    password: "secret",
+    flowPath: "/tmp/ctp-flow-md"
+);
+
+using var md = new MdClient(options);
+await md.ConnectAsync();
+var login = await md.LoginAsync();
+Console.WriteLine($"Logged in. TradingDay={login.TradingDay}");
+```
+
+The `Ctp.Net.CSharp.MdClient` and `Ctp.Net.CSharp.TraderClient` wrappers convert the F# layer's `Async<Result<_,_>>` into native `Task<T>`, map failures into typed exceptions (`CtpResponseException`, `CtpTimeoutException`, etc.), use standard `EventHandler<T>` events, and accept C#-native optional parameters — no `Microsoft.FSharp.*` usings needed.
+
+Key differences from the F#-first API:
+- `md.LoginAsync()` returns `Task<UserLoginResponse>` and throws `CtpResponseException` on failure
+- `trader.QueryTradingAccountAsync()` returns `Task<IReadOnlyList<TradingAccountResponse>>`
+- `CancellationToken` is passed via `[Optional]` default parameters (`cancellationToken`)
+- Events use `EventHandler<T>` with `+=` / `-=` syntax
+- `FSharpList<T>` replaced with `IReadOnlyList<T>`
+
 ## Related demos and consumers
 
 - `Demos/Subscription.fsx` — F# script `MdClient` example covering login and market-data subscription
-- `Demos/Subscription.cs` — C# file-based app `MdClient` example covering the same login and market-data subscription flow against the local project
+- `Demos/Subscription.cs` — C# file-based app `Ctp.Net.CSharp.MdClient` example covering the same login and market-data subscription flow against the local project
 - `Demos/QueryAccount.fsx` — F# script `TraderClient` example covering authentication, login, settlement confirmation, and trading-account query
-- `Demos/QueryAccount.cs` — C# file-based app `TraderClient` example covering the same account-query flow against the local project
+- `Demos/QueryAccount.cs` — C# file-based app `Ctp.Net.CSharp.TraderClient` example covering the same account-query flow against the local project
 - `Demos/FlowControl` — `TraderClient` example covering authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ Trader example for inspecting request/callback behavior against the official API
 - `eXp` — a personal automated trading system that has been running on `Ctp.Net.Next` for 5 years
 
 ## Repository layout
 
-- `Ctp.Net` — managed F# library; `Bridge/` contains low-level interop and the top-level files expose public clients
+- `Ctp.Net` — managed F# library; `Bridge/` contains low-level interop, the top-level files expose F#-first public clients, and `CSharp/` provides C#-opinionated wrappers
 - `NativeBridge` — C++ bridge, exported C ABI, bundled `ctp-sdk`, and native-only build entrypoints
 - `Demos/Subscription.fsx` — F# script `MdClient` demo for login and market-data subscription
-- `Demos/Subscription.cs` — C# file-based app `MdClient` demo for the same market-data flow
+- `Demos/Subscription.cs` — C# file-based app `Ctp.Net.CSharp.MdClient` demo for the same market-data flow
 - `Demos/QueryAccount.fsx` — F# script `TraderClient` demo for authentication, login, settlement confirmation, and trading-account query
-- `Demos/QueryAccount.cs` — C# file-based app `TraderClient` demo for the same trading-account flow
+- `Demos/QueryAccount.cs` — C# file-based app `Ctp.Net.CSharp.TraderClient` demo for the same trading-account flow
 - `Demos/FlowControl` — `TraderClient` demo for authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ trader demo for inspecting request / callback behavior against the official API
 - `Tests/Ctp.Net.Tests` — fast unit tests
@@ -179,7 +238,7 @@ Notes:
 
 ### `Demos/Subscription.cs`
 
-This C# file-based app demonstrates the same `MdClient` login and market-data subscription flow, but references the local `Ctp.Net` project from this repository.
+This C# file-based app demonstrates the same login and market-data subscription flow using the C#-opinionated `Ctp.Net.CSharp.MdClient` (no `Microsoft.FSharp.*` imports).
 
 Before running it:
 
@@ -252,7 +311,7 @@ Notes:
 
 ### `Demos/QueryAccount.cs`
 
-This C# file-based app demonstrates the same `TraderClient` connect, authenticate, login, settlement-confirmation, and trading-account-query flow, but references the local `Ctp.Net` project from this repository.
+This C# file-based app demonstrates the same connect, authenticate, login, settlement-confirmation, and trading-account-query flow using the C#-opinionated `Ctp.Net.CSharp.TraderClient` (no `Microsoft.FSharp.*` imports).
 
 Before running it:
 
@@ -307,46 +366,14 @@ This demo reads `Demos/FlowControl/options.local.json`, authenticates and logs i
 
 This native C++ demo reuses `Tests/Ctp.Net.SmokeTests/smoke.local.json` and is useful when you want to inspect raw Trader API request / callback request-id behavior without going through the managed wrapper.
 
-## Minimal F# usage
-
-```fsharp
-open Ctp.Net
-
-let run () =
-    let options =
-        CtpOptions.Create(
-            frontAddress = "tcp://180.168.146.187:10211",
-            brokerId = "9999",
-            userId = "demo",
-            password = "secret",
-            flowPath = "/tmp/ctp-flow-md",
-            productionMode = false
-        )
-
-    use md = new MdClient(options)
-
-    async {
-        let! connectResult = md.Connect()
-
-        match connectResult with
-        | Error error ->
-            return Error error
-        | Ok () ->
-            let! loginResult = md.LoginAsync()
-            return loginResult
-    }
-    |> Async.RunSynchronously
-```
-
-Create the flow directory before running the client.
-
 ## Native bridge architecture
 
 The repository is a two-layer wrapper around the official CTP SDK:
 
 1. `NativeBridge` links the vendor SDK and exposes a stable C ABI in `NativeBridge/include/ctp_bridge.h`.
 2. `Ctp.Net/Bridge` mirrors that ABI with `DllImport`, native structs, callback registration, safe handles, and marshalling.
-3. `Ctp.Net/Md.fs` and `Ctp.Net/Trader.fs` wrap the callback-driven native APIs into public client classes, async workflows, and .NET events.
+3. `Ctp.Net/Md.fs` and `Ctp.Net/Trader.fs` wrap the callback-driven native APIs into F#-first public client classes with `Async<Result<...>>` and `IEvent`.
+4. `Ctp.Net/CSharp/` provides C#-opinionated wrappers that convert `Async<Result<_,_>>` → `Task<T>` + typed exceptions, `IEvent` → `EventHandler<T>`, and `FSharpOption` → C# native optional parameters.
 
 ## Encoding policy
 

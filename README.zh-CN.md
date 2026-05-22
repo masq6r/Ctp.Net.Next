@@ -7,7 +7,7 @@
 
 CTP SDK 的 `.NET` 封装库。
 
-本仓库将厂商 C++ SDK 置于一个轻量原生桥接层之后，使托管层可以在 Linux 和 Windows 上暴露 `Async<Result<...>>` API、.NET 事件以及托管领域类型。
+本仓库将厂商 C++ SDK 置于一个轻量原生桥接层之后，使托管层可以在 Linux 和 Windows 上暴露 F# 优先的 `Async<Result<...>>` API，并提供 `Ctp.Net.CSharp` 中的 C# 风格 `Task<T>` 封装、.NET 事件以及托管领域类型。
 
 作为个人自动化交易系统`eXp`的基础设施的重要组成部分，`Ctp.Net.Next`为其7x24小时不间断稳定运行长达5年不宕机，达成42%年复合收益率提供了坚实保障。这部分组件开源，希望为有志于投身自动化交易的个人提供帮助，愿你们能早日找到属于自己的圣杯。
 
@@ -26,7 +26,7 @@ CTP SDK 的 `.NET` 封装库。
 ## 亮点
 
 - 提供了开箱即用的开发体验，无须任何额外配置
-- 使用**异步工作流**（C#的`async`与`await`，F#的`async`计算表达式）进行查询，避免回调地狱
+- F# 优先的客户端提供 `Async<Result<...>>`，另有 **C# 风格的封装**（`Ctp.Net.CSharp.MdClient` / `TraderClient`）返回原生 `Task` / `Task<T>`，支持标准 `CancellationToken` 以及 `EventHandler<T>` 事件 — 无需引用 `Microsoft.FSharp.*`
 - `CtpFlowControlOptions` 用于查询**节流、原生重试处理以及订阅批次控制**
 - 使用`CancellationToken`随时**取消**在途查询
 - 稳定的断线重连与订阅恢复机制
@@ -34,14 +34,74 @@ CTP SDK 的 `.NET` 封装库。
 - 与常见 CTP 部署对齐的非对称编码策略：出站 `GBK`，入站 `GB18030`
 - 紧跟最新CTP SDK更新
 
+## 最小化示例
+### 最小 F# 用法
+
+```fsharp
+open Ctp.Net
+
+let options =
+    CtpOptions.Create(
+        frontAddress = "tcp://180.168.146.187:10211",
+        brokerId = "9999",
+        userId = "demo",
+        password = "secret",
+        flowPath = "/tmp/ctp-flow-md",
+        productionMode = false
+    )
+
+async {
+    use md = new MdClient(options)
+
+    match! md.Connect() with
+    | Error error ->
+        return Error error
+    | Ok () ->
+        let! loginResult = md.LoginAsync()
+        return loginResult
+}
+|> Async.RunSynchronously
+```
+
+运行客户端之前请先创建 flow 目录。
+
+### 最小 C# 用法
+
+```csharp
+using Ctp.Net;
+using Ctp.Net.CSharp;
+
+var options = CtpOptions.Create(
+    frontAddress: "tcp://180.168.146.187:10211",
+    brokerId: "9999",
+    userId: "demo",
+    password: "secret",
+    flowPath: "/tmp/ctp-flow-md"
+);
+
+using var md = new MdClient(options);
+await md.ConnectAsync();
+var login = await md.LoginAsync();
+Console.WriteLine($"Logged in. TradingDay={login.TradingDay}");
+```
+
+`Ctp.Net.CSharp.MdClient` 和 `Ctp.Net.CSharp.TraderClient` 封装将 F# 层的 `Async<Result<_,_>>` 转换为原生 `Task<T>`，将失败映射为类型化异常（`CtpResponseException`、`CtpTimeoutException` 等），使用标准 `EventHandler<T>` 事件，并接受 C# 原生的可选参数——无需 `Microsoft.FSharp.*` 引用。
+
+与 F# 优先 API 的主要差异：
+- `md.LoginAsync()` 返回 `Task<UserLoginResponse>`，失败时抛出 `CtpResponseException`
+- `trader.QueryTradingAccountAsync()` 返回 `Task<IReadOnlyList<TradingAccountResponse>>`
+- `CancellationToken` 通过 `[Optional]` 默认参数传递
+- 事件使用 `EventHandler<T>` 配合 `+=` / `-=` 语法
+- `FSharpList<T>` 替换为 `IReadOnlyList<T>`
+
 ## 仓库结构
 
-- `Ctp.Net` — 托管 F# 库；`Bridge/` 包含底层互操作，顶层文件暴露公开客户端
+- `Ctp.Net` — 托管 F# 库；`Bridge/` 包含底层互操作，顶层文件暴露 F# 优先的公开客户端，`CSharp/` 提供 C# 风格的封装
 - `NativeBridge` — C++ 桥接层，导出 C ABI，内置 `ctp-sdk`，以及原生构建入口
 - `Demos/Subscription.fsx` — 用于登录和行情订阅的 F# 脚本版 `MdClient` 示例
-- `Demos/Subscription.cs` — 使用本仓库本地 `Ctp.Net` 项目的 C# file-based app 版 `MdClient` 示例，演示同样的登录与行情订阅流程
+- `Demos/Subscription.cs` — 使用 `Ctp.Net.CSharp.MdClient` 的 C# file-based app 示例，演示同样的登录与行情订阅流程
 - `Demos/QueryAccount.fsx` — 用于认证、登录、结算确认和资金账户查询的 F# 脚本版 `TraderClient` 示例
-- `Demos/QueryAccount.cs` — 使用本仓库本地 `Ctp.Net` 项目的 C# file-based app 版 `TraderClient` 示例，演示同样的资金账户查询流程
+- `Demos/QueryAccount.cs` — 使用 `Ctp.Net.CSharp.TraderClient` 的 C# file-based app 示例，演示同样的资金账户查询流程
 - `Demos/FlowControl` — 用于认证、结算确认以及托管流控下并发查询的 `TraderClient` 示例
 - `Demos/CtpDemo.Local.Native` — 原生 C++ Trader 示例，用于对照官方 API 检查请求/回调行为
 - `Tests/Ctp.Net.Tests` — 快速单元测试
@@ -169,7 +229,7 @@ dotnet fsi Demos/Subscription.fsx
 
 ### `Demos/Subscription.cs`
 
-这个 C# file-based app 演示了与上面相同的 `MdClient` 连接、登录和行情订阅流程，但它直接引用本仓库里的本地 `Ctp.Net` 项目。
+这个 C# file-based app 使用 C# 风格的 `Ctp.Net.CSharp.MdClient` 演示了同样的连接、登录和行情订阅流程（无需 `Microsoft.FSharp.*` 引用）。
 
 运行前请先：
 
@@ -242,7 +302,7 @@ dotnet fsi Demos/QueryAccount.fsx
 
 ### `Demos/QueryAccount.cs`
 
-这个 C# file-based app 演示了与上面相同的 `TraderClient` 连接、认证、登录、结算确认和资金账户查询流程，但它直接引用本仓库里的本地 `Ctp.Net` 项目。
+这个 C# file-based app 使用 C# 风格的 `Ctp.Net.CSharp.TraderClient` 演示了同样的连接、认证、登录、结算确认和资金账户查询流程（无需 `Microsoft.FSharp.*` 引用）。
 
 运行前请先：
 
@@ -297,46 +357,14 @@ dotnet run --project Demos/FlowControl/FlowControl.fsproj
 
 此原生 C++ 示例复用 `Tests/Ctp.Net.SmokeTests/smoke.local.json`，适用于希望在不经过托管封装的情况下检查原生 Trader API 请求/回调行为。
 
-## 最小 F# 用法
-
-```fsharp
-open Ctp.Net
-
-let run () =
-    let options =
-        CtpOptions.Create(
-            frontAddress = "tcp://180.168.146.187:10211",
-            brokerId = "9999",
-            userId = "demo",
-            password = "secret",
-            flowPath = "/tmp/ctp-flow-md",
-            productionMode = false
-        )
-
-    use md = new MdClient(options)
-
-    async {
-        let! connectResult = md.Connect()
-
-        match connectResult with
-        | Error error ->
-            return Error error
-        | Ok () ->
-            let! loginResult = md.LoginAsync()
-            return loginResult
-    }
-    |> Async.RunSynchronously
-```
-
-运行客户端之前请先创建 flow 目录。
-
 ## 原生桥接架构
 
 本仓库是围绕官方 CTP SDK 的两层封装：
 
 1. `NativeBridge` 链接厂商 SDK，并在 `NativeBridge/include/ctp_bridge.h` 中暴露稳定的 C ABI。
 2. `Ctp.Net/Bridge` 通过 `DllImport`、原生结构体、回调注册、安全句柄和编组来镜像该 ABI。
-3. `Ctp.Net/Md.fs` 和 `Ctp.Net/Trader.fs` 将回调驱动的原生 API 封装为公开客户端类、异步工作流和 .NET 事件。
+3. `Ctp.Net/Md.fs` 和 `Ctp.Net/Trader.fs` 将回调驱动的原生 API 封装为 F# 优先的公开客户端类，提供 `Async<Result<...>>` 和 `IEvent`。
+4. `Ctp.Net/CSharp/` 提供 C# 风格的封装，将 `Async<Result<_,_>>` → `Task<T>` + 类型化异常，`IEvent` → `EventHandler<T>`，`FSharpOption` → C# 原生可选参数。
 
 ## 编码策略
 

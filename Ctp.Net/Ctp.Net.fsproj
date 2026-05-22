@@ -32,6 +32,9 @@
     <Compile Include="Common.fs" />
     <Compile Include="Md.fs" />
     <Compile Include="Trader.fs" />
+    <Compile Include="CSharp/CtpException.fs" />
+    <Compile Include="CSharp/MdClient.fs" />
+    <Compile Include="CSharp/TraderClient.fs" />
   </ItemGroup>
 
   <ItemGroup>

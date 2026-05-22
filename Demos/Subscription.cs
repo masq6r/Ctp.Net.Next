@@ -3,7 +3,6 @@
 #:project ../Ctp.Net/Ctp.Net.fsproj
 
 using Ctp.Net;
-using Microsoft.FSharp.Control;
 
 var ctpOptions = CtpOptions.Create(
     frontAddress: "tcp://182.254.243.31:30011",
@@ -20,33 +19,19 @@ var ctpOptions = CtpOptions.Create(
 var connectTimeout = TimeSpan.FromSeconds(15);
 var instrumentIds = new[] { "au2612", "m2609" };
 
-using var md = new MdClient(ctpOptions, null, null, null, null, null);
+using var md = new Ctp.Net.CSharp.MdClient(ctpOptions);
 
-md.DepthMarketDataReceived.AddHandler(
-    new FSharpHandler<Ctp.Net.Bridge.DepthMarketData>(
-        (_, depth) =>
-            Console.WriteLine(
-                $"{depth.InstrumentId}@{depth.UpdateTime:HH:mm:ss.fff}: {depth.LastPrice}"
-            )
-    )
-);
+md.DepthMarketDataReceived += (_, depth) =>
+    Console.WriteLine($"{depth.InstrumentId}@{depth.UpdateTime:HH:mm:ss.fff}: {depth.LastPrice}");
 
 Console.WriteLine($"Connecting to {ctpOptions.FrontAddress}");
-await FSharpAsync.StartAsTask(
-    md.Connect(timeout: connectTimeout, cancellationToken: null),
-    null,
-    null
-);
+await md.ConnectAsync(timeout: connectTimeout);
 
 Console.WriteLine("Logging in...");
-await FSharpAsync.StartAsTask(md.LoginAsync(cancellationToken: null), null, null);
+await md.LoginAsync();
 
 Console.WriteLine($"Subscribing to {string.Join(",", instrumentIds)}");
-await FSharpAsync.StartAsTask(
-    md.SubscribeMarketDataAsync(instrumentIds, cancellationToken: null),
-    null,
-    null
-);
+await md.SubscribeMarketDataAsync(instrumentIds);
 
 Console.WriteLine("Receiving depth market data. Press any key to exit.");
 Console.ReadKey(intercept: true);

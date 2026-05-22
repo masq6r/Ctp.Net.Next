@@ -523,8 +523,7 @@ type internal ConnectionCoordinator(startConnection: unit -> unit, ?logger: ILog
                 isConnected <- false
                 pendingConnection <- ClientHelpers.createCompletionSource<Result<unit, ConnectError>> ())
 
-    member internal this.ConnectTask(?timeout: TimeSpan, ?cancellationToken: CancellationToken) = task {
-        let cancellationToken = defaultArg cancellationToken CancellationToken.None
+    member internal this.ConnectTask(cancellationToken: CancellationToken, ?timeout: TimeSpan) = task {
         let mutable waitTask = Unchecked.defaultof<Task<Result<unit, ConnectError>>>
         let mutable shouldStart = false
         let mutable immediateResult = Unchecked.defaultof<Result<unit, ConnectError>>
@@ -572,9 +571,8 @@ type internal ConnectionCoordinator(startConnection: unit -> unit, ?logger: ILog
             return! this.AwaitConnectionResult(waitTask, timeout, cancellationToken)
     }
 
-    member this.Connect(?timeout: TimeSpan, ?cancellationToken: CancellationToken) = async {
-        let! ambientCancellationToken = Async.CancellationToken
-        let cancellationToken = defaultArg cancellationToken ambientCancellationToken
+    member this.Connect(?timeout: TimeSpan) = async {
+        let! cancellationToken = Async.CancellationToken
 
         return!
             this.ConnectTask(?timeout = timeout, cancellationToken = cancellationToken)

@@ -59,10 +59,16 @@ type EncodingTests() =
 type TraderBridgeGeneratedTests() =
 
     let assembly = typeof<InstrumentResponse>.Assembly
-    let flags = System.Reflection.BindingFlags.Instance ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic
+
+    let flags =
+        System.Reflection.BindingFlags.Instance
+        ||| System.Reflection.BindingFlags.Public
+        ||| System.Reflection.BindingFlags.NonPublic
 
     let staticFlags =
-        System.Reflection.BindingFlags.Static ||| System.Reflection.BindingFlags.Public ||| System.Reflection.BindingFlags.NonPublic
+        System.Reflection.BindingFlags.Static
+        ||| System.Reflection.BindingFlags.Public
+        ||| System.Reflection.BindingFlags.NonPublic
 
     let getType name =
         match assembly.GetType(name, false) with
@@ -165,8 +171,7 @@ type TraderBridgeGeneratedTests() =
         nativeType.GetField("UpdateMillisec", flags).SetValue(native, 789)
 
         let depth =
-            mapNativeAs typeof<DepthMarketData> "Ctp.Net.Bridge.NativeTraderDepthMarketData" native
-            :?> DepthMarketData
+            mapNativeAs typeof<DepthMarketData> "Ctp.Net.Bridge.NativeTraderDepthMarketData" native :?> DepthMarketData
 
         Assert.Equal(DateOnly(2026, 5, 19), depth.TradingDay)
         Assert.Equal(TimeOnly(13, 14, 15, 789), depth.UpdateTime)
@@ -181,7 +186,8 @@ type TraderBridgeGeneratedTests() =
               AccountId = None
               CurrencyId = None }
 
-        let native = buildNativeAs typeof<QrySettlementInfoRequest> "Ctp.Net.Bridge.NativeQrySettlementInfo" (box request)
+        let native =
+            buildNativeAs typeof<QrySettlementInfoRequest> "Ctp.Net.Bridge.NativeQrySettlementInfo" (box request)
 
         Assert.Equal("20260519", getFixedStringField native "TradingDay")
 
@@ -200,7 +206,8 @@ type TraderBridgeGeneratedTests() =
               ClientLoginRemark = ""
               Mac = "" }
 
-        let native = buildNativeAs typeof<UserSystemInfoRequest> "Ctp.Net.Bridge.NativeUserSystemInfo" (box request)
+        let native =
+            buildNativeAs typeof<UserSystemInfoRequest> "Ctp.Net.Bridge.NativeUserSystemInfo" (box request)
 
         Assert.Equal("01:02:03", getFixedStringField native "ClientLoginTime")
 
@@ -509,7 +516,8 @@ type FlowControlTests() =
 
         pending.Register(42, "QueryNumbers", completion)
 
-        let result = flow.AwaitQueryCompletionAsync("QueryNumbers", 42, pending, completion.Task).GetAwaiter().GetResult()
+        let result =
+            flow.AwaitQueryCompletionAsync("QueryNumbers", 42, pending, completion.Task).GetAwaiter().GetResult()
 
         match result with
         | Error error -> Assert.Equal(-10001, error.ErrorId)
@@ -520,9 +528,7 @@ type FlowControlTests() =
 
     [<Fact>]
     member _.``subscription batching uses configured batch size``() =
-        let options =
-            { CtpFlowControlOptions.Default with
-                SubscriptionBatchSize = 3 }
+        let options = { CtpFlowControlOptions.Default with SubscriptionBatchSize = 3 }
 
         let flow = FlowController options
 
@@ -566,11 +572,7 @@ type FlowControlTests() =
 
     [<Fact>]
     member _.``dispatch gate throttles consecutive sends``() =
-        let flow =
-            FlowController(
-                { CtpFlowControlOptions.Default with
-                    MaxDispatchesPerSecond = 20 }
-            )
+        let flow = FlowController({ CtpFlowControlOptions.Default with MaxDispatchesPerSecond = 20 })
 
         let stopwatch = Diagnostics.Stopwatch.StartNew()
         flow.AwaitDispatchAsync().GetAwaiter().GetResult()
@@ -582,11 +584,7 @@ type FlowControlTests() =
 
     [<Fact>]
     member _.``dispatch wait honors cancellation while throttled``() =
-        let flow =
-            FlowController(
-                { CtpFlowControlOptions.Default with
-                    MaxDispatchesPerSecond = 1 }
-            )
+        let flow = FlowController({ CtpFlowControlOptions.Default with MaxDispatchesPerSecond = 1 })
 
         flow.AwaitDispatchAsync().GetAwaiter().GetResult()
 
@@ -636,7 +634,8 @@ type FlowControlTests() =
         let completion = ClientHelpers.createCompletionSource<Result<int list, RspInfo>> ()
         completion.TrySetResult(Ok [ 1; 2 ]) |> ignore
 
-        let result = flow.AwaitQueryCompletionAsync("QueryNumbers", 42, pending, completion.Task).GetAwaiter().GetResult()
+        let result =
+            flow.AwaitQueryCompletionAsync("QueryNumbers", 42, pending, completion.Task).GetAwaiter().GetResult()
 
         match result with
         | Ok values -> Assert.Equal<int list>([ 1; 2 ], values)
@@ -644,11 +643,7 @@ type FlowControlTests() =
 
     [<Fact>]
     member _.``subscription batching falls back to size one when configured batch size is invalid``() =
-        let flow =
-            FlowController(
-                { CtpFlowControlOptions.Default with
-                    SubscriptionBatchSize = 0 }
-            )
+        let flow = FlowController({ CtpFlowControlOptions.Default with SubscriptionBatchSize = 0 })
 
         let batches = flow.BatchSubscriptions([ "au2506"; "ag2506"; "cu2506" ])
 
@@ -658,27 +653,14 @@ type FlowControlTests() =
 type ClientCancellationApiTests() =
 
     [<Fact>]
-    member _.``md login exposes explicit cancellation token overload``() =
-        let compileOnly: CancellationToken -> MdClient -> Async<Result<UserLoginResponse, RspInfo>> =
-            fun ct client -> client.LoginAsync(cancellationToken = ct)
+    member _.``md login uses ambient cancellation token``() =
+        let compileOnly: MdClient -> Async<Result<UserLoginResponse, RspInfo>> =
+            fun client -> client.LoginAsync()
 
         Assert.NotNull(box compileOnly)
 
     [<Fact>]
-    member _.``md login keeps ambient cancellation overload``() =
-        let compileOnly: MdClient -> Async<Result<UserLoginResponse, RspInfo>> = fun client -> client.LoginAsync()
-
-        Assert.NotNull(box compileOnly)
-
-    [<Fact>]
-    member _.``trader query exposes explicit cancellation token overload``() =
-        let compileOnly: CancellationToken -> TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
-            fun ct client -> client.QueryTradingAccountAsync("CNY", cancellationToken = ct)
-
-        Assert.NotNull(box compileOnly)
-
-    [<Fact>]
-    member _.``trader query keeps ambient cancellation overload``() =
+    member _.``trader query uses ambient cancellation token``() =
         let compileOnly: TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
             fun client -> client.QueryTradingAccountAsync("CNY")
 
@@ -752,8 +734,7 @@ type ConnectionCoordinatorTests() =
 
         cts.CancelAfter 50
 
-        coordinator.Connect(cancellationToken = cts.Token)
-        |> Async.RunSynchronously
+        Async.RunSynchronously(coordinator.Connect(), cancellationToken = cts.Token)
         |> Helper.assertConnectError ConnectError.Cancelled
 
         Assert.Equal(1, !starts)
@@ -766,7 +747,8 @@ type ConnectionCoordinatorTests() =
 
         cts.CancelAfter 50
 
-        let result = Async.StartAsTask(coordinator.Connect(), cancellationToken = cts.Token).GetAwaiter().GetResult()
+        let result =
+            Async.StartAsTask(coordinator.Connect(), cancellationToken = cts.Token).GetAwaiter().GetResult()
 
         Assert.Equal(1, !starts)
         result |> Helper.assertConnectError ConnectError.Cancelled
