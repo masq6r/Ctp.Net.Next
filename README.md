@@ -51,13 +51,11 @@ let options =
     )
 
 async {
-    use md = new MdClient(options)
-    match! md.Connect() with
-    | Error error ->
-        return Error error
-    | Ok () ->
-        let! loginResult = md.LoginAsync()
-        return loginResult
+    use md = new MdClient(ctpOpt)
+    let! _ = md.Connect()
+    match! md.LoginAsync() with
+    | Ok login -> printfn $"Logged in. TradingDay={login.TradingDay}"
+    | _ -> ()
 }
 |> Async.RunSynchronously
 ```
@@ -99,6 +97,8 @@ Key differences from the F#-first API:
 - `Demos/Subscription.cs` — C# file-based app `Ctp.Net.CSharp.MdClient` example covering the same login and market-data subscription flow against the local project
 - `Demos/QueryAccount.fsx` — F# script `TraderClient` example covering authentication, login, settlement confirmation, and trading-account query
 - `Demos/QueryAccount.cs` — C# file-based app `Ctp.Net.CSharp.TraderClient` example covering the same account-query flow against the local project
+- `Demos/QueryCancellation.fsx` — F# script `TraderClient` example demonstrating query cancellation flow-control: start a broad query, cancel it after dispatch, then observe a second query blocked until the in-flight native query completes or times out
+- `Demos/QueryCancellation.cs` — C# file-based app `Ctp.Net.CSharp.TraderClient` example covering the same query-cancellation flow with the C#-opinionated wrapper
 - `Demos/FlowControl` — `TraderClient` example covering authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ Trader example for inspecting request/callback behavior against the official API
 - `eXp` — a personal automated trading system that has been running on `Ctp.Net.Next` for 5 years
@@ -111,6 +111,8 @@ Key differences from the F#-first API:
 - `Demos/Subscription.cs` — C# file-based app `Ctp.Net.CSharp.MdClient` demo for the same market-data flow
 - `Demos/QueryAccount.fsx` — F# script `TraderClient` demo for authentication, login, settlement confirmation, and trading-account query
 - `Demos/QueryAccount.cs` — C# file-based app `Ctp.Net.CSharp.TraderClient` demo for the same trading-account flow
+- `Demos/QueryCancellation.fsx` — F# script `TraderClient` demo for query cancellation flow-control
+- `Demos/QueryCancellation.cs` — C# file-based app `Ctp.Net.CSharp.TraderClient` demo for query cancellation flow-control
 - `Demos/FlowControl` — `TraderClient` demo for authentication, settlement confirmation, and concurrent queries under managed flow control
 - `Demos/CtpDemo.Local.Native` — native C++ trader demo for inspecting request / callback behavior against the official API
 - `Tests/Ctp.Net.Tests` — fast unit tests
@@ -345,6 +347,82 @@ Notes:
 - The file-based app is self-contained and does not use `options.local.json`.
 - `dotnet build -- Demos/QueryAccount.cs` uses `--` so the file is treated as a file-based app instead of an MSBuild project path.
 - The demo prints a short settlement-confirmation summary and the first returned trading-account balance.
+
+### `Demos/QueryCancellation.fsx`
+
+This F# script demonstrates the `TraderClient` query cancellation flow-control mechanism: CTP only allows one in-flight query at a time, and once a query reaches the CTP server it cannot be cancelled server-side. The script fires a broad `QueryInstrumentAsync`, cancels the client-side async after dispatch, then immediately fires `QueryTradingAccountAsync` — which blocks until the first query's native operation completes or times out. Timestamps on every event make the blocking duration visible.
+
+Before running it:
+
+1. Edit `Demos/QueryCancellation.fsx` and update `ctpOpt` to match your environment:
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. Create the directory referenced by `flowPath` before `Init()` runs.
+3. Make sure the configured front actually expects authentication; many trader fronts require `userProductInfo`, `appId`, and `authCode`.
+
+Example:
+
+```bash
+mkdir -p /tmp/ctp-flow-query-cancel
+```
+
+Run:
+
+```bash
+dotnet fsi Demos/QueryCancellation.fsx
+```
+
+Notes:
+
+- The script is self-contained and does not use `options.local.json`.
+- The script currently references the published `Ctp.Net.Next` NuGet package via `#r "nuget: Ctp.Net.Next"`.
+- The `flowControl` parameter sets a 15-second `QueryCompletionTimeout`; the default is 120 seconds.
+- Expected output: Q1 is cancelled at ~50ms but holds the in-flight slot; Q2 blocks until the CTP server responds (or timeout).
+
+### `Demos/QueryCancellation.cs`
+
+This C# file-based app demonstrates the same query cancellation flow-control mechanism using the C#-opinionated `Ctp.Net.CSharp.TraderClient` (no `Microsoft.FSharp.*` imports).
+
+Before running it:
+
+1. Edit `Demos/QueryCancellation.cs` and update `ctpOptions` to match your environment:
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. Create the directory referenced by `flowPath` before `Init()` runs.
+3. Make sure the configured front actually expects authentication; many trader fronts require `userProductInfo`, `appId`, and `authCode`.
+
+Build:
+
+```bash
+dotnet build -- Demos/QueryCancellation.cs
+```
+
+Run:
+
+```bash
+dotnet run --file Demos/QueryCancellation.cs
+```
+
+Notes:
+
+- The file-based app is self-contained and does not use `options.local.json`.
+- `dotnet build -- Demos/QueryCancellation.cs` uses `--` so the file is treated as a file-based app instead of an MSBuild project path.
+- The demo uses `Ctp.Net.CSharp.TraderClient`'s `CancellationToken` support for client-side cancellation; `catch (OperationCanceledException)` replaces the F# pattern-match style.
+- Expected output mirrors the F# script: Q1 cancelled, Q2 blocked until Q1's native operation finishes.
 
 ### `Demos/FlowControl`
 

@@ -51,14 +51,11 @@ let options =
     )
 
 async {
-    use md = new MdClient(options)
-
-    match! md.Connect() with
-    | Error error ->
-        return Error error
-    | Ok () ->
-        let! loginResult = md.LoginAsync()
-        return loginResult
+    use md = new MdClient(ctpOpt)
+    let! _ = md.Connect()
+    match! md.LoginAsync() with
+    | Ok login -> printfn $"Logged in. TradingDay={login.TradingDay}"
+    | _ -> ()
 }
 |> Async.RunSynchronously
 ```
@@ -102,6 +99,8 @@ Console.WriteLine($"Logged in. TradingDay={login.TradingDay}");
 - `Demos/Subscription.cs` — 使用 `Ctp.Net.CSharp.MdClient` 的 C# file-based app 示例，演示同样的登录与行情订阅流程
 - `Demos/QueryAccount.fsx` — 用于认证、登录、结算确认和资金账户查询的 F# 脚本版 `TraderClient` 示例
 - `Demos/QueryAccount.cs` — 使用 `Ctp.Net.CSharp.TraderClient` 的 C# file-based app 示例，演示同样的资金账户查询流程
+- `Demos/QueryCancellation.fsx` — F# 脚本版 `TraderClient` 查询取消流控示例
+- `Demos/QueryCancellation.cs` — 使用 `Ctp.Net.CSharp.TraderClient` 的 C# file-based app 查询取消流控示例
 - `Demos/FlowControl` — 用于认证、结算确认以及托管流控下并发查询的 `TraderClient` 示例
 - `Demos/CtpDemo.Local.Native` — 原生 C++ Trader 示例，用于对照官方 API 检查请求/回调行为
 - `Tests/Ctp.Net.Tests` — 快速单元测试
@@ -336,6 +335,82 @@ dotnet run --file Demos/QueryAccount.cs
 - 这个 file-based app 是自包含的，不读取 `options.local.json`。
 - `dotnet build -- Demos/QueryAccount.cs` 里的 `--` 用于确保该文件被当作 file-based app，而不是 MSBuild 项目路径。
 - 该示例会打印简短的结算确认摘要，以及第一条资金账户余额信息。
+
+### `Demos/QueryCancellation.fsx`
+
+这个 F# 脚本演示了 `TraderClient` 的查询取消息控制制：CTP 同一时间只允许一个在途（in-flight）查询，且查询一旦到达 CTP 服务器便无法被服务侧取消。脚本首先发起一个宽泛的 `QueryInstrumentAsync` 查询，待其派发后取消客户端异步操作并立即发起 `QueryTradingAccountAsync`，第二个查询会被阻塞，直到第一个查询的原生操作完成或超时。每个关键事件都带有时间戳，阻塞时长清晰可见。
+
+运行前请先：
+
+1. 编辑 `Demos/QueryCancellation.fsx` 中的 `ctpOpt`，按你的环境修改以下字段：
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. 在 `Init()` 之前先创建 `flowPath` 指向的目录。
+3. 确认你的 Trader Front 是否要求认证；很多前置都需要 `userProductInfo`、`appId` 和 `authCode`。
+
+例如：
+
+```bash
+mkdir -p /tmp/ctp-flow-query-cancel
+```
+
+运行：
+
+```bash
+dotnet fsi Demos/QueryCancellation.fsx
+```
+
+说明：
+
+- 这个脚本是自包含的，不读取 `options.local.json`。
+- 当前脚本通过 `#r "nuget: Ctp.Net.Next"` 引用已发布的 NuGet 包。
+- `flowControl` 参数将 `QueryCompletionTimeout` 设为 15 秒；默认值为 120 秒。
+- 预期输出：Q1 在 ~50ms 时被取消但仍持有在途槽位；Q2 持续阻塞，直至 CTP 服务器返回响应（或超时）。
+
+### `Demos/QueryCancellation.cs`
+
+这个 C# file-based app 使用 C# 风格的 `Ctp.Net.CSharp.TraderClient` 演示了同样的查询取消流控机制（无需 `Microsoft.FSharp.*` 引用）。
+
+运行前请先：
+
+1. 编辑 `Demos/QueryCancellation.cs` 中的 `ctpOptions`，按你的环境修改以下字段：
+   - `frontAddress`
+   - `brokerId`
+   - `userId`
+   - `password`
+   - `flowPath`
+   - `productionMode`
+   - `userProductInfo`
+   - `appId`
+   - `authCode`
+2. 在 `Init()` 之前先创建 `flowPath` 指向的目录。
+3. 确认你的 Trader Front 是否要求认证；很多前置都需要 `userProductInfo`、`appId` 和 `authCode`。
+
+构建：
+
+```bash
+dotnet build -- Demos/QueryCancellation.cs
+```
+
+运行：
+
+```bash
+dotnet run --file Demos/QueryCancellation.cs
+```
+
+说明：
+
+- 这个 file-based app 是自包含的，不读取 `options.local.json`。
+- `dotnet build -- Demos/QueryCancellation.cs` 里的 `--` 用于确保该文件被当作 file-based app，而不是 MSBuild 项目路径。
+- 该示例利用了 `Ctp.Net.CSharp.TraderClient` 的 `CancellationToken` 支持进行客户端取消；`catch (OperationCanceledException)` 替代了 F# 中的模式匹配方式。
+- 预期输出与 F# 脚本一致：Q1 被取消，Q2 阻塞，直至 Q1 的原生操作完成。
 
 ### `Demos/FlowControl`
 

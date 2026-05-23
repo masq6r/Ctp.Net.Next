@@ -20,6 +20,9 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - Run F# trader account-query demo: `dotnet fsi Demos/QueryAccount.fsx`
 - Build C# trader account-query file-based demo: `dotnet build -- Demos/QueryAccount.cs`
 - Run C# trader account-query file-based demo: `dotnet run --file Demos/QueryAccount.cs`
+- Run F# query-cancellation demo: `dotnet fsi Demos/QueryCancellation.fsx`
+- Build C# query-cancellation file-based demo: `dotnet build -- Demos/QueryCancellation.cs`
+- Run C# query-cancellation file-based demo: `dotnet run --file Demos/QueryCancellation.cs`
 - Build trader flow-control demo: `dotnet build Demos/FlowControl/FlowControl.fsproj -m:1`
 - Run trader flow-control demo: `dotnet run --project Demos/FlowControl/FlowControl.fsproj`
 
@@ -29,7 +32,7 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - Building `Ctp.Net` also builds `NativeBridge` and copies native artifacts into the managed output directory.
 - Test projects use pure Microsoft.Testing.Platform via `Tests/*/global.json`. Prefer `dotnet run --project ... -- <xUnit args>` over VSTest compatibility mode.
 - Smoke tests are live integration tests. They stay skipped until `Tests/Ctp.Net.SmokeTests/smoke.local.json` exists and contains valid fronts and credentials.
-- `Demos/FlowControl` reads local config from `Demos/FlowControl/options.local.json`; `Demos/Subscription.fsx`, `Demos/Subscription.cs`, `Demos/QueryAccount.fsx`, and `Demos/QueryAccount.cs` are in-source demos, so edit `ctpOpt` / `ctpOptions` and other inline settings before running.
+- `Demos/FlowControl` reads local config from `Demos/FlowControl/options.local.json`; `Demos/Subscription.fsx`, `Demos/Subscription.cs`, `Demos/QueryAccount.fsx`, `Demos/QueryAccount.cs`, `Demos/QueryCancellation.fsx`, and `Demos/QueryCancellation.cs` are in-source demos, so edit `ctpOpt` / `ctpOptions` and other inline settings before running.
 - `flowPath` directories must already exist before `Init()`.
 - There is no repo-specific lint or formatting command checked in here. Do not invent one in automation.
 
@@ -42,7 +45,7 @@ This file gives Claude Code the repo-specific facts that are worth loading every
 - `Ctp.Net/Common.fs` contains shared public options, `CtpFlowControlOptions`, connection coordination, and managed flow-control primitives.
 - `Tests/Ctp.Net.Tests/Program.fs` is the fast behavioral suite.
 - `Tests/Ctp.Net.SmokeTests/Program.fs` is the end-to-end suite against real fronts.
-- `Demos/Subscription.fsx`, `Demos/Subscription.cs`, `Demos/QueryAccount.fsx`, `Demos/QueryAccount.cs`, and `Demos/FlowControl` are the fastest examples of current managed usage.
+- `Demos/Subscription.fsx`, `Demos/Subscription.cs`, `Demos/QueryAccount.fsx`, `Demos/QueryAccount.cs`, `Demos/QueryCancellation.fsx`, `Demos/QueryCancellation.cs`, and `Demos/FlowControl` are the fastest examples of current managed usage.
 
 ## Two API surfaces
 
