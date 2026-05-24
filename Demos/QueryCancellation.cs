@@ -10,12 +10,10 @@ using Ctp.Net.CSharp;
 static string Now() => DateTime.Now.ToString("HH:mm:ss.fff");
 
 var ctpOpt = CtpOptions.Create(
-    frontAddress: "tcp://182.254.243.31:40001",
+    frontAddress: "tcp://182.254.243.31:30001",
     brokerId: "9999",
-    userId: "106839",
-    password: "I#mVkm&jw*9J&e",
-    // userId: "user@simnow",
-    // password: "passowrd@simnow",
+    userId: "user@simnow",
+    password: "passowrd@simnow",
     flowPath: "/tmp/ctp-flow-query-cancel-cs",
     productionMode: true,
     userProductInfo: "eXp",

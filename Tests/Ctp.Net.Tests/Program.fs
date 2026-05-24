@@ -790,6 +790,46 @@ type ConnectionCoordinatorTests() =
         secondTask.GetAwaiter().GetResult() |> Helper.assertOk
 
     [<Fact>]
+    member _.``connection count starts at zero``() =
+        let coordinator = ConnectionCoordinator(fun () -> ())
+        Assert.Equal(0, coordinator.ConnectionCount)
+
+    [<Fact>]
+    member _.``connection count increments on first front connected``() =
+        let coordinator = ConnectionCoordinator(fun () -> ())
+        let task = Async.StartAsTask(coordinator.Connect())
+        coordinator.HandleFrontConnected()
+        task.GetAwaiter().GetResult() |> Helper.assertOk
+        Assert.Equal(1, coordinator.ConnectionCount)
+
+    [<Fact>]
+    member _.``connection count increments on reconnection``() =
+        let coordinator = ConnectionCoordinator(fun () -> ())
+
+        let firstTask = Async.StartAsTask(coordinator.Connect())
+        coordinator.HandleFrontConnected()
+        firstTask.GetAwaiter().GetResult() |> Helper.assertOk
+        Assert.Equal(1, coordinator.ConnectionCount)
+
+        coordinator.HandleFrontDisconnected()
+
+        let secondTask = Async.StartAsTask(coordinator.Connect())
+        coordinator.HandleFrontConnected()
+        secondTask.GetAwaiter().GetResult() |> Helper.assertOk
+        Assert.Equal(2, coordinator.ConnectionCount)
+
+    [<Fact>]
+    member _.``connection count does not increment on duplicate front connected``() =
+        let coordinator = ConnectionCoordinator(fun () -> ())
+        let task = Async.StartAsTask(coordinator.Connect())
+        coordinator.HandleFrontConnected()
+        task.GetAwaiter().GetResult() |> Helper.assertOk
+        Assert.Equal(1, coordinator.ConnectionCount)
+
+        coordinator.HandleFrontConnected()
+        Assert.Equal(1, coordinator.ConnectionCount)
+
+    [<Fact>]
     member _.``native start failure is mapped``() =
         let coordinator = ConnectionCoordinator(fun () -> invalidOp "boom")
 

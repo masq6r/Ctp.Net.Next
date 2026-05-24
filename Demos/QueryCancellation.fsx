@@ -16,12 +16,10 @@ let flowControl =
 
 let ctpOpt =
     CtpOptions.Create(
-        "tcp://182.254.243.31:40001",
+        "tcp://182.254.243.31:30001",
         "9999",
-        "106839",
-        "I#mVkm&jw*9J&e",
-        // "user@simnow",
-        // "passowrd@simnow",
+        "user@simnow",
+        "passowrd@simnow",
         flowPath = "/tmp/ctp-flow-query-cancel",
         productionMode = true,
         userProductInfo = "eXp",

@@ -24,7 +24,8 @@ type MdClient private (inner: Ctp.Net.MdClient) =
         inner.RspError.Add(fun i -> rspErrorEvent.Trigger(null, i))
         inner.DepthMarketDataReceived.Add(fun d -> depthMarketDataEvent.Trigger(null, d))
 
-    new(options: CtpOptions) = new MdClient(new Ctp.Net.MdClient(options))
+    new(options: CtpOptions, [<Optional>] autoResubscribe: bool) =
+        new MdClient(new Ctp.Net.MdClient(options, ?autoResubscribe = (if autoResubscribe then Some true else None)))
 
     new
         (
@@ -33,7 +34,8 @@ type MdClient private (inner: Ctp.Net.MdClient) =
             [<Optional>] useUdp: bool,
             [<Optional>] useMulticast: bool,
             [<Optional>] loggerFactory: ILoggerFactory,
-            flowControl: CtpFlowControlOptions
+            flowControl: CtpFlowControlOptions,
+            [<Optional>] autoResubscribe: bool
         )
         =
         let nullToOpt (v: 'T) = if obj.ReferenceEquals(box v, null) then None else Some v
@@ -45,7 +47,8 @@ type MdClient private (inner: Ctp.Net.MdClient) =
                 ?useUdp = (if useUdp then Some useUdp else None),
                 ?useMulticast = (if useMulticast then Some useMulticast else None),
                 ?loggerFactory = CSharpHelpers.nullToOption loggerFactory,
-                ?flowControl = nullToOpt flowControl
+                ?flowControl = nullToOpt flowControl,
+                ?autoResubscribe = (if autoResubscribe then Some true else None)
             )
         )
 

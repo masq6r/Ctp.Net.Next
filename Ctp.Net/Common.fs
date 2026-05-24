@@ -467,6 +467,7 @@ type internal ConnectionCoordinator(startConnection: unit -> unit, ?logger: ILog
     let syncRoot = obj ()
     let mutable startPhase = NotStarted
     let mutable isConnected = false
+    let mutable connectionCount = 0
     let mutable pendingConnection = ClientHelpers.createCompletionSource<Result<unit, ConnectError>> ()
 
     let normalizeTimeout timeout =
@@ -511,6 +512,7 @@ type internal ConnectionCoordinator(startConnection: unit -> unit, ?logger: ILog
         lock syncRoot (fun () ->
             if not isConnected then
                 isConnected <- true
+                connectionCount <- connectionCount + 1
                 completion <- Some pendingConnection)
 
         completion |> Option.iter (fun value -> value.TrySetResult(Ok()) |> ignore)
@@ -522,6 +524,8 @@ type internal ConnectionCoordinator(startConnection: unit -> unit, ?logger: ILog
             if isConnected then
                 isConnected <- false
                 pendingConnection <- ClientHelpers.createCompletionSource<Result<unit, ConnectError>> ())
+
+    member _.ConnectionCount = connectionCount
 
     member internal this.ConnectTask(cancellationToken: CancellationToken, ?timeout: TimeSpan) = task {
         let mutable waitTask = Unchecked.defaultof<Task<Result<unit, ConnectError>>>

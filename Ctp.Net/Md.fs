@@ -25,7 +25,8 @@ type MdClient
         ?useUdp: bool,
         ?useMulticast: bool,
         ?loggerFactory: ILoggerFactory,
-        ?flowControl: CtpFlowControlOptions
+        ?flowControl: CtpFlowControlOptions,
+        ?autoResubscribe: bool
     )
     =
     let loggerFactory = defaultArg loggerFactory Abstractions.NullLoggerFactory.Instance
@@ -43,6 +44,11 @@ type MdClient
     let logoutPending = SinglePendingResult<Result<UserLogoutResponse, RspInfo>>()
     let subscribePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
     let unsubscribePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
+
+    let autoResubscribe = defaultArg autoResubscribe true
+    let subscribedInstruments = System.Collections.Generic.HashSet<string>()
+    let subscribedInstrumentsLock = obj ()
+    let autoReconnectSemaphore = new SemaphoreSlim(1, 1)
 
     let frontConnectedEvent = Event<unit>()
     let frontDisconnectedEvent = Event<int>()
@@ -171,10 +177,19 @@ type MdClient
     member _.RspError = rspErrorEvent.Publish
     member _.DepthMarketDataReceived = depthMarketDataEvent.Publish
 
-    member _.Connect(?timeout: TimeSpan) =
-        match timeout with
-        | Some timeout -> connectionCoordinator.Connect(timeout = timeout)
-        | None -> connectionCoordinator.Connect()
+    member this.Connect(?timeout: TimeSpan) = async {
+        let! result =
+            match timeout with
+            | Some timeout -> connectionCoordinator.Connect(timeout = timeout)
+            | None -> connectionCoordinator.Connect()
+
+        match result with
+        | Ok() when autoResubscribe && connectionCoordinator.ConnectionCount > 1 ->
+            Async.Start(this.AutoResubscribeAsync())
+        | _ -> ()
+
+        return result
+    }
 
     member _.Join() = api.Join()
 
@@ -300,8 +315,7 @@ type MdClient
                 match remainingBatches with
                 | [] -> return Ok(List.rev completedBatches |> List.concat)
                 | batch :: rest ->
-                    let! result =
-                        this.RunSubscriptionBatchAsync operationName batch pendingState apiCall
+                    let! result = this.RunSubscriptionBatchAsync operationName batch pendingState apiCall
 
                     match result with
                     | Error error -> return Error error
@@ -341,25 +355,89 @@ type MdClient
                 // Current CTP SDK does not reliably invoke OnRspUserLogout, so a successful request is treated as completion.
                 logoutPending.TrySetResult(Ok { BrokerId = acceptedRequest.BrokerId; UserId = acceptedRequest.UserId }))
 
-    member this.SubscribeMarketDataAsync(instrumentIds: string seq) =
+    member this.SubscribeMarketDataAsync(instrumentIds: string seq) = async {
         let requested = List.ofSeq instrumentIds
         logger.LogDebug("Subscribing to {InstrumentCount} instruments", requested.Length)
 
-        this.RunSubscriptionAsync
-            "SubscribeMarketData"
-            requested
-            subscribePending
-            api.SubscribeMarketData
+        let! result = this.RunSubscriptionAsync "SubscribeMarketData" requested subscribePending api.SubscribeMarketData
 
-    member this.UnsubscribeMarketDataAsync(instrumentIds: string seq) =
+        match result with
+        | Ok instruments ->
+            lock subscribedInstrumentsLock (fun () ->
+                instruments |> List.iter (fun i -> subscribedInstruments.Add(i) |> ignore))
+        | Error _ -> ()
+
+        return result
+    }
+
+    member this.UnsubscribeMarketDataAsync(instrumentIds: string seq) = async {
         let requested = List.ofSeq instrumentIds
         logger.LogDebug("Unsubscribing from {InstrumentCount} instruments", requested.Length)
 
-        this.RunSubscriptionAsync
-            "UnsubscribeMarketData"
-            requested
-            unsubscribePending
-            api.UnsubscribeMarketData
+        let! result =
+            this.RunSubscriptionAsync "UnsubscribeMarketData" requested unsubscribePending api.UnsubscribeMarketData
+
+        match result with
+        | Ok instruments ->
+            lock subscribedInstrumentsLock (fun () ->
+                instruments |> List.iter (fun i -> subscribedInstruments.Remove(i) |> ignore))
+        | Error _ -> ()
+
+        return result
+    }
+
+    member private this.AutoResubscribeAsync() = async {
+        let entered = autoReconnectSemaphore.Wait(0)
+
+        if not entered then
+            return ()
+        else
+            try
+                try
+                    let instruments =
+                        lock subscribedInstrumentsLock (fun () ->
+                            if subscribedInstruments.Count = 0 then
+                                []
+                            else
+                                List.ofSeq subscribedInstruments)
+
+                    if instruments.IsEmpty then
+                        return ()
+                    else
+                        logger.LogInformation(
+                            "Auto-resubscribing {InstrumentCount} instruments after reconnection",
+                            instruments.Length
+                        )
+
+                        let! loginResult = this.LoginAsync()
+
+                        match loginResult with
+                        | Error info ->
+                            logger.LogWarning(
+                                "Auto-resubscription login failed: [{ErrorId}] {ErrorMessage}",
+                                info.ErrorId,
+                                info.ErrorMessage
+                            )
+
+                            return ()
+                        | Ok _ ->
+                            let! subscribeResult = this.SubscribeMarketDataAsync(instruments)
+
+                            match subscribeResult with
+                            | Ok _ -> logger.LogInformation("Auto-resubscription completed successfully")
+                            | Error info ->
+                                logger.LogWarning(
+                                    "Auto-resubscription failed: [{ErrorId}] {ErrorMessage}",
+                                    info.ErrorId,
+                                    info.ErrorMessage
+                                )
+                with
+                | :? InvalidOperationException ->
+                    logger.LogDebug("User is driving reconnection, auto-resubscription yields")
+                | ex -> logger.LogWarning(ex, "Auto-resubscription failed")
+            finally
+                autoReconnectSemaphore.Release() |> ignore
+    }
 
     interface IDisposable with
         member _.Dispose() = (api :> IDisposable).Dispose()
