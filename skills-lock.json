@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "ctp": {
+      "source": "masq6r/agent-skills",
+      "sourceType": "github",
+      "skillPath": "ctp/SKILL.md",
+      "computedHash": "7fa798f3f40dd80c75c33bd8d69e33163c5ef063ee78bf8932ebb3f2482efc5d"
+    }
+  }
+}
