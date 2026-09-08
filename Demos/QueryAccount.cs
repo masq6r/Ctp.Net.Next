@@ -2,7 +2,7 @@
 #:property TargetFramework=net10.0
 #:project ../Ctp.Net/Ctp.Net.fsproj
 
-using Ctp.Net;
+using Ctp.Net.Next;
 
 var ctpOptions = CtpOptions.Create(
     frontAddress: "tcp://182.254.243.31:30001",
@@ -18,7 +18,7 @@ var ctpOptions = CtpOptions.Create(
 
 var connectTimeout = TimeSpan.FromSeconds(15);
 
-using var trader = new Ctp.Net.CSharp.TraderClient(ctpOptions);
+using var trader = new Ctp.Net.Next.CSharp.TraderClient(ctpOptions);
 
 Console.WriteLine($"Connecting to {ctpOptions.FrontAddress}");
 await trader.ConnectAsync(timeout: connectTimeout);

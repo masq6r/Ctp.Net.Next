@@ -1,8 +1,8 @@
 #r "nuget: Ctp.Net.Next"
 
 open System
-open Ctp.Net
-open Ctp.Net.Bridge
+open Ctp.Net.Next
+open Ctp.Net.Next.Bridge
 open System.Threading
 open System.Diagnostics
 open System.Threading.Tasks

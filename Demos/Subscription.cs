@@ -2,7 +2,7 @@
 #:property TargetFramework=net10.0
 #:project ../Ctp.Net/Ctp.Net.fsproj
 
-using Ctp.Net;
+using Ctp.Net.Next;
 
 var ctpOptions = CtpOptions.Create(
     frontAddress: "tcp://182.254.243.31:30011",
@@ -19,7 +19,7 @@ var ctpOptions = CtpOptions.Create(
 var connectTimeout = TimeSpan.FromSeconds(15);
 var instrumentIds = new[] { "au2612", "m2609" };
 
-using var md = new Ctp.Net.CSharp.MdClient(ctpOptions);
+using var md = new Ctp.Net.Next.CSharp.MdClient(ctpOptions);
 
 md.DepthMarketDataReceived += (_, depth) =>
     Console.WriteLine($"{depth.InstrumentId}@{depth.UpdateTime:HH:mm:ss.fff}: {depth.LastPrice}");

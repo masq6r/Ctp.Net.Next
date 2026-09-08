@@ -3,9 +3,9 @@
 #:project ../Ctp.Net/Ctp.Net.fsproj
 
 using System.Diagnostics;
-using Ctp.Net;
-using Ctp.Net.Bridge;
-using Ctp.Net.CSharp;
+using Ctp.Net.Next;
+using Ctp.Net.Next.Bridge;
+using Ctp.Net.Next.CSharp;
 
 static string Now() => DateTime.Now.ToString("HH:mm:ss.fff");
 
@@ -23,7 +23,7 @@ var ctpOpt = CtpOptions.Create(
 
 var connectTimeout = TimeSpan.FromSeconds(15);
 
-using var trader = new Ctp.Net.CSharp.TraderClient(ctpOpt);
+using var trader = new Ctp.Net.Next.CSharp.TraderClient(ctpOpt);
 
 Console.WriteLine($"[{Now()}] Connecting to {ctpOpt.FrontAddress}");
 await trader.ConnectAsync(timeout: connectTimeout);

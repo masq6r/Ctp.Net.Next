@@ -1,11 +1,11 @@
-namespace Ctp.Net.CSharp
+namespace Ctp.Net.Next.CSharp
 
 open System
 open System.Threading
 open System.Threading.Tasks
 open System.Runtime.InteropServices
-open Ctp.Net
-open Ctp.Net.Bridge
+open Ctp.Net.Next
+open Ctp.Net.Next.Bridge
 
 type CtpException(errorId: int, message: string) =
     inherit Exception(message)

@@ -1,4 +1,4 @@
-namespace Ctp.Net.Bridge
+namespace Ctp.Net.Next.Bridge
 
 open System
 

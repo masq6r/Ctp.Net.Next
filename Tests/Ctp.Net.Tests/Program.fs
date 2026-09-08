@@ -1,10 +1,10 @@
-namespace Ctp.Net.Tests
+namespace Ctp.Net.Next.Tests
 
 open Xunit
 open System
-open Ctp.Net
+open Ctp.Net.Next
 open System.Text
-open Ctp.Net.Bridge
+open Ctp.Net.Next.Bridge
 open System.Threading
 open System.Threading.Tasks
 open System.Collections.Generic
@@ -110,7 +110,7 @@ type TraderBridgeGeneratedTests() =
         let zeroIndex = bytes |> Array.tryFindIndex ((=) 0uy) |> Option.defaultValue bytes.Length
         Encoding.UTF8.GetString(bytes, 0, zeroIndex)
 
-    let generatedType = getType "Ctp.Net.Bridge.TraderBridgeGenerated"
+    let generatedType = getType "Ctp.Net.Next.Bridge.TraderBridgeGenerated"
 
     let mapNativeAs recordType nativeTypeName (native: obj) =
         let nativeType = getType nativeTypeName
@@ -124,7 +124,7 @@ type TraderBridgeGeneratedTests() =
         buildNative.MakeGenericMethod(recordType, nativeType).Invoke(null, [| Encoding.UTF8; record |])
 
     let mapInstrument fields =
-        let nativeType = getType "Ctp.Net.Bridge.NativeInstrument"
+        let nativeType = getType "Ctp.Net.Next.Bridge.NativeInstrument"
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
 
@@ -132,7 +132,7 @@ type TraderBridgeGeneratedTests() =
             let field = nativeType.GetField(name, flags)
             field.SetValue(native, byte value)
 
-        mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Bridge.NativeInstrument" native :?> InstrumentResponse
+        mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Next.Bridge.NativeInstrument" native :?> InstrumentResponse
 
     [<Fact>]
     member _.``instrument mapping supports optional union fields``() =
@@ -162,7 +162,7 @@ type TraderBridgeGeneratedTests() =
 
     [<Fact>]
     member _.``generated mapping parses dateonly timeonly and millisec fields``() =
-        let nativeType = getType "Ctp.Net.Bridge.NativeTraderDepthMarketData"
+        let nativeType = getType "Ctp.Net.Next.Bridge.NativeTraderDepthMarketData"
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
         setFixedStringField native "TradingDay" "20260519"
@@ -171,7 +171,7 @@ type TraderBridgeGeneratedTests() =
         nativeType.GetField("UpdateMillisec", flags).SetValue(native, 789)
 
         let depth =
-            mapNativeAs typeof<DepthMarketData> "Ctp.Net.Bridge.NativeTraderDepthMarketData" native :?> DepthMarketData
+            mapNativeAs typeof<DepthMarketData> "Ctp.Net.Next.Bridge.NativeTraderDepthMarketData" native :?> DepthMarketData
 
         Assert.Equal(DateOnly(2026, 5, 19), depth.TradingDay)
         Assert.Equal(TimeOnly(13, 14, 15, 789), depth.UpdateTime)
@@ -187,7 +187,7 @@ type TraderBridgeGeneratedTests() =
               CurrencyId = None }
 
         let native =
-            buildNativeAs typeof<QrySettlementInfoRequest> "Ctp.Net.Bridge.NativeQrySettlementInfo" (box request)
+            buildNativeAs typeof<QrySettlementInfoRequest> "Ctp.Net.Next.Bridge.NativeQrySettlementInfo" (box request)
 
         Assert.Equal("20260519", getFixedStringField native "TradingDay")
 
@@ -207,13 +207,13 @@ type TraderBridgeGeneratedTests() =
               Mac = "" }
 
         let native =
-            buildNativeAs typeof<UserSystemInfoRequest> "Ctp.Net.Bridge.NativeUserSystemInfo" (box request)
+            buildNativeAs typeof<UserSystemInfoRequest> "Ctp.Net.Next.Bridge.NativeUserSystemInfo" (box request)
 
         Assert.Equal("01:02:03", getFixedStringField native "ClientLoginTime")
 
     [<Fact>]
     member _.``instrument status callback payload maps typed status and time``() =
-        let nativeType = getType "Ctp.Net.Bridge.NativeInstrumentStatus"
+        let nativeType = getType "Ctp.Net.Next.Bridge.NativeInstrumentStatus"
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
         setFixedStringField native "ExchangeId" "SHFE"
@@ -224,7 +224,7 @@ type TraderBridgeGeneratedTests() =
         nativeType.GetField("TradingSegmentSN", flags).SetValue(native, 3)
 
         let status =
-            mapNativeAs typeof<InstrumentStatusResponse> "Ctp.Net.Bridge.NativeInstrumentStatus" native
+            mapNativeAs typeof<InstrumentStatusResponse> "Ctp.Net.Next.Bridge.NativeInstrumentStatus" native
             :?> InstrumentStatusResponse
 
         Assert.Equal("SHFE", status.ExchangeId)
@@ -249,7 +249,7 @@ type TraderBridgeGeneratedTests() =
               typeof<ChangeAccountResponse>, "NativeChangeAccount" ]
 
         for recordType, nativeTypeName in cases do
-            let nativeType = getType $"Ctp.Net.Bridge.{nativeTypeName}"
+            let nativeType = getType $"Ctp.Net.Next.Bridge.{nativeTypeName}"
             let native = Activator.CreateInstance(nativeType)
             zeroInitializeByteArrays native
 
@@ -259,7 +259,7 @@ type TraderBridgeGeneratedTests() =
                 elif field.PropertyType = typeof<TimeOnly> then
                     setFixedStringField native field.Name "09:08:07"
 
-            let mapped = mapNativeAs recordType $"Ctp.Net.Bridge.{nativeTypeName}" native
+            let mapped = mapNativeAs recordType $"Ctp.Net.Next.Bridge.{nativeTypeName}" native
             Assert.NotNull(mapped)
 
     [<Fact>]
@@ -970,7 +970,7 @@ type LoggingTests() =
     member _.``native failure logs error``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> invalidOp "boom"), logger = logger)
 
         coordinator.Connect()
@@ -990,7 +990,7 @@ type LoggingTests() =
     member _.``connect timeout logs warning``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
         let timeout = TimeSpan.FromMilliseconds 50.0
 
@@ -1010,7 +1010,7 @@ type LoggingTests() =
     member _.``front connected logs debug``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
 
         let task = Async.StartAsTask(coordinator.Connect())
@@ -1029,7 +1029,7 @@ type LoggingTests() =
     member _.``front disconnected logs info``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
 
         let task = Async.StartAsTask(coordinator.Connect())

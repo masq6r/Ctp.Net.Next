@@ -1,7 +1,7 @@
-namespace Ctp.Net
+namespace Ctp.Net.Next
 
 open System
-open Ctp.Net.Bridge
+open Ctp.Net.Next.Bridge
 open System.Threading
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.Logging.Abstractions

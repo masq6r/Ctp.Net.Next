@@ -1,10 +1,10 @@
-namespace Ctp.Net.SmokeTests
+namespace Ctp.Net.Next.SmokeTests
 
 open Xunit
 open System
-open Ctp.Net
+open Ctp.Net.Next
 open System.IO
-open Ctp.Net.Bridge
+open Ctp.Net.Next.Bridge
 open System.Text.Json
 open System.Threading.Tasks
 

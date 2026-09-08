@@ -1,15 +1,15 @@
-namespace Ctp.Net.CSharp
+namespace Ctp.Net.Next.CSharp
 
 open System
 open System.Runtime.InteropServices
 open System.Threading
 open System.Threading.Tasks
 open System.Collections.Generic
-open Ctp.Net
-open Ctp.Net.Bridge
+open Ctp.Net.Next
+open Ctp.Net.Next.Bridge
 open Microsoft.Extensions.Logging
 
-type TraderClient private (inner: Ctp.Net.TraderClient) =
+type TraderClient private (inner: Ctp.Net.Next.TraderClient) =
 
     let frontConnectedEvent = Event<EventHandler, EventArgs>()
     let frontDisconnectedEvent = Event<EventHandler<int>, int>()
@@ -34,7 +34,7 @@ type TraderClient private (inner: Ctp.Net.TraderClient) =
         inner.AsyncErrorReceived.Add(fun data ->
             asyncErrorEvent.Trigger(null, CtpEventArgs(data, Unchecked.defaultof<RspInfo>)))
 
-    new(options: CtpOptions) = new TraderClient(new Ctp.Net.TraderClient(options))
+    new(options: CtpOptions) = new TraderClient(new Ctp.Net.Next.TraderClient(options))
 
     new
         (
@@ -50,7 +50,7 @@ type TraderClient private (inner: Ctp.Net.TraderClient) =
         let nullToOpt (v: 'T) = if obj.ReferenceEquals(box v, null) then None else Some v
 
         new TraderClient(
-            new Ctp.Net.TraderClient(
+            new Ctp.Net.Next.TraderClient(
                 options,
                 ?encodings = nullToOpt encodings,
                 ?privateTopicResumeType = CSharpHelpers.nullableToOption privateTopicResumeType,

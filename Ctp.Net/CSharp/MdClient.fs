@@ -1,15 +1,15 @@
-namespace Ctp.Net.CSharp
+namespace Ctp.Net.Next.CSharp
 
 open System
 open System.Runtime.InteropServices
 open System.Threading
 open System.Threading.Tasks
 open System.Collections.Generic
-open Ctp.Net
-open Ctp.Net.Bridge
+open Ctp.Net.Next
+open Ctp.Net.Next.Bridge
 open Microsoft.Extensions.Logging
 
-type MdClient private (inner: Ctp.Net.MdClient) =
+type MdClient private (inner: Ctp.Net.Next.MdClient) =
 
     let frontConnectedEvent = Event<EventHandler, EventArgs>()
     let frontDisconnectedEvent = Event<EventHandler<int>, int>()
@@ -25,7 +25,7 @@ type MdClient private (inner: Ctp.Net.MdClient) =
         inner.DepthMarketDataReceived.Add(fun d -> depthMarketDataEvent.Trigger(null, d))
 
     new(options: CtpOptions, [<Optional>] autoResubscribe: bool) =
-        new MdClient(new Ctp.Net.MdClient(options, ?autoResubscribe = (if autoResubscribe then Some true else None)))
+        new MdClient(new Ctp.Net.Next.MdClient(options, ?autoResubscribe = (if autoResubscribe then Some true else None)))
 
     new
         (
@@ -41,7 +41,7 @@ type MdClient private (inner: Ctp.Net.MdClient) =
         let nullToOpt (v: 'T) = if obj.ReferenceEquals(box v, null) then None else Some v
 
         new MdClient(
-            new Ctp.Net.MdClient(
+            new Ctp.Net.Next.MdClient(
                 options,
                 ?encodings = nullToOpt encodings,
                 ?useUdp = (if useUdp then Some useUdp else None),
