@@ -319,6 +319,40 @@ type TraderClient
                     Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
                 RtnSpdApply =
                     Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnInstrumentStatus =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnBulletin =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnTradingNotice =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnErrorConditionalOrder =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnCfmmcTradingAccountToken =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnFromBankToFutureByBank =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnFromFutureToBankByBank =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnRepealFromBankToFutureByBank =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnRepealFromFutureToBankByBank =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnRepealFromBankToFutureByFutureManual =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnRepealFromFutureToBankByFutureManual =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnRepealFromBankToFutureByFuture =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnRepealFromFutureToBankByFuture =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnOpenAccountByBank =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnCancelAccountByBank =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                RtnChangeAccountByBank =
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                ErrRtnRepealBankToFutureByFutureManual = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
+                ErrRtnRepealFutureToBankByFutureManual = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
                 ErrRtnBankToFutureByFuture = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
                 ErrRtnBatchOrderAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
                 ErrRtnCancelOffsetSetting = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))

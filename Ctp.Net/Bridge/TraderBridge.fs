@@ -2721,6 +2721,379 @@ type WechatUserSystemInfoRequest =
       ClientPublicIp: string
       ClientLoginRemark: string }
 
+type InstrumentStatusResponse =
+    {
+      ExchangeId: string
+      Reserve1: string
+      SettlementGroupId: string
+      Reserve2: string
+      InstrumentStatus: InstrumentStatus option
+      TradingSegmentSN: int
+      EnterTime: TimeOnly
+      EnterReason: InstStatusEnterReason option
+      ExchangeInstId: string
+      InstrumentId: string }
+
+type BulletinResponse =
+    {
+      ExchangeId: string
+      TradingDay: DateOnly
+      BulletinId: int
+      SequenceNo: int
+      NewsType: string
+      NewsUrgency: char option
+      SendTime: TimeOnly
+      Abstract: string
+      ComeFrom: string
+      Content: string
+      UrlLink: string
+      MarketId: string }
+
+type TradingNoticeInfoResponse =
+    {
+      BrokerId: string
+      InvestorId: string
+      SendTime: TimeOnly
+      FieldContent: string
+      SequenceSeries: int
+      SequenceNo: int
+      InvestUnitId: string }
+
+type ErrorConditionalOrderResponse =
+    {
+      BrokerId: string
+      InvestorId: string
+      Reserve1: string
+      OrderRef: string
+      UserId: string
+      OrderPriceType: OrderPriceType option
+      Direction: Direction option
+      CombOffsetFlag: string
+      CombHedgeFlag: string
+      LimitPrice: decimal
+      VolumeTotalOriginal: int
+      TimeCondition: TimeCondition option
+      GtdDate: DateOnly
+      VolumeCondition: VolumeCondition option
+      MinVolume: int
+      ContingentCondition: ContingentCondition option
+      StopPrice: decimal
+      ForceCloseReason: ForceCloseReason option
+      IsAutoSuspend: int
+      BusinessUnit: string
+      RequestId: int
+      OrderLocalId: string
+      ExchangeId: string
+      ParticipantId: string
+      ClientId: string
+      Reserve2: string
+      TraderId: string
+      InstallId: int
+      OrderSubmitStatus: OrderSubmitStatus option
+      NotifySequence: int
+      TradingDay: DateOnly
+      SettlementId: int
+      OrderSysId: string
+      OrderSource: char option
+      OrderStatus: OrderStatus option
+      OrderType: char option
+      VolumeTraded: int
+      VolumeTotal: int
+      InsertDate: DateOnly
+      InsertTime: TimeOnly
+      ActiveTime: TimeOnly
+      SuspendTime: TimeOnly
+      UpdateTime: TimeOnly
+      CancelTime: TimeOnly
+      ActiveTraderId: string
+      ClearingPartId: string
+      SequenceNo: int
+      FrontId: int
+      SessionId: int
+      UserProductInfo: string
+      StatusMsg: string
+      UserForceClose: int
+      ActiveUserId: string
+      BrokerOrderSeq: int
+      RelativeOrderSysId: string
+      ZceTotalTradedVolume: int
+      ErrorId: int
+      ErrorMsg: string
+      IsSwapOrder: int
+      BranchId: string
+      InvestUnitId: string
+      AccountId: string
+      CurrencyId: string
+      Reserve3: string
+      MacAddress: string
+      InstrumentId: string
+      ExchangeInstId: string
+      IpAddress: string }
+
+type CfmmcTradingAccountTokenResponse =
+    {
+      BrokerId: string
+      ParticipantId: string
+      AccountId: string
+      KeyId: int
+      Token: string }
+
+type RepealRequest =
+    {
+      RepealTimeInterval: int
+      RepealedTimes: int
+      BankRepealFlag: BankRepealFlag option
+      BrokerRepealFlag: BrokerRepealFlag option
+      PlateRepealSerial: int
+      BankRepealSerial: string
+      FutureRepealSerial: int
+      TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
+      BankSerial: string
+      TradingDay: DateOnly
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CustType: CustType option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      InstallId: int
+      FutureSerial: int
+      UserId: string
+      VerifyCertNoFlag: YesNoIndicator option
+      CurrencyId: string
+      TradeAmount: decimal
+      FutureFetchAmount: decimal
+      FeePayFlag: FeePayFlag option
+      CustFee: decimal
+      BrokerFee: decimal
+      Message: string
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: BankAccType option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
+      OperNo: string
+      RequestId: int
+      TId: int
+      TransferStatus: TransferStatus option
+      LongCustomerName: string }
+
+type RepealResponse =
+    {
+      RepealTimeInterval: int
+      RepealedTimes: int
+      BankRepealFlag: BankRepealFlag option
+      BrokerRepealFlag: BrokerRepealFlag option
+      PlateRepealSerial: int
+      BankRepealSerial: string
+      FutureRepealSerial: int
+      TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
+      BankSerial: string
+      TradingDay: DateOnly
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      CustType: CustType option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      InstallId: int
+      FutureSerial: int
+      UserId: string
+      VerifyCertNoFlag: YesNoIndicator option
+      CurrencyId: string
+      TradeAmount: decimal
+      FutureFetchAmount: decimal
+      FeePayFlag: FeePayFlag option
+      CustFee: decimal
+      BrokerFee: decimal
+      Message: string
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: BankAccType option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
+      OperNo: string
+      RequestId: int
+      TId: int
+      TransferStatus: TransferStatus option
+      ErrorId: int
+      ErrorMsg: string
+      LongCustomerName: string }
+
+type OpenAccountResponse =
+    {
+      TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
+      BankSerial: string
+      TradingDay: DateOnly
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      Gender: Gender option
+      CountryCode: string
+      CustType: CustType option
+      Address: string
+      ZipCode: string
+      Telephone: string
+      MobilePhone: string
+      Fax: string
+      EMail: string
+      MoneyAccountStatus: MoneyAccountStatus option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      InstallId: int
+      VerifyCertNoFlag: YesNoIndicator option
+      CurrencyId: string
+      CashExchangeCode: CashExchangeCode option
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: BankAccType option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
+      OperNo: string
+      TId: int
+      UserId: string
+      ErrorId: int
+      ErrorMsg: string
+      LongCustomerName: string }
+
+type CancelAccountResponse =
+    {
+      TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
+      BankSerial: string
+      TradingDay: DateOnly
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      Gender: Gender option
+      CountryCode: string
+      CustType: CustType option
+      Address: string
+      ZipCode: string
+      Telephone: string
+      MobilePhone: string
+      Fax: string
+      EMail: string
+      MoneyAccountStatus: MoneyAccountStatus option
+      BankAccount: string
+      BankPassWord: string
+      AccountId: string
+      Password: string
+      InstallId: int
+      VerifyCertNoFlag: YesNoIndicator option
+      CurrencyId: string
+      CashExchangeCode: CashExchangeCode option
+      Digest: string
+      BankAccType: BankAccType option
+      DeviceId: string
+      BankSecuAccType: BankAccType option
+      BrokerIdByBank: string
+      BankSecuAcc: string
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
+      OperNo: string
+      TId: int
+      UserId: string
+      ErrorId: int
+      ErrorMsg: string
+      LongCustomerName: string }
+
+type ChangeAccountResponse =
+    {
+      TradeCode: string
+      BankId: string
+      BankBranchId: string
+      BrokerId: string
+      BrokerBranchId: string
+      TradeDate: DateOnly
+      TradeTime: TimeOnly
+      BankSerial: string
+      TradingDay: DateOnly
+      PlateSerial: int
+      LastFragment: LastFragment option
+      SessionId: int
+      CustomerName: string
+      IdCardType: IdCardType option
+      IdentifiedCardNo: string
+      Gender: Gender option
+      CountryCode: string
+      CustType: CustType option
+      Address: string
+      ZipCode: string
+      Telephone: string
+      MobilePhone: string
+      Fax: string
+      EMail: string
+      MoneyAccountStatus: MoneyAccountStatus option
+      BankAccount: string
+      BankPassWord: string
+      NewBankAccount: string
+      NewBankPassWord: string
+      AccountId: string
+      Password: string
+      BankAccType: BankAccType option
+      InstallId: int
+      VerifyCertNoFlag: YesNoIndicator option
+      CurrencyId: string
+      BrokerIdByBank: string
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
+      TId: int
+      Digest: string
+      ErrorId: int
+      ErrorMsg: string
+      LongCustomerName: string }
+
 type TraderCallbacks =
     { FrontConnected: (unit -> unit) option
       FrontDisconnected: (int -> unit) option
@@ -2907,7 +3280,25 @@ type TraderCallbacks =
       RtnOptionSelfClose: (OptionSelfCloseResponse -> unit) option
       RtnQueryBankBalanceByFuture: (NotifyQueryAccountResponse -> unit) option
       RtnQuote: (QuoteResponse -> unit) option
-      RtnSpdApply: (SpdApplyResponse -> unit) option }
+      RtnSpdApply: (SpdApplyResponse -> unit) option
+      RtnInstrumentStatus: (InstrumentStatusResponse -> unit) option
+      RtnBulletin: (BulletinResponse -> unit) option
+      RtnTradingNotice: (TradingNoticeInfoResponse -> unit) option
+      RtnErrorConditionalOrder: (ErrorConditionalOrderResponse -> unit) option
+      RtnCfmmcTradingAccountToken: (CfmmcTradingAccountTokenResponse -> unit) option
+      RtnFromBankToFutureByBank: (TransferResponse -> unit) option
+      RtnFromFutureToBankByBank: (TransferResponse -> unit) option
+      RtnRepealFromBankToFutureByBank: (RepealResponse -> unit) option
+      RtnRepealFromFutureToBankByBank: (RepealResponse -> unit) option
+      RtnRepealFromBankToFutureByFutureManual: (RepealResponse -> unit) option
+      RtnRepealFromFutureToBankByFutureManual: (RepealResponse -> unit) option
+      RtnRepealFromBankToFutureByFuture: (RepealResponse -> unit) option
+      RtnRepealFromFutureToBankByFuture: (RepealResponse -> unit) option
+      RtnOpenAccountByBank: (OpenAccountResponse -> unit) option
+      RtnCancelAccountByBank: (CancelAccountResponse -> unit) option
+      RtnChangeAccountByBank: (ChangeAccountResponse -> unit) option
+      ErrRtnRepealBankToFutureByFutureManual: (RepealRequest option -> RspInfo option -> unit) option
+      ErrRtnRepealFutureToBankByFutureManual: (RepealRequest option -> RspInfo option -> unit) option }
 
     static member Empty =
         { FrontConnected = None
@@ -3069,7 +3460,25 @@ type TraderCallbacks =
           RtnOptionSelfClose = None
           RtnQueryBankBalanceByFuture = None
           RtnQuote = None
-          RtnSpdApply = None }
+          RtnSpdApply = None
+          RtnInstrumentStatus = None
+          RtnBulletin = None
+          RtnTradingNotice = None
+          RtnErrorConditionalOrder = None
+          RtnCfmmcTradingAccountToken = None
+          RtnFromBankToFutureByBank = None
+          RtnFromFutureToBankByBank = None
+          RtnRepealFromBankToFutureByBank = None
+          RtnRepealFromFutureToBankByBank = None
+          RtnRepealFromBankToFutureByFutureManual = None
+          RtnRepealFromFutureToBankByFutureManual = None
+          RtnRepealFromBankToFutureByFuture = None
+          RtnRepealFromFutureToBankByFuture = None
+          RtnOpenAccountByBank = None
+          RtnCancelAccountByBank = None
+          RtnChangeAccountByBank = None
+          ErrRtnRepealBankToFutureByFutureManual = None
+          ErrRtnRepealFutureToBankByFutureManual = None }
 
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeRspAuthenticate =
@@ -12298,6 +12707,1261 @@ type private NativeWechatUserSystemInfo =
     [<DefaultValue>]
     val mutable ClientLoginRemark: byte array
 
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeInstrumentStatus =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable SettlementGroupId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<DefaultValue>]
+    val mutable InstrumentStatus: byte
+
+    [<DefaultValue>]
+    val mutable TradingSegmentSN: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable EnterTime: byte array
+
+    [<DefaultValue>]
+    val mutable EnterReason: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeBulletin =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable BulletinId: int
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable NewsType: byte array
+
+    [<DefaultValue>]
+    val mutable NewsUrgency: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable SendTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable Abstract: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ComeFrom: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 501)>]
+    [<DefaultValue>]
+    val mutable Content: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 201)>]
+    [<DefaultValue>]
+    val mutable UrlLink: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable MarketId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeTradingNoticeInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable SendTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 501)>]
+    [<DefaultValue>]
+    val mutable FieldContent: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceSeries: int16
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeErrorConditionalOrder =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable InvestorId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderRef: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderPriceType: byte
+
+    [<DefaultValue>]
+    val mutable Direction: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable CombOffsetFlag: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable CombHedgeFlag: byte array
+
+    [<DefaultValue>]
+    val mutable LimitPrice: float
+
+    [<DefaultValue>]
+    val mutable VolumeTotalOriginal: int
+
+    [<DefaultValue>]
+    val mutable TimeCondition: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable GtdDate: byte array
+
+    [<DefaultValue>]
+    val mutable VolumeCondition: byte
+
+    [<DefaultValue>]
+    val mutable MinVolume: int
+
+    [<DefaultValue>]
+    val mutable ContingentCondition: byte
+
+    [<DefaultValue>]
+    val mutable StopPrice: float
+
+    [<DefaultValue>]
+    val mutable ForceCloseReason: byte
+
+    [<DefaultValue>]
+    val mutable IsAutoSuspend: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable OrderSubmitStatus: byte
+
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable SettlementId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable OrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable OrderSource: byte
+
+    [<DefaultValue>]
+    val mutable OrderStatus: byte
+
+    [<DefaultValue>]
+    val mutable OrderType: byte
+
+    [<DefaultValue>]
+    val mutable VolumeTraded: int
+
+    [<DefaultValue>]
+    val mutable VolumeTotal: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable InsertTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActiveTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable SuspendTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable UpdateTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable CancelTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ActiveTraderId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClearingPartId: byte array
+
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+
+    [<DefaultValue>]
+    val mutable FrontId: int
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable StatusMsg: byte array
+
+    [<DefaultValue>]
+    val mutable UserForceClose: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+
+    [<DefaultValue>]
+    val mutable BrokerOrderSeq: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable RelativeOrderSysId: byte array
+
+    [<DefaultValue>]
+    val mutable ZceTotalTradedVolume: int
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<DefaultValue>]
+    val mutable IsSwapOrder: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCFMMCTradingAccountToken =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<DefaultValue>]
+    val mutable KeyId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable Token: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeReqRepeal =
+    [<DefaultValue>]
+    val mutable RepealTimeInterval: int
+
+    [<DefaultValue>]
+    val mutable RepealedTimes: int
+
+    [<DefaultValue>]
+    val mutable BankRepealFlag: byte
+
+    [<DefaultValue>]
+    val mutable BrokerRepealFlag: byte
+
+    [<DefaultValue>]
+    val mutable PlateRepealSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankRepealSerial: byte array
+
+    [<DefaultValue>]
+    val mutable FutureRepealSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable FutureSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable TradeAmount: float
+
+    [<DefaultValue>]
+    val mutable FutureFetchAmount: float
+
+    [<DefaultValue>]
+    val mutable FeePayFlag: byte
+
+    [<DefaultValue>]
+    val mutable CustFee: float
+
+    [<DefaultValue>]
+    val mutable BrokerFee: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 129)>]
+    [<DefaultValue>]
+    val mutable Message: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<DefaultValue>]
+    val mutable TransferStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeRspRepeal =
+    [<DefaultValue>]
+    val mutable RepealTimeInterval: int
+
+    [<DefaultValue>]
+    val mutable RepealedTimes: int
+
+    [<DefaultValue>]
+    val mutable BankRepealFlag: byte
+
+    [<DefaultValue>]
+    val mutable BrokerRepealFlag: byte
+
+    [<DefaultValue>]
+    val mutable PlateRepealSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankRepealSerial: byte array
+
+    [<DefaultValue>]
+    val mutable FutureRepealSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable FutureSerial: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable TradeAmount: float
+
+    [<DefaultValue>]
+    val mutable FutureFetchAmount: float
+
+    [<DefaultValue>]
+    val mutable FeePayFlag: byte
+
+    [<DefaultValue>]
+    val mutable CustFee: float
+
+    [<DefaultValue>]
+    val mutable BrokerFee: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 129)>]
+    [<DefaultValue>]
+    val mutable Message: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable RequestId: int
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<DefaultValue>]
+    val mutable TransferStatus: byte
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeOpenAccount =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable Gender: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable CountryCode: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 101)>]
+    [<DefaultValue>]
+    val mutable Address: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable ZipCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Telephone: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MobilePhone: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Fax: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable EMail: byte array
+
+    [<DefaultValue>]
+    val mutable MoneyAccountStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable CashExchangeCode: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeCancelAccount =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable Gender: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable CountryCode: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 101)>]
+    [<DefaultValue>]
+    val mutable Address: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable ZipCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Telephone: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MobilePhone: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Fax: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable EMail: byte array
+
+    [<DefaultValue>]
+    val mutable MoneyAccountStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<DefaultValue>]
+    val mutable CashExchangeCode: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)>]
+    [<DefaultValue>]
+    val mutable DeviceId: byte array
+
+    [<DefaultValue>]
+    val mutable BankSecuAccType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankSecuAcc: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable OperNo: byte array
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeChangeAccount =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable TradeCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable BankId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)>]
+    [<DefaultValue>]
+    val mutable BankBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable BrokerBranchId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeDate: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradeTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable BankSerial: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<DefaultValue>]
+    val mutable PlateSerial: int
+
+    [<DefaultValue>]
+    val mutable LastFragment: byte
+
+    [<DefaultValue>]
+    val mutable SessionId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable CustomerName: byte array
+
+    [<DefaultValue>]
+    val mutable IdCardType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 51)>]
+    [<DefaultValue>]
+    val mutable IdentifiedCardNo: byte array
+
+    [<DefaultValue>]
+    val mutable Gender: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable CountryCode: byte array
+
+    [<DefaultValue>]
+    val mutable CustType: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 101)>]
+    [<DefaultValue>]
+    val mutable Address: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 7)>]
+    [<DefaultValue>]
+    val mutable ZipCode: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Telephone: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MobilePhone: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Fax: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable EMail: byte array
+
+    [<DefaultValue>]
+    val mutable MoneyAccountStatus: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable BankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable NewBankAccount: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable NewBankPassWord: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<DefaultValue>]
+    val mutable Password: byte array
+
+    [<DefaultValue>]
+    val mutable BankAccType: byte
+
+    [<DefaultValue>]
+    val mutable InstallId: int
+
+    [<DefaultValue>]
+    val mutable VerifyCertNoFlag: byte
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable BrokerIdByBank: byte array
+
+    [<DefaultValue>]
+    val mutable BankPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable SecuPwdFlag: byte
+
+    [<DefaultValue>]
+    val mutable TId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 36)>]
+    [<DefaultValue>]
+    val mutable Digest: byte array
+
+    [<DefaultValue>]
+    val mutable ErrorId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ErrorMsg: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 161)>]
+    [<DefaultValue>]
+    val mutable LongCustomerName: byte array
+
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderFrontConnectedDelegate = delegate of nativeint -> unit
 
@@ -12811,6 +14475,60 @@ type private TraderRtnQuoteDelegate = delegate of nativeint * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private TraderRtnSpdApplyDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnInstrumentStatusDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnBulletinDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnTradingNoticeDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnErrorConditionalOrderDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnCfmmcTradingAccountTokenDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnFromBankToFutureByBankDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnFromFutureToBankByBankDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnRepealFromBankToFutureByBankDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnRepealFromFutureToBankByBankDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnRepealFromBankToFutureByFutureManualDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnRepealFromFutureToBankByFutureManualDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnRepealFromBankToFutureByFutureDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnRepealFromFutureToBankByFutureDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnOpenAccountByBankDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnCancelAccountByBankDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderRtnChangeAccountByBankDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnRepealBankToFutureByFutureManualDelegate = delegate of nativeint * nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private TraderErrRtnRepealFutureToBankByFutureManualDelegate = delegate of nativeint * nativeint * nativeint -> unit
 
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeTraderSpi =
@@ -13453,6 +15171,78 @@ type private NativeTraderSpi =
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
     val mutable RtnSpdApply: TraderRtnSpdApplyDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnInstrumentStatus: TraderRtnInstrumentStatusDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnBulletin: TraderRtnBulletinDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnTradingNotice: TraderRtnTradingNoticeDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnErrorConditionalOrder: TraderRtnErrorConditionalOrderDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnCfmmcTradingAccountToken: TraderRtnCfmmcTradingAccountTokenDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnFromBankToFutureByBank: TraderRtnFromBankToFutureByBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnFromFutureToBankByBank: TraderRtnFromFutureToBankByBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnRepealFromBankToFutureByBank: TraderRtnRepealFromBankToFutureByBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnRepealFromFutureToBankByBank: TraderRtnRepealFromFutureToBankByBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnRepealFromBankToFutureByFutureManual: TraderRtnRepealFromBankToFutureByFutureManualDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnRepealFromFutureToBankByFutureManual: TraderRtnRepealFromFutureToBankByFutureManualDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnRepealFromBankToFutureByFuture: TraderRtnRepealFromBankToFutureByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnRepealFromFutureToBankByFuture: TraderRtnRepealFromFutureToBankByFutureDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnOpenAccountByBank: TraderRtnOpenAccountByBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnCancelAccountByBank: TraderRtnCancelAccountByBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable RtnChangeAccountByBank: TraderRtnChangeAccountByBankDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnRepealBankToFutureByFutureManual: TraderErrRtnRepealBankToFutureByFutureManualDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable ErrRtnRepealFutureToBankByFutureManual: TraderErrRtnRepealFutureToBankByFutureManualDelegate
 
 module private TraderNativeInterop =
     [<Literal>]
@@ -18413,6 +20203,154 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
                 | Some item -> handler (TraderBridgeMapping.spdApply encodings.InboundEncoding item)
                 | None -> ()))
 
+    let rtnInstrumentStatus =
+        TraderRtnInstrumentStatusDelegate(fun itemPtr _ ->
+            callbacks.RtnInstrumentStatus
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeInstrumentStatus> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<InstrumentStatusResponse, NativeInstrumentStatus> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnBulletin =
+        TraderRtnBulletinDelegate(fun itemPtr _ ->
+            callbacks.RtnBulletin
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeBulletin> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<BulletinResponse, NativeBulletin> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnTradingNotice =
+        TraderRtnTradingNoticeDelegate(fun itemPtr _ ->
+            callbacks.RtnTradingNotice
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeTradingNoticeInfo> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<TradingNoticeInfoResponse, NativeTradingNoticeInfo> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnErrorConditionalOrder =
+        TraderRtnErrorConditionalOrderDelegate(fun itemPtr _ ->
+            callbacks.RtnErrorConditionalOrder
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeErrorConditionalOrder> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<ErrorConditionalOrderResponse, NativeErrorConditionalOrder> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnCfmmcTradingAccountToken =
+        TraderRtnCfmmcTradingAccountTokenDelegate(fun itemPtr _ ->
+            callbacks.RtnCfmmcTradingAccountToken
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeCFMMCTradingAccountToken> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<CfmmcTradingAccountTokenResponse, NativeCFMMCTradingAccountToken> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnFromBankToFutureByBank =
+        TraderRtnFromBankToFutureByBankDelegate(fun itemPtr _ ->
+            callbacks.RtnFromBankToFutureByBank
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspTransfer> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<TransferResponse, NativeRspTransfer> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnFromFutureToBankByBank =
+        TraderRtnFromFutureToBankByBankDelegate(fun itemPtr _ ->
+            callbacks.RtnFromFutureToBankByBank
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspTransfer> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<TransferResponse, NativeRspTransfer> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnRepealFromBankToFutureByBank =
+        TraderRtnRepealFromBankToFutureByBankDelegate(fun itemPtr _ ->
+            callbacks.RtnRepealFromBankToFutureByBank
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspRepeal> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<RepealResponse, NativeRspRepeal> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnRepealFromFutureToBankByBank =
+        TraderRtnRepealFromFutureToBankByBankDelegate(fun itemPtr _ ->
+            callbacks.RtnRepealFromFutureToBankByBank
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspRepeal> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<RepealResponse, NativeRspRepeal> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnRepealFromBankToFutureByFutureManual =
+        TraderRtnRepealFromBankToFutureByFutureManualDelegate(fun itemPtr _ ->
+            callbacks.RtnRepealFromBankToFutureByFutureManual
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspRepeal> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<RepealResponse, NativeRspRepeal> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnRepealFromFutureToBankByFutureManual =
+        TraderRtnRepealFromFutureToBankByFutureManualDelegate(fun itemPtr _ ->
+            callbacks.RtnRepealFromFutureToBankByFutureManual
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspRepeal> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<RepealResponse, NativeRspRepeal> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnRepealFromBankToFutureByFuture =
+        TraderRtnRepealFromBankToFutureByFutureDelegate(fun itemPtr _ ->
+            callbacks.RtnRepealFromBankToFutureByFuture
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspRepeal> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<RepealResponse, NativeRspRepeal> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnRepealFromFutureToBankByFuture =
+        TraderRtnRepealFromFutureToBankByFutureDelegate(fun itemPtr _ ->
+            callbacks.RtnRepealFromFutureToBankByFuture
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeRspRepeal> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<RepealResponse, NativeRspRepeal> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnOpenAccountByBank =
+        TraderRtnOpenAccountByBankDelegate(fun itemPtr _ ->
+            callbacks.RtnOpenAccountByBank
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeOpenAccount> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<OpenAccountResponse, NativeOpenAccount> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnCancelAccountByBank =
+        TraderRtnCancelAccountByBankDelegate(fun itemPtr _ ->
+            callbacks.RtnCancelAccountByBank
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeCancelAccount> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<CancelAccountResponse, NativeCancelAccount> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let rtnChangeAccountByBank =
+        TraderRtnChangeAccountByBankDelegate(fun itemPtr _ ->
+            callbacks.RtnChangeAccountByBank
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeChangeAccount> itemPtr with
+                | Some item -> handler (TraderBridgeGenerated.mapNative<ChangeAccountResponse, NativeChangeAccount> encodings.InboundEncoding item)
+                | None -> ()))
+
+    let errRtnRepealBankToFutureByFutureManual =
+        TraderErrRtnRepealBankToFutureByFutureManualDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnRepealBankToFutureByFutureManual
+            |> Option.iter (fun handler ->
+                handler
+                    (EncodingHelpers.ptrToOption<NativeReqRepeal> itemPtr
+                     |> Option.map (TraderBridgeGenerated.mapNative<RepealRequest, NativeReqRepeal> encodings.InboundEncoding))
+                    (EncodingHelpers.ptrToOption<NativeRspInfo> rspInfoPtr
+                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding))))
+
+    let errRtnRepealFutureToBankByFutureManual =
+        TraderErrRtnRepealFutureToBankByFutureManualDelegate(fun itemPtr rspInfoPtr _ ->
+            callbacks.ErrRtnRepealFutureToBankByFutureManual
+            |> Option.iter (fun handler ->
+                handler
+                    (EncodingHelpers.ptrToOption<NativeReqRepeal> itemPtr
+                     |> Option.map (TraderBridgeGenerated.mapNative<RepealRequest, NativeReqRepeal> encodings.InboundEncoding))
+                    (EncodingHelpers.ptrToOption<NativeRspInfo> rspInfoPtr
+                     |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding))))
+
     let mutable native = NativeTraderSpi()
 
     do
@@ -18576,6 +20514,24 @@ type private TraderSpiRegistration(callbacks: TraderCallbacks, encodings: Encodi
         native.RtnQueryBankBalanceByFuture <- rtnQueryBankBalanceByFuture
         native.RtnQuote <- rtnQuote
         native.RtnSpdApply <- rtnSpdApply
+        native.RtnInstrumentStatus <- rtnInstrumentStatus
+        native.RtnBulletin <- rtnBulletin
+        native.RtnTradingNotice <- rtnTradingNotice
+        native.RtnErrorConditionalOrder <- rtnErrorConditionalOrder
+        native.RtnCfmmcTradingAccountToken <- rtnCfmmcTradingAccountToken
+        native.RtnFromBankToFutureByBank <- rtnFromBankToFutureByBank
+        native.RtnFromFutureToBankByBank <- rtnFromFutureToBankByBank
+        native.RtnRepealFromBankToFutureByBank <- rtnRepealFromBankToFutureByBank
+        native.RtnRepealFromFutureToBankByBank <- rtnRepealFromFutureToBankByBank
+        native.RtnRepealFromBankToFutureByFutureManual <- rtnRepealFromBankToFutureByFutureManual
+        native.RtnRepealFromFutureToBankByFutureManual <- rtnRepealFromFutureToBankByFutureManual
+        native.RtnRepealFromBankToFutureByFuture <- rtnRepealFromBankToFutureByFuture
+        native.RtnRepealFromFutureToBankByFuture <- rtnRepealFromFutureToBankByFuture
+        native.RtnOpenAccountByBank <- rtnOpenAccountByBank
+        native.RtnCancelAccountByBank <- rtnCancelAccountByBank
+        native.RtnChangeAccountByBank <- rtnChangeAccountByBank
+        native.ErrRtnRepealBankToFutureByFutureManual <- errRtnRepealBankToFutureByFutureManual
+        native.ErrRtnRepealFutureToBankByFutureManual <- errRtnRepealFutureToBankByFutureManual
 
     member _.Native = native
 

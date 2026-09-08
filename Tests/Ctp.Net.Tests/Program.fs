@@ -211,6 +211,97 @@ type TraderBridgeGeneratedTests() =
 
         Assert.Equal("01:02:03", getFixedStringField native "ClientLoginTime")
 
+    [<Fact>]
+    member _.``instrument status callback payload maps typed status and time``() =
+        let nativeType = getType "Ctp.Net.Bridge.NativeInstrumentStatus"
+        let native = Activator.CreateInstance(nativeType)
+        zeroInitializeByteArrays native
+        setFixedStringField native "ExchangeId" "SHFE"
+        setFixedStringField native "InstrumentId" "ag2612"
+        setFixedStringField native "EnterTime" "09:00:00"
+        nativeType.GetField("InstrumentStatus", flags).SetValue(native, byte '2')
+        nativeType.GetField("EnterReason", flags).SetValue(native, byte '1')
+        nativeType.GetField("TradingSegmentSN", flags).SetValue(native, 3)
+
+        let status =
+            mapNativeAs typeof<InstrumentStatusResponse> "Ctp.Net.Bridge.NativeInstrumentStatus" native
+            :?> InstrumentStatusResponse
+
+        Assert.Equal("SHFE", status.ExchangeId)
+        Assert.Equal("ag2612", status.InstrumentId)
+        Assert.Equal(Some InstrumentStatus.Continuous, status.InstrumentStatus)
+        Assert.Equal(Some InstStatusEnterReason.Automatic, status.EnterReason)
+        Assert.Equal(TimeOnly(9, 0), status.EnterTime)
+        Assert.Equal(3, status.TradingSegmentSN)
+
+    [<Fact>]
+    member _.``all new trader callback payloads support generated mapping``() =
+        let cases =
+            [ typeof<InstrumentStatusResponse>, "NativeInstrumentStatus"
+              typeof<BulletinResponse>, "NativeBulletin"
+              typeof<TradingNoticeInfoResponse>, "NativeTradingNoticeInfo"
+              typeof<ErrorConditionalOrderResponse>, "NativeErrorConditionalOrder"
+              typeof<CfmmcTradingAccountTokenResponse>, "NativeCFMMCTradingAccountToken"
+              typeof<RepealRequest>, "NativeReqRepeal"
+              typeof<RepealResponse>, "NativeRspRepeal"
+              typeof<OpenAccountResponse>, "NativeOpenAccount"
+              typeof<CancelAccountResponse>, "NativeCancelAccount"
+              typeof<ChangeAccountResponse>, "NativeChangeAccount" ]
+
+        for recordType, nativeTypeName in cases do
+            let nativeType = getType $"Ctp.Net.Bridge.{nativeTypeName}"
+            let native = Activator.CreateInstance(nativeType)
+            zeroInitializeByteArrays native
+
+            for field in Microsoft.FSharp.Reflection.FSharpType.GetRecordFields(recordType) do
+                if field.PropertyType = typeof<DateOnly> then
+                    setFixedStringField native field.Name "20260908"
+                elif field.PropertyType = typeof<TimeOnly> then
+                    setFixedStringField native field.Name "09:08:07"
+
+            let mapped = mapNativeAs recordType $"Ctp.Net.Bridge.{nativeTypeName}" native
+            Assert.NotNull(mapped)
+
+    [<Fact>]
+    member _.``trader callback surface includes every previously missing callback``() =
+        let expected =
+            set
+                [ "RtnInstrumentStatus"
+                  "RtnBulletin"
+                  "RtnTradingNotice"
+                  "RtnErrorConditionalOrder"
+                  "RtnCfmmcTradingAccountToken"
+                  "RtnFromBankToFutureByBank"
+                  "RtnFromFutureToBankByBank"
+                  "RtnRepealFromBankToFutureByBank"
+                  "RtnRepealFromFutureToBankByBank"
+                  "RtnRepealFromBankToFutureByFutureManual"
+                  "RtnRepealFromFutureToBankByFutureManual"
+                  "RtnRepealFromBankToFutureByFuture"
+                  "RtnRepealFromFutureToBankByFuture"
+                  "RtnOpenAccountByBank"
+                  "RtnCancelAccountByBank"
+                  "RtnChangeAccountByBank"
+                  "ErrRtnRepealBankToFutureByFutureManual"
+                  "ErrRtnRepealFutureToBankByFutureManual" ]
+
+        let fields =
+            Microsoft.FSharp.Reflection.FSharpType.GetRecordFields typeof<TraderCallbacks>
+            |> Array.map _.Name
+            |> Set.ofArray
+
+        Assert.True(Set.isSubset expected fields)
+
+    [<Fact>]
+    member _.``new trader callback enums round trip official values``() =
+        Assert.Equal('7', InstrumentStatus.ToChar(InstrumentStatus.FromChar '7'))
+        Assert.Equal('3', InstStatusEnterReason.ToChar(InstStatusEnterReason.FromChar '3'))
+        Assert.Equal('2', Gender.ToChar(Gender.FromChar '2'))
+        Assert.Equal('1', MoneyAccountStatus.ToChar(MoneyAccountStatus.FromChar '1'))
+        Assert.Equal('2', CashExchangeCode.ToChar(CashExchangeCode.FromChar '2'))
+        Assert.Equal('2', BankRepealFlag.ToChar(BankRepealFlag.FromChar '2'))
+        Assert.Equal('2', BrokerRepealFlag.ToChar(BrokerRepealFlag.FromChar '2'))
+
 
 type OptionHelperTests() =
 

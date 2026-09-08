@@ -1589,3 +1589,132 @@ type MortgageFundUseRange =
         | Margin -> '1'
         | All -> '2'
         | CNY3 -> '3'
+
+/// TThostFtdcInstrumentStatusType: BeforeTrading='0', NoTrading='1', Continuous='2',
+/// AuctionOrdering='3', AuctionBalance='4', AuctionMatch='5', Closed='6', TransactionProcessing='7'
+type InstrumentStatus =
+    | BeforeTrading
+    | NoTrading
+    | Continuous
+    | AuctionOrdering
+    | AuctionBalance
+    | AuctionMatch
+    | Closed
+    | TransactionProcessing
+    static member FromChar(c: char) =
+        match c with
+        | '0' -> BeforeTrading
+        | '1' -> NoTrading
+        | '2' -> Continuous
+        | '3' -> AuctionOrdering
+        | '4' -> AuctionBalance
+        | '5' -> AuctionMatch
+        | '6' -> Closed
+        | '7' -> TransactionProcessing
+        | c -> invalidArg (nameof c) $"Invalid InstrumentStatus: %c{c}"
+    static member ToChar(value: InstrumentStatus) =
+        match value with
+        | BeforeTrading -> '0'
+        | NoTrading -> '1'
+        | Continuous -> '2'
+        | AuctionOrdering -> '3'
+        | AuctionBalance -> '4'
+        | AuctionMatch -> '5'
+        | Closed -> '6'
+        | TransactionProcessing -> '7'
+
+/// TThostFtdcInstStatusEnterReasonType: Automatic='1', Manual='2', Fuse='3'
+type InstStatusEnterReason =
+    | Automatic
+    | Manual
+    | Fuse
+    static member FromChar(c: char) =
+        match c with
+        | '1' -> Automatic
+        | '2' -> Manual
+        | '3' -> Fuse
+        | c -> invalidArg (nameof c) $"Invalid InstStatusEnterReason: %c{c}"
+    static member ToChar(value: InstStatusEnterReason) =
+        match value with
+        | Automatic -> '1'
+        | Manual -> '2'
+        | Fuse -> '3'
+
+/// TThostFtdcGenderType: Unknown='0', Male='1', Female='2'
+type Gender =
+    | Unknown
+    | Male
+    | Female
+    static member FromChar(c: char) =
+        match c with
+        | '0' -> Unknown
+        | '1' -> Male
+        | '2' -> Female
+        | c -> invalidArg (nameof c) $"Invalid Gender: %c{c}"
+    static member ToChar(value: Gender) =
+        match value with
+        | Unknown -> '0'
+        | Male -> '1'
+        | Female -> '2'
+
+/// TThostFtdcMoneyAccountStatusType: Normal='0', Cancel='1'
+type MoneyAccountStatus =
+    | Normal
+    | Cancel
+    static member FromChar(c: char) =
+        match c with
+        | '0' -> Normal
+        | '1' -> Cancel
+        | c -> invalidArg (nameof c) $"Invalid MoneyAccountStatus: %c{c}"
+    static member ToChar(value: MoneyAccountStatus) =
+        match value with
+        | Normal -> '0'
+        | Cancel -> '1'
+
+/// TThostFtdcCashExchangeCodeType: Exchange='1', Cash='2'
+type CashExchangeCode =
+    | Exchange
+    | Cash
+    static member FromChar(c: char) =
+        match c with
+        | '1' -> Exchange
+        | '2' -> Cash
+        | c -> invalidArg (nameof c) $"Invalid CashExchangeCode: %c{c}"
+    static member ToChar(value: CashExchangeCode) =
+        match value with
+        | Exchange -> '1'
+        | Cash -> '2'
+
+/// TThostFtdcBankRepealFlagType: BankNotNeedRepeal='0', BankWaitingRepeal='1', BankBeenRepealed='2'
+type BankRepealFlag =
+    | BankNotNeedRepeal
+    | BankWaitingRepeal
+    | BankBeenRepealed
+    static member FromChar(c: char) =
+        match c with
+        | '0' -> BankNotNeedRepeal
+        | '1' -> BankWaitingRepeal
+        | '2' -> BankBeenRepealed
+        | c -> invalidArg (nameof c) $"Invalid BankRepealFlag: %c{c}"
+    static member ToChar(value: BankRepealFlag) =
+        match value with
+        | BankNotNeedRepeal -> '0'
+        | BankWaitingRepeal -> '1'
+        | BankBeenRepealed -> '2'
+
+/// TThostFtdcBrokerRepealFlagType: BrokerNotNeedRepeal='0', BrokerWaitingRepeal='1', BrokerBeenRepealed='2'
+type BrokerRepealFlag =
+    | BrokerNotNeedRepeal
+    | BrokerWaitingRepeal
+    | BrokerBeenRepealed
+    static member FromChar(c: char) =
+        match c with
+        | '0' -> BrokerNotNeedRepeal
+        | '1' -> BrokerWaitingRepeal
+        | '2' -> BrokerBeenRepealed
+        | c -> invalidArg (nameof c) $"Invalid BrokerRepealFlag: %c{c}"
+    static member ToChar(value: BrokerRepealFlag) =
+        match value with
+        | BrokerNotNeedRepeal -> '0'
+        | BrokerWaitingRepeal -> '1'
+        | BrokerBeenRepealed -> '2'

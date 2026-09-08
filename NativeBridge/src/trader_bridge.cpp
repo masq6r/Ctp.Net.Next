@@ -4241,6 +4241,419 @@ void fill_wechat_user_system_info(
   copy_field(dest.client_login_remark, src->ClientLoginRemark);
 }
 
+void fill_instrument_status(ctp_instrument_status &dest, const CThostFtdcInstrumentStatusField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.reserve1, src->reserve1);
+  copy_field(dest.settlement_group_id, src->SettlementGroupID);
+  copy_field(dest.reserve2, src->reserve2);
+  dest.instrument_status = src->InstrumentStatus;
+  dest.trading_segment_sn = src->TradingSegmentSN;
+  copy_field(dest.enter_time, src->EnterTime);
+  dest.enter_reason = src->EnterReason;
+  copy_field(dest.exchange_inst_id, src->ExchangeInstID);
+  copy_field(dest.instrument_id, src->InstrumentID);
+}
+
+void fill_bulletin(ctp_bulletin &dest, const CThostFtdcBulletinField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.bulletin_id = src->BulletinID;
+  dest.sequence_no = src->SequenceNo;
+  copy_field(dest.news_type, src->NewsType);
+  dest.news_urgency = src->NewsUrgency;
+  copy_field(dest.send_time, src->SendTime);
+  copy_field(dest.abstract, src->Abstract);
+  copy_field(dest.come_from, src->ComeFrom);
+  copy_field(dest.content, src->Content);
+  copy_field(dest.url_link, src->URLLink);
+  copy_field(dest.market_id, src->MarketID);
+}
+
+void fill_trading_notice_info(ctp_trading_notice_info &dest, const CThostFtdcTradingNoticeInfoField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.investor_id, src->InvestorID);
+  copy_field(dest.send_time, src->SendTime);
+  copy_field(dest.field_content, src->FieldContent);
+  dest.sequence_series = src->SequenceSeries;
+  dest.sequence_no = src->SequenceNo;
+  copy_field(dest.invest_unit_id, src->InvestUnitID);
+}
+
+void fill_error_conditional_order(ctp_error_conditional_order &dest, const CThostFtdcErrorConditionalOrderField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.investor_id, src->InvestorID);
+  copy_field(dest.reserve1, src->reserve1);
+  copy_field(dest.order_ref, src->OrderRef);
+  copy_field(dest.user_id, src->UserID);
+  dest.order_price_type = src->OrderPriceType;
+  dest.direction = src->Direction;
+  copy_field(dest.comb_offset_flag, src->CombOffsetFlag);
+  copy_field(dest.comb_hedge_flag, src->CombHedgeFlag);
+  dest.limit_price = src->LimitPrice;
+  dest.volume_total_original = src->VolumeTotalOriginal;
+  dest.time_condition = src->TimeCondition;
+  copy_field(dest.gtd_date, src->GTDDate);
+  dest.volume_condition = src->VolumeCondition;
+  dest.min_volume = src->MinVolume;
+  dest.contingent_condition = src->ContingentCondition;
+  dest.stop_price = src->StopPrice;
+  dest.force_close_reason = src->ForceCloseReason;
+  dest.is_auto_suspend = src->IsAutoSuspend;
+  copy_field(dest.business_unit, src->BusinessUnit);
+  dest.request_id = src->RequestID;
+  copy_field(dest.order_local_id, src->OrderLocalID);
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.participant_id, src->ParticipantID);
+  copy_field(dest.client_id, src->ClientID);
+  copy_field(dest.reserve2, src->reserve2);
+  copy_field(dest.trader_id, src->TraderID);
+  dest.install_id = src->InstallID;
+  dest.order_submit_status = src->OrderSubmitStatus;
+  dest.notify_sequence = src->NotifySequence;
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.settlement_id = src->SettlementID;
+  copy_field(dest.order_sys_id, src->OrderSysID);
+  dest.order_source = src->OrderSource;
+  dest.order_status = src->OrderStatus;
+  dest.order_type = src->OrderType;
+  dest.volume_traded = src->VolumeTraded;
+  dest.volume_total = src->VolumeTotal;
+  copy_field(dest.insert_date, src->InsertDate);
+  copy_field(dest.insert_time, src->InsertTime);
+  copy_field(dest.active_time, src->ActiveTime);
+  copy_field(dest.suspend_time, src->SuspendTime);
+  copy_field(dest.update_time, src->UpdateTime);
+  copy_field(dest.cancel_time, src->CancelTime);
+  copy_field(dest.active_trader_id, src->ActiveTraderID);
+  copy_field(dest.clearing_part_id, src->ClearingPartID);
+  dest.sequence_no = src->SequenceNo;
+  dest.front_id = src->FrontID;
+  dest.session_id = src->SessionID;
+  copy_field(dest.user_product_info, src->UserProductInfo);
+  copy_field(dest.status_msg, src->StatusMsg);
+  dest.user_force_close = src->UserForceClose;
+  copy_field(dest.active_user_id, src->ActiveUserID);
+  dest.broker_order_seq = src->BrokerOrderSeq;
+  copy_field(dest.relative_order_sys_id, src->RelativeOrderSysID);
+  dest.zce_total_traded_volume = src->ZCETotalTradedVolume;
+  dest.error_id = src->ErrorID;
+  copy_field(dest.error_msg, src->ErrorMsg);
+  dest.is_swap_order = src->IsSwapOrder;
+  copy_field(dest.branch_id, src->BranchID);
+  copy_field(dest.invest_unit_id, src->InvestUnitID);
+  copy_field(dest.account_id, src->AccountID);
+  copy_field(dest.currency_id, src->CurrencyID);
+  copy_field(dest.reserve3, src->reserve3);
+  copy_field(dest.mac_address, src->MacAddress);
+  copy_field(dest.instrument_id, src->InstrumentID);
+  copy_field(dest.exchange_inst_id, src->ExchangeInstID);
+  copy_field(dest.ip_address, src->IPAddress);
+}
+
+void fill_cfmmc_trading_account_token(ctp_cfmmc_trading_account_token &dest, const CThostFtdcCFMMCTradingAccountTokenField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.participant_id, src->ParticipantID);
+  copy_field(dest.account_id, src->AccountID);
+  dest.key_id = src->KeyID;
+  copy_field(dest.token, src->Token);
+}
+
+void fill_req_repeal(ctp_req_repeal &dest, const CThostFtdcReqRepealField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  dest.repeal_time_interval = src->RepealTimeInterval;
+  dest.repealed_times = src->RepealedTimes;
+  dest.bank_repeal_flag = src->BankRepealFlag;
+  dest.broker_repeal_flag = src->BrokerRepealFlag;
+  dest.plate_repeal_serial = src->PlateRepealSerial;
+  copy_field(dest.bank_repeal_serial, src->BankRepealSerial);
+  dest.future_repeal_serial = src->FutureRepealSerial;
+  copy_field(dest.trade_code, src->TradeCode);
+  copy_field(dest.bank_id, src->BankID);
+  copy_field(dest.bank_branch_id, src->BankBranchID);
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.broker_branch_id, src->BrokerBranchID);
+  copy_field(dest.trade_date, src->TradeDate);
+  copy_field(dest.trade_time, src->TradeTime);
+  copy_field(dest.bank_serial, src->BankSerial);
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.plate_serial = src->PlateSerial;
+  dest.last_fragment = src->LastFragment;
+  dest.session_id = src->SessionID;
+  copy_field(dest.customer_name, src->CustomerName);
+  dest.id_card_type = src->IdCardType;
+  copy_field(dest.identified_card_no, src->IdentifiedCardNo);
+  dest.cust_type = src->CustType;
+  copy_field(dest.bank_account, src->BankAccount);
+  copy_field(dest.bank_pass_word, src->BankPassWord);
+  copy_field(dest.account_id, src->AccountID);
+  copy_field(dest.password, src->Password);
+  dest.install_id = src->InstallID;
+  dest.future_serial = src->FutureSerial;
+  copy_field(dest.user_id, src->UserID);
+  dest.verify_cert_no_flag = src->VerifyCertNoFlag;
+  copy_field(dest.currency_id, src->CurrencyID);
+  dest.trade_amount = src->TradeAmount;
+  dest.future_fetch_amount = src->FutureFetchAmount;
+  dest.fee_pay_flag = src->FeePayFlag;
+  dest.cust_fee = src->CustFee;
+  dest.broker_fee = src->BrokerFee;
+  copy_field(dest.message, src->Message);
+  copy_field(dest.digest, src->Digest);
+  dest.bank_acc_type = src->BankAccType;
+  copy_field(dest.device_id, src->DeviceID);
+  dest.bank_secu_acc_type = src->BankSecuAccType;
+  copy_field(dest.broker_id_by_bank, src->BrokerIDByBank);
+  copy_field(dest.bank_secu_acc, src->BankSecuAcc);
+  dest.bank_pwd_flag = src->BankPwdFlag;
+  dest.secu_pwd_flag = src->SecuPwdFlag;
+  copy_field(dest.oper_no, src->OperNo);
+  dest.request_id = src->RequestID;
+  dest.tid = src->TID;
+  dest.transfer_status = src->TransferStatus;
+  copy_field(dest.long_customer_name, src->LongCustomerName);
+}
+
+void fill_rsp_repeal(ctp_rsp_repeal &dest, const CThostFtdcRspRepealField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  dest.repeal_time_interval = src->RepealTimeInterval;
+  dest.repealed_times = src->RepealedTimes;
+  dest.bank_repeal_flag = src->BankRepealFlag;
+  dest.broker_repeal_flag = src->BrokerRepealFlag;
+  dest.plate_repeal_serial = src->PlateRepealSerial;
+  copy_field(dest.bank_repeal_serial, src->BankRepealSerial);
+  dest.future_repeal_serial = src->FutureRepealSerial;
+  copy_field(dest.trade_code, src->TradeCode);
+  copy_field(dest.bank_id, src->BankID);
+  copy_field(dest.bank_branch_id, src->BankBranchID);
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.broker_branch_id, src->BrokerBranchID);
+  copy_field(dest.trade_date, src->TradeDate);
+  copy_field(dest.trade_time, src->TradeTime);
+  copy_field(dest.bank_serial, src->BankSerial);
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.plate_serial = src->PlateSerial;
+  dest.last_fragment = src->LastFragment;
+  dest.session_id = src->SessionID;
+  copy_field(dest.customer_name, src->CustomerName);
+  dest.id_card_type = src->IdCardType;
+  copy_field(dest.identified_card_no, src->IdentifiedCardNo);
+  dest.cust_type = src->CustType;
+  copy_field(dest.bank_account, src->BankAccount);
+  copy_field(dest.bank_pass_word, src->BankPassWord);
+  copy_field(dest.account_id, src->AccountID);
+  copy_field(dest.password, src->Password);
+  dest.install_id = src->InstallID;
+  dest.future_serial = src->FutureSerial;
+  copy_field(dest.user_id, src->UserID);
+  dest.verify_cert_no_flag = src->VerifyCertNoFlag;
+  copy_field(dest.currency_id, src->CurrencyID);
+  dest.trade_amount = src->TradeAmount;
+  dest.future_fetch_amount = src->FutureFetchAmount;
+  dest.fee_pay_flag = src->FeePayFlag;
+  dest.cust_fee = src->CustFee;
+  dest.broker_fee = src->BrokerFee;
+  copy_field(dest.message, src->Message);
+  copy_field(dest.digest, src->Digest);
+  dest.bank_acc_type = src->BankAccType;
+  copy_field(dest.device_id, src->DeviceID);
+  dest.bank_secu_acc_type = src->BankSecuAccType;
+  copy_field(dest.broker_id_by_bank, src->BrokerIDByBank);
+  copy_field(dest.bank_secu_acc, src->BankSecuAcc);
+  dest.bank_pwd_flag = src->BankPwdFlag;
+  dest.secu_pwd_flag = src->SecuPwdFlag;
+  copy_field(dest.oper_no, src->OperNo);
+  dest.request_id = src->RequestID;
+  dest.tid = src->TID;
+  dest.transfer_status = src->TransferStatus;
+  dest.error_id = src->ErrorID;
+  copy_field(dest.error_msg, src->ErrorMsg);
+  copy_field(dest.long_customer_name, src->LongCustomerName);
+}
+
+void fill_open_account(ctp_open_account &dest, const CThostFtdcOpenAccountField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.trade_code, src->TradeCode);
+  copy_field(dest.bank_id, src->BankID);
+  copy_field(dest.bank_branch_id, src->BankBranchID);
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.broker_branch_id, src->BrokerBranchID);
+  copy_field(dest.trade_date, src->TradeDate);
+  copy_field(dest.trade_time, src->TradeTime);
+  copy_field(dest.bank_serial, src->BankSerial);
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.plate_serial = src->PlateSerial;
+  dest.last_fragment = src->LastFragment;
+  dest.session_id = src->SessionID;
+  copy_field(dest.customer_name, src->CustomerName);
+  dest.id_card_type = src->IdCardType;
+  copy_field(dest.identified_card_no, src->IdentifiedCardNo);
+  dest.gender = src->Gender;
+  copy_field(dest.country_code, src->CountryCode);
+  dest.cust_type = src->CustType;
+  copy_field(dest.address, src->Address);
+  copy_field(dest.zip_code, src->ZipCode);
+  copy_field(dest.telephone, src->Telephone);
+  copy_field(dest.mobile_phone, src->MobilePhone);
+  copy_field(dest.fax, src->Fax);
+  copy_field(dest.e_mail, src->EMail);
+  dest.money_account_status = src->MoneyAccountStatus;
+  copy_field(dest.bank_account, src->BankAccount);
+  copy_field(dest.bank_pass_word, src->BankPassWord);
+  copy_field(dest.account_id, src->AccountID);
+  copy_field(dest.password, src->Password);
+  dest.install_id = src->InstallID;
+  dest.verify_cert_no_flag = src->VerifyCertNoFlag;
+  copy_field(dest.currency_id, src->CurrencyID);
+  dest.cash_exchange_code = src->CashExchangeCode;
+  copy_field(dest.digest, src->Digest);
+  dest.bank_acc_type = src->BankAccType;
+  copy_field(dest.device_id, src->DeviceID);
+  dest.bank_secu_acc_type = src->BankSecuAccType;
+  copy_field(dest.broker_id_by_bank, src->BrokerIDByBank);
+  copy_field(dest.bank_secu_acc, src->BankSecuAcc);
+  dest.bank_pwd_flag = src->BankPwdFlag;
+  dest.secu_pwd_flag = src->SecuPwdFlag;
+  copy_field(dest.oper_no, src->OperNo);
+  dest.tid = src->TID;
+  copy_field(dest.user_id, src->UserID);
+  dest.error_id = src->ErrorID;
+  copy_field(dest.error_msg, src->ErrorMsg);
+  copy_field(dest.long_customer_name, src->LongCustomerName);
+}
+
+void fill_cancel_account(ctp_cancel_account &dest, const CThostFtdcCancelAccountField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.trade_code, src->TradeCode);
+  copy_field(dest.bank_id, src->BankID);
+  copy_field(dest.bank_branch_id, src->BankBranchID);
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.broker_branch_id, src->BrokerBranchID);
+  copy_field(dest.trade_date, src->TradeDate);
+  copy_field(dest.trade_time, src->TradeTime);
+  copy_field(dest.bank_serial, src->BankSerial);
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.plate_serial = src->PlateSerial;
+  dest.last_fragment = src->LastFragment;
+  dest.session_id = src->SessionID;
+  copy_field(dest.customer_name, src->CustomerName);
+  dest.id_card_type = src->IdCardType;
+  copy_field(dest.identified_card_no, src->IdentifiedCardNo);
+  dest.gender = src->Gender;
+  copy_field(dest.country_code, src->CountryCode);
+  dest.cust_type = src->CustType;
+  copy_field(dest.address, src->Address);
+  copy_field(dest.zip_code, src->ZipCode);
+  copy_field(dest.telephone, src->Telephone);
+  copy_field(dest.mobile_phone, src->MobilePhone);
+  copy_field(dest.fax, src->Fax);
+  copy_field(dest.e_mail, src->EMail);
+  dest.money_account_status = src->MoneyAccountStatus;
+  copy_field(dest.bank_account, src->BankAccount);
+  copy_field(dest.bank_pass_word, src->BankPassWord);
+  copy_field(dest.account_id, src->AccountID);
+  copy_field(dest.password, src->Password);
+  dest.install_id = src->InstallID;
+  dest.verify_cert_no_flag = src->VerifyCertNoFlag;
+  copy_field(dest.currency_id, src->CurrencyID);
+  dest.cash_exchange_code = src->CashExchangeCode;
+  copy_field(dest.digest, src->Digest);
+  dest.bank_acc_type = src->BankAccType;
+  copy_field(dest.device_id, src->DeviceID);
+  dest.bank_secu_acc_type = src->BankSecuAccType;
+  copy_field(dest.broker_id_by_bank, src->BrokerIDByBank);
+  copy_field(dest.bank_secu_acc, src->BankSecuAcc);
+  dest.bank_pwd_flag = src->BankPwdFlag;
+  dest.secu_pwd_flag = src->SecuPwdFlag;
+  copy_field(dest.oper_no, src->OperNo);
+  dest.tid = src->TID;
+  copy_field(dest.user_id, src->UserID);
+  dest.error_id = src->ErrorID;
+  copy_field(dest.error_msg, src->ErrorMsg);
+  copy_field(dest.long_customer_name, src->LongCustomerName);
+}
+
+void fill_change_account(ctp_change_account &dest, const CThostFtdcChangeAccountField *src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.trade_code, src->TradeCode);
+  copy_field(dest.bank_id, src->BankID);
+  copy_field(dest.bank_branch_id, src->BankBranchID);
+  copy_field(dest.broker_id, src->BrokerID);
+  copy_field(dest.broker_branch_id, src->BrokerBranchID);
+  copy_field(dest.trade_date, src->TradeDate);
+  copy_field(dest.trade_time, src->TradeTime);
+  copy_field(dest.bank_serial, src->BankSerial);
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.plate_serial = src->PlateSerial;
+  dest.last_fragment = src->LastFragment;
+  dest.session_id = src->SessionID;
+  copy_field(dest.customer_name, src->CustomerName);
+  dest.id_card_type = src->IdCardType;
+  copy_field(dest.identified_card_no, src->IdentifiedCardNo);
+  dest.gender = src->Gender;
+  copy_field(dest.country_code, src->CountryCode);
+  dest.cust_type = src->CustType;
+  copy_field(dest.address, src->Address);
+  copy_field(dest.zip_code, src->ZipCode);
+  copy_field(dest.telephone, src->Telephone);
+  copy_field(dest.mobile_phone, src->MobilePhone);
+  copy_field(dest.fax, src->Fax);
+  copy_field(dest.e_mail, src->EMail);
+  dest.money_account_status = src->MoneyAccountStatus;
+  copy_field(dest.bank_account, src->BankAccount);
+  copy_field(dest.bank_pass_word, src->BankPassWord);
+  copy_field(dest.new_bank_account, src->NewBankAccount);
+  copy_field(dest.new_bank_pass_word, src->NewBankPassWord);
+  copy_field(dest.account_id, src->AccountID);
+  copy_field(dest.password, src->Password);
+  dest.bank_acc_type = src->BankAccType;
+  dest.install_id = src->InstallID;
+  dest.verify_cert_no_flag = src->VerifyCertNoFlag;
+  copy_field(dest.currency_id, src->CurrencyID);
+  copy_field(dest.broker_id_by_bank, src->BrokerIDByBank);
+  dest.bank_pwd_flag = src->BankPwdFlag;
+  dest.secu_pwd_flag = src->SecuPwdFlag;
+  dest.tid = src->TID;
+  copy_field(dest.digest, src->Digest);
+  dest.error_id = src->ErrorID;
+  copy_field(dest.error_msg, src->ErrorMsg);
+  copy_field(dest.long_customer_name, src->LongCustomerName);
+}
+
 class TraderSpiAdapter final : public CThostFtdcTraderSpi {
 public:
   TraderSpiAdapter(const ctp_trader_spi &callbacks, void *user_data)
@@ -6645,6 +7058,174 @@ public:
     ctp_spd_apply bridge{};
     fill_spd_apply(bridge, pSpdApply);
     callbacks_.on_rtn_spd_apply(&bridge, user_data_);
+  }
+
+  void OnRtnInstrumentStatus(CThostFtdcInstrumentStatusField *item) override {
+    if (callbacks_.rtn_instrument_status == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_instrument_status bridge{};
+    fill_instrument_status(bridge, item);
+    callbacks_.rtn_instrument_status(&bridge, user_data_);
+  }
+
+  void OnRtnBulletin(CThostFtdcBulletinField *item) override {
+    if (callbacks_.rtn_bulletin == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_bulletin bridge{};
+    fill_bulletin(bridge, item);
+    callbacks_.rtn_bulletin(&bridge, user_data_);
+  }
+
+  void OnRtnTradingNotice(CThostFtdcTradingNoticeInfoField *item) override {
+    if (callbacks_.rtn_trading_notice == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_trading_notice_info bridge{};
+    fill_trading_notice_info(bridge, item);
+    callbacks_.rtn_trading_notice(&bridge, user_data_);
+  }
+
+  void OnRtnErrorConditionalOrder(CThostFtdcErrorConditionalOrderField *item) override {
+    if (callbacks_.rtn_error_conditional_order == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_error_conditional_order bridge{};
+    fill_error_conditional_order(bridge, item);
+    callbacks_.rtn_error_conditional_order(&bridge, user_data_);
+  }
+
+  void OnRtnCFMMCTradingAccountToken(CThostFtdcCFMMCTradingAccountTokenField *item) override {
+    if (callbacks_.rtn_cfmmc_trading_account_token == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_cfmmc_trading_account_token bridge{};
+    fill_cfmmc_trading_account_token(bridge, item);
+    callbacks_.rtn_cfmmc_trading_account_token(&bridge, user_data_);
+  }
+
+  void OnRtnFromBankToFutureByBank(CThostFtdcRspTransferField *item) override {
+    if (callbacks_.rtn_from_bank_to_future_by_bank == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_transfer bridge{};
+    fill_rsp_transfer(bridge, item);
+    callbacks_.rtn_from_bank_to_future_by_bank(&bridge, user_data_);
+  }
+
+  void OnRtnFromFutureToBankByBank(CThostFtdcRspTransferField *item) override {
+    if (callbacks_.rtn_from_future_to_bank_by_bank == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_transfer bridge{};
+    fill_rsp_transfer(bridge, item);
+    callbacks_.rtn_from_future_to_bank_by_bank(&bridge, user_data_);
+  }
+
+  void OnRtnRepealFromBankToFutureByBank(CThostFtdcRspRepealField *item) override {
+    if (callbacks_.rtn_repeal_from_bank_to_future_by_bank == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_repeal bridge{};
+    fill_rsp_repeal(bridge, item);
+    callbacks_.rtn_repeal_from_bank_to_future_by_bank(&bridge, user_data_);
+  }
+
+  void OnRtnRepealFromFutureToBankByBank(CThostFtdcRspRepealField *item) override {
+    if (callbacks_.rtn_repeal_from_future_to_bank_by_bank == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_repeal bridge{};
+    fill_rsp_repeal(bridge, item);
+    callbacks_.rtn_repeal_from_future_to_bank_by_bank(&bridge, user_data_);
+  }
+
+  void OnRtnRepealFromBankToFutureByFutureManual(CThostFtdcRspRepealField *item) override {
+    if (callbacks_.rtn_repeal_from_bank_to_future_by_future_manual == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_repeal bridge{};
+    fill_rsp_repeal(bridge, item);
+    callbacks_.rtn_repeal_from_bank_to_future_by_future_manual(&bridge, user_data_);
+  }
+
+  void OnRtnRepealFromFutureToBankByFutureManual(CThostFtdcRspRepealField *item) override {
+    if (callbacks_.rtn_repeal_from_future_to_bank_by_future_manual == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_repeal bridge{};
+    fill_rsp_repeal(bridge, item);
+    callbacks_.rtn_repeal_from_future_to_bank_by_future_manual(&bridge, user_data_);
+  }
+
+  void OnRtnRepealFromBankToFutureByFuture(CThostFtdcRspRepealField *item) override {
+    if (callbacks_.rtn_repeal_from_bank_to_future_by_future == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_repeal bridge{};
+    fill_rsp_repeal(bridge, item);
+    callbacks_.rtn_repeal_from_bank_to_future_by_future(&bridge, user_data_);
+  }
+
+  void OnRtnRepealFromFutureToBankByFuture(CThostFtdcRspRepealField *item) override {
+    if (callbacks_.rtn_repeal_from_future_to_bank_by_future == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_rsp_repeal bridge{};
+    fill_rsp_repeal(bridge, item);
+    callbacks_.rtn_repeal_from_future_to_bank_by_future(&bridge, user_data_);
+  }
+
+  void OnRtnOpenAccountByBank(CThostFtdcOpenAccountField *item) override {
+    if (callbacks_.rtn_open_account_by_bank == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_open_account bridge{};
+    fill_open_account(bridge, item);
+    callbacks_.rtn_open_account_by_bank(&bridge, user_data_);
+  }
+
+  void OnRtnCancelAccountByBank(CThostFtdcCancelAccountField *item) override {
+    if (callbacks_.rtn_cancel_account_by_bank == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_cancel_account bridge{};
+    fill_cancel_account(bridge, item);
+    callbacks_.rtn_cancel_account_by_bank(&bridge, user_data_);
+  }
+
+  void OnRtnChangeAccountByBank(CThostFtdcChangeAccountField *item) override {
+    if (callbacks_.rtn_change_account_by_bank == nullptr || item == nullptr) {
+      return;
+    }
+    ctp_change_account bridge{};
+    fill_change_account(bridge, item);
+    callbacks_.rtn_change_account_by_bank(&bridge, user_data_);
+  }
+
+  void OnErrRtnRepealBankToFutureByFutureManual(CThostFtdcReqRepealField *item, CThostFtdcRspInfoField *rsp_info) override {
+    if (callbacks_.err_rtn_repeal_bank_to_future_by_future_manual == nullptr) {
+      return;
+    }
+    ctp_req_repeal bridge{};
+    ctp_rsp_info rsp_bridge{};
+    fill_req_repeal(bridge, item);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.err_rtn_repeal_bank_to_future_by_future_manual(item != nullptr ? &bridge : nullptr,
+                    rsp_info != nullptr ? &rsp_bridge : nullptr, user_data_);
+  }
+
+  void OnErrRtnRepealFutureToBankByFutureManual(CThostFtdcReqRepealField *item, CThostFtdcRspInfoField *rsp_info) override {
+    if (callbacks_.err_rtn_repeal_future_to_bank_by_future_manual == nullptr) {
+      return;
+    }
+    ctp_req_repeal bridge{};
+    ctp_rsp_info rsp_bridge{};
+    fill_req_repeal(bridge, item);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.err_rtn_repeal_future_to_bank_by_future_manual(item != nullptr ? &bridge : nullptr,
+                    rsp_info != nullptr ? &rsp_bridge : nullptr, user_data_);
   }
 
 private:
