@@ -412,6 +412,14 @@ type NumericHelperTests() =
 
         Assert.Equal(-1m, actual)
 
+    [<Theory>]
+    [<InlineData(Double.PositiveInfinity)>]
+    [<InlineData(Double.NegativeInfinity)>]
+    member _.``infinite price returns invalid sentinel``(value: float) =
+        let actual = NumericHelpers.priceOrInvalid value
+
+        Assert.Equal(-1m, actual)
+
 
 type SinglePendingResultTests() =
 

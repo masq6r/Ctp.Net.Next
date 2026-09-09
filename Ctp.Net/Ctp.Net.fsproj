@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Ctp.Net.Next</AssemblyName>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NativeBridgeProjectDir>$(MSBuildThisFileDirectory)..\NativeBridge\</NativeBridgeProjectDir>
     <NativeBridgeBuildDir>$(NativeBridgeProjectDir)build\</NativeBridgeBuildDir>
     <!-- NuGet metadata -->
     <PackageId>Ctp.Net.Next</PackageId>
-    <Version>0.5.0</Version>
+    <Version>0.6.0</Version>
     <Authors>Ctp.Net Contributors</Authors>
     <Description>Managed F# wrapper for the CTP futures trading API with async/event-driven MD and Trader clients.</Description>
     <PackageTags>ctp;futures;trading;market-data;shfe;china</PackageTags>
