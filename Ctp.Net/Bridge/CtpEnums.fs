@@ -2,6 +2,17 @@ namespace Ctp.Net.Next.Bridge
 
 open System
 
+// ---- Topic resume type ----
+
+/// THOST_TE_RESUME_TYPE: Restart=0, Resume=1, Quick=2, None=3, ResumeFromSeqNo=4
+[<RequireQualifiedAccess>]
+type ResumeType =
+    | Restart = 0
+    | Resume = 1
+    | Quick = 2
+    | None = 3
+    | ResumeFromSeqNo = 4
+
 // ---- Trading direction ----
 
 /// TThostFtdcDirectionType: Buy='0', Sell='1'
@@ -132,6 +143,55 @@ type OffsetType =
         | FutOffset -> '1'
         | ExecOffset -> '2'
         | PerformOffset -> '3'
+
+// ---- Order origin / type ----
+
+/// TThostFtdcOrderSourceType: Participant='0', Administrator='1'
+type OrderSource =
+    | Participant
+    | Administrator
+    static member FromChar(c: char) =
+        match c with
+        | '0' -> Participant
+        | '1' -> Administrator
+        | c -> invalidArg (nameof c) $"Invalid OrderSource: %c{c}"
+    static member ToChar(value: OrderSource) =
+        match value with
+        | Participant -> '0'
+        | Administrator -> '1'
+
+/// TThostFtdcOrderTypeType: Normal='0', DeriveFromQuote='1', DeriveFromCombination='2',
+/// Combination='3', ConditionalOrder='4', Swap='5', DeriveFromBlockTrade='6', DeriveFromEFPTrade='7'
+type OrderType =
+    | Normal
+    | DeriveFromQuote
+    | DeriveFromCombination
+    | Combination
+    | ConditionalOrder
+    | Swap
+    | DeriveFromBlockTrade
+    | DeriveFromEFPTrade
+    static member FromChar(c: char) =
+        match c with
+        | '0' -> Normal
+        | '1' -> DeriveFromQuote
+        | '2' -> DeriveFromCombination
+        | '3' -> Combination
+        | '4' -> ConditionalOrder
+        | '5' -> Swap
+        | '6' -> DeriveFromBlockTrade
+        | '7' -> DeriveFromEFPTrade
+        | c -> invalidArg (nameof c) $"Invalid OrderType: %c{c}"
+    static member ToChar(value: OrderType) =
+        match value with
+        | Normal -> '0'
+        | DeriveFromQuote -> '1'
+        | DeriveFromCombination -> '2'
+        | Combination -> '3'
+        | ConditionalOrder -> '4'
+        | Swap -> '5'
+        | DeriveFromBlockTrade -> '6'
+        | DeriveFromEFPTrade -> '7'
 
 // ---- Order price type ----
 
@@ -401,6 +461,23 @@ type OrderStatus =
         | Unknown -> 'a'
         | NotTouched -> 'b'
         | Touched -> 'c'
+
+/// TThostFtdcParkedOrderStatusType: NotSend='1', Send='2', Deleted='3'
+type ParkedOrderStatus =
+    | NotSend
+    | Send
+    | Deleted
+    static member FromChar(c: char) =
+        match c with
+        | '1' -> NotSend
+        | '2' -> Send
+        | '3' -> Deleted
+        | c -> invalidArg (nameof c) $"Invalid ParkedOrderStatus: %c{c}"
+    static member ToChar(value: ParkedOrderStatus) =
+        match value with
+        | NotSend -> '1'
+        | Send -> '2'
+        | Deleted -> '3'
 
 /// TThostFtdcOrderSubmitStatusType: InsertSubmitted='0', CancelSubmitted='1', ModifySubmitted='2',
 /// Accepted='3', InsertRejected='4', CancelRejected='5', ModifyRejected='6'

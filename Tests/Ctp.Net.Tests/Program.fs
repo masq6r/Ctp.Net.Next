@@ -134,6 +134,9 @@ type TraderBridgeGeneratedTests() =
         encoded.CopyTo(buffer, 0)
         field.SetValue(instance, buffer)
 
+    let setNativeField (instance: obj) fieldName value =
+        instance.GetType().GetField(fieldName, flags).SetValue(instance, value)
+
     let getFixedStringField (instance: obj) fieldName =
         let nativeType = instance.GetType()
         let field = nativeType.GetField(fieldName, flags)
@@ -148,6 +151,17 @@ type TraderBridgeGeneratedTests() =
         let mapNative = generatedType.GetMethod("mapNative", staticFlags)
 
         mapNative.MakeGenericMethod(recordType, nativeType).Invoke(null, [| Encoding.UTF8; native |])
+
+    let mapNativeRecord recordType nativeTypeName fields: obj =
+        let qualifiedNativeTypeName = $"Ctp.Net.Next.Bridge.{nativeTypeName}"
+        let nativeType = getType qualifiedNativeTypeName
+        let native = Activator.CreateInstance(nativeType)
+        zeroInitializeByteArrays native
+
+        for fieldName, value in fields do
+            setNativeField native fieldName value
+
+        mapNativeAs recordType qualifiedNativeTypeName native
 
     let buildNativeAs recordType nativeTypeName (record: obj) =
         let nativeType = getType nativeTypeName
@@ -351,6 +365,216 @@ type TraderBridgeGeneratedTests() =
         Assert.Equal('2', CashExchangeCode.ToChar(CashExchangeCode.FromChar '2'))
         Assert.Equal('2', BankRepealFlag.ToChar(BankRepealFlag.FromChar '2'))
         Assert.Equal('2', BrokerRepealFlag.ToChar(BrokerRepealFlag.FromChar '2'))
+
+    [<Fact>]
+    member _.``resume type values and defaults match the SDK``() =
+        Assert.Equal(0, int ResumeType.Restart)
+        Assert.Equal(1, int ResumeType.Resume)
+        Assert.Equal(2, int ResumeType.Quick)
+        Assert.Equal(3, int ResumeType.None)
+        Assert.Equal(4, int ResumeType.ResumeFromSeqNo)
+        Assert.Equal(ResumeType.Restart, ResumeTypeValidation.privateDefault)
+        Assert.Equal(ResumeType.Restart, ResumeTypeValidation.publicDefault)
+
+    [<Fact>]
+    member _.``resume type validation enforces private and public SDK sets``() =
+        [ ResumeType.Restart; ResumeType.Resume; ResumeType.Quick; ResumeType.ResumeFromSeqNo ]
+        |> List.iter ResumeTypeValidation.validatePrivate
+
+        [ ResumeType.Restart; ResumeType.Resume; ResumeType.Quick; ResumeType.None ]
+        |> List.iter ResumeTypeValidation.validatePublic
+
+        Assert.Throws<ArgumentException>(fun () -> ResumeTypeValidation.validatePrivate ResumeType.None)
+        |> ignore
+
+        Assert.Throws<ArgumentException>(fun () -> ResumeTypeValidation.validatePublic ResumeType.ResumeFromSeqNo)
+        |> ignore
+
+        Assert.Throws<ArgumentException>(fun () -> ResumeTypeValidation.validatePrivate (enum<ResumeType> 99))
+        |> ignore
+
+        Assert.Throws<ArgumentException>(fun () -> ResumeTypeValidation.validatePublic (enum<ResumeType> -1))
+        |> ignore
+
+    [<Fact>]
+    member _.``new character enums round trip every official value``() =
+        [ '1'; '2'; '3' ]
+        |> List.iter (fun value -> Assert.Equal(value, ParkedOrderStatus.ToChar(ParkedOrderStatus.FromChar value)))
+
+        [ '0'; '1' ]
+        |> List.iter (fun value -> Assert.Equal(value, OrderSource.ToChar(OrderSource.FromChar value)))
+
+        [ '0'; '1'; '2'; '3'; '4'; '5'; '6'; '7' ]
+        |> List.iter (fun value -> Assert.Equal(value, OrderType.ToChar(OrderType.FromChar value)))
+
+    [<Fact>]
+    member _.``new optional character enums map invalid values to none``() =
+        let parked =
+            mapNativeRecord typeof<ParkedOrder> "NativeParkedOrder" [ "Status", box (byte 'x') ]
+            :?> ParkedOrder
+
+        let order =
+            mapNativeRecord
+                typeof<ErrorConditionalOrderResponse>
+                "NativeErrorConditionalOrder"
+                [ "OrderSource", box (byte 'x'); "OrderType", box (byte 'x') ]
+            :?> ErrorConditionalOrderResponse
+
+        Assert.True(parked.Status.IsNone)
+        Assert.True(order.OrderSource.IsNone)
+        Assert.True(order.OrderType.IsNone)
+
+    [<Fact>]
+    member _.``generated mapping applies existing character enums to remaining fields``() =
+        let brokerParams =
+            mapNativeRecord
+                typeof<BrokerTradingParamsResponse>
+                "NativeBrokerTradingParams"
+                [ "AvailIncludeCloseProfit", box (byte '2') ]
+            :?> BrokerTradingParamsResponse
+
+        let combAction =
+            mapNativeRecord
+                typeof<CombActionResponse>
+                "NativeCombAction"
+                [ "ActionStatus", box (byte 'b'); "HedgeFlag", box (byte '3') ]
+            :?> CombActionResponse
+
+        let quote =
+            mapNativeRecord
+                typeof<QuoteResponse>
+                "NativeQuote"
+                [ "AskOffsetFlag", box (byte '3')
+                  "BidOffsetFlag", box (byte '4')
+                  "AskHedgeFlag", box (byte '1')
+                  "BidHedgeFlag", box (byte '2')
+                  "QuoteStatus", box (byte '5') ]
+            :?> QuoteResponse
+
+        let investor =
+            mapNativeRecord
+                typeof<InvestorResponse>
+                "NativeInvestor"
+                [ "IdentifiedCardType", box (byte '1') ]
+            :?> InvestorResponse
+
+        let transfer =
+            mapNativeRecord
+                typeof<TransferRequest>
+                "NativeReqTransfer"
+                [ "VerifyCertNoFlag", box (byte '0')
+                  "BankAccType", box (byte '2')
+                  "BankSecuAccType", box (byte '3')
+                  "BankPwdFlag", box (byte '1')
+                  "SecuPwdFlag", box (byte '2') ]
+            :?> TransferRequest
+
+        Assert.Equal(Some IncludeCloseProfit.NotInclude, brokerParams.AvailIncludeCloseProfit)
+        Assert.Equal(Some OrderActionStatus.Accepted, combAction.ActionStatus)
+        Assert.Equal(Some HedgeFlag.Hedge, combAction.HedgeFlag)
+        Assert.Equal(Some OffsetFlag.CloseToday, quote.AskOffsetFlag)
+        Assert.Equal(Some OffsetFlag.CloseYesterday, quote.BidOffsetFlag)
+        Assert.Equal(Some HedgeFlag.Speculation, quote.AskHedgeFlag)
+        Assert.Equal(Some HedgeFlag.Arbitrage, quote.BidHedgeFlag)
+        Assert.Equal(Some OrderStatus.Canceled, quote.QuoteStatus)
+        Assert.Equal(Some IdCardType.IDCard, investor.IdentifiedCardType)
+        Assert.Equal(Some YesNoIndicator.Yes, transfer.VerifyCertNoFlag)
+        Assert.Equal(Some BankAccType.SavingCard, transfer.BankAccType)
+        Assert.Equal(Some BankAccType.CreditCard, transfer.BankSecuAccType)
+        Assert.Equal(Some PwdFlag.BlankCheck, transfer.BankPwdFlag)
+        Assert.Equal(Some PwdFlag.EncryptCheck, transfer.SecuPwdFlag)
+
+    [<Fact>]
+    member _.``generated mapping decodes C bool and enum bool semantics``() =
+        let mapInvestor isActive isOrderFreq isOpenVolLimit =
+            mapNativeRecord
+                typeof<InvestorResponse>
+                "NativeInvestor"
+                [ "IsActive", box isActive
+                  "IsOrderFreq", box isOrderFreq
+                  "IsOpenVolLimit", box isOpenVolLimit ]
+            :?> InvestorResponse
+
+        let missing = mapInvestor 0 0uy (byte 'x')
+        let falseValue = mapInvestor 1 (byte '0') (byte '0')
+        let trueValue = mapInvestor -7 (byte '1') (byte '1')
+
+        Assert.False(missing.IsActive)
+        Assert.True(missing.IsOrderFreq.IsNone)
+        Assert.True(missing.IsOpenVolLimit.IsNone)
+        Assert.True(falseValue.IsActive)
+        Assert.Equal(Some false, falseValue.IsOrderFreq)
+        Assert.Equal(Some false, falseValue.IsOpenVolLimit)
+        Assert.True(trueValue.IsActive)
+        Assert.Equal(Some true, trueValue.IsOrderFreq)
+        Assert.Equal(Some true, trueValue.IsOpenVolLimit)
+
+    [<Fact>]
+    member _.``generated builder encodes bool values as native zero and one``() =
+        let request isOffset: InputOffsetSettingRequest =
+            { BrokerId = "9999"
+              InvestorId = "demo"
+              InstrumentId = "ag2612"
+              UnderlyingInstrId = ""
+              ProductId = "ag"
+              OffsetType = OffsetType.OptOffset
+              Volume = 1
+              IsOffset = isOffset
+              RequestId = 0
+              UserId = "demo"
+              ExchangeId = "SHFE"
+              IpAddress = None
+              MacAddress = None }
+
+        let getEncoded value =
+            let native =
+                buildNativeAs
+                    typeof<InputOffsetSettingRequest>
+                    "Ctp.Net.Next.Bridge.NativeInputOffsetSetting"
+                    (box (request value))
+
+            native.GetType().GetField("IsOffset", flags).GetValue(native) :?> int
+
+        Assert.Equal(0, getEncoded false)
+        Assert.Equal(1, getEncoded true)
+
+    [<Fact>]
+    member _.``public API exposes strong types for changed fields and resume arguments``() =
+        let expectedFields =
+            [ typeof<BrokerTradingParamsResponse>, "AvailIncludeCloseProfit", typeof<IncludeCloseProfit option>
+              typeof<CombActionResponse>, "ActionStatus", typeof<OrderActionStatus option>
+              typeof<InputQuoteRequest>, "AskOffsetFlag", typeof<OffsetFlag>
+              typeof<InputQuoteRequest>, "AskHedgeFlag", typeof<HedgeFlag option>
+              typeof<InvestorResponse>, "IdentifiedCardType", typeof<IdCardType option>
+              typeof<InvestorResponse>, "IsActive", typeof<bool>
+              typeof<InvestorResponse>, "IsOrderFreq", typeof<bool option>
+              typeof<TransferRequest>, "VerifyCertNoFlag", typeof<YesNoIndicator option>
+              typeof<TransferRequest>, "BankSecuAccType", typeof<BankAccType option>
+              typeof<TransferRequest>, "BankPwdFlag", typeof<PwdFlag option>
+              typeof<ParkedOrder>, "Status", typeof<ParkedOrderStatus option>
+              typeof<ErrorConditionalOrderResponse>, "OrderSource", typeof<OrderSource option>
+              typeof<ErrorConditionalOrderResponse>, "OrderType", typeof<OrderType option>
+              typeof<ErrorConditionalOrderResponse>, "IsSwapOrder", typeof<bool> ]
+
+        for recordType, fieldName, expectedType in expectedFields do
+            let field =
+                Microsoft.FSharp.Reflection.FSharpType.GetRecordFields(recordType)
+                |> Array.find (fun field -> field.Name = fieldName)
+
+            Assert.Equal(expectedType, field.PropertyType)
+
+        let traderApiType = getType "Ctp.Net.Next.Bridge.TraderApi"
+        let privateTopic = traderApiType.GetMethod("SubscribePrivateTopic", flags)
+        let publicTopic = traderApiType.GetMethod("SubscribePublicTopic", flags)
+        Assert.Equal(typeof<ResumeType>, privateTopic.GetParameters().[0].ParameterType)
+        Assert.Equal(typeof<ResumeType>, publicTopic.GetParameters().[0].ParameterType)
+
+        let csharpConstructor =
+            typeof<Ctp.Net.Next.CSharp.TraderClient>.GetConstructors()
+            |> Array.find (fun ctor -> ctor.GetParameters().Length = 7)
+
+        Assert.Equal(typeof<Nullable<ResumeType>>, csharpConstructor.GetParameters().[2].ParameterType)
+        Assert.Equal(typeof<Nullable<ResumeType>>, csharpConstructor.GetParameters().[4].ParameterType)
 
 
 type OptionHelperTests() =

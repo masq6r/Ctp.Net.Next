@@ -31,9 +31,9 @@ type TraderClient
     (
         options: CtpOptions,
         ?encodings: CtpEncodingOptions,
-        ?privateTopicResumeType: int,
+        ?privateTopicResumeType: ResumeType,
         ?privateTopicSequenceNo: int,
-        ?publicTopicResumeType: int,
+        ?publicTopicResumeType: ResumeType,
         ?loggerFactory: ILoggerFactory,
         ?flowControl: CtpFlowControlOptions
     )
@@ -68,8 +68,12 @@ type TraderClient
         ConnectionCoordinator(
             (fun () ->
                 api.RegisterFront(options.FrontAddress)
-                api.SubscribePrivateTopic(defaultArg privateTopicResumeType 0, defaultArg privateTopicSequenceNo 1)
-                api.SubscribePublicTopic(defaultArg publicTopicResumeType 0)
+                api.SubscribePrivateTopic(
+                    defaultArg privateTopicResumeType ResumeTypeValidation.privateDefault,
+                    defaultArg privateTopicSequenceNo 1
+                )
+
+                api.SubscribePublicTopic(defaultArg publicTopicResumeType ResumeTypeValidation.publicDefault)
                 api.Init()),
             logger = coordinatorLogger
         )

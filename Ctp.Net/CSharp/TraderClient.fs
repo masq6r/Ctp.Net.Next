@@ -40,9 +40,9 @@ type TraderClient private (inner: Ctp.Net.Next.TraderClient) =
         (
             options: CtpOptions,
             encodings: CtpEncodingOptions,
-            [<Optional>] privateTopicResumeType: Nullable<int>,
+            [<Optional>] privateTopicResumeType: Nullable<ResumeType>,
             [<Optional>] privateTopicSequenceNo: Nullable<int>,
-            [<Optional>] publicTopicResumeType: Nullable<int>,
+            [<Optional>] publicTopicResumeType: Nullable<ResumeType>,
             [<Optional>] loggerFactory: ILoggerFactory,
             flowControl: CtpFlowControlOptions
         )

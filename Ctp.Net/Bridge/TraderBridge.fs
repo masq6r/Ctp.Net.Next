@@ -307,7 +307,7 @@ type BrokerTradingParamsResponse =
       InvestorId: string
       MarginPriceType: MarginPriceType option
       Algorithm: Algorithm option
-      AvailIncludeCloseProfit: char option
+      AvailIncludeCloseProfit: IncludeCloseProfit option
       CurrencyId: string
       OptionRoyaltyPriceType: OptionRoyaltyPriceType option
       AccountId: string }
@@ -320,7 +320,7 @@ type CancelOffsetSettingResponse =
       ProductId: string
       OffsetType: OffsetType option
       Volume: int
-      IsOffset: int
+      IsOffset: bool
       RequestId: int
       UserId: string
       ExchangeId: string
@@ -363,7 +363,7 @@ type CombActionResponse =
       Reserve2: string
       TraderId: string
       InstallId: int
-      ActionStatus: char option
+      ActionStatus: OrderActionStatus option
       NotifySequence: int
       TradingDay: DateOnly
       SettlementId: int
@@ -771,7 +771,7 @@ type InputOffsetSettingRequest =
       ProductId: string
       OffsetType: OffsetType
       Volume: int
-      IsOffset: int
+      IsOffset: bool
       RequestId: int
       UserId: string
       ExchangeId: string
@@ -830,10 +830,10 @@ type InputQuoteRequest =
       BidVolume: int
       RequestId: int
       BusinessUnit: string option
-      AskOffsetFlag: char
-      BidOffsetFlag: char
-      AskHedgeFlag: char option
-      BidHedgeFlag: char option
+      AskOffsetFlag: OffsetFlag
+      BidOffsetFlag: OffsetFlag
+      AskHedgeFlag: HedgeFlag option
+      BidHedgeFlag: HedgeFlag option
       AskOrderRef: string option
       BidOrderRef: string option
       ForQuoteSysId: string option
@@ -920,7 +920,7 @@ type InstrumentResponse =
       StartDelivDate: DateOnly
       EndDelivDate: DateOnly
       InstLifePhase: InstLifePhase option
-      IsTrading: int
+      IsTrading: bool
       PositionType: PositionType option
       PositionDateType: PositionDateType option
       LongMarginRatio: decimal
@@ -966,17 +966,17 @@ type InvestorResponse =
       BrokerId: string
       InvestorGroupId: string
       InvestorName: string
-      IdentifiedCardType: char option
+      IdentifiedCardType: IdCardType option
       IdentifiedCardNo: string
-      IsActive: int
+      IsActive: bool
       Telephone: string
       Address: string
       OpenDate: DateOnly
       Mobile: string
       CommModelId: string
       MarginModelId: string
-      IsOrderFreq: char option
-      IsOpenVolLimit: char option }
+      IsOrderFreq: bool option
+      IsOpenVolLimit: bool option }
 
 type InvestorCommodityGroupSpmmMarginResponse =
     { ExchangeId: string
@@ -1035,7 +1035,7 @@ type InvestorInfoCommRecResponse =
       OrderActionCount: int
       ForQuoteCnt: int
       InfoComm: decimal
-      IsOptSeries: int
+      IsOptSeries: bool
       ProductId: string
       InfoCnt: int }
 
@@ -1052,7 +1052,7 @@ type InvestorPortfSettingResponse =
       BrokerId: string
       InvestorId: string
       HedgeFlag: HedgeFlag option
-      UsePortf: int }
+      UsePortf: bool }
 
 type InvestorPositionCombineDetailResponse =
     { TradingDay: DateOnly
@@ -1279,16 +1279,16 @@ type NotifyQueryAccountResponse =
       FutureSerial: int
       InstallId: int
       UserId: string
-      VerifyCertNoFlag: char option
+      VerifyCertNoFlag: YesNoIndicator option
       CurrencyId: string
       Digest: string
       BankAccType: BankAccType option
       DeviceId: string
-      BankSecuAccType: char option
+      BankSecuAccType: BankAccType option
       BrokerIdByBank: string
       BankSecuAcc: string
-      BankPwdFlag: char option
-      SecuPwdFlag: char option
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
       OperNo: string
       RequestId: int
       TId: int
@@ -1306,7 +1306,7 @@ type OffsetSettingResponse =
       ProductId: string
       OffsetType: OffsetType option
       Volume: int
-      IsOffset: int
+      IsOffset: bool
       RequestId: int
       UserId: string
       ExchangeId: string
@@ -1495,17 +1495,17 @@ type ParkedOrder =
       ContingentCondition: ContingentCondition option
       StopPrice: decimal
       ForceCloseReason: ForceCloseReason option
-      IsAutoSuspend: int
+      IsAutoSuspend: bool
       BusinessUnit: string option
       RequestId: int
-      UserForceClose: int
+      UserForceClose: bool
       ExchangeId: string option
       ParkedOrderId: string
       UserType: UserType option
-      Status: char option
+      Status: ParkedOrderStatus option
       ErrorId: int
       ErrorMsg: string
-      IsSwapOrder: int
+      IsSwapOrder: bool
       AccountId: string option
       CurrencyId: string option
       ClientId: string option
@@ -1532,7 +1532,7 @@ type ParkedOrderAction =
       Reserve1: string option
       ParkedOrderActionId: string
       UserType: UserType option
-      Status: char option
+      Status: ParkedOrderStatus option
       ErrorId: int
       ErrorMsg: string
       InvestUnitId: string option
@@ -2000,10 +2000,10 @@ type QuoteResponse =
       BidVolume: int
       RequestId: int
       BusinessUnit: string
-      AskOffsetFlag: char option
-      BidOffsetFlag: char option
-      AskHedgeFlag: char option
-      BidHedgeFlag: char option
+      AskOffsetFlag: OffsetFlag option
+      BidOffsetFlag: OffsetFlag option
+      AskHedgeFlag: HedgeFlag option
+      BidHedgeFlag: HedgeFlag option
       QuoteLocalId: string
       ExchangeId: string
       ParticipantId: string
@@ -2019,7 +2019,7 @@ type QuoteResponse =
       InsertDate: DateOnly
       InsertTime: TimeOnly
       CancelTime: TimeOnly
-      QuoteStatus: char option
+      QuoteStatus: OrderStatus option
       ClearingPartId: string
       SequenceNo: int
       AskOrderSysId: string
@@ -2176,16 +2176,16 @@ type ReqQueryAccount =
       FutureSerial: int
       InstallId: int
       UserId: string
-      VerifyCertNoFlag: char option
+      VerifyCertNoFlag: YesNoIndicator option
       CurrencyId: string
       Digest: string
       BankAccType: BankAccType option
       DeviceId: string
-      BankSecuAccType: char option
+      BankSecuAccType: BankAccType option
       BrokerIdByBank: string
       BankSecuAcc: string
-      BankPwdFlag: char option
-      SecuPwdFlag: char option
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
       OperNo: string
       RequestId: int
       TId: int
@@ -2218,7 +2218,7 @@ type TransferRequest =
       InstallId: int
       FutureSerial: int
       UserId: string
-      VerifyCertNoFlag: char option
+      VerifyCertNoFlag: YesNoIndicator option
       CurrencyId: string
       TradeAmount: decimal
       FutureFetchAmount: decimal
@@ -2229,11 +2229,11 @@ type TransferRequest =
       Digest: string
       BankAccType: BankAccType option
       DeviceId: string
-      BankSecuAccType: char option
+      BankSecuAccType: BankAccType option
       BrokerIdByBank: string
       BankSecuAcc: string
-      BankPwdFlag: char option
-      SecuPwdFlag: char option
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
       OperNo: string
       RequestId: int
       TId: int
@@ -2372,7 +2372,7 @@ type TransferResponse =
       InstallId: int
       FutureSerial: int
       UserId: string
-      VerifyCertNoFlag: char option
+      VerifyCertNoFlag: YesNoIndicator option
       CurrencyId: string
       TradeAmount: decimal
       FutureFetchAmount: decimal
@@ -2383,11 +2383,11 @@ type TransferResponse =
       Digest: string
       BankAccType: BankAccType option
       DeviceId: string
-      BankSecuAccType: char option
+      BankSecuAccType: BankAccType option
       BrokerIdByBank: string
       BankSecuAcc: string
-      BankPwdFlag: char option
-      SecuPwdFlag: char option
+      BankPwdFlag: PwdFlag option
+      SecuPwdFlag: PwdFlag option
       OperNo: string
       RequestId: int
       TId: int
@@ -2445,7 +2445,7 @@ type SecAgentCheckModeResponse =
       BrokerId: string
       CurrencyId: string
       BrokerSecAgentId: string
-      CheckSelfAccount: int }
+      CheckSelfAccount: bool }
 
 type SecAgentTradeInfoResponse =
     { BrokerId: string
@@ -2628,7 +2628,7 @@ type TradingCodeResponse =
       BrokerId: string
       ExchangeId: string
       ClientId: string
-      IsActive: int
+      IsActive: bool
       ClientIdType: ClientIdType option
       BranchId: string
       BizType: BizType option
@@ -2645,7 +2645,7 @@ type TradingNoticeResponse =
       FieldContent: string
       InvestUnitId: string }
 
-type TransferBankResponse = { BankId: string; BankBrchId: string; BankName: string; IsActive: int }
+type TransferBankResponse = { BankId: string; BankBrchId: string; BankName: string; IsActive: bool }
 
 type TransferSerialResponse =
     { PlateSerial: int
@@ -2779,7 +2779,7 @@ type ErrorConditionalOrderResponse =
       ContingentCondition: ContingentCondition option
       StopPrice: decimal
       ForceCloseReason: ForceCloseReason option
-      IsAutoSuspend: int
+      IsAutoSuspend: bool
       BusinessUnit: string
       RequestId: int
       OrderLocalId: string
@@ -2794,9 +2794,9 @@ type ErrorConditionalOrderResponse =
       TradingDay: DateOnly
       SettlementId: int
       OrderSysId: string
-      OrderSource: char option
+      OrderSource: OrderSource option
       OrderStatus: OrderStatus option
-      OrderType: char option
+      OrderType: OrderType option
       VolumeTraded: int
       VolumeTotal: int
       InsertDate: DateOnly
@@ -2812,14 +2812,14 @@ type ErrorConditionalOrderResponse =
       SessionId: int
       UserProductInfo: string
       StatusMsg: string
-      UserForceClose: int
+      UserForceClose: bool
       ActiveUserId: string
       BrokerOrderSeq: int
       RelativeOrderSysId: string
       ZceTotalTradedVolume: int
       ErrorId: int
       ErrorMsg: string
-      IsSwapOrder: int
+      IsSwapOrder: bool
       BranchId: string
       InvestUnitId: string
       AccountId: string
@@ -15860,6 +15860,37 @@ module private TraderNativeInterop =
                 EntryPoint = "ctp_trader_req_query_bank_account_money_by_future")>]
     extern int reqQueryBankAccountMoneyByFuture(nativeint handle, NativeReqQueryAccount& request, int requestId)
 
+module internal ResumeTypeValidation =
+    let privateDefault = ResumeType.Restart
+    let publicDefault = ResumeType.Restart
+
+    let private ensureDefined (resumeType: ResumeType) =
+        if not (Enum.IsDefined(typeof<ResumeType>, resumeType)) then
+            invalidArg (nameof resumeType) $"Invalid ResumeType value: {int resumeType}."
+
+    let validatePrivate resumeType =
+        ensureDefined resumeType
+
+        match resumeType with
+        | ResumeType.Restart
+        | ResumeType.Resume
+        | ResumeType.Quick
+        | ResumeType.ResumeFromSeqNo -> ()
+        | ResumeType.None -> invalidArg (nameof resumeType) "ResumeType.None is not valid for private topics."
+        | _ -> invalidArg (nameof resumeType) $"Invalid ResumeType value: {int resumeType}."
+
+    let validatePublic resumeType =
+        ensureDefined resumeType
+
+        match resumeType with
+        | ResumeType.Restart
+        | ResumeType.Resume
+        | ResumeType.Quick
+        | ResumeType.None -> ()
+        | ResumeType.ResumeFromSeqNo ->
+            invalidArg (nameof resumeType) "ResumeType.ResumeFromSeqNo is not valid for public topics."
+        | _ -> invalidArg (nameof resumeType) $"Invalid ResumeType value: {int resumeType}."
+
 type private TraderApiSafeHandle private () =
     inherit SafeHandleZeroOrMinusOneIsInvalid(true)
 
@@ -15953,6 +15984,16 @@ module private TraderBridgeGenerated =
                         match millis with
                         | Some millis -> TemporalHelpers.parseTimeWithMillis decoded millis
                         | None -> TemporalHelpers.parseTime decoded
+                    )
+                elif field.PropertyType = typeof<bool> && nativeField.FieldType = typeof<int> then
+                    box (unbox<int> nativeValue <> 0)
+                elif field.PropertyType = typeof<bool option> && nativeField.FieldType = typeof<byte> then
+                    box (
+                        match unbox<byte> nativeValue with
+                        | 0uy -> None
+                        | value when value = byte '0' -> Some false
+                        | value when value = byte '1' -> Some true
+                        | _ -> None
                     )
                 elif field.PropertyType = typeof<char option> then
                     box (EncodingHelpers.byteToChar (unbox<byte> nativeValue))
@@ -16057,6 +16098,27 @@ module private TraderBridgeGenerated =
                         else
                             invalidOp
                                 $"Unsupported record field type '{recordField.PropertyType.FullName}' for generated trader bridge encoding."
+                    elif
+                        nativeField.FieldType = typeof<int>
+                        && recordField.PropertyType = typeof<bool>
+                    then
+                        box (if unbox<bool> recordValue then 1 else 0)
+                    elif
+                        nativeField.FieldType = typeof<byte>
+                        && recordField.PropertyType = typeof<bool option>
+                    then
+                        let value =
+                            if isNull recordValue then
+                                None
+                            else
+                                recordValue :?> bool option
+
+                        box (
+                            match value with
+                            | None -> 0uy
+                            | Some false -> byte '0'
+                            | Some true -> byte '1'
+                        )
                     elif
                         nativeField.FieldType = typeof<byte>
                         && recordField.PropertyType.IsGenericType
@@ -20571,13 +20633,17 @@ type TraderApi(flowPath: string option, productionMode: bool, ?encodings: Encodi
         |> BridgeHelpers.throwOnNonZero
         <| "ctp_trader_register_front"
 
-    member this.SubscribePrivateTopic(resumeType: int, seqNo: int) =
-        TraderNativeInterop.subscribePrivateTopic (this.Handle, resumeType, seqNo)
+    member this.SubscribePrivateTopic(resumeType: ResumeType, seqNo: int) =
+        ResumeTypeValidation.validatePrivate resumeType
+
+        TraderNativeInterop.subscribePrivateTopic (this.Handle, int resumeType, seqNo)
         |> BridgeHelpers.throwOnNonZero
         <| "ctp_trader_subscribe_private_topic"
 
-    member this.SubscribePublicTopic(resumeType: int) =
-        TraderNativeInterop.subscribePublicTopic (this.Handle, resumeType)
+    member this.SubscribePublicTopic(resumeType: ResumeType) =
+        ResumeTypeValidation.validatePublic resumeType
+
+        TraderNativeInterop.subscribePublicTopic (this.Handle, int resumeType)
         |> BridgeHelpers.throwOnNonZero
         <| "ctp_trader_subscribe_public_topic"
 
