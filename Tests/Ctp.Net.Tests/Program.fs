@@ -59,6 +59,51 @@ type EncodingTests() =
 type TemporalHelperTests() =
 
     [<Theory>]
+    [<InlineData(null)>]
+    [<InlineData("")>]
+    [<InlineData("   ")>]
+    [<InlineData("--:--:--")>]
+    [<InlineData(" --:--:-- ")>]
+    member _.``missing times use existing sentinels``(value: string) =
+        Assert.Equal(TimeOnly.MinValue, TemporalHelpers.parseTime value)
+        Assert.True((TemporalHelpers.parseTimeOption value).IsNone)
+        Assert.Equal(TimeOnly.MinValue, TemporalHelpers.parseTimeWithMillis value 500)
+
+    [<Theory>]
+    [<InlineData("00:00:00", 0, 0, 0)>]
+    [<InlineData(" 21:20:30 ", 21, 20, 30)>]
+    member _.``valid times preserve midnight and milliseconds``(value: string, hour: int, minute: int, second: int) =
+        let expected = TimeOnly(hour, minute, second)
+        Assert.Equal(expected, TemporalHelpers.parseTime value)
+        Assert.Equal(Some expected, TemporalHelpers.parseTimeOption value)
+        Assert.Equal(expected.Add(TimeSpan.FromMilliseconds 5.), TemporalHelpers.parseTimeWithMillis value 5)
+
+    [<Theory>]
+    [<InlineData("not-a-time")>]
+    [<InlineData("25:00:00")>]
+    member _.``unknown malformed times remain errors``(value: string) =
+        Assert.Throws<FormatException>(fun () -> TemporalHelpers.parseTime value |> ignore) |> ignore
+        Assert.Throws<FormatException>(fun () -> TemporalHelpers.parseTimeOption value |> ignore) |> ignore
+        Assert.Throws<FormatException>(fun () -> TemporalHelpers.parseTimeWithMillis value 0 |> ignore) |> ignore
+
+    [<Fact>]
+    member _.``login response accepts unavailable exchange times``() =
+        let mutable native = Unchecked.defaultof<NativeRspUserLogin>
+        native.TradingDay <- Encoding.ASCII.GetBytes("20260910")
+        native.LoginTime <- Encoding.ASCII.GetBytes("21:20:30")
+        native.ShfeTime <- Encoding.ASCII.GetBytes("--:--:--")
+        native.DceTime <- Encoding.ASCII.GetBytes("--:--:--")
+        native.CzceTime <- Encoding.ASCII.GetBytes("--:--:--")
+        native.FfexTime <- Encoding.ASCII.GetBytes("--:--:--")
+        native.IneTime <- Encoding.ASCII.GetBytes("--:--:--")
+        native.GfexTime <- Encoding.ASCII.GetBytes("--:--:--")
+        let actual = BridgeMapping.userLogin Encoding.ASCII native
+        Assert.Equal(DateOnly(2026, 9, 10), actual.TradingDay)
+        Assert.Equal(TimeOnly(21, 20, 30), actual.LoginTime)
+        for time in [ actual.ShfeTime; actual.DceTime; actual.CzceTime; actual.FfexTime; actual.IneTime; actual.GfexTime ] do
+            Assert.Equal(TimeOnly.MinValue, time)
+
+    [<Theory>]
     [<InlineData("")>]
     [<InlineData("   ")>]
     [<InlineData("0")>]

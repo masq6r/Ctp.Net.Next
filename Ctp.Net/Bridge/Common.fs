@@ -260,14 +260,24 @@ module internal TemporalHelpers =
         else
             Some(DateOnly.ParseExact(value, dateFormat, culture))
 
+    let private normalizeTime (value: string) =
+        if String.IsNullOrWhiteSpace value then "" else value.Trim()
+
+    let private isMissingTime value =
+        String.IsNullOrEmpty value || value = "--:--:--"
+
     let parseTime value =
-        if String.IsNullOrWhiteSpace value then
+        let value = normalizeTime value
+
+        if isMissingTime value then
             TimeOnly.MinValue
         else
             TimeOnly.ParseExact(value, timeFormat, culture)
 
     let parseTimeOption value =
-        if String.IsNullOrWhiteSpace value then
+        let value = normalizeTime value
+
+        if isMissingTime value then
             None
         else
             Some(TimeOnly.ParseExact(value, timeFormat, culture))
@@ -279,7 +289,9 @@ module internal TemporalHelpers =
             DateTime.ParseExact(value, dateTimeFormat, culture)
 
     let parseTimeWithMillis value millis =
-        if String.IsNullOrWhiteSpace value then
+        let value = normalizeTime value
+
+        if isMissingTime value then
             TimeOnly.MinValue
         else
             let time = TimeOnly.ParseExact(value, timeFormat, culture)
