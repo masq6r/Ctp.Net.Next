@@ -56,6 +56,37 @@ type EncodingTests() =
         Assert.Equal("9999", logout.BrokerId)
         Assert.Equal("demo", logout.UserId)
 
+type TemporalHelperTests() =
+
+    [<Theory>]
+    [<InlineData("")>]
+    [<InlineData("   ")>]
+    [<InlineData("0")>]
+    [<InlineData("       0")>]
+    [<InlineData("00000000")>]
+    member _.``missing date values use non optional sentinel``(value: string) =
+        Assert.Equal(DateOnly.MinValue, TemporalHelpers.parseDate value)
+
+    [<Theory>]
+    [<InlineData("")>]
+    [<InlineData("   ")>]
+    [<InlineData("0")>]
+    [<InlineData("       0")>]
+    [<InlineData("00000000")>]
+    member _.``missing date values use optional sentinel``(value: string) =
+        Assert.True((TemporalHelpers.parseDateOption value).IsNone)
+
+    [<Theory>]
+    [<InlineData("20260910")>]
+    [<InlineData(" 20260910 ")>]
+    member _.``valid dates allow surrounding whitespace``(value: string) =
+        Assert.Equal(DateOnly(2026, 9, 10), TemporalHelpers.parseDate value)
+
+    [<Fact>]
+    member _.``malformed nonzero date remains an error``() =
+        Assert.Throws<FormatException>(fun () -> TemporalHelpers.parseDate "not-a-date" |> ignore)
+        |> ignore
+
 type TraderBridgeGeneratedTests() =
 
     let assembly = typeof<InstrumentResponse>.Assembly
@@ -133,6 +164,25 @@ type TraderBridgeGeneratedTests() =
             field.SetValue(native, byte value)
 
         mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Next.Bridge.NativeInstrument" native :?> InstrumentResponse
+
+    [<Fact>]
+    member _.``instrument mapping treats zero date sentinels as missing``() =
+        let nativeType = getType "Ctp.Net.Next.Bridge.NativeInstrument"
+        let native = Activator.CreateInstance(nativeType)
+        zeroInitializeByteArrays native
+
+        for fieldName in [ "CreateDate"; "OpenDate"; "ExpireDate"; "StartDelivDate"; "EndDelivDate" ] do
+            setFixedStringField native fieldName "       0"
+
+        let instrument =
+            mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Next.Bridge.NativeInstrument" native
+            :?> InstrumentResponse
+
+        Assert.Equal(DateOnly.MinValue, instrument.CreateDate)
+        Assert.Equal(DateOnly.MinValue, instrument.OpenDate)
+        Assert.Equal(DateOnly.MinValue, instrument.ExpireDate)
+        Assert.Equal(DateOnly.MinValue, instrument.StartDelivDate)
+        Assert.Equal(DateOnly.MinValue, instrument.EndDelivDate)
 
     [<Fact>]
     member _.``instrument mapping supports optional union fields``() =

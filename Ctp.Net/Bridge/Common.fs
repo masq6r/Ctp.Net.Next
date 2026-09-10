@@ -238,14 +238,24 @@ module internal TemporalHelpers =
 
     let private dateTimeFormat = "yyyyMMddHH:mm:ss"
 
+    let private normalizeDate value =
+        if String.IsNullOrWhiteSpace value then "" else value.Trim()
+
+    let private isMissingDate (value: string) =
+        String.IsNullOrEmpty value || value |> Seq.forall ((=) '0')
+
     let parseDate value =
-        if String.IsNullOrWhiteSpace value then
+        let value = normalizeDate value
+
+        if isMissingDate value then
             DateOnly.MinValue
         else
             DateOnly.ParseExact(value, dateFormat, culture)
 
     let parseDateOption value =
-        if String.IsNullOrWhiteSpace value then
+        let value = normalizeDate value
+
+        if isMissingDate value then
             None
         else
             Some(DateOnly.ParseExact(value, dateFormat, culture))
