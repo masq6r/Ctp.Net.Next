@@ -143,6 +143,22 @@ typedef struct ctp_depth_market_data {
   double banding_lower_price;
 } ctp_depth_market_data;
 
+typedef struct ctp_multicast_instrument {
+  int32_t topic_id;
+  int32_t instrument_no;
+  double code_price;
+  int32_t volume_multiple;
+  double price_tick;
+  char instrument_id[81];
+} ctp_multicast_instrument;
+
+typedef struct ctp_qry_multicast_instrument {
+  int32_t topic_id;
+  char instrument_id[81];
+} ctp_qry_multicast_instrument;
+
+struct ctp_for_quote_rsp;
+
 typedef struct ctp_qry_trading_account {
   char broker_id[11];
   char investor_id[13];
@@ -396,8 +412,22 @@ typedef struct ctp_md_spi {
                                    const ctp_rsp_info *rsp_info,
                                    int32_t request_id, int32_t is_last,
                                    void *user_data);
+  void (*on_rsp_qry_multicast_instrument)(
+      const ctp_multicast_instrument *instrument,
+      const ctp_rsp_info *rsp_info, int32_t request_id, int32_t is_last,
+      void *user_data);
+  void (*on_rsp_sub_for_quote_rsp)(const ctp_specific_instrument *instrument,
+                                   const ctp_rsp_info *rsp_info,
+                                   int32_t request_id, int32_t is_last,
+                                   void *user_data);
+  void (*on_rsp_unsub_for_quote_rsp)(
+      const ctp_specific_instrument *instrument,
+      const ctp_rsp_info *rsp_info, int32_t request_id, int32_t is_last,
+      void *user_data);
   void (*on_rtn_depth_market_data)(const ctp_depth_market_data *market_data,
                                    void *user_data);
+  void (*on_rtn_for_quote_rsp)(const struct ctp_for_quote_rsp *for_quote_rsp,
+                               void *user_data);
 } ctp_md_spi;
 
 typedef struct ctp_accountregister {
@@ -4110,6 +4140,18 @@ CTP_BRIDGE_API int32_t ctp_md_subscribe_market_data(
     ctp_md_handle *handle, const char *const *instruments, int32_t count);
 CTP_BRIDGE_API int32_t ctp_md_unsubscribe_market_data(
     ctp_md_handle *handle, const char *const *instruments, int32_t count);
+CTP_BRIDGE_API const char *ctp_md_get_trading_day(ctp_md_handle *handle);
+CTP_BRIDGE_API int32_t ctp_md_register_name_server(ctp_md_handle *handle,
+                                                   const char *ns_address);
+CTP_BRIDGE_API int32_t ctp_md_register_fens_user_info(
+    ctp_md_handle *handle, const ctp_fens_user_info *request);
+CTP_BRIDGE_API int32_t ctp_md_subscribe_for_quote_rsp(
+    ctp_md_handle *handle, const char *const *instruments, int32_t count);
+CTP_BRIDGE_API int32_t ctp_md_unsubscribe_for_quote_rsp(
+    ctp_md_handle *handle, const char *const *instruments, int32_t count);
+CTP_BRIDGE_API int32_t ctp_md_req_qry_multicast_instrument(
+    ctp_md_handle *handle, const ctp_qry_multicast_instrument *request,
+    int32_t request_id);
 
 CTP_BRIDGE_API const char *ctp_trader_get_api_version(void);
 CTP_BRIDGE_API ctp_trader_handle *ctp_trader_create(const char *flow_path,

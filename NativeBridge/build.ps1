@@ -12,6 +12,10 @@ if ([string]::IsNullOrWhiteSpace($CtpSdkRoot)) {
     $CtpSdkRoot = Join-Path $scriptDir "ctp-sdk"
 }
 
+if ([string]::IsNullOrWhiteSpace($CtpSdkVersion)) {
+    $CtpSdkVersion = 'v6.7.13_20260225'
+}
+
 $configureArgs = @(
     '-S', $scriptDir,
     '-B', $buildDir,

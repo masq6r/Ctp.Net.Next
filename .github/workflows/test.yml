@@ -21,14 +21,26 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Build NativeBridge
+        run: CTP_SDK_VERSION=v6.7.13_20260225 ./NativeBridge/build.sh
+
+      - name: Check API manifest, ABI, and exports
+        run: |
+          python3 tools/ctp_api.py generate --check
+          python3 tools/check_exports.py NativeBridge/build/libctpmd_bridge.so NativeBridge/build/libctptrader_bridge.so
+          python3 tools/check_abi.py
+
       - name: Build
-        run: dotnet build Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj -m:1
+        run: dotnet build Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj -m:1 /nodeReuse:false
+
+      - name: Check managed ABI
+        run: python3 tools/check_managed_abi.py
 
       - name: Test
         id: test
         run: |
           set +e
-          dotnet run --project Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj --no-build 2>&1 | tee test-output.txt
+          dotnet run --project Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj --no-build --no-restore 2>&1 | tee test-output.txt
           TEST_EXIT=$?
           set -e
 

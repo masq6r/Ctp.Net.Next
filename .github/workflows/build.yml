@@ -8,7 +8,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+          - os: windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -16,5 +21,58 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Build
-        run: dotnet build Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj -m:1
+      - name: Build NativeBridge (Linux)
+        if: runner.os == 'Linux'
+        run: CTP_SDK_VERSION=v6.7.13_20260225 ./NativeBridge/build.sh
+
+      - name: Build NativeBridge (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./NativeBridge/build.ps1 -CtpSdkVersion v6.7.13_20260225
+
+      - name: Check API manifest (Linux)
+        if: runner.os == 'Linux'
+        run: python3 tools/ctp_api.py generate --check
+
+      - name: Check API manifest (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: python tools/ctp_api.py generate --check
+
+      - name: Check Linux native ABI and exports
+        if: runner.os == 'Linux'
+        run: |
+          python3 tools/check_exports.py NativeBridge/build/libctpmd_bridge.so NativeBridge/build/libctptrader_bridge.so
+          python3 tools/check_abi.py
+
+      - name: Check Windows native ABI and exports
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $md = Get-ChildItem NativeBridge/build -Recurse -File -Filter ctpmd_bridge.dll | Select-Object -First 1
+          $trader = Get-ChildItem NativeBridge/build -Recurse -File -Filter ctptrader_bridge.dll | Select-Object -First 1
+          $probe = Get-ChildItem NativeBridge/build -Recurse -File -Filter ctp_bridge_abi_probe.exe | Select-Object -First 1
+          if (-not $md -or -not $trader -or -not $probe) {
+            throw 'Missing Windows native bridge or ABI probe output.'
+          }
+          python tools/check_exports.py $md.FullName $trader.FullName
+          python tools/check_abi.py --probe $probe.FullName
+
+      - name: Build managed tests
+        run: dotnet build Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj -m:1 /nodeReuse:false
+
+      - name: Check managed ABI (Linux)
+        if: runner.os == 'Linux'
+        run: python3 tools/check_managed_abi.py
+
+      - name: Check managed ABI (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: python tools/check_managed_abi.py
+
+      - name: Run managed tests
+        run: dotnet run --project Tests/Ctp.Net.Tests/Ctp.Net.Tests.fsproj --no-build --no-restore
+
+      - name: Check whitespace
+        if: runner.os == 'Linux'
+        run: git diff --check

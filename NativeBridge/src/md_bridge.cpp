@@ -35,6 +35,43 @@ void fill_specific_instrument(ctp_specific_instrument& dest, const CThostFtdcSpe
   copy_field(dest.instrument_id, src->InstrumentID);
 }
 
+void fill_multicast_instrument(ctp_multicast_instrument& dest,
+                               const CThostFtdcMulticastInstrumentField* src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  dest.topic_id = src->TopicID;
+  dest.instrument_no = src->InstrumentNo;
+  dest.code_price = src->CodePrice;
+  dest.volume_multiple = src->VolumeMultiple;
+  dest.price_tick = src->PriceTick;
+  copy_field(dest.instrument_id, src->InstrumentID);
+}
+
+void fill_fens_user_info(CThostFtdcFensUserInfoField& dest,
+                         const ctp_fens_user_info& src) {
+  std::memset(&dest, 0, sizeof(dest));
+  copy_field(dest.BrokerID, src.broker_id);
+  copy_field(dest.UserID, src.user_id);
+  dest.LoginMode = src.login_mode;
+}
+
+void fill_for_quote_rsp(ctp_for_quote_rsp& dest,
+                        const CThostFtdcForQuoteRspField* src) {
+  std::memset(&dest, 0, sizeof(dest));
+  if (src == nullptr) {
+    return;
+  }
+  copy_field(dest.trading_day, src->TradingDay);
+  copy_field(dest.reserve1, src->reserve1);
+  copy_field(dest.for_quote_sys_id, src->ForQuoteSysID);
+  copy_field(dest.for_quote_time, src->ForQuoteTime);
+  copy_field(dest.action_day, src->ActionDay);
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.instrument_id, src->InstrumentID);
+}
+
 void fill_rsp_user_login(ctp_rsp_user_login& dest, const CThostFtdcRspUserLoginField* src) {
   std::memset(&dest, 0, sizeof(dest));
   if (src == nullptr) {
@@ -199,6 +236,54 @@ public:
     callbacks_.on_rsp_unsub_market_data(instrument != nullptr ? &instrument_bridge : nullptr, rsp_info != nullptr ? &rsp_bridge : nullptr, request_id, is_last ? 1 : 0, user_data_);
   }
 
+  void OnRspQryMulticastInstrument(CThostFtdcMulticastInstrumentField* instrument,
+                                   CThostFtdcRspInfoField* rsp_info,
+                                   int request_id, bool is_last) override {
+    if (callbacks_.on_rsp_qry_multicast_instrument == nullptr) {
+      return;
+    }
+    ctp_multicast_instrument instrument_bridge {};
+    ctp_rsp_info rsp_bridge {};
+    fill_multicast_instrument(instrument_bridge, instrument);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.on_rsp_qry_multicast_instrument(
+        instrument != nullptr ? &instrument_bridge : nullptr,
+        rsp_info != nullptr ? &rsp_bridge : nullptr, request_id,
+        is_last ? 1 : 0, user_data_);
+  }
+
+  void OnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField* instrument,
+                           CThostFtdcRspInfoField* rsp_info,
+                           int request_id, bool is_last) override {
+    if (callbacks_.on_rsp_sub_for_quote_rsp == nullptr) {
+      return;
+    }
+    ctp_specific_instrument instrument_bridge {};
+    ctp_rsp_info rsp_bridge {};
+    fill_specific_instrument(instrument_bridge, instrument);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.on_rsp_sub_for_quote_rsp(
+        instrument != nullptr ? &instrument_bridge : nullptr,
+        rsp_info != nullptr ? &rsp_bridge : nullptr, request_id,
+        is_last ? 1 : 0, user_data_);
+  }
+
+  void OnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField* instrument,
+                             CThostFtdcRspInfoField* rsp_info,
+                             int request_id, bool is_last) override {
+    if (callbacks_.on_rsp_unsub_for_quote_rsp == nullptr) {
+      return;
+    }
+    ctp_specific_instrument instrument_bridge {};
+    ctp_rsp_info rsp_bridge {};
+    fill_specific_instrument(instrument_bridge, instrument);
+    fill_rsp_info(rsp_bridge, rsp_info);
+    callbacks_.on_rsp_unsub_for_quote_rsp(
+        instrument != nullptr ? &instrument_bridge : nullptr,
+        rsp_info != nullptr ? &rsp_bridge : nullptr, request_id,
+        is_last ? 1 : 0, user_data_);
+  }
+
   void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField* market_data) override {
     if (callbacks_.on_rtn_depth_market_data == nullptr || market_data == nullptr) {
       return;
@@ -206,6 +291,16 @@ public:
     ctp_depth_market_data bridge {};
     fill_depth_market_data(bridge, market_data);
     callbacks_.on_rtn_depth_market_data(&bridge, user_data_);
+  }
+
+  void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField* for_quote_rsp) override {
+    if (callbacks_.on_rtn_for_quote_rsp == nullptr ||
+        for_quote_rsp == nullptr) {
+      return;
+    }
+    ctp_for_quote_rsp bridge {};
+    fill_for_quote_rsp(bridge, for_quote_rsp);
+    callbacks_.on_rtn_for_quote_rsp(&bridge, user_data_);
   }
 
 private:
@@ -359,6 +454,66 @@ int32_t ctp_md_unsubscribe_market_data(ctp_md_handle* handle, const char* const*
   std::vector<std::string> storage;
   auto mutable_ptrs = to_mutable_instruments(instruments, count, storage);
   return handle->api->UnSubscribeMarketData(mutable_ptrs.data(), count);
+}
+
+const char* ctp_md_get_trading_day(ctp_md_handle* handle) {
+  if (handle == nullptr || handle->api == nullptr) {
+    return nullptr;
+  }
+  return handle->api->GetTradingDay();
+}
+
+int32_t ctp_md_register_name_server(ctp_md_handle* handle,
+                                    const char* ns_address) {
+  if (handle == nullptr || handle->api == nullptr || ns_address == nullptr) {
+    return -1;
+  }
+  std::string address(ns_address);
+  handle->api->RegisterNameServer(address.data());
+  return 0;
+}
+
+int32_t ctp_md_register_fens_user_info(
+    ctp_md_handle* handle, const ctp_fens_user_info* request) {
+  if (handle == nullptr || handle->api == nullptr || request == nullptr) {
+    return -1;
+  }
+  CThostFtdcFensUserInfoField native_request {};
+  fill_fens_user_info(native_request, *request);
+  handle->api->RegisterFensUserInfo(&native_request);
+  return 0;
+}
+
+int32_t ctp_md_subscribe_for_quote_rsp(
+    ctp_md_handle* handle, const char* const* instruments, int32_t count) {
+  if (handle == nullptr || handle->api == nullptr) {
+    return -1;
+  }
+  std::vector<std::string> storage;
+  auto mutable_ptrs = to_mutable_instruments(instruments, count, storage);
+  return handle->api->SubscribeForQuoteRsp(mutable_ptrs.data(), count);
+}
+
+int32_t ctp_md_unsubscribe_for_quote_rsp(
+    ctp_md_handle* handle, const char* const* instruments, int32_t count) {
+  if (handle == nullptr || handle->api == nullptr) {
+    return -1;
+  }
+  std::vector<std::string> storage;
+  auto mutable_ptrs = to_mutable_instruments(instruments, count, storage);
+  return handle->api->UnSubscribeForQuoteRsp(mutable_ptrs.data(), count);
+}
+
+int32_t ctp_md_req_qry_multicast_instrument(
+    ctp_md_handle* handle, const ctp_qry_multicast_instrument* request,
+    int32_t request_id) {
+  if (handle == nullptr || handle->api == nullptr || request == nullptr) {
+    return -1;
+  }
+  CThostFtdcQryMulticastInstrumentField native_request {};
+  native_request.TopicID = request->topic_id;
+  copy_field(native_request.InstrumentID, request->instrument_id);
+  return handle->api->ReqQryMulticastInstrument(&native_request, request_id);
 }
 
 }  // extern "C"

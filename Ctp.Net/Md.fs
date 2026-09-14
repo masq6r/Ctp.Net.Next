@@ -15,8 +15,12 @@ type private MdAgentMessage =
     | RspUserLogin of UserLoginResponse option * RspInfo option * int * bool
     | RspSubMarketData of SpecificInstrumentResponse option * RspInfo option * int * bool
     | RspUnsubMarketData of SpecificInstrumentResponse option * RspInfo option * int * bool
+    | RspQryMulticastInstrument of MulticastInstrumentResponse option * RspInfo option * int * bool
+    | RspSubForQuoteRsp of SpecificInstrumentResponse option * RspInfo option * int * bool
+    | RspUnsubForQuoteRsp of SpecificInstrumentResponse option * RspInfo option * int * bool
     | RspUserLogout of UserLogoutResponse option * RspInfo option * int * bool
     | RtnDepthMarketData of DepthMarketData
+    | RtnForQuoteRsp of ForQuoteRspResponse
 
 type MdClient
     (
@@ -26,7 +30,8 @@ type MdClient
         ?useMulticast: bool,
         ?loggerFactory: ILoggerFactory,
         ?flowControl: CtpFlowControlOptions,
-        ?autoResubscribe: bool
+        ?autoResubscribe: bool,
+        ?endpoint: CtpEndpoint
     )
     =
     let loggerFactory = defaultArg loggerFactory Abstractions.NullLoggerFactory.Instance
@@ -44,6 +49,9 @@ type MdClient
     let logoutPending = SinglePendingResult<Result<UserLogoutResponse, RspInfo>>()
     let subscribePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
     let unsubscribePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
+    let subscribeForQuotePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
+    let unsubscribeForQuotePending = SinglePendingRequest<string list, Result<string list, RspInfo>>()
+    let multicastPending = PendingQueryDict(logger = logger)
 
     let autoResubscribe = defaultArg autoResubscribe true
     let subscribedInstruments = System.Collections.Generic.HashSet<string>()
@@ -55,6 +63,8 @@ type MdClient
     let heartBeatWarningEvent = Event<int>()
     let rspErrorEvent = Event<RspInfo>()
     let depthMarketDataEvent = Event<DepthMarketData>()
+    let multicastInstrumentEvent = Event<MulticastInstrumentResponse>()
+    let forQuoteRspEvent = Event<ForQuoteRspResponse>()
 
     let api =
         new MdApi(
@@ -65,12 +75,43 @@ type MdClient
             encodings = bridgeEncodings
         )
 
+    let mutable configuredEndpoint = defaultArg endpoint (CtpEndpoint.Front options.FrontAddress)
+    let mutable fensUserInfo =
+        match configuredEndpoint with
+        | CtpEndpoint.NameServer(_, fens) -> fens
+        | CtpEndpoint.Front _ -> None
+
+    let validateFensUserInfo (request: FensUserInfoRequest) =
+        if String.IsNullOrWhiteSpace request.BrokerId then
+            invalidArg "BrokerId" "FENS broker id must not be empty."
+
+        if String.IsNullOrWhiteSpace request.UserId then
+            invalidArg "UserId" "FENS user id must not be empty."
+
+    let registerEndpoint () =
+        match configuredEndpoint with
+        | CtpEndpoint.Front address ->
+            if String.IsNullOrWhiteSpace address then
+                invalidArg (nameof options.FrontAddress) "Front address must not be empty."
+
+            api.RegisterFront(address)
+        | CtpEndpoint.NameServer(address, fens) ->
+            if String.IsNullOrWhiteSpace address then
+                invalidArg (nameof address) "NameServer address must not be empty."
+
+            api.RegisterNameServer(address)
+            fensUserInfo <- fens |> Option.orElse fensUserInfo
+            fensUserInfo
+            |> Option.iter (fun request ->
+                validateFensUserInfo request
+                api.RegisterFensUserInfo request)
+
     let requestFlow = FlowController(defaultArg flowControl CtpFlowControlOptions.Default, logger = logger)
 
     let connectionCoordinator =
         ConnectionCoordinator(
             (fun () ->
-                api.RegisterFront(options.FrontAddress)
+                registerEndpoint ()
                 api.Init()),
             logger = coordinatorLogger
         )
@@ -144,7 +185,21 @@ type MdClient
                     | Error info -> unsubscribePending.TrySetResult(Error info)
                     | Ok() when isLast -> unsubscribePending.TrySetResultFromRequest Ok
                     | _ -> ()
+                | RspQryMulticastInstrument(instrument, rspInfo, requestId, isLast) ->
+                    multicastPending.TryAccumulate(requestId, instrument, rspInfo, isLast)
+                    instrument |> Option.iter multicastInstrumentEvent.Trigger
+                | RspSubForQuoteRsp(_, rspInfo, _, isLast) ->
+                    match ClientHelpers.resultFromRspInfo rspInfo with
+                    | Error info -> subscribeForQuotePending.TrySetResult(Error info)
+                    | Ok() when isLast -> subscribeForQuotePending.TrySetResultFromRequest Ok
+                    | _ -> ()
+                | RspUnsubForQuoteRsp(_, rspInfo, _, isLast) ->
+                    match ClientHelpers.resultFromRspInfo rspInfo with
+                    | Error info -> unsubscribeForQuotePending.TrySetResult(Error info)
+                    | Ok() when isLast -> unsubscribeForQuotePending.TrySetResultFromRequest Ok
+                    | _ -> ()
                 | RtnDepthMarketData data -> depthMarketDataEvent.Trigger data
+                | RtnForQuoteRsp data -> forQuoteRspEvent.Trigger data
                 | _ -> ()
 
                 return! loop ()
@@ -169,13 +224,43 @@ type MdClient
                 RspUnsubMarketData =
                     Some(fun instrument rsp requestId isLast ->
                         agent.Post(RspUnsubMarketData(instrument, rsp, requestId, isLast)))
-                RtnDepthMarketData = Some(fun data -> agent.Post(RtnDepthMarketData data)) }
+                RspQryMulticastInstrument =
+                    Some(fun instrument rsp requestId isLast ->
+                        agent.Post(RspQryMulticastInstrument(instrument, rsp, requestId, isLast)))
+                RspSubForQuoteRsp =
+                    Some(fun instrument rsp requestId isLast ->
+                        agent.Post(RspSubForQuoteRsp(instrument, rsp, requestId, isLast)))
+                RspUnsubForQuoteRsp =
+                    Some(fun instrument rsp requestId isLast ->
+                        agent.Post(RspUnsubForQuoteRsp(instrument, rsp, requestId, isLast)))
+                RtnDepthMarketData = Some(fun data -> agent.Post(RtnDepthMarketData data))
+                RtnForQuoteRsp = Some(fun data -> agent.Post(RtnForQuoteRsp data)) }
 
     member _.FrontConnected = frontConnectedEvent.Publish
     member _.FrontDisconnected = frontDisconnectedEvent.Publish
     member _.HeartBeatWarning = heartBeatWarningEvent.Publish
     member _.RspError = rspErrorEvent.Publish
     member _.DepthMarketDataReceived = depthMarketDataEvent.Publish
+    member _.MulticastInstrumentReceived = multicastInstrumentEvent.Publish
+    member _.ForQuoteRspReceived = forQuoteRspEvent.Publish
+
+    member _.GetApiVersion() = MdApi.GetApiVersion()
+
+    member _.GetTradingDay() = api.GetTradingDay()
+
+    // These registrations must be completed before Connect. The endpoint constructor option
+    // performs the same registration automatically for new callers.
+    member _.RegisterNameServer(nsAddress: string) =
+        if String.IsNullOrWhiteSpace nsAddress then
+            invalidArg (nameof nsAddress) "NameServer address must not be empty."
+
+        api.RegisterNameServer(nsAddress)
+        configuredEndpoint <- CtpEndpoint.NameServer(nsAddress, fensUserInfo)
+
+    member _.RegisterFensUserInfo(request: FensUserInfoRequest) =
+        validateFensUserInfo request
+        api.RegisterFensUserInfo(request)
+        fensUserInfo <- Some request
 
     member this.Connect(?timeout: TimeSpan) = async {
         let! result =
@@ -385,6 +470,116 @@ type MdClient
 
         return result
     }
+
+    member this.SubscribeForQuoteRspAsync(instrumentIds: string seq) = async {
+        let requested = List.ofSeq instrumentIds
+        logger.LogDebug("Subscribing for quote responses for {InstrumentCount} instruments", requested.Length)
+
+        return!
+            this.RunSubscriptionAsync
+                "SubscribeForQuoteRsp"
+                requested
+                subscribeForQuotePending
+                api.SubscribeForQuoteRsp
+    }
+
+    member this.UnsubscribeForQuoteRspAsync(instrumentIds: string seq) = async {
+        let requested = List.ofSeq instrumentIds
+        logger.LogDebug("Unsubscribing for quote responses for {InstrumentCount} instruments", requested.Length)
+
+        return!
+            this.RunSubscriptionAsync
+                "UnsubscribeForQuoteRsp"
+                requested
+                unsubscribeForQuotePending
+                api.UnsubscribeForQuoteRsp
+    }
+
+    member private _.QueryAsync<'TItem, 'TRequest>
+        (queryName: string)
+        (request: 'TRequest)
+        (apiCall: 'TRequest * int -> int)
+        : Async<Result<'TItem list, RspInfo>>
+        =
+        async {
+            let! cancellationToken = Async.CancellationToken
+
+            let! queryLease =
+                requestFlow.AcquireQueryExecutionAsync(cancellationToken = cancellationToken)
+                |> Async.AwaitTask
+
+            let queryLifetime = task {
+                try
+                    let rec executeAttempt attempt = task {
+                        do! requestFlow.AwaitQueryDispatchAsync(cancellationToken = cancellationToken)
+                        logger.LogDebug("Sending {QueryName} request", queryName)
+
+                        let requestId = nextRequestId ()
+                        let completion = ClientHelpers.createCompletionSource<Result<'TItem list, RspInfo>> ()
+                        multicastPending.Register(requestId, queryName, completion)
+                        let errCode = apiCall (request, requestId)
+
+                        if errCode <> 0 then
+                            multicastPending.TryRemove requestId
+
+                            if requestFlow.ShouldRetryNativeReturnCode(attempt, errCode) then
+                                do!
+                                    requestFlow.DelayBeforeNativeRetryAsync(
+                                        queryName,
+                                        attempt + 1,
+                                        errCode,
+                                        cancellationToken = cancellationToken
+                                    )
+
+                                return! executeAttempt (attempt + 1)
+                            else
+                                logger.LogError(
+                                    "{QueryName} request failed with native return code {ReturnCode}",
+                                    queryName,
+                                    errCode
+                                )
+
+                                return Error(ClientHelpers.apiReturnError errCode)
+                        else
+                            let! result =
+                                requestFlow.AwaitQueryCompletionAsync(
+                                    queryName,
+                                    requestId,
+                                    multicastPending,
+                                    completion.Task
+                                )
+
+                            match result with
+                            | Error info when requestFlow.ShouldRetryQueryError(attempt, info) ->
+                                do!
+                                    requestFlow.DelayBeforeQueryRetryAsync(
+                                        queryName,
+                                        attempt + 1,
+                                        info.ErrorId,
+                                        cancellationToken = cancellationToken
+                                    )
+
+                                return! executeAttempt (attempt + 1)
+                            | _ -> return result
+                    }
+
+                    return! executeAttempt 0
+                finally
+                    queryLease.Dispose()
+            }
+
+            return! (queryLifetime |> ClientHelpers.awaitTaskWithCancellation cancellationToken)
+        }
+
+    member this.QueryMulticastInstrumentAsync(topicId: int, ?instrumentId: string) =
+        let request =
+            { TopicId = topicId
+              InstrumentId = instrumentId }
+
+        this.QueryAsync<MulticastInstrumentResponse, QryMulticastInstrumentRequest>
+            "QryMulticastInstrument"
+            request
+            api.ReqQryMulticastInstrument
 
     member private this.AutoResubscribeAsync() = async {
         let entered = autoReconnectSemaphore.Wait(0)

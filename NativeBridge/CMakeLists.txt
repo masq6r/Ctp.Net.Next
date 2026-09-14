@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_executable(ctp_bridge_abi_probe
+  generated/ctp_bridge_abi_probe.cpp
+)
+target_include_directories(ctp_bridge_abi_probe PRIVATE include)
+
 set(LOCAL_CTP_SDK_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/ctp-sdk")
 if(DEFINED ENV{CTP_SDK_ROOT} AND NOT "$ENV{CTP_SDK_ROOT}" STREQUAL "")
   set(DEFAULT_CTP_SDK_ROOT "$ENV{CTP_SDK_ROOT}")
@@ -18,7 +23,7 @@ endif()
 if(DEFINED ENV{CTP_SDK_VERSION} AND NOT "$ENV{CTP_SDK_VERSION}" STREQUAL "")
   set(DEFAULT_CTP_SDK_VERSION "$ENV{CTP_SDK_VERSION}")
 else()
-  set(DEFAULT_CTP_SDK_VERSION "")
+  set(DEFAULT_CTP_SDK_VERSION "v6.7.13_20260225")
 endif()
 
 set(CTP_SDK_ROOT "${DEFAULT_CTP_SDK_ROOT}" CACHE PATH "Path to the ctp-sdk root directory or a specific version directory")

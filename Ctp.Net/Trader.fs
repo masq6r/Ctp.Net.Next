@@ -17,15 +17,112 @@ type private TraderSystemEvent =
 type private TraderPushNotification =
     | OrderReceived of OrderUpdateResponse
     | TradeReceived of TradeUpdateResponse
-    | GenericNotification of obj
+    | CombActionReceived of CombActionResponse
+    | ExecOrderReceived of ExecOrderResponse
+    | ForQuoteRspReceived of ForQuoteRspResponse
+    | FromBankToFutureByFutureReceived of TransferResponse
+    | FromFutureToBankByFutureReceived of TransferResponse
+    | HedgeCfmReceived of HedgeCfmResponse
+    | OffsetSettingReceived of OffsetSettingResponse
+    | OptionSelfCloseReceived of OptionSelfCloseResponse
+    | QueryBankBalanceByFutureReceived of NotifyQueryAccountResponse
+    | QuoteReceived of QuoteResponse
+    | SpdApplyReceived of SpdApplyResponse
+    | InstrumentStatusReceived of InstrumentStatusResponse
+    | BulletinReceived of BulletinResponse
+    | TradingNoticeReceived of TradingNoticeInfoResponse
+    | ErrorConditionalOrderReceived of ErrorConditionalOrderResponse
+    | CfmmcTradingAccountTokenReceived of CfmmcTradingAccountTokenResponse
+    | FromBankToFutureByBankReceived of TransferResponse
+    | FromFutureToBankByBankReceived of TransferResponse
+    | RepealFromBankToFutureByBankReceived of RepealResponse
+    | RepealFromFutureToBankByBankReceived of RepealResponse
+    | RepealFromBankToFutureByFutureManualReceived of RepealResponse
+    | RepealFromFutureToBankByFutureManualReceived of RepealResponse
+    | RepealFromBankToFutureByFutureReceived of RepealResponse
+    | RepealFromFutureToBankByFutureReceived of RepealResponse
+    | OpenAccountByBankReceived of OpenAccountResponse
+    | CancelAccountByBankReceived of CancelAccountResponse
+    | ChangeAccountByBankReceived of ChangeAccountResponse
 
 type private TraderAgentMessage =
     | SystemEvent of TraderSystemEvent
     | CorrelatedError of RspInfo option * int * bool
     | CorrelatedResponse of PendingResponseCompletionPolicy * objnull option * RspInfo option * int * bool
-    | OrderCommandResponse of string * RspInfo option * int * bool
+    | OrderCommandResponse of TraderCommandResponse * (unit -> unit)
     | PushNotification of TraderPushNotification
-    | AsyncErrorPush of obj * RspInfo option
+    | AsyncErrorPush of TraderAsyncError * (unit -> unit)
+
+module internal TraderCallbackNames =
+    let private normalizeAcronyms (name: string) =
+        name.Replace("Cfmmc", "CFMMC")
+            .Replace("AcId", "ACID")
+            .Replace("Mm", "MM")
+            .Replace("Spbm", "SPBM")
+            .Replace("Spmm", "SPMM")
+            .Replace("Rcams", "RCAMS")
+            .Replace("Rule", "RULE")
+            .Replace("Sms", "SMS")
+
+    let forOperation (operationName: string) =
+        match operationName with
+        | "Login"
+        | "LoginWithCaptcha"
+        | "LoginWithText"
+        | "LoginWithOtp" -> "OnRspUserLogin"
+        | "Logout" -> "OnRspUserLogout"
+        | "ParkedOrderRequest" -> "OnRspParkedOrderInsert"
+        | "QueryBankAccountMoneyByFuture" -> "OnRspQueryBankAccountMoneyByFuture"
+        | "QueryCfmmcTradingAccountToken"
+        | "QueryCfmmcTradingAccountTokenRequest" -> "OnRspQueryCFMMCTradingAccountToken"
+        | name ->
+            let requestSuffix = "Request"
+
+            let callbackName =
+                if name.StartsWith("Query", StringComparison.Ordinal) && name.EndsWith(requestSuffix, StringComparison.Ordinal) then
+                    let callbackSuffix = name.Substring(5, name.Length - 5 - requestSuffix.Length)
+                    $"OnRspQry{callbackSuffix}"
+                elif name.StartsWith("Qry", StringComparison.Ordinal) && name.EndsWith(requestSuffix, StringComparison.Ordinal) then
+                    let callbackSuffix = name.Substring(0, name.Length - requestSuffix.Length)
+                    $"OnRsp{callbackSuffix}"
+                else
+                    $"OnRsp{name}"
+
+            normalizeAcronyms callbackName
+
+module internal TraderOperationNames =
+    [<Literal>]
+    let OrderAction = "OrderAction"
+
+    [<Literal>]
+    let BatchOrderAction = "BatchOrderAction"
+
+    [<Literal>]
+    let CancelOffsetSetting = "CancelOffsetSetting"
+
+    [<Literal>]
+    let ExecOrderAction = "ExecOrderAction"
+
+    [<Literal>]
+    let HedgeCfm = "HedgeCfm"
+
+    [<Literal>]
+    let HedgeCfmAction = "HedgeCfmAction"
+
+    [<Literal>]
+    let OffsetSetting = "OffsetSetting"
+
+    [<Literal>]
+    let OptionSelfCloseAction = "OptionSelfCloseAction"
+
+    [<Literal>]
+    let QuoteAction = "QuoteAction"
+
+    [<Literal>]
+    let SpdApply = "SpdApply"
+
+    [<Literal>]
+    let SpdApplyAction = "SpdApplyAction"
 
 type TraderClient
     (
@@ -35,7 +132,8 @@ type TraderClient
         ?privateTopicSequenceNo: int,
         ?publicTopicResumeType: ResumeType,
         ?loggerFactory: ILoggerFactory,
-        ?flowControl: CtpFlowControlOptions
+        ?flowControl: CtpFlowControlOptions,
+        ?endpoint: CtpEndpoint
     )
     =
     let loggerFactory = defaultArg loggerFactory NullLoggerFactory.Instance
@@ -59,15 +157,121 @@ type TraderClient
     let rspErrorEvent = Event<RspInfo>()
     let orderEvent = Event<OrderUpdateResponse>()
     let tradeEvent = Event<TradeUpdateResponse>()
+    let combActionEvent = Event<CombActionResponse>()
+    let execOrderEvent = Event<ExecOrderResponse>()
+    let forQuoteRspEvent = Event<ForQuoteRspResponse>()
+    let fromBankToFutureByFutureEvent = Event<TransferResponse>()
+    let fromFutureToBankByFutureEvent = Event<TransferResponse>()
+    let hedgeCfmEvent = Event<HedgeCfmResponse>()
+    let offsetSettingEvent = Event<OffsetSettingResponse>()
+    let optionSelfCloseEvent = Event<OptionSelfCloseResponse>()
+    let queryBankBalanceByFutureEvent = Event<NotifyQueryAccountResponse>()
+    let quoteEvent = Event<QuoteResponse>()
+    let spdApplyEvent = Event<SpdApplyResponse>()
+    let instrumentStatusEvent = Event<InstrumentStatusResponse>()
+    let bulletinEvent = Event<BulletinResponse>()
+    let tradingNoticeEvent = Event<TradingNoticeInfoResponse>()
+    let errorConditionalOrderEvent = Event<ErrorConditionalOrderResponse>()
+    let cfmmcTradingAccountTokenEvent = Event<CfmmcTradingAccountTokenResponse>()
+    let fromBankToFutureByBankEvent = Event<TransferResponse>()
+    let fromFutureToBankByBankEvent = Event<TransferResponse>()
+    let repealFromBankToFutureByBankEvent = Event<RepealResponse>()
+    let repealFromFutureToBankByBankEvent = Event<RepealResponse>()
+    let repealFromBankToFutureByFutureManualEvent = Event<RepealResponse>()
+    let repealFromFutureToBankByFutureManualEvent = Event<RepealResponse>()
+    let repealFromBankToFutureByFutureEvent = Event<RepealResponse>()
+    let repealFromFutureToBankByFutureEvent = Event<RepealResponse>()
+    let openAccountByBankEvent = Event<OpenAccountResponse>()
+    let cancelAccountByBankEvent = Event<CancelAccountResponse>()
+    let changeAccountByBankEvent = Event<ChangeAccountResponse>()
     let notificationEvent = Event<obj>()
     let asyncErrorEvent = Event<obj>()
+    let asyncErrorDetailedEvent = Event<TraderAsyncError>()
+    let commandResponseEvent = Event<TraderCommandResponse>()
+    let bankToFutureByFutureErrorEvent = Event<TraderAsyncErrorData<TransferAckResponse>>()
+    let batchOrderActionErrorEvent = Event<TraderAsyncErrorData<BatchOrderActionResponse>>()
+    let cancelOffsetSettingErrorEvent = Event<TraderAsyncErrorData<CancelOffsetSettingResponse>>()
+    let combActionInsertErrorEvent = Event<TraderAsyncErrorData<InputCombActionResponse>>()
+    let execOrderActionErrorEvent = Event<TraderAsyncErrorData<ExecOrderActionResponse>>()
+    let execOrderInsertErrorEvent = Event<TraderAsyncErrorData<InputExecOrderResponse>>()
+    let forQuoteInsertErrorEvent = Event<TraderAsyncErrorData<InputForQuoteResponse>>()
+    let futureToBankByFutureErrorEvent = Event<TraderAsyncErrorData<TransferAckResponse>>()
+    let hedgeCfmErrorEvent = Event<TraderAsyncErrorData<InputHedgeCfmResponse>>()
+    let hedgeCfmActionErrorEvent = Event<TraderAsyncErrorData<HedgeCfmActionResponse>>()
+    let offsetSettingErrorEvent = Event<TraderAsyncErrorData<InputOffsetSettingResponse>>()
+    let optionSelfCloseActionErrorEvent = Event<TraderAsyncErrorData<OptionSelfCloseActionResponse>>()
+    let optionSelfCloseInsertErrorEvent = Event<TraderAsyncErrorData<InputOptionSelfCloseResponse>>()
+    let orderActionErrorEvent = Event<TraderAsyncErrorData<OrderActionResponse>>()
+    let orderInsertErrorEvent = Event<TraderAsyncErrorData<InputOrderResponse>>()
+    let queryBankBalanceByFutureErrorEvent = Event<TraderAsyncErrorData<QueryBankAccountMoneyResponse>>()
+    let quoteActionErrorEvent = Event<TraderAsyncErrorData<QuoteActionResponse>>()
+    let quoteInsertErrorEvent = Event<TraderAsyncErrorData<InputQuoteResponse>>()
+    let spdApplyErrorEvent = Event<TraderAsyncErrorData<InputSpdApplyResponse>>()
+    let spdApplyActionErrorEvent = Event<TraderAsyncErrorData<SpdApplyActionResponse>>()
+    let repealBankToFutureByFutureManualErrorEvent = Event<TraderAsyncErrorData<RepealRequest>>()
+    let repealFutureToBankByFutureManualErrorEvent = Event<TraderAsyncErrorData<RepealRequest>>()
+    let orderInsertResponseEvent = Event<TraderCommandResponseData<InputOrderResponse>>()
+    let orderActionResponseEvent = Event<TraderCommandResponseData<InputOrderActionResponse>>()
+    let batchOrderActionResponseEvent = Event<TraderCommandResponseData<InputBatchOrderActionResponse>>()
+    let cancelOffsetSettingResponseEvent = Event<TraderCommandResponseData<InputOffsetSettingResponse>>()
+    let combActionInsertResponseEvent = Event<TraderCommandResponseData<InputCombActionResponse>>()
+    let execOrderActionResponseEvent = Event<TraderCommandResponseData<InputExecOrderActionResponse>>()
+    let execOrderInsertResponseEvent = Event<TraderCommandResponseData<InputExecOrderResponse>>()
+    let forQuoteInsertResponseEvent = Event<TraderCommandResponseData<InputForQuoteResponse>>()
+    let fromBankToFutureByFutureResponseEvent = Event<TraderCommandResponseData<TransferAckResponse>>()
+    let fromFutureToBankByFutureResponseEvent = Event<TraderCommandResponseData<TransferAckResponse>>()
+    let hedgeCfmResponseEvent = Event<TraderCommandResponseData<InputHedgeCfmResponse>>()
+    let hedgeCfmActionResponseEvent = Event<TraderCommandResponseData<InputHedgeCfmActionResponse>>()
+    let offsetSettingResponseEvent = Event<TraderCommandResponseData<InputOffsetSettingResponse>>()
+    let optionSelfCloseActionResponseEvent = Event<TraderCommandResponseData<InputOptionSelfCloseActionResponse>>()
+    let optionSelfCloseInsertResponseEvent = Event<TraderCommandResponseData<InputOptionSelfCloseResponse>>()
+    let quoteActionResponseEvent = Event<TraderCommandResponseData<InputQuoteActionResponse>>()
+    let quoteInsertResponseEvent = Event<TraderCommandResponseData<InputQuoteResponse>>()
+    let spdApplyResponseEvent = Event<TraderCommandResponseData<InputSpdApplyResponse>>()
+    let spdApplyActionResponseEvent = Event<TraderCommandResponseData<InputSpdApplyActionResponse>>()
     let api = new TraderApi(options.FlowPath, options.ProductionMode, encodings = bridgeEncodings)
     let requestFlow = FlowController(defaultArg flowControl CtpFlowControlOptions.Default, logger = logger)
+    let mutable configuredEndpoint = defaultArg endpoint (CtpEndpoint.Front options.FrontAddress)
+    let mutable fensUserInfo =
+        match configuredEndpoint with
+        | CtpEndpoint.NameServer(_, fens) -> fens
+        | CtpEndpoint.Front _ -> None
+
+    let triggerNotification (typedEvent: Event<'T>) (item: 'T) =
+        typedEvent.Trigger item
+        notificationEvent.Trigger(box item)
+
+    let validateFensUserInfo (request: FensUserInfoRequest) =
+        if String.IsNullOrWhiteSpace request.BrokerId then
+            invalidArg "BrokerId" "FENS broker id must not be empty."
+
+        if String.IsNullOrWhiteSpace request.UserId then
+            invalidArg "UserId" "FENS user id must not be empty."
+
+    let registerEndpoint () =
+        match configuredEndpoint with
+        | CtpEndpoint.Front address ->
+            if String.IsNullOrWhiteSpace address then
+                invalidArg (nameof options.FrontAddress) "Front address must not be empty."
+
+            api.RegisterFront(address)
+        | CtpEndpoint.NameServer(address, fens) ->
+            if String.IsNullOrWhiteSpace address then
+                invalidArg (nameof address) "NameServer address must not be empty."
+
+            api.RegisterNameServer(address)
+            fensUserInfo <- fens |> Option.orElse fensUserInfo
+            fensUserInfo
+            |> Option.iter (fun request ->
+                validateFensUserInfo request
+                api.RegisterFensUserInfo request
+                |> BridgeHelpers.throwOnNonZero
+                <| "ctp_trader_register_fens_user_info")
 
     let connectionCoordinator =
         ConnectionCoordinator(
             (fun () ->
-                api.RegisterFront(options.FrontAddress)
+                registerEndpoint ()
                 api.SubscribePrivateTopic(
                     defaultArg privateTopicResumeType ResumeTypeValidation.privateDefault,
                     defaultArg privateTopicSequenceNo 1
@@ -105,27 +309,97 @@ type TraderClient
 
                             pending.TryFail(requestId, info))
                 | CorrelatedResponse(completionPolicy, response, rspInfo, requestId, isLast) ->
-                    pending.TryHandleResponse(requestId, response, rspInfo, isLast, completionPolicy)
-                | OrderCommandResponse(operationName, rspInfo, requestId, isLast) when isLast ->
-                    rspInfo
-                    |> Option.filter (fun info -> info.ErrorId <> 0)
-                    |> Option.iter (fun info ->
-                        logger.LogError(
-                            "{OperationName} failed for request {RequestId}: [{ErrorId}] {ErrorMessage}",
-                            operationName,
-                            requestId,
-                            info.ErrorId,
-                            info.ErrorMessage
-                        )
+                    let operationName = pending.TryGetOperationName requestId |> Option.defaultValue "CorrelatedRequest"
+                    let callbackName = TraderCallbackNames.forOperation operationName
 
-                        rspErrorEvent.Trigger info)
+                    commandResponseEvent.Trigger
+                        { CallbackName = callbackName
+                          OperationName = operationName
+                          RequestId = requestId
+                          IsLast = isLast
+                          RspInfo = rspInfo
+                          Payload = response }
+
+                    pending.TryHandleResponse(requestId, response, rspInfo, isLast, completionPolicy)
+                | OrderCommandResponse(response, triggerTyped) ->
+                    commandResponseEvent.Trigger response
+                    triggerTyped ()
+
+                    if response.IsLast then
+                        response.RspInfo
+                        |> Option.filter (fun info -> info.ErrorId <> 0)
+                        |> Option.iter (fun info ->
+                            logger.LogError(
+                                "{OperationName} failed for request {RequestId}: [{ErrorId}] {ErrorMessage}",
+                                response.OperationName,
+                                response.RequestId,
+                                info.ErrorId,
+                                info.ErrorMessage
+                            )
+
+                            rspErrorEvent.Trigger info)
                 | PushNotification(TraderPushNotification.OrderReceived order) -> orderEvent.Trigger order
                 | PushNotification(TraderPushNotification.TradeReceived trade) -> tradeEvent.Trigger trade
-                | PushNotification(TraderPushNotification.GenericNotification item) -> notificationEvent.Trigger item
-                | AsyncErrorPush(item, rspInfo) ->
-                    asyncErrorEvent.Trigger(item, rspInfo)
-                    rspInfo |> Option.iter (fun info -> rspErrorEvent.Trigger info)
-                | _ -> ()
+                | PushNotification(TraderPushNotification.CombActionReceived item) ->
+                    triggerNotification combActionEvent item
+                | PushNotification(TraderPushNotification.ExecOrderReceived item) ->
+                    triggerNotification execOrderEvent item
+                | PushNotification(TraderPushNotification.ForQuoteRspReceived item) ->
+                    triggerNotification forQuoteRspEvent item
+                | PushNotification(TraderPushNotification.FromBankToFutureByFutureReceived item) ->
+                    triggerNotification fromBankToFutureByFutureEvent item
+                | PushNotification(TraderPushNotification.FromFutureToBankByFutureReceived item) ->
+                    triggerNotification fromFutureToBankByFutureEvent item
+                | PushNotification(TraderPushNotification.HedgeCfmReceived item) ->
+                    triggerNotification hedgeCfmEvent item
+                | PushNotification(TraderPushNotification.OffsetSettingReceived item) ->
+                    triggerNotification offsetSettingEvent item
+                | PushNotification(TraderPushNotification.OptionSelfCloseReceived item) ->
+                    triggerNotification optionSelfCloseEvent item
+                | PushNotification(TraderPushNotification.QueryBankBalanceByFutureReceived item) ->
+                    triggerNotification queryBankBalanceByFutureEvent item
+                | PushNotification(TraderPushNotification.QuoteReceived item) ->
+                    triggerNotification quoteEvent item
+                | PushNotification(TraderPushNotification.SpdApplyReceived item) ->
+                    triggerNotification spdApplyEvent item
+                | PushNotification(TraderPushNotification.InstrumentStatusReceived item) ->
+                    triggerNotification instrumentStatusEvent item
+                | PushNotification(TraderPushNotification.BulletinReceived item) ->
+                    triggerNotification bulletinEvent item
+                | PushNotification(TraderPushNotification.TradingNoticeReceived item) ->
+                    triggerNotification tradingNoticeEvent item
+                | PushNotification(TraderPushNotification.ErrorConditionalOrderReceived item) ->
+                    triggerNotification errorConditionalOrderEvent item
+                | PushNotification(TraderPushNotification.CfmmcTradingAccountTokenReceived item) ->
+                    triggerNotification cfmmcTradingAccountTokenEvent item
+                | PushNotification(TraderPushNotification.FromBankToFutureByBankReceived item) ->
+                    triggerNotification fromBankToFutureByBankEvent item
+                | PushNotification(TraderPushNotification.FromFutureToBankByBankReceived item) ->
+                    triggerNotification fromFutureToBankByBankEvent item
+                | PushNotification(TraderPushNotification.RepealFromBankToFutureByBankReceived item) ->
+                    triggerNotification repealFromBankToFutureByBankEvent item
+                | PushNotification(TraderPushNotification.RepealFromFutureToBankByBankReceived item) ->
+                    triggerNotification repealFromFutureToBankByBankEvent item
+                | PushNotification(TraderPushNotification.RepealFromBankToFutureByFutureManualReceived item) ->
+                    triggerNotification repealFromBankToFutureByFutureManualEvent item
+                | PushNotification(TraderPushNotification.RepealFromFutureToBankByFutureManualReceived item) ->
+                    triggerNotification repealFromFutureToBankByFutureManualEvent item
+                | PushNotification(TraderPushNotification.RepealFromBankToFutureByFutureReceived item) ->
+                    triggerNotification repealFromBankToFutureByFutureEvent item
+                | PushNotification(TraderPushNotification.RepealFromFutureToBankByFutureReceived item) ->
+                    triggerNotification repealFromFutureToBankByFutureEvent item
+                | PushNotification(TraderPushNotification.OpenAccountByBankReceived item) ->
+                    triggerNotification openAccountByBankEvent item
+                | PushNotification(TraderPushNotification.CancelAccountByBankReceived item) ->
+                    triggerNotification cancelAccountByBankEvent item
+                | PushNotification(TraderPushNotification.ChangeAccountByBankReceived item) ->
+                    triggerNotification changeAccountByBankEvent item
+                | AsyncErrorPush(detailed, triggerTyped) ->
+                    // Keep the old F# event payload shape: a boxed (payload, rspInfo option) tuple.
+                    asyncErrorEvent.Trigger(box (detailed.Payload, detailed.RspInfo))
+                    asyncErrorDetailedEvent.Trigger detailed
+                    triggerTyped ()
+                    detailed.RspInfo |> Option.iter (fun info -> rspErrorEvent.Trigger info)
 
                 return! loop ()
             }
@@ -135,8 +409,58 @@ type TraderClient
     let postCorrelatedResponse completionPolicy response rsp requestId isLast =
         agent.Post(CorrelatedResponse(completionPolicy, response |> Option.map box, rsp, requestId, isLast))
 
-    let postOrderCommandResponse operationName _ rsp requestId isLast =
-        agent.Post(OrderCommandResponse(operationName, rsp, requestId, isLast))
+    let postOrderCommandResponse
+        operationName
+        (typedEvent: Event<TraderCommandResponseData<'TPayload>>)
+        (payload: 'TPayload option)
+        rsp
+        requestId
+        isLast
+        =
+        let callbackName = TraderCallbackNames.forOperation operationName
+
+        let typed =
+            { CallbackName = callbackName
+              OperationName = operationName
+              RequestId = requestId
+              IsLast = isLast
+              RspInfo = rsp
+              Payload = payload }
+
+        agent.Post(
+            OrderCommandResponse(
+                { CallbackName = callbackName
+                  OperationName = operationName
+                  RequestId = requestId
+                  IsLast = isLast
+                  RspInfo = rsp
+                  Payload = payload |> Option.map box },
+                fun () -> typedEvent.Trigger typed
+            )
+        )
+
+    let asyncErrorPayload (item: 'T option) : obj =
+        item |> Option.map box |> Option.defaultValue (Unchecked.defaultof<obj>)
+
+    let postAsyncError
+        callbackName
+        (typedEvent: Event<TraderAsyncErrorData<'TPayload>>)
+        (payload: 'TPayload option)
+        rsp
+        =
+        let typed =
+            { CallbackName = callbackName
+              Payload = payload
+              RspInfo = rsp }
+
+        agent.Post(
+            AsyncErrorPush(
+                { CallbackName = callbackName
+                  Payload = asyncErrorPayload payload
+                  RspInfo = rsp },
+                fun () -> typedEvent.Trigger typed
+            )
+        )
 
     do
         api.SetCallbacks
@@ -158,8 +482,9 @@ type TraderClient
                 RspQryExchangeMarginRate = Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
                 RspQryInstrumentCommissionRate =
                     Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
-                RspOrderInsert = Some(postOrderCommandResponse "Order insert")
-                RspOrderAction = Some(postOrderCommandResponse "Order action")
+                RspOrderInsert = Some(postOrderCommandResponse "OrderInsert" orderInsertResponseEvent)
+                RspOrderAction =
+                    Some(postOrderCommandResponse TraderOperationNames.OrderAction orderActionResponseEvent)
                 RtnOrder = Some(fun order -> agent.Post(PushNotification(TraderPushNotification.OrderReceived order)))
                 RtnTrade = Some(fun trade -> agent.Post(PushNotification(TraderPushNotification.TradeReceived trade)))
                 RspQryAccountregister = Some(postCorrelatedResponse PendingResponseCompletionPolicy.StreamUntilLast)
@@ -278,105 +603,147 @@ type TraderClient
                 RspTradingAccountPasswordUpdate = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
                 UserAuthMethodResponse = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
                 RspUserPasswordUpdate = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
-                RspBatchOrderAction = Some(postOrderCommandResponse "BatchOrderActionResponse")
-                RspCancelOffsetSetting = Some(postOrderCommandResponse "CancelOffsetSettingResponse")
-                RspCombActionInsert = Some(postOrderCommandResponse "CombActionInsert")
-                RspExecOrderAction = Some(postOrderCommandResponse "ExecOrderActionResponse")
-                RspExecOrderInsert = Some(postOrderCommandResponse "ExecOrderInsert")
-                RspForQuoteInsert = Some(postOrderCommandResponse "ForQuoteInsert")
-                RspFromBankToFutureByFuture = Some(postOrderCommandResponse "FromBankToFutureByFuture")
-                RspFromFutureToBankByFuture = Some(postOrderCommandResponse "FromFutureToBankByFuture")
-                RspHedgeCfm = Some(postOrderCommandResponse "HedgeCfmResponse")
-                RspHedgeCfmAction = Some(postOrderCommandResponse "HedgeCfmActionResponse")
-                RspOffsetSetting = Some(postOrderCommandResponse "OffsetSettingResponse")
-                RspOptionSelfCloseAction = Some(postOrderCommandResponse "OptionSelfCloseActionResponse")
-                RspOptionSelfCloseInsert = Some(postOrderCommandResponse "OptionSelfCloseInsert")
+                RspBatchOrderAction =
+                    Some(postOrderCommandResponse TraderOperationNames.BatchOrderAction batchOrderActionResponseEvent)
+                RspCancelOffsetSetting =
+                    Some(postOrderCommandResponse TraderOperationNames.CancelOffsetSetting cancelOffsetSettingResponseEvent)
+                RspCombActionInsert =
+                    Some(postOrderCommandResponse "CombActionInsert" combActionInsertResponseEvent)
+                RspExecOrderAction =
+                    Some(postOrderCommandResponse TraderOperationNames.ExecOrderAction execOrderActionResponseEvent)
+                RspExecOrderInsert =
+                    Some(postOrderCommandResponse "ExecOrderInsert" execOrderInsertResponseEvent)
+                RspForQuoteInsert =
+                    Some(postOrderCommandResponse "ForQuoteInsert" forQuoteInsertResponseEvent)
+                RspFromBankToFutureByFuture =
+                    Some(postOrderCommandResponse "FromBankToFutureByFuture" fromBankToFutureByFutureResponseEvent)
+                RspFromFutureToBankByFuture =
+                    Some(postOrderCommandResponse "FromFutureToBankByFuture" fromFutureToBankByFutureResponseEvent)
+                RspHedgeCfm =
+                    Some(postOrderCommandResponse TraderOperationNames.HedgeCfm hedgeCfmResponseEvent)
+                RspHedgeCfmAction =
+                    Some(postOrderCommandResponse TraderOperationNames.HedgeCfmAction hedgeCfmActionResponseEvent)
+                RspOffsetSetting =
+                    Some(postOrderCommandResponse TraderOperationNames.OffsetSetting offsetSettingResponseEvent)
+                RspOptionSelfCloseAction =
+                    Some(
+                        postOrderCommandResponse
+                            TraderOperationNames.OptionSelfCloseAction
+                            optionSelfCloseActionResponseEvent
+                    )
+                RspOptionSelfCloseInsert =
+                    Some(postOrderCommandResponse "OptionSelfCloseInsert" optionSelfCloseInsertResponseEvent)
                 RspParkedOrderAction = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
                 RspParkedOrderInsert = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
                 RspQueryBankAccountMoneyByFuture =
                     Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
-                RspQuoteAction = Some(postOrderCommandResponse "QuoteActionResponse")
-                RspQuoteInsert = Some(postOrderCommandResponse "QuoteInsert")
+                RspQuoteAction =
+                    Some(postOrderCommandResponse TraderOperationNames.QuoteAction quoteActionResponseEvent)
+                RspQuoteInsert = Some(postOrderCommandResponse "QuoteInsert" quoteInsertResponseEvent)
                 RspRemoveParkedOrder = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
                 RspRemoveParkedOrderAction = Some(postCorrelatedResponse PendingResponseCompletionPolicy.FinalOnly)
-                RspSpdApply = Some(postOrderCommandResponse "SpdApplyResponse")
-                RspSpdApplyAction = Some(postOrderCommandResponse "SpdApplyActionResponse")
+                RspSpdApply =
+                    Some(postOrderCommandResponse TraderOperationNames.SpdApply spdApplyResponseEvent)
+                RspSpdApplyAction =
+                    Some(postOrderCommandResponse TraderOperationNames.SpdApplyAction spdApplyActionResponseEvent)
                 RtnCombAction =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.CombActionReceived item)))
                 RtnExecOrder =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.ExecOrderReceived item)))
                 RtnForQuoteRsp =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.ForQuoteRspReceived item)))
                 RtnFromBankToFutureByFuture =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.FromBankToFutureByFutureReceived item)))
                 RtnFromFutureToBankByFuture =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.FromFutureToBankByFutureReceived item)))
                 RtnHedgeCfm =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.HedgeCfmReceived item)))
                 RtnOffsetSetting =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.OffsetSettingReceived item)))
                 RtnOptionSelfClose =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.OptionSelfCloseReceived item)))
                 RtnQueryBankBalanceByFuture =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.QueryBankBalanceByFutureReceived item)))
                 RtnQuote =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.QuoteReceived item)))
                 RtnSpdApply =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.SpdApplyReceived item)))
                 RtnInstrumentStatus =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.InstrumentStatusReceived item)))
                 RtnBulletin =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.BulletinReceived item)))
                 RtnTradingNotice =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.TradingNoticeReceived item)))
                 RtnErrorConditionalOrder =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.ErrorConditionalOrderReceived item)))
                 RtnCfmmcTradingAccountToken =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.CfmmcTradingAccountTokenReceived item)))
                 RtnFromBankToFutureByBank =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.FromBankToFutureByBankReceived item)))
                 RtnFromFutureToBankByBank =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.FromFutureToBankByBankReceived item)))
                 RtnRepealFromBankToFutureByBank =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.RepealFromBankToFutureByBankReceived item)))
                 RtnRepealFromFutureToBankByBank =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.RepealFromFutureToBankByBankReceived item)))
                 RtnRepealFromBankToFutureByFutureManual =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.RepealFromBankToFutureByFutureManualReceived item)))
                 RtnRepealFromFutureToBankByFutureManual =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.RepealFromFutureToBankByFutureManualReceived item)))
                 RtnRepealFromBankToFutureByFuture =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.RepealFromBankToFutureByFutureReceived item)))
                 RtnRepealFromFutureToBankByFuture =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.RepealFromFutureToBankByFutureReceived item)))
                 RtnOpenAccountByBank =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.OpenAccountByBankReceived item)))
                 RtnCancelAccountByBank =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.CancelAccountByBankReceived item)))
                 RtnChangeAccountByBank =
-                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.GenericNotification(box item))))
-                ErrRtnRepealBankToFutureByFutureManual = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnRepealFutureToBankByFutureManual = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnBankToFutureByFuture = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnBatchOrderAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnCancelOffsetSetting = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnCombActionInsert = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnExecOrderAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnExecOrderInsert = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnForQuoteInsert = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnFutureToBankByFuture = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnHedgeCfm = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnHedgeCfmAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnOffsetSetting = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnOptionSelfCloseAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnOptionSelfCloseInsert = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnOrderAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnOrderInsert = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnQueryBankBalanceByFuture = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnQuoteAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnQuoteInsert = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnSpdApply = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp)))
-                ErrRtnSpdApplyAction = Some(fun item rsp -> agent.Post(AsyncErrorPush(box item, rsp))) }
+                    Some(fun item -> agent.Post(PushNotification(TraderPushNotification.ChangeAccountByBankReceived item)))
+                ErrRtnRepealBankToFutureByFutureManual =
+                    Some(postAsyncError "OnErrRtnRepealBankToFutureByFutureManual" repealBankToFutureByFutureManualErrorEvent)
+                ErrRtnRepealFutureToBankByFutureManual =
+                    Some(postAsyncError "OnErrRtnRepealFutureToBankByFutureManual" repealFutureToBankByFutureManualErrorEvent)
+                ErrRtnBankToFutureByFuture =
+                    Some(postAsyncError "OnErrRtnBankToFutureByFuture" bankToFutureByFutureErrorEvent)
+                ErrRtnBatchOrderAction =
+                    Some(postAsyncError "OnErrRtnBatchOrderAction" batchOrderActionErrorEvent)
+                ErrRtnCancelOffsetSetting =
+                    Some(postAsyncError "OnErrRtnCancelOffsetSetting" cancelOffsetSettingErrorEvent)
+                ErrRtnCombActionInsert =
+                    Some(postAsyncError "OnErrRtnCombActionInsert" combActionInsertErrorEvent)
+                ErrRtnExecOrderAction =
+                    Some(postAsyncError "OnErrRtnExecOrderAction" execOrderActionErrorEvent)
+                ErrRtnExecOrderInsert =
+                    Some(postAsyncError "OnErrRtnExecOrderInsert" execOrderInsertErrorEvent)
+                ErrRtnForQuoteInsert =
+                    Some(postAsyncError "OnErrRtnForQuoteInsert" forQuoteInsertErrorEvent)
+                ErrRtnFutureToBankByFuture =
+                    Some(postAsyncError "OnErrRtnFutureToBankByFuture" futureToBankByFutureErrorEvent)
+                ErrRtnHedgeCfm =
+                    Some(postAsyncError "OnErrRtnHedgeCfm" hedgeCfmErrorEvent)
+                ErrRtnHedgeCfmAction =
+                    Some(postAsyncError "OnErrRtnHedgeCfmAction" hedgeCfmActionErrorEvent)
+                ErrRtnOffsetSetting =
+                    Some(postAsyncError "OnErrRtnOffsetSetting" offsetSettingErrorEvent)
+                ErrRtnOptionSelfCloseAction =
+                    Some(postAsyncError "OnErrRtnOptionSelfCloseAction" optionSelfCloseActionErrorEvent)
+                ErrRtnOptionSelfCloseInsert =
+                    Some(postAsyncError "OnErrRtnOptionSelfCloseInsert" optionSelfCloseInsertErrorEvent)
+                ErrRtnOrderAction =
+                    Some(postAsyncError "OnErrRtnOrderAction" orderActionErrorEvent)
+                ErrRtnOrderInsert =
+                    Some(postAsyncError "OnErrRtnOrderInsert" orderInsertErrorEvent)
+                ErrRtnQueryBankBalanceByFuture =
+                    Some(postAsyncError "OnErrRtnQueryBankBalanceByFuture" queryBankBalanceByFutureErrorEvent)
+                ErrRtnQuoteAction =
+                    Some(postAsyncError "OnErrRtnQuoteAction" quoteActionErrorEvent)
+                ErrRtnQuoteInsert =
+                    Some(postAsyncError "OnErrRtnQuoteInsert" quoteInsertErrorEvent)
+                ErrRtnSpdApply =
+                    Some(postAsyncError "OnErrRtnSpdApply" spdApplyErrorEvent)
+                ErrRtnSpdApplyAction =
+                    Some(postAsyncError "OnErrRtnSpdApplyAction" spdApplyActionErrorEvent) }
 
     interface IDisposable with
         member _.Dispose() = (api :> IDisposable).Dispose()
@@ -388,8 +755,86 @@ type TraderClient
     member _.RspError = rspErrorEvent.Publish
     member _.OrderReceived = orderEvent.Publish
     member _.TradeReceived = tradeEvent.Publish
+    member _.CombActionReceived = combActionEvent.Publish
+    member _.ExecOrderReceived = execOrderEvent.Publish
+    member _.ForQuoteRspReceived = forQuoteRspEvent.Publish
+    member _.FromBankToFutureByFutureReceived = fromBankToFutureByFutureEvent.Publish
+    member _.FromFutureToBankByFutureReceived = fromFutureToBankByFutureEvent.Publish
+    member _.HedgeCfmReceived = hedgeCfmEvent.Publish
+    member _.OffsetSettingReceived = offsetSettingEvent.Publish
+    member _.OptionSelfCloseReceived = optionSelfCloseEvent.Publish
+    member _.QueryBankBalanceByFutureReceived = queryBankBalanceByFutureEvent.Publish
+    member _.QuoteReceived = quoteEvent.Publish
+    member _.SpdApplyReceived = spdApplyEvent.Publish
+    member _.InstrumentStatusReceived = instrumentStatusEvent.Publish
+    member _.BulletinReceived = bulletinEvent.Publish
+    member _.TradingNoticeReceived = tradingNoticeEvent.Publish
+    member _.ErrorConditionalOrderReceived = errorConditionalOrderEvent.Publish
+    member _.CfmmcTradingAccountTokenReceived = cfmmcTradingAccountTokenEvent.Publish
+    member _.FromBankToFutureByBankReceived = fromBankToFutureByBankEvent.Publish
+    member _.FromFutureToBankByBankReceived = fromFutureToBankByBankEvent.Publish
+    member _.RepealFromBankToFutureByBankReceived = repealFromBankToFutureByBankEvent.Publish
+    member _.RepealFromFutureToBankByBankReceived = repealFromFutureToBankByBankEvent.Publish
+    member _.RepealFromBankToFutureByFutureManualReceived = repealFromBankToFutureByFutureManualEvent.Publish
+    member _.RepealFromFutureToBankByFutureManualReceived = repealFromFutureToBankByFutureManualEvent.Publish
+    member _.RepealFromBankToFutureByFutureReceived = repealFromBankToFutureByFutureEvent.Publish
+    member _.RepealFromFutureToBankByFutureReceived = repealFromFutureToBankByFutureEvent.Publish
+    member _.OpenAccountByBankReceived = openAccountByBankEvent.Publish
+    member _.CancelAccountByBankReceived = cancelAccountByBankEvent.Publish
+    member _.ChangeAccountByBankReceived = changeAccountByBankEvent.Publish
+
+    member _.BankToFutureByFutureErrorReceived = bankToFutureByFutureErrorEvent.Publish
+    member _.BatchOrderActionErrorReceived = batchOrderActionErrorEvent.Publish
+    member _.CancelOffsetSettingErrorReceived = cancelOffsetSettingErrorEvent.Publish
+    member _.CombActionInsertErrorReceived = combActionInsertErrorEvent.Publish
+    member _.ExecOrderActionErrorReceived = execOrderActionErrorEvent.Publish
+    member _.ExecOrderInsertErrorReceived = execOrderInsertErrorEvent.Publish
+    member _.ForQuoteInsertErrorReceived = forQuoteInsertErrorEvent.Publish
+    member _.FutureToBankByFutureErrorReceived = futureToBankByFutureErrorEvent.Publish
+    member _.HedgeCfmErrorReceived = hedgeCfmErrorEvent.Publish
+    member _.HedgeCfmActionErrorReceived = hedgeCfmActionErrorEvent.Publish
+    member _.OffsetSettingErrorReceived = offsetSettingErrorEvent.Publish
+    member _.OptionSelfCloseActionErrorReceived = optionSelfCloseActionErrorEvent.Publish
+    member _.OptionSelfCloseInsertErrorReceived = optionSelfCloseInsertErrorEvent.Publish
+    member _.OrderActionErrorReceived = orderActionErrorEvent.Publish
+    member _.OrderInsertErrorReceived = orderInsertErrorEvent.Publish
+    member _.QueryBankBalanceByFutureErrorReceived = queryBankBalanceByFutureErrorEvent.Publish
+    member _.QuoteActionErrorReceived = quoteActionErrorEvent.Publish
+    member _.QuoteInsertErrorReceived = quoteInsertErrorEvent.Publish
+    member _.SpdApplyErrorReceived = spdApplyErrorEvent.Publish
+    member _.SpdApplyActionErrorReceived = spdApplyActionErrorEvent.Publish
+    member _.RepealBankToFutureByFutureManualErrorReceived = repealBankToFutureByFutureManualErrorEvent.Publish
+    member _.RepealFutureToBankByFutureManualErrorReceived = repealFutureToBankByFutureManualErrorEvent.Publish
+
+    member _.OrderInsertResponseReceived = orderInsertResponseEvent.Publish
+    member _.OrderActionResponseReceived = orderActionResponseEvent.Publish
+    member _.BatchOrderActionResponseReceived = batchOrderActionResponseEvent.Publish
+    member _.CancelOffsetSettingResponseReceived = cancelOffsetSettingResponseEvent.Publish
+    member _.CombActionInsertResponseReceived = combActionInsertResponseEvent.Publish
+    member _.ExecOrderActionResponseReceived = execOrderActionResponseEvent.Publish
+    member _.ExecOrderInsertResponseReceived = execOrderInsertResponseEvent.Publish
+    member _.ForQuoteInsertResponseReceived = forQuoteInsertResponseEvent.Publish
+    member _.FromBankToFutureByFutureResponseReceived = fromBankToFutureByFutureResponseEvent.Publish
+    member _.FromFutureToBankByFutureResponseReceived = fromFutureToBankByFutureResponseEvent.Publish
+    member _.HedgeCfmResponseReceived = hedgeCfmResponseEvent.Publish
+    member _.HedgeCfmActionResponseReceived = hedgeCfmActionResponseEvent.Publish
+    member _.OffsetSettingResponseReceived = offsetSettingResponseEvent.Publish
+    member _.OptionSelfCloseActionResponseReceived = optionSelfCloseActionResponseEvent.Publish
+    member _.OptionSelfCloseInsertResponseReceived = optionSelfCloseInsertResponseEvent.Publish
+    member _.QuoteActionResponseReceived = quoteActionResponseEvent.Publish
+    member _.QuoteInsertResponseReceived = quoteInsertResponseEvent.Publish
+    member _.SpdApplyResponseReceived = spdApplyResponseEvent.Publish
+    member _.SpdApplyActionResponseReceived = spdApplyActionResponseEvent.Publish
+
+    [<Obsolete("Use the callback-specific strongly typed notification events.")>]
     member _.NotificationReceived = notificationEvent.Publish
+
+    [<Obsolete("Use the callback-specific strongly typed error events.")>]
     member _.AsyncErrorReceived = asyncErrorEvent.Publish
+    [<Obsolete("Use the callback-specific strongly typed error events.")>]
+    member _.AsyncErrorDetailedReceived = asyncErrorDetailedEvent.Publish
+    [<Obsolete("Use the callback-specific strongly typed command response events.")>]
+    member _.CommandResponseReceived = commandResponseEvent.Publish
 
     member _.Connect(?timeout: TimeSpan) =
         match timeout with
@@ -451,49 +896,24 @@ type TraderClient
             return! executeAttempt 0
         }
 
-    member private _.RunCommandAsync
+    member private _.RunCommandTryAsync
+        (operationName: string)
+        (apiCall: int -> int)
+        : Async<Result<int, RspInfo>>
+        =
+        CommandDispatch.runAsync operationName nextRequestId requestFlow logger apiCall
+
+    member private this.RunCommandAsync
         (operationName: string)
         (apiCall: int -> int)
         : Async<int>
         =
         async {
-            let! cancellationToken = Async.CancellationToken
+            let! result = this.RunCommandTryAsync operationName apiCall
 
-            let rec executeAttempt attempt = async {
-                do!
-                    requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
-                    |> Async.AwaitTask
-
-                logger.LogDebug("Sending {OperationName} request", operationName)
-
-                let requestId = nextRequestId ()
-                let result = apiCall requestId
-
-                if result <> 0 then
-                    if requestFlow.ShouldRetryNativeReturnCode(attempt, result) then
-                        do!
-                            requestFlow.DelayBeforeNativeRetryAsync(
-                                operationName,
-                                attempt + 1,
-                                result,
-                                cancellationToken = cancellationToken
-                            )
-                            |> Async.AwaitTask
-
-                        return! executeAttempt (attempt + 1)
-                    else
-                        logger.LogError(
-                            "{OperationName} request failed with native return code {ReturnCode}",
-                            operationName,
-                            result
-                        )
-
-                        return requestId
-                else
-                    return requestId
-            }
-
-            return! executeAttempt 0
+            match result with
+            | Ok requestId -> return requestId
+            | Error info -> return raise (NativeRequestException(operationName, info.ErrorId))
         }
 
     member private _.QueryAsync<'TItem, 'TRequest>
@@ -713,9 +1133,21 @@ type TraderClient
 
     // ---- Connection configuration (call before Connect) ----
 
-    member _.RegisterNameServer(nsAddress: string) = api.RegisterNameServer(nsAddress)
+    member _.RegisterNameServer(nsAddress: string) =
+        if String.IsNullOrWhiteSpace nsAddress then
+            invalidArg (nameof nsAddress) "NameServer address must not be empty."
 
-    member _.RegisterFensUserInfo(request: FensUserInfoRequest) = api.RegisterFensUserInfo(request)
+        api.RegisterNameServer(nsAddress)
+        configuredEndpoint <- CtpEndpoint.NameServer(nsAddress, fensUserInfo)
+
+    member _.RegisterFensUserInfo(request: FensUserInfoRequest) =
+        validateFensUserInfo request
+        let result = api.RegisterFensUserInfo request
+
+        if result = 0 then
+            fensUserInfo <- Some request
+
+        result
 
     // ---- Regulatory / system-info methods ----
 
@@ -924,28 +1356,43 @@ type TraderClient
 
     // ---- Order insertion and action ----
 
+    member this.TryInsertOrderAsync(request: InputOrderRequest) =
+        this.RunCommandTryAsync "OrderInsert" (fun requestId -> api.ReqOrderInsert(request, requestId))
+
     member this.InsertOrderAsync(request: InputOrderRequest) =
         this.RunCommandAsync "OrderInsert" (fun requestId -> api.ReqOrderInsert(request, requestId))
 
+    member this.TryCancelOrderAsync(request: InputOrderActionRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.OrderAction
+            (fun requestId -> api.ReqOrderAction(request, requestId))
+
     member this.CancelOrderAsync(request: InputOrderActionRequest) =
         this.RunCommandAsync
-            "OrderActionResponse"
+            TraderOperationNames.OrderAction
             (fun requestId -> api.ReqOrderAction(request, requestId))
-           
 
     // ---- Execution / quote / hedge / combination command methods ----
+
+    member this.TryReqExecOrderInsertAsync(request: InputExecOrderRequest) =
+        this.RunCommandTryAsync
+            "ExecOrderInsert"
+            (fun requestId -> api.ReqExecOrderInsert(request, requestId))
 
     member this.ReqExecOrderInsertAsync(request: InputExecOrderRequest) =
         this.RunCommandAsync
             "ExecOrderInsert"
             (fun requestId -> api.ReqExecOrderInsert(request, requestId))
-           
+
+    member this.TryReqExecOrderActionAsync(request: InputExecOrderActionRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.ExecOrderAction
+            (fun requestId -> api.ReqExecOrderAction(request, requestId))
 
     member this.ReqExecOrderActionAsync(request: InputExecOrderActionRequest) =
         this.RunCommandAsync
-            "ExecOrderActionResponse"
+            TraderOperationNames.ExecOrderAction
             (fun requestId -> api.ReqExecOrderAction(request, requestId))
-           
 
     member this.ReqForQuoteInsertAsync
         (instrumentId: string, ?exchangeId: string)
@@ -966,16 +1413,42 @@ type TraderClient
         this.RunCommandAsync
             "ForQuoteInsert"
             (fun requestId -> api.ReqForQuoteInsert(request, requestId))
-           
+
+    member this.TryReqForQuoteInsertAsync
+        (instrumentId: string, ?exchangeId: string)
+        =
+        let request: InputForQuoteRequest =
+            { BrokerId = options.BrokerId
+              InvestorId = options.UserId
+              Reserve1 = None
+              ForQuoteRef = None
+              UserId = None
+              ExchangeId = exchangeId
+              InvestUnitId = None
+              Reserve2 = None
+              MacAddress = None
+              InstrumentId = instrumentId
+              IpAddress = None }
+
+        this.RunCommandTryAsync
+            "ForQuoteInsert"
+            (fun requestId -> api.ReqForQuoteInsert(request, requestId))
+
+    member this.TryReqQuoteInsertAsync(request: InputQuoteRequest) =
+        this.RunCommandTryAsync "QuoteInsert" (fun requestId -> api.ReqQuoteInsert(request, requestId))
 
     member this.ReqQuoteInsertAsync(request: InputQuoteRequest) =
         this.RunCommandAsync "QuoteInsert" (fun requestId -> api.ReqQuoteInsert(request, requestId))
 
+    member this.TryReqQuoteActionAsync(request: InputQuoteActionRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.QuoteAction
+            (fun requestId -> api.ReqQuoteAction(request, requestId))
+
     member this.ReqQuoteActionAsync(request: InputQuoteActionRequest) =
         this.RunCommandAsync
-            "QuoteActionResponse"
+            TraderOperationNames.QuoteAction
             (fun requestId -> api.ReqQuoteAction(request, requestId))
-           
 
     member this.ReqBatchOrderActionAsync
         (frontId: int, sessionId: int, ?exchangeId: string)
@@ -995,9 +1468,34 @@ type TraderClient
               IpAddress = None }
 
         this.RunCommandAsync
-            "BatchOrderActionResponse"
+            TraderOperationNames.BatchOrderAction
             (fun requestId -> api.ReqBatchOrderAction(request, requestId))
-           
+
+    member this.TryReqBatchOrderActionAsync
+        (frontId: int, sessionId: int, ?exchangeId: string)
+        =
+        let request: InputBatchOrderActionRequest =
+            { BrokerId = Some options.BrokerId
+              InvestorId = options.UserId
+              OrderActionRef = 0
+              RequestId = 0
+              FrontId = frontId
+              SessionId = sessionId
+              ExchangeId = exchangeId
+              UserId = None
+              InvestUnitId = None
+              Reserve1 = None
+              MacAddress = None
+              IpAddress = None }
+
+        this.RunCommandTryAsync
+            TraderOperationNames.BatchOrderAction
+            (fun requestId -> api.ReqBatchOrderAction(request, requestId))
+
+    member this.TryReqOptionSelfCloseInsertAsync(request: InputOptionSelfCloseRequest) =
+        this.RunCommandTryAsync
+            "OptionSelfCloseInsert"
+            (fun requestId -> api.ReqOptionSelfCloseInsert(request, requestId))
 
     member this.ReqOptionSelfCloseInsertAsync
         (request: InputOptionSelfCloseRequest)
@@ -1005,49 +1503,80 @@ type TraderClient
         this.RunCommandAsync
             "OptionSelfCloseInsert"
             (fun requestId -> api.ReqOptionSelfCloseInsert(request, requestId))
-           
+
+    member this.TryReqOptionSelfCloseActionAsync(request: InputOptionSelfCloseActionRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.OptionSelfCloseAction
+            (fun requestId -> api.ReqOptionSelfCloseAction(request, requestId))
 
     member this.ReqOptionSelfCloseActionAsync
         (request: InputOptionSelfCloseActionRequest)
         =
         this.RunCommandAsync
-            "OptionSelfCloseActionResponse"
+            TraderOperationNames.OptionSelfCloseAction
             (fun requestId -> api.ReqOptionSelfCloseAction(request, requestId))
-           
+
+    member this.TryReqCombActionInsertAsync(request: InputCombActionRequest) =
+        this.RunCommandTryAsync
+            "CombActionInsert"
+            (fun requestId -> api.ReqCombActionInsert(request, requestId))
 
     member this.ReqCombActionInsertAsync(request: InputCombActionRequest) =
         this.RunCommandAsync
             "CombActionInsert"
             (fun requestId -> api.ReqCombActionInsert(request, requestId))
-           
+
+    member this.TryReqOffsetSettingAsync(request: InputOffsetSettingRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.OffsetSetting
+            (fun requestId -> api.ReqOffsetSetting(request, requestId))
 
     member this.ReqOffsetSettingAsync(request: InputOffsetSettingRequest) =
         this.RunCommandAsync
-            "OffsetSettingResponse"
+            TraderOperationNames.OffsetSetting
             (fun requestId -> api.ReqOffsetSetting(request, requestId))
-           
+
+    member this.TryReqCancelOffsetSettingAsync(request: InputOffsetSettingRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.CancelOffsetSetting
+            (fun requestId -> api.ReqCancelOffsetSetting(request, requestId))
 
     member this.ReqCancelOffsetSettingAsync(request: InputOffsetSettingRequest) =
         this.RunCommandAsync
-            "CancelOffsetSettingResponse"
+            TraderOperationNames.CancelOffsetSetting
             (fun requestId -> api.ReqCancelOffsetSetting(request, requestId))
-           
+
+    member this.TryReqSpdApplyAsync(request: InputSpdApplyRequest) =
+        this.RunCommandTryAsync TraderOperationNames.SpdApply (fun requestId -> api.ReqSpdApply(request, requestId))
 
     member this.ReqSpdApplyAsync(request: InputSpdApplyRequest) =
-        this.RunCommandAsync "SpdApplyResponse" (fun requestId -> api.ReqSpdApply(request, requestId))
+        this.RunCommandAsync TraderOperationNames.SpdApply (fun requestId -> api.ReqSpdApply(request, requestId))
+
+    member this.TryReqSpdApplyActionAsync(request: InputSpdApplyActionRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.SpdApplyAction
+            (fun requestId -> api.ReqSpdApplyAction(request, requestId))
 
     member this.ReqSpdApplyActionAsync(request: InputSpdApplyActionRequest) =
         this.RunCommandAsync
-            "SpdApplyActionResponse"
+            TraderOperationNames.SpdApplyAction
             (fun requestId -> api.ReqSpdApplyAction(request, requestId))
            
 
+    member this.TryReqHedgeCfmAsync(request: InputHedgeCfmRequest) =
+        this.RunCommandTryAsync TraderOperationNames.HedgeCfm (fun requestId -> api.ReqHedgeCfm(request, requestId))
+
     member this.ReqHedgeCfmAsync(request: InputHedgeCfmRequest) =
-        this.RunCommandAsync "HedgeCfmResponse" (fun requestId -> api.ReqHedgeCfm(request, requestId))
+        this.RunCommandAsync TraderOperationNames.HedgeCfm (fun requestId -> api.ReqHedgeCfm(request, requestId))
+
+    member this.TryReqHedgeCfmActionAsync(request: InputHedgeCfmActionRequest) =
+        this.RunCommandTryAsync
+            TraderOperationNames.HedgeCfmAction
+            (fun requestId -> api.ReqHedgeCfmAction(request, requestId))
 
     member this.ReqHedgeCfmActionAsync(request: InputHedgeCfmActionRequest) =
         this.RunCommandAsync
-            "HedgeCfmActionResponse"
+            TraderOperationNames.HedgeCfmAction
             (fun requestId -> api.ReqHedgeCfmAction(request, requestId))
            
 
@@ -1103,11 +1632,21 @@ type TraderClient
 
     // ---- Bank transfer methods ----
 
+    member this.TryFromBankToFutureByFutureAsync(request: TransferRequest) =
+        this.RunCommandTryAsync
+            "FromBankToFutureByFuture"
+            (fun requestId -> api.ReqFromBankToFutureByFuture(request, requestId))
+
     member this.FromBankToFutureByFutureAsync(request: TransferRequest) =
         this.RunCommandAsync
             "FromBankToFutureByFuture"
             (fun requestId -> api.ReqFromBankToFutureByFuture(request, requestId))
            
+
+    member this.TryFromFutureToBankByFutureAsync(request: TransferRequest) =
+        this.RunCommandTryAsync
+            "FromFutureToBankByFuture"
+            (fun requestId -> api.ReqFromFutureToBankByFuture(request, requestId))
 
     member this.FromFutureToBankByFutureAsync(request: TransferRequest) =
         this.RunCommandAsync
@@ -1577,7 +2116,7 @@ type TraderClient
               AccountId = accountId }
 
         this.QueryAsync<TradingAccountResponse, QueryTradingAccountRequest>
-            (nameof QueryTradingAccountRequest)
+            "QuerySecAgentTradingAccountRequest"
             request
             api.ReqQrySecAgentTradingAccount
            

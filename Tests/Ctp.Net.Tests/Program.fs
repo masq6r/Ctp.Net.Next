@@ -5,6 +5,7 @@ open System
 open Ctp.Net.Next
 open System.Text
 open Ctp.Net.Next.Bridge
+open Ctp.Net.Next.CSharp
 open System.Threading
 open System.Threading.Tasks
 open System.Collections.Generic
@@ -1072,14 +1073,14 @@ type ClientCancellationApiTests() =
 
     [<Fact>]
     member _.``md login uses ambient cancellation token``() =
-        let compileOnly: MdClient -> Async<Result<UserLoginResponse, RspInfo>> =
+        let compileOnly: Ctp.Net.Next.MdClient -> Async<Result<UserLoginResponse, RspInfo>> =
             fun client -> client.LoginAsync()
 
         Assert.NotNull(box compileOnly)
 
     [<Fact>]
     member _.``trader query uses ambient cancellation token``() =
-        let compileOnly: TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
+        let compileOnly: Ctp.Net.Next.TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
             fun client -> client.QueryTradingAccountAsync("CNY")
 
         Assert.NotNull(box compileOnly)
@@ -1379,3 +1380,454 @@ type LoggingTests() =
         coordinator.HandleFrontConnected()
         task.GetAwaiter().GetResult() |> Helper.assertOk
 // No exception thrown = pass
+
+
+type CommandDispatchTests() =
+
+    let testFlow delay retries =
+        FlowController(
+            { CtpFlowControlOptions.Default with
+                MaxDispatchesPerSecond = 0
+                MaxNativeReturnCodeRetries = retries
+                NativeReturnCodeRetryDelay = delay }
+        )
+
+    [<Fact>]
+    member _.``accepted native command returns the accepted request id``() =
+        let requestIds = ResizeArray<int>()
+        let flow = testFlow TimeSpan.Zero 0
+
+        let result =
+            CommandDispatch.runAsync
+                "TestCommand"
+                (fun () -> 42)
+                flow
+                (Microsoft.Extensions.Logging.Abstractions.NullLogger.Instance :> ILogger)
+                (fun requestId ->
+                    requestIds.Add requestId
+                    0)
+            |> Async.RunSynchronously
+
+        Assert.Equal(Ok 42, result)
+        Assert.Equal<int list>([ 42 ], List.ofSeq requestIds)
+
+    [<Fact>]
+    member _.``nonretryable native command returns the final error``() =
+        let flow = testFlow TimeSpan.Zero 3
+
+        let result =
+            CommandDispatch.runAsync
+                "TestCommand"
+                (fun () -> 7)
+                flow
+                (Microsoft.Extensions.Logging.Abstractions.NullLogger.Instance :> ILogger)
+                (fun _ -> -9)
+            |> Async.RunSynchronously
+
+        match result with
+        | Error error ->
+            Assert.Equal(-9, error.ErrorId)
+            Assert.Contains("-9", error.ErrorMessage)
+        | Ok requestId -> failwith $"Expected native error, got accepted request id {requestId}."
+
+    [<Fact>]
+    member _.``retryable native returns use a new request id and return the accepted id``() =
+        let requestIds = ResizeArray<int>()
+        let returnCodes = [| -2; -3; 0 |]
+        let attempt = ref 0
+        let flow = testFlow TimeSpan.Zero 3
+
+        let result =
+            CommandDispatch.runAsync
+                "TestCommand"
+                (let next = ref 100
+                 fun () ->
+                     let value = !next
+                     next := value + 1
+                     value)
+                flow
+                (Microsoft.Extensions.Logging.Abstractions.NullLogger.Instance :> ILogger)
+                (fun requestId ->
+                    requestIds.Add requestId
+                    let current = returnCodes[!attempt]
+                    attempt := !attempt + 1
+                    current)
+            |> Async.RunSynchronously
+
+        Assert.Equal(Ok 102, result)
+        Assert.Equal<int list>([ 100; 101; 102 ], List.ofSeq requestIds)
+
+    [<Fact>]
+    member _.``cancellation interrupts native retry delay``() =
+        let flow = testFlow (TimeSpan.FromSeconds 1.) 3
+        use cts = new CancellationTokenSource()
+        cts.CancelAfter 50
+
+        let work =
+            CommandDispatch.runAsync
+                "TestCommand"
+                (fun () -> 1)
+                flow
+                (Microsoft.Extensions.Logging.Abstractions.NullLogger.Instance :> ILogger)
+                (fun _ -> -2)
+
+        Assert.Throws<TaskCanceledException>(fun () ->
+            Async.StartAsTask(work, cancellationToken = cts.Token).GetAwaiter().GetResult() |> ignore)
+        |> ignore
+
+    [<Fact>]
+    member _.``CSharp command wrapper maps native dispatch errors``() =
+        let computation = async { return raise (NativeRequestException("TestCommand", -9)) }
+
+        let nativeException =
+            Assert.Throws<CtpNativeException>(fun () ->
+                CSharpHelpers.startCommandAsync CancellationToken.None computation
+                |> fun task -> task.GetAwaiter().GetResult()
+                |> ignore)
+
+        Assert.Equal(-9, nativeException.ReturnCode)
+        Assert.Contains("TestCommand", nativeException.Message)
+
+
+type CallbackSemanticTests() =
+
+    [<Theory>]
+    [<InlineData("LoginWithCaptcha", "OnRspUserLogin")>]
+    [<InlineData("ParkedOrderRequest", "OnRspParkedOrderInsert")>]
+    [<InlineData("QryCfmmcTradingAccountKeyRequest", "OnRspQryCFMMCTradingAccountKey")>]
+    [<InlineData("QryInvestorProdSpbmDetailRequest", "OnRspQryInvestorProdSPBMDetail")>]
+    [<InlineData("QrySecAgentAcIdMapRequest", "OnRspQrySecAgentACIDMap")>]
+    [<InlineData("QuerySecAgentTradingAccountRequest", "OnRspQrySecAgentTradingAccount")>]
+    [<InlineData("QueryCfmmcTradingAccountToken", "OnRspQueryCFMMCTradingAccountToken")>]
+    [<InlineData("QueryCfmmcTradingAccountTokenRequest", "OnRspQueryCFMMCTradingAccountToken")>]
+    member _.``correlated operation names preserve official callback spelling``(operationName: string, expected: string) =
+        Assert.Equal(expected, TraderCallbackNames.forOperation operationName)
+
+    [<Theory>]
+    [<InlineData(TraderOperationNames.OrderAction, "OnRspOrderAction")>]
+    [<InlineData(TraderOperationNames.BatchOrderAction, "OnRspBatchOrderAction")>]
+    [<InlineData(TraderOperationNames.CancelOffsetSetting, "OnRspCancelOffsetSetting")>]
+    [<InlineData(TraderOperationNames.ExecOrderAction, "OnRspExecOrderAction")>]
+    [<InlineData(TraderOperationNames.HedgeCfm, "OnRspHedgeCfm")>]
+    [<InlineData(TraderOperationNames.HedgeCfmAction, "OnRspHedgeCfmAction")>]
+    [<InlineData(TraderOperationNames.OffsetSetting, "OnRspOffsetSetting")>]
+    [<InlineData(TraderOperationNames.OptionSelfCloseAction, "OnRspOptionSelfCloseAction")>]
+    [<InlineData(TraderOperationNames.QuoteAction, "OnRspQuoteAction")>]
+    [<InlineData(TraderOperationNames.SpdApply, "OnRspSpdApply")>]
+    [<InlineData(TraderOperationNames.SpdApplyAction, "OnRspSpdApplyAction")>]
+    member _.``command operation identities map to matching callbacks``(operationName: string, expected: string) =
+        Assert.Equal(expected, TraderCallbackNames.forOperation operationName)
+
+    [<Fact>]
+    member _.``detailed async error keeps callback payload and optional rsp info``() =
+        let rspInfo =
+            { ErrorId = 17
+              ErrorMessage = "order rejected"
+              RawErrorMessage = [| 111uy |] }
+
+        let payload = box "order"
+        let error: TraderAsyncError =
+            { CallbackName = "OnErrRtnOrderInsert"
+              Payload = payload
+              RspInfo = Some rspInfo }
+
+        Assert.Equal("OnErrRtnOrderInsert", error.CallbackName)
+        Assert.Same(payload, error.Payload)
+        Assert.Equal(Some rspInfo, error.RspInfo)
+
+        let legacyPayload = box (error.Payload, error.RspInfo)
+        let legacyItem, legacyRsp = unbox<obj * RspInfo option> legacyPayload
+        Assert.Same(payload, legacyItem)
+        Assert.Equal(Some rspInfo, legacyRsp)
+
+    [<Fact>]
+    member _.``command response retains callback identity payload and completion flag``() =
+        let payload = box "input order"
+
+        let response: TraderCommandResponse =
+            { CallbackName = "OnRspOrderInsert"
+              OperationName = "OrderInsert"
+              RequestId = 23
+              IsLast = true
+              RspInfo = None
+              Payload = Some payload }
+
+        Assert.Equal("OnRspOrderInsert", response.CallbackName)
+        Assert.Equal("OrderInsert", response.OperationName)
+        Assert.Equal(23, response.RequestId)
+        Assert.True(response.IsLast)
+        Assert.Same(payload, response.Payload.Value)
+
+
+type CSharpProjectionTests() =
+
+    let options = CtpOptions.Create("tcp://front", "9999", "demo", "secret")
+
+    [<Fact>]
+    member _.``CSharp MD auto resubscribe defaults to true and accepts explicit false``() =
+        let constructors = typeof<Ctp.Net.Next.CSharp.MdClient>.GetConstructors()
+
+        let autoResubscribeParameters =
+            constructors
+            |> Seq.collect (fun constructorInfo -> constructorInfo.GetParameters())
+            |> Seq.filter (fun parameter -> parameter.Name = "autoResubscribe")
+            |> Seq.toList
+
+        Assert.NotEmpty(autoResubscribeParameters)
+
+        for parameter in autoResubscribeParameters do
+            Assert.True(parameter.IsOptional)
+            Assert.True(unbox<bool> parameter.DefaultValue)
+
+        let configuration = MdClientOptions.FromFront(options)
+        configuration.AutoResubscribe <- false
+        Assert.False(configuration.AutoResubscribe)
+
+    [<Fact>]
+    member _.``CSharp client options compose NameServer FENS and advanced settings``() =
+        let fens =
+            { BrokerId = "9999"
+              UserId = "demo"
+              LoginMode = None }
+
+        let md = MdClientOptions.FromNameServer(options, "tcp://name-server", fens)
+        md.Encodings <- CtpEncodingOptions.Default
+        md.FlowControl <- CtpFlowControlOptions.Default
+        md.UseUdp <- true
+        md.UseMulticast <- true
+        md.AutoResubscribe <- false
+
+        match md.Endpoint with
+        | CtpEndpoint.NameServer(address, Some actualFens) ->
+            Assert.Equal("tcp://name-server", address)
+            Assert.Equal(fens, actualFens)
+        | endpoint -> failwith $"Expected NameServer endpoint, got {endpoint}."
+
+        Assert.Equal(CtpEncodingOptions.Default.OutboundEncoding.WebName, md.Encodings.OutboundEncoding.WebName)
+        Assert.Equal(CtpFlowControlOptions.Default, md.FlowControl)
+        Assert.True(md.UseUdp)
+        Assert.True(md.UseMulticast)
+        Assert.False(md.AutoResubscribe)
+
+        let trader = TraderClientOptions.FromNameServer(options, "tcp://name-server", fens)
+        trader.Encodings <- CtpEncodingOptions.Default
+        trader.FlowControl <- CtpFlowControlOptions.Default
+        trader.PrivateTopicResumeType <- Nullable ResumeType.Quick
+        trader.PrivateTopicSequenceNo <- Nullable 42
+
+        match trader.Endpoint with
+        | CtpEndpoint.NameServer(address, Some actualFens) ->
+            Assert.Equal("tcp://name-server", address)
+            Assert.Equal(fens, actualFens)
+        | endpoint -> failwith $"Expected NameServer endpoint, got {endpoint}."
+
+        Assert.Equal(ResumeType.Quick, trader.PrivateTopicResumeType.Value)
+        Assert.Equal(42, trader.PrivateTopicSequenceNo.Value)
+
+    [<Fact>]
+    member _.``every Trader Rtn callback has matching strongly typed FSharp and CSharp events``() =
+        let rtnCallbacks =
+            Microsoft.FSharp.Reflection.FSharpType.GetRecordFields(typeof<TraderCallbacks>)
+            |> Array.filter (fun field -> field.Name.StartsWith("Rtn", StringComparison.Ordinal))
+
+        Assert.Equal(30, rtnCallbacks.Length)
+
+        for callback in rtnCallbacks do
+            let eventName = $"{callback.Name.Substring(3)}Received"
+
+            let callbackFunctionType = callback.PropertyType.GetGenericArguments().[0]
+            let expectedPayloadType = callbackFunctionType.GetGenericArguments().[0]
+
+            let fsharpEvent = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            Assert.NotNull(fsharpEvent)
+
+            let fsharpPayloadType = fsharpEvent.PropertyType.GetGenericArguments() |> Array.last
+            Assert.Equal(expectedPayloadType, fsharpPayloadType)
+
+            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            Assert.NotNull(csharpEvent)
+
+            let csharpPayloadType = csharpEvent.EventHandlerType.GetGenericArguments() |> Array.last
+            Assert.Equal(expectedPayloadType, csharpPayloadType)
+
+    [<Fact>]
+    member _.``every Trader ErrRtn callback has matching strongly typed FSharp and CSharp events``() =
+        let errorCallbacks =
+            Microsoft.FSharp.Reflection.FSharpType.GetRecordFields(typeof<TraderCallbacks>)
+            |> Array.filter (fun field -> field.Name.StartsWith("ErrRtn", StringComparison.Ordinal))
+
+        Assert.Equal(22, errorCallbacks.Length)
+
+        for callback in errorCallbacks do
+            let eventName = $"{callback.Name.Substring(6)}ErrorReceived"
+            let callbackFunctionType = callback.PropertyType.GetGenericArguments().[0]
+            let payloadOptionType = callbackFunctionType.GetGenericArguments().[0]
+            let expectedPayloadType = payloadOptionType.GetGenericArguments().[0]
+
+            let fsharpEvent = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            Assert.NotNull(fsharpEvent)
+
+            let fsharpDataType = fsharpEvent.PropertyType.GetGenericArguments() |> Array.last
+            Assert.Equal(typedefof<TraderAsyncErrorData<_>>, fsharpDataType.GetGenericTypeDefinition())
+            Assert.Equal(expectedPayloadType, fsharpDataType.GetGenericArguments().[0])
+
+            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            Assert.NotNull(csharpEvent)
+
+            let csharpDataType = csharpEvent.EventHandlerType.GetGenericArguments() |> Array.last
+            Assert.Equal(typedefof<TraderAsyncErrorEventArgs<_>>, csharpDataType.GetGenericTypeDefinition())
+            Assert.Equal(expectedPayloadType, csharpDataType.GetGenericArguments().[0])
+
+    [<Fact>]
+    member _.``every Trader command response callback has matching strongly typed FSharp and CSharp events``() =
+        let callbackNames =
+            [| "RspOrderInsert"
+               "RspOrderAction"
+               "RspBatchOrderAction"
+               "RspCancelOffsetSetting"
+               "RspCombActionInsert"
+               "RspExecOrderAction"
+               "RspExecOrderInsert"
+               "RspForQuoteInsert"
+               "RspFromBankToFutureByFuture"
+               "RspFromFutureToBankByFuture"
+               "RspHedgeCfm"
+               "RspHedgeCfmAction"
+               "RspOffsetSetting"
+               "RspOptionSelfCloseAction"
+               "RspOptionSelfCloseInsert"
+               "RspQuoteAction"
+               "RspQuoteInsert"
+               "RspSpdApply"
+               "RspSpdApplyAction" |]
+
+        let callbacks =
+            Microsoft.FSharp.Reflection.FSharpType.GetRecordFields(typeof<TraderCallbacks>)
+            |> Array.filter (fun field -> Array.contains field.Name callbackNames)
+
+        Assert.Equal(callbackNames.Length, callbacks.Length)
+
+        for callback in callbacks do
+            let eventName = $"{callback.Name.Substring(3)}ResponseReceived"
+            let callbackFunctionType = callback.PropertyType.GetGenericArguments().[0]
+            let payloadOptionType = callbackFunctionType.GetGenericArguments().[0]
+            let expectedPayloadType = payloadOptionType.GetGenericArguments().[0]
+
+            let fsharpEvent = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            Assert.NotNull(fsharpEvent)
+
+            let fsharpDataType = fsharpEvent.PropertyType.GetGenericArguments() |> Array.last
+            Assert.Equal(typedefof<TraderCommandResponseData<_>>, fsharpDataType.GetGenericTypeDefinition())
+            Assert.Equal(expectedPayloadType, fsharpDataType.GetGenericArguments().[0])
+
+            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            Assert.NotNull(csharpEvent)
+
+            let csharpDataType = csharpEvent.EventHandlerType.GetGenericArguments() |> Array.last
+            Assert.Equal(typedefof<TraderCommandResponseEventArgs<_>>, csharpDataType.GetGenericTypeDefinition())
+            Assert.Equal(expectedPayloadType, csharpDataType.GetGenericArguments().[0])
+
+    [<Fact>]
+    member _.``legacy erased Trader events are obsolete and typed CSharp args do not expose FSharpOption``() =
+        let hasObsoleteAttribute (memberInfo: System.Reflection.MemberInfo) =
+            memberInfo.GetCustomAttributes(typeof<ObsoleteAttribute>, true).Length > 0
+
+        let legacyEventNames =
+            [| "NotificationReceived"
+               "AsyncErrorReceived"
+               "AsyncErrorDetailedReceived"
+               "CommandResponseReceived" |]
+
+        for eventName in legacyEventNames do
+            let fsharpProperty = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            Assert.True(hasObsoleteAttribute fsharpProperty, $"F# {eventName} should be obsolete.")
+
+            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            Assert.True(hasObsoleteAttribute csharpEvent, $"C# {eventName} should be obsolete.")
+
+        let publicPropertyTypes (genericType: Type) =
+            genericType.GetProperties()
+            |> Array.map _.PropertyType
+
+        for propertyType in publicPropertyTypes (typedefof<TraderAsyncErrorEventArgs<_>>.MakeGenericType(typeof<InputOrderResponse>)) do
+            Assert.DoesNotContain("FSharpOption", propertyType.ToString())
+
+        for propertyType in publicPropertyTypes (typedefof<TraderCommandResponseEventArgs<_>>.MakeGenericType(typeof<InputOrderResponse>)) do
+            Assert.DoesNotContain("FSharpOption", propertyType.ToString())
+
+    [<Fact>]
+    member _.``CSharp Trader projection covers non Try FSharp members without FSharpOption``() =
+        let flags = System.Reflection.BindingFlags.Instance ||| System.Reflection.BindingFlags.Public
+
+        let fsharpMethods =
+            typeof<Ctp.Net.Next.TraderClient>.GetMethods(flags)
+            |> Seq.filter (fun methodInfo -> not (methodInfo.Name.StartsWith("get_")))
+            |> Seq.map (fun methodInfo -> methodInfo.Name)
+            |> Set.ofSeq
+
+        let csharpMethods =
+            typeof<Ctp.Net.Next.CSharp.TraderClient>.GetMethods(flags)
+            |> Seq.filter (fun methodInfo -> not (methodInfo.Name.StartsWith("get_")))
+            |> Seq.map (fun methodInfo -> methodInfo.Name)
+            |> Set.ofSeq
+
+        let expectedMethods =
+            fsharpMethods
+            |> Set.filter (fun name -> name <> "Connect" && not (name.StartsWith("Try")))
+
+        let missing = Set.difference expectedMethods csharpMethods
+
+        Assert.Empty(missing)
+
+        let optionParameters =
+            typeof<Ctp.Net.Next.CSharp.TraderClient>.GetMethods(flags)
+            |> Seq.collect (fun methodInfo -> methodInfo.GetParameters())
+            |> Seq.filter (fun parameter -> parameter.ParameterType.ToString().Contains("FSharpOption"))
+            |> Seq.toList
+
+        Assert.Empty(optionParameters)
+
+
+type AbiLayoutTests() =
+
+    let assembly = typeof<InstrumentResponse>.Assembly
+
+    let nativeType name =
+        match assembly.GetType(name, false) with
+        | null -> failwith $"Expected native interop type '{name}'."
+        | value -> value
+
+    let assertLayout name expectedSize fields =
+        let typeInfo = nativeType $"Ctp.Net.Next.Bridge.{name}"
+        Assert.Equal(expectedSize, System.Runtime.InteropServices.Marshal.SizeOf(typeInfo))
+
+        for fieldName, expectedOffset in fields do
+            Assert.Equal(
+                expectedOffset,
+                System.Runtime.InteropServices.Marshal.OffsetOf(typeInfo, fieldName).ToInt32()
+            )
+
+    [<Fact>]
+    member _.``new MD C ABI structs keep the checked-in interop layout``() =
+        assertLayout
+            "NativeMulticastInstrument"
+            120
+            [ "TopicId", 0; "InstrumentNo", 4; "CodePrice", 8; "VolumeMultiple", 16; "PriceTick", 24; "InstrumentId", 32 ]
+
+        assertLayout "NativeQryMulticastInstrument" 88 [ "TopicId", 0; "InstrumentId", 4 ]
+        assertLayout "NativeMdFensUserInfo" 28 [ "BrokerId", 0; "UserId", 11; "LoginMode", 27 ]
+
+        assertLayout
+            "NativeMdForQuoteRsp"
+            169
+            [ "TradingDay", 0
+              "Reserve1", 9
+              "ForQuoteSysId", 40
+              "ForQuoteTime", 61
+              "ActionDay", 70
+              "ExchangeId", 79
+              "InstrumentId", 88 ]
+
+    [<Fact>]
+    member _.``MD callback table has one native function pointer per callback``() =
+        assertLayout "NativeMdSpi" 104 [ "OnRtnForQuoteRsp", 96 ]

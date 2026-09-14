@@ -532,8 +532,6 @@ type ExecOrderActionResponse =
       InstrumentId: string
       IpAddress: string }
 
-type FensUserInfoRequest = { BrokerId: string; UserId: string; LoginMode: LoginMode option }
-
 type ForQuoteResponse =
     { BrokerId: string
       InvestorId: string
@@ -561,15 +559,6 @@ type ForQuoteResponse =
       InstrumentId: string
       ExchangeInstId: string
       IpAddress: string }
-
-type ForQuoteRspResponse =
-    { TradingDay: DateOnly
-      Reserve1: string
-      ForQuoteSysId: string
-      ForQuoteTime: TimeOnly
-      ActionDay: DateOnly
-      ExchangeId: string
-      InstrumentId: string }
 
 type FrontInfoResponse = { FrontAddr: string; QryFreq: int; FtdPkgFreq: int }
 

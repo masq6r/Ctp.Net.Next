@@ -16,6 +16,8 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
     let heartBeatWarningEvent = Event<EventHandler<int>, int>()
     let rspErrorEvent = Event<EventHandler<RspInfo>, RspInfo>()
     let depthMarketDataEvent = Event<EventHandler<DepthMarketData>, DepthMarketData>()
+    let multicastInstrumentEvent = Event<EventHandler<MulticastInstrumentResponse>, MulticastInstrumentResponse>()
+    let forQuoteRspEvent = Event<EventHandler<ForQuoteRspResponse>, ForQuoteRspResponse>()
 
     do
         inner.FrontConnected.Add(fun () -> frontConnectedEvent.Trigger(null, EventArgs.Empty))
@@ -23,9 +25,31 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
         inner.HeartBeatWarning.Add(fun l -> heartBeatWarningEvent.Trigger(null, l))
         inner.RspError.Add(fun i -> rspErrorEvent.Trigger(null, i))
         inner.DepthMarketDataReceived.Add(fun d -> depthMarketDataEvent.Trigger(null, d))
+        inner.MulticastInstrumentReceived.Add(fun i -> multicastInstrumentEvent.Trigger(null, i))
+        inner.ForQuoteRspReceived.Add(fun i -> forQuoteRspEvent.Trigger(null, i))
 
-    new(options: CtpOptions, [<Optional>] autoResubscribe: bool) =
-        new MdClient(new Ctp.Net.Next.MdClient(options, ?autoResubscribe = (if autoResubscribe then Some true else None)))
+    new(options: CtpOptions, [<Optional; DefaultParameterValue(true)>] autoResubscribe: bool) =
+        new MdClient(new Ctp.Net.Next.MdClient(options, ?autoResubscribe = Some autoResubscribe))
+
+    new(configuration: MdClientOptions) =
+        if isNull (box configuration) then
+            nullArg (nameof configuration)
+
+        new MdClient(
+            new Ctp.Net.Next.MdClient(
+                configuration.Options,
+                ?encodings = CSharpHelpers.valueToOption configuration.Encodings,
+                ?useUdp = Some configuration.UseUdp,
+                ?useMulticast = Some configuration.UseMulticast,
+                ?loggerFactory = CSharpHelpers.nullToOption configuration.LoggerFactory,
+                ?flowControl = CSharpHelpers.valueToOption configuration.FlowControl,
+                ?autoResubscribe = Some configuration.AutoResubscribe,
+                ?endpoint = Some configuration.Endpoint
+            )
+        )
+
+    new(options: CtpOptions, endpoint: CtpEndpoint) =
+        new MdClient(new Ctp.Net.Next.MdClient(options, ?endpoint = Some endpoint))
 
     new
         (
@@ -35,7 +59,7 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
             [<Optional>] useMulticast: bool,
             [<Optional>] loggerFactory: ILoggerFactory,
             flowControl: CtpFlowControlOptions,
-            [<Optional>] autoResubscribe: bool
+            [<Optional; DefaultParameterValue(true)>] autoResubscribe: bool
         )
         =
         let nullToOpt (v: 'T) = if obj.ReferenceEquals(box v, null) then None else Some v
@@ -48,7 +72,7 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
                 ?useMulticast = (if useMulticast then Some useMulticast else None),
                 ?loggerFactory = CSharpHelpers.nullToOption loggerFactory,
                 ?flowControl = nullToOpt flowControl,
-                ?autoResubscribe = (if autoResubscribe then Some true else None)
+                ?autoResubscribe = Some autoResubscribe
             )
         )
 
@@ -66,6 +90,20 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
 
     [<CLIEvent>]
     member _.DepthMarketDataReceived = depthMarketDataEvent.Publish
+
+    [<CLIEvent>]
+    member _.MulticastInstrumentReceived = multicastInstrumentEvent.Publish
+
+    [<CLIEvent>]
+    member _.ForQuoteRspReceived = forQuoteRspEvent.Publish
+
+    member _.GetApiVersion() = inner.GetApiVersion()
+
+    member _.GetTradingDay() = inner.GetTradingDay()
+
+    member _.RegisterNameServer(nsAddress: string) = inner.RegisterNameServer(nsAddress)
+
+    member _.RegisterFensUserInfo(request: FensUserInfoRequest) = inner.RegisterFensUserInfo(request)
 
     member _.ConnectAsync
         (
@@ -106,6 +144,30 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
         : Task<IReadOnlyList<string>>
         =
         CSharpHelpers.startAsyncList cancellationToken (inner.UnsubscribeMarketDataAsync(instrumentIds))
+
+    member _.SubscribeForQuoteRspAsync
+        (instrumentIds: string seq, [<Optional>] cancellationToken: CancellationToken)
+        : Task<IReadOnlyList<string>>
+        =
+        CSharpHelpers.startAsyncList cancellationToken (inner.SubscribeForQuoteRspAsync(instrumentIds))
+
+    member _.UnsubscribeForQuoteRspAsync
+        (instrumentIds: string seq, [<Optional>] cancellationToken: CancellationToken)
+        : Task<IReadOnlyList<string>>
+        =
+        CSharpHelpers.startAsyncList cancellationToken (inner.UnsubscribeForQuoteRspAsync(instrumentIds))
+
+    member _.QueryMulticastInstrumentAsync
+        (
+            topicId: int,
+            [<Optional>] instrumentId: string,
+            [<Optional>] cancellationToken: CancellationToken
+        )
+        : Task<IReadOnlyList<MulticastInstrumentResponse>>
+        =
+        CSharpHelpers.startAsyncList
+            cancellationToken
+            (inner.QueryMulticastInstrumentAsync(topicId, ?instrumentId = CSharpHelpers.valueToOption instrumentId))
 
     interface IDisposable with
         member _.Dispose() = (inner :> IDisposable).Dispose()

@@ -51,6 +51,18 @@ type DepthMarketData =
       BandingUpperPrice: decimal
       BandingLowerPrice: decimal }
 
+type MulticastInstrumentResponse =
+    { TopicId: int
+      InstrumentNo: int
+      CodePrice: decimal
+      VolumeMultiple: int
+      PriceTick: decimal
+      InstrumentId: string }
+
+type QryMulticastInstrumentRequest =
+    { TopicId: int
+      InstrumentId: string option }
+
 type MdCallbacks =
     { FrontConnected: (unit -> unit) option
       FrontDisconnected: (int -> unit) option
@@ -60,7 +72,12 @@ type MdCallbacks =
       RspError: (RspInfo option -> int -> bool -> unit) option
       RspSubMarketData: (SpecificInstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
       RspUnsubMarketData: (SpecificInstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
-      RtnDepthMarketData: (DepthMarketData -> unit) option }
+      RspQryMulticastInstrument:
+        (MulticastInstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspSubForQuoteRsp: (SpecificInstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
+      RspUnsubForQuoteRsp: (SpecificInstrumentResponse option -> RspInfo option -> int -> bool -> unit) option
+      RtnDepthMarketData: (DepthMarketData -> unit) option
+      RtnForQuoteRsp: (ForQuoteRspResponse -> unit) option }
 
     static member Empty =
         { FrontConnected = None
@@ -71,7 +88,11 @@ type MdCallbacks =
           RspError = None
           RspSubMarketData = None
           RspUnsubMarketData = None
-          RtnDepthMarketData = None }
+          RspQryMulticastInstrument = None
+          RspSubForQuoteRsp = None
+          RspUnsubForQuoteRsp = None
+          RtnDepthMarketData = None
+          RtnForQuoteRsp = None }
 
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeDepthMarketData =
@@ -219,6 +240,79 @@ type private NativeDepthMarketData =
     [<DefaultValue>]
     val mutable BandingLowerPrice: float
 
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeMulticastInstrument =
+    [<DefaultValue>]
+    val mutable TopicId: int
+
+    [<DefaultValue>]
+    val mutable InstrumentNo: int
+
+    [<DefaultValue>]
+    val mutable CodePrice: float
+
+    [<DefaultValue>]
+    val mutable VolumeMultiple: int
+
+    [<DefaultValue>]
+    val mutable PriceTick: float
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeQryMulticastInstrument =
+    [<DefaultValue>]
+    val mutable TopicId: int
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeMdFensUserInfo =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable BrokerId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable UserId: byte array
+
+    [<DefaultValue>]
+    val mutable LoginMode: byte
+
+[<Struct; StructLayout(LayoutKind.Sequential)>]
+type private NativeMdForQuoteRsp =
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ForQuoteSysId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ForQuoteTime: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ActionDay: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable ExchangeId: byte array
+
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable InstrumentId: byte array
+
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private MdFrontConnectedDelegate = delegate of nativeint -> unit
 
@@ -241,7 +335,13 @@ type private MdRspErrorDelegate = delegate of nativeint * int * int * nativeint 
 type private MdRspSpecificInstrumentDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
 
 [<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private MdRspMulticastInstrumentDelegate = delegate of nativeint * nativeint * int * int * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
 type private MdRtnDepthMarketDataDelegate = delegate of nativeint * nativeint -> unit
+
+[<UnmanagedFunctionPointer(CallingConvention.Cdecl)>]
+type private MdRtnForQuoteRspDelegate = delegate of nativeint * nativeint -> unit
 
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeMdSpi =
@@ -279,7 +379,23 @@ type private NativeMdSpi =
 
     [<MarshalAs(UnmanagedType.FunctionPtr)>]
     [<DefaultValue>]
+    val mutable OnRspQryMulticastInstrument: MdRspMulticastInstrumentDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable OnRspSubForQuoteRsp: MdRspSpecificInstrumentDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable OnRspUnsubForQuoteRsp: MdRspSpecificInstrumentDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
     val mutable OnRtnDepthMarketData: MdRtnDepthMarketDataDelegate
+
+    [<MarshalAs(UnmanagedType.FunctionPtr)>]
+    [<DefaultValue>]
+    val mutable OnRtnForQuoteRsp: MdRtnForQuoteRspDelegate
 
 module private MdNativeInterop =
     [<Literal>]
@@ -317,6 +433,30 @@ module private MdNativeInterop =
 
     [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_md_unsubscribe_market_data")>]
     extern int unsubscribeMarketData(nativeint handle, nativeint[] instruments, int count)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_md_get_trading_day")>]
+    extern nativeint getTradingDay(nativeint handle)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_md_register_name_server")>]
+    extern int registerNameServer(nativeint handle, nativeint nsAddress)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_md_register_fens_user_info")>]
+    extern int registerFensUserInfo(nativeint handle, NativeMdFensUserInfo& request)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_md_subscribe_for_quote_rsp")>]
+    extern int subscribeForQuoteRsp(nativeint handle, nativeint[] instruments, int count)
+
+    [<DllImport(Library, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ctp_md_unsubscribe_for_quote_rsp")>]
+    extern int unsubscribeForQuoteRsp(nativeint handle, nativeint[] instruments, int count)
+
+    [<DllImport(Library,
+                CallingConvention = CallingConvention.Cdecl,
+                EntryPoint = "ctp_md_req_qry_multicast_instrument")>]
+    extern int reqQryMulticastInstrument(
+        nativeint handle,
+        NativeQryMulticastInstrument& request,
+        int requestId
+    )
 
 type private MdApiSafeHandle private () =
     inherit SafeHandleZeroOrMinusOneIsInvalid(true)
@@ -383,6 +523,23 @@ module private MdBridgeMapping =
           ExchangeInstId = EncodingHelpers.decodeFixed encoding value.ExchangeInstId
           BandingUpperPrice = toDecimal value.BandingUpperPrice
           BandingLowerPrice = toDecimal value.BandingLowerPrice }
+
+    let multicastInstrument encoding (value: NativeMulticastInstrument) =
+        { TopicId = value.TopicId
+          InstrumentNo = value.InstrumentNo
+          CodePrice = toDecimal value.CodePrice
+          VolumeMultiple = value.VolumeMultiple
+          PriceTick = toDecimal value.PriceTick
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+
+    let forQuoteRsp encoding (value: NativeMdForQuoteRsp) : ForQuoteRspResponse =
+        { TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1
+          ForQuoteSysId = EncodingHelpers.decodeFixed encoding value.ForQuoteSysId
+          ForQuoteTime = EncodingHelpers.decodeFixed encoding value.ForQuoteTime |> TemporalHelpers.parseTime
+          ActionDay = EncodingHelpers.decodeFixed encoding value.ActionDay |> TemporalHelpers.parseDate
+          ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
 
 module private MdBridgeHelpers =
     let toMdHandle (ptr: nativeint) =
@@ -478,12 +635,68 @@ type private MdSpiRegistration(callbacks: MdCallbacks, encodings: EncodingPair) 
 
                 handler instrument rspInfo requestId (isLast <> 0)))
 
+    let onRspQryMulticastInstrument =
+        MdRspMulticastInstrumentDelegate(fun instrumentPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspQryMulticastInstrument
+            |> Option.iter (fun handler ->
+                let instrument =
+                    instrumentPtr
+                    |> EncodingHelpers.ptrToOption<NativeMulticastInstrument>
+                    |> Option.map (MdBridgeMapping.multicastInstrument encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler instrument rspInfo requestId (isLast <> 0)))
+
+    let onRspSubForQuoteRsp =
+        MdRspSpecificInstrumentDelegate(fun instrumentPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspSubForQuoteRsp
+            |> Option.iter (fun handler ->
+                let instrument =
+                    instrumentPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpecificInstrument>
+                    |> Option.map (BridgeMapping.specificInstrument encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler instrument rspInfo requestId (isLast <> 0)))
+
+    let onRspUnsubForQuoteRsp =
+        MdRspSpecificInstrumentDelegate(fun instrumentPtr rspInfoPtr requestId isLast _ ->
+            callbacks.RspUnsubForQuoteRsp
+            |> Option.iter (fun handler ->
+                let instrument =
+                    instrumentPtr
+                    |> EncodingHelpers.ptrToOption<NativeSpecificInstrument>
+                    |> Option.map (BridgeMapping.specificInstrument encodings.InboundEncoding)
+
+                let rspInfo =
+                    rspInfoPtr
+                    |> EncodingHelpers.ptrToOption<NativeRspInfo>
+                    |> Option.map (BridgeMapping.rspInfo encodings.InboundEncoding)
+
+                handler instrument rspInfo requestId (isLast <> 0)))
+
     let onRtnDepthMarketData =
         MdRtnDepthMarketDataDelegate(fun marketDataPtr _ ->
             callbacks.RtnDepthMarketData
             |> Option.iter (fun handler ->
                 match EncodingHelpers.ptrToOption<NativeDepthMarketData> marketDataPtr with
                 | Some marketData -> handler (MdBridgeMapping.depthMarketData encodings.InboundEncoding marketData)
+                | None -> ()))
+
+    let onRtnForQuoteRsp =
+        MdRtnForQuoteRspDelegate(fun forQuoteRspPtr _ ->
+            callbacks.RtnForQuoteRsp
+            |> Option.iter (fun handler ->
+                match EncodingHelpers.ptrToOption<NativeMdForQuoteRsp> forQuoteRspPtr with
+                | Some item -> handler (MdBridgeMapping.forQuoteRsp encodings.InboundEncoding item)
                 | None -> ()))
 
     let mutable native = NativeMdSpi()
@@ -497,7 +710,11 @@ type private MdSpiRegistration(callbacks: MdCallbacks, encodings: EncodingPair) 
         native.OnRspError <- onRspError
         native.OnRspSubMarketData <- onRspSubMarketData
         native.OnRspUnsubMarketData <- onRspUnsubMarketData
+        native.OnRspQryMulticastInstrument <- onRspQryMulticastInstrument
+        native.OnRspSubForQuoteRsp <- onRspSubForQuoteRsp
+        native.OnRspUnsubForQuoteRsp <- onRspUnsubForQuoteRsp
         native.OnRtnDepthMarketData <- onRtnDepthMarketData
+        native.OnRtnForQuoteRsp <- onRtnForQuoteRsp
 
     member _.Native = native
 
@@ -526,6 +743,9 @@ type MdApi(flowPath: string option, useUdp: bool, useMulticast: bool, production
         BridgeResolver.ensureRegistered ()
         MdNativeInterop.getApiVersion () |> BridgeHelpers.ptrToAnsiString
 
+    member this.GetTradingDay() =
+        MdNativeInterop.getTradingDay this.Handle |> BridgeHelpers.ptrToAnsiString
+
     member this.SetCallbacks(callbacks: MdCallbacks) =
         let registration = MdSpiRegistration(callbacks, encodings)
         let mutable native = registration.Native
@@ -538,6 +758,26 @@ type MdApi(flowPath: string option, useUdp: bool, useMulticast: bool, production
             MdNativeInterop.registerFront (this.Handle, ptr))
         |> BridgeHelpers.throwOnNonZero
         <| "ctp_md_register_front"
+
+    member this.RegisterNameServer(nsAddress: string) =
+        BridgeHelpers.withEncodedCString encodings.OutboundEncoding (Some nsAddress) (fun ptr ->
+            MdNativeInterop.registerNameServer (this.Handle, ptr))
+        |> BridgeHelpers.throwOnNonZero
+        <| "ctp_md_register_name_server"
+
+    member this.RegisterFensUserInfo(request: FensUserInfoRequest) =
+        let mutable native = NativeMdFensUserInfo()
+        native.BrokerId <- EncodingHelpers.encodeFixed encodings.OutboundEncoding 11 (Some request.BrokerId)
+        native.UserId <- EncodingHelpers.encodeFixed encodings.OutboundEncoding 16 (Some request.UserId)
+
+        native.LoginMode <-
+            request.LoginMode
+            |> Option.map LoginMode.ToChar
+            |> EncodingHelpers.charToByte
+
+        MdNativeInterop.registerFensUserInfo (this.Handle, &native)
+        |> BridgeHelpers.throwOnNonZero
+        <| "ctp_md_register_fens_user_info"
 
     member this.Init() = MdNativeInterop.init (this.Handle)
 
@@ -564,6 +804,28 @@ type MdApi(flowPath: string option, useUdp: bool, useMulticast: bool, production
 
         BridgeHelpers.withEncodedStringArray encodings.OutboundEncoding instrumentIds (fun pointers ->
             MdNativeInterop.unsubscribeMarketData (this.Handle, Array.ofSeq pointers, Seq.length pointers))
+
+    member this.SubscribeForQuoteRsp(instrumentIds: string seq) =
+        if Seq.isEmpty instrumentIds then
+            invalidArg (nameof instrumentIds) "At least one instrument id is required."
+
+        BridgeHelpers.withEncodedStringArray encodings.OutboundEncoding instrumentIds (fun pointers ->
+            MdNativeInterop.subscribeForQuoteRsp (this.Handle, Array.ofSeq pointers, Seq.length pointers))
+
+    member this.UnsubscribeForQuoteRsp(instrumentIds: string seq) =
+        if Seq.isEmpty instrumentIds then
+            invalidArg (nameof instrumentIds) "At least one instrument id is required."
+
+        BridgeHelpers.withEncodedStringArray encodings.OutboundEncoding instrumentIds (fun pointers ->
+            MdNativeInterop.unsubscribeForQuoteRsp (this.Handle, Array.ofSeq pointers, Seq.length pointers))
+
+    member this.ReqQryMulticastInstrument(request: QryMulticastInstrumentRequest, requestId: int) =
+        let mutable native = NativeQryMulticastInstrument()
+        native.TopicId <- request.TopicId
+        native.InstrumentId <-
+            EncodingHelpers.encodeFixed encodings.OutboundEncoding 81 request.InstrumentId
+
+        MdNativeInterop.reqQryMulticastInstrument (this.Handle, &native, requestId)
 
     interface IDisposable with
         member _.Dispose() = handle.Dispose()

@@ -81,6 +81,48 @@ type ConnectError =
     | Cancelled
     | NativeOperationFailed of string
 
+[<RequireQualifiedAccess>]
+type CtpEndpoint =
+    | Front of address: string
+    | NameServer of address: string * fens: FensUserInfoRequest option
+
+    static member FromFront(address: string) = CtpEndpoint.Front address
+
+    static member FromNameServer(address: string, ?fens: FensUserInfoRequest) =
+        CtpEndpoint.NameServer(address, fens)
+
+type NativeRequestException(operationName: string, returnCode: int) =
+    inherit Exception($"{operationName} failed with native return code {returnCode}")
+
+    member _.OperationName = operationName
+    member _.ReturnCode = returnCode
+
+type TraderAsyncError =
+    { CallbackName: string
+      Payload: obj
+      RspInfo: RspInfo option }
+
+type TraderAsyncErrorData<'TPayload> =
+    { CallbackName: string
+      Payload: 'TPayload option
+      RspInfo: RspInfo option }
+
+type TraderCommandResponse =
+    { CallbackName: string
+      OperationName: string
+      RequestId: int
+      IsLast: bool
+      RspInfo: RspInfo option
+      Payload: obj option }
+
+type TraderCommandResponseData<'TPayload> =
+    { CallbackName: string
+      OperationName: string
+      RequestId: int
+      IsLast: bool
+      RspInfo: RspInfo option
+      Payload: 'TPayload option }
+
 
 module internal OptionHelpers =
     let createUserLoginRequest (options: CtpOptions) =
@@ -261,6 +303,11 @@ type internal PendingQueryDict(?logger: ILogger) =
         |> ignore
 
     member _.TryRemove(requestId: int) = dict.TryRemove requestId |> ignore
+
+    member _.TryGetOperationName(requestId: int) =
+        match dict.TryGetValue requestId with
+        | true, state -> Some state.OperationName
+        | _ -> None
 
     member _.TryFail(requestId: int, error: RspInfo) =
         match dict.TryRemove requestId with
@@ -456,6 +503,57 @@ type internal FlowController(options: CtpFlowControlOptions, ?logger: ILogger) =
         instrumentIds |> List.chunkBySize (max 1 options.SubscriptionBatchSize)
 
     member _.SubscriptionBatchDelay = options.SubscriptionBatchDelay
+
+module internal CommandDispatch =
+    /// Runs a native command and returns only the request id accepted by the native API.
+    /// The dispatch function is deliberately injected so tests can exercise return-code
+    /// and retry behavior without loading a native API or connecting to a front.
+    let runAsync
+        (operationName: string)
+        (nextRequestId: unit -> int)
+        (requestFlow: FlowController)
+        (logger: ILogger)
+        (dispatch: int -> int)
+        : Async<Result<int, RspInfo>>
+        =
+        async {
+            let! cancellationToken = Async.CancellationToken
+
+            let rec executeAttempt attempt = async {
+                do!
+                    requestFlow.AwaitDispatchAsync(cancellationToken = cancellationToken)
+                    |> Async.AwaitTask
+
+                logger.LogDebug("Sending {OperationName} request", operationName)
+
+                let requestId = nextRequestId ()
+                let returnCode = dispatch requestId
+
+                if returnCode = 0 then
+                    return Ok requestId
+                elif requestFlow.ShouldRetryNativeReturnCode(attempt, returnCode) then
+                    do!
+                        requestFlow.DelayBeforeNativeRetryAsync(
+                            operationName,
+                            attempt + 1,
+                            returnCode,
+                            cancellationToken = cancellationToken
+                        )
+                        |> Async.AwaitTask
+
+                    return! executeAttempt (attempt + 1)
+                else
+                    logger.LogError(
+                        "{OperationName} request failed with native return code {ReturnCode}",
+                        operationName,
+                        returnCode
+                    )
+
+                    return Error(ClientHelpers.apiReturnError returnCode)
+            }
+
+            return! executeAttempt 0
+        }
 
 type internal ConnectionStartPhase =
     | NotStarted

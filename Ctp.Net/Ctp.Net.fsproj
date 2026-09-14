@@ -9,7 +9,7 @@
     <NativeBridgeBuildDir>$(NativeBridgeProjectDir)build\</NativeBridgeBuildDir>
     <!-- NuGet metadata -->
     <PackageId>Ctp.Net.Next</PackageId>
-    <Version>0.7.1</Version>
+    <Version>0.8.0</Version>
     <Authors>Ctp.Net Contributors</Authors>
     <Description>Managed F# wrapper for the CTP futures trading API with async/event-driven MD and Trader clients.</Description>
     <PackageTags>ctp;futures;trading;market-data;shfe;china</PackageTags>
@@ -28,6 +28,7 @@
   <ItemGroup>
     <Compile Include="Bridge/Common.fs" />
     <Compile Include="Bridge/CtpEnums.fs" />
+    <Compile Include="Bridge/Shared.fs" />
     <Compile Include="Bridge/MdBridge.fs" />
     <Compile Include="Bridge/TraderBridge.fs" />
     <Compile Include="Common.fs" />

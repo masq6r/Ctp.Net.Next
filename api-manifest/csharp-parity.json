@@ -1,0 +1,1029 @@
+{
+  "schema_version": 1,
+  "policy": "Every mapped entry is checked by tools/ctp_api.py check; all other omissions remain explicit exceptions.",
+  "entries": [
+    {
+      "fsharp": "Connect",
+      "csharp": "ConnectAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "DepthMarketDataReceived",
+      "csharp": "DepthMarketDataReceived",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "Dispose",
+      "csharp": "Dispose",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ForQuoteRspReceived",
+      "csharp": "ForQuoteRspReceived",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "FrontConnected",
+      "csharp": "FrontConnected",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "FrontDisconnected",
+      "csharp": "FrontDisconnected",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "GetApiVersion",
+      "csharp": "GetApiVersion",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "GetTradingDay",
+      "csharp": "GetTradingDay",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "HeartBeatWarning",
+      "csharp": "HeartBeatWarning",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "Join",
+      "csharp": "Join",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "LoginAsync",
+      "csharp": "LoginAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "LogoutAsync",
+      "csharp": "LogoutAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "MulticastInstrumentReceived",
+      "csharp": "MulticastInstrumentReceived",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryMulticastInstrumentAsync",
+      "csharp": "QueryMulticastInstrumentAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RegisterFensUserInfo",
+      "csharp": "RegisterFensUserInfo",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RegisterNameServer",
+      "csharp": "RegisterNameServer",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RspError",
+      "csharp": "RspError",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "SubscribeForQuoteRspAsync",
+      "csharp": "SubscribeForQuoteRspAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "SubscribeMarketDataAsync",
+      "csharp": "SubscribeMarketDataAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "UnsubscribeForQuoteRspAsync",
+      "csharp": "UnsubscribeForQuoteRspAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "UnsubscribeMarketDataAsync",
+      "csharp": "UnsubscribeMarketDataAsync",
+      "surface": "MdClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "AsyncErrorDetailedReceived",
+      "csharp": "AsyncErrorDetailedReceived",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "AsyncErrorReceived",
+      "csharp": "AsyncErrorReceived",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "AuthenticateAsync",
+      "csharp": "AuthenticateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "CancelOrderAsync",
+      "csharp": "CancelOrderAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "CommandResponseReceived",
+      "csharp": "CommandResponseReceived",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "Connect",
+      "csharp": "ConnectAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "Dispose",
+      "csharp": "Dispose",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "FromBankToFutureByFutureAsync",
+      "csharp": "FromBankToFutureByFutureAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "FromFutureToBankByFutureAsync",
+      "csharp": "FromFutureToBankByFutureAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "FrontConnected",
+      "csharp": "FrontConnected",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "FrontDisconnected",
+      "csharp": "FrontDisconnected",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "GetApiVersion",
+      "csharp": "GetApiVersion",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "GetFrontInfo",
+      "csharp": "GetFrontInfo",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "GetTradingDay",
+      "csharp": "GetTradingDay",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "HeartBeatWarning",
+      "csharp": "HeartBeatWarning",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "InsertOrderAsync",
+      "csharp": "InsertOrderAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "Join",
+      "csharp": "Join",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "LoginAsync",
+      "csharp": "LoginAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "LogoutAsync",
+      "csharp": "LogoutAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "NotificationReceived",
+      "csharp": "NotificationReceived",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "OrderReceived",
+      "csharp": "OrderReceived",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "PrivateSeqNoReceived",
+      "csharp": "PrivateSeqNoReceived",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryAccountregisterAsync",
+      "csharp": "QueryAccountregisterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryBankAccountMoneyByFutureAsync",
+      "csharp": "QueryBankAccountMoneyByFutureAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryBrokerTradingAlgosAsync",
+      "csharp": "QueryBrokerTradingAlgosAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryBrokerTradingParamsAsync",
+      "csharp": "QueryBrokerTradingParamsAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryCfmmcTradingAccountKeyAsync",
+      "csharp": "QueryCfmmcTradingAccountKeyAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryCfmmcTradingAccountTokenAsync",
+      "csharp": "QueryCfmmcTradingAccountTokenAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryClassifiedInstrumentAsync",
+      "csharp": "QueryClassifiedInstrumentAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryCombActionAsync",
+      "csharp": "QueryCombActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryCombInstrumentGuardAsync",
+      "csharp": "QueryCombInstrumentGuardAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryCombLegAsync",
+      "csharp": "QueryCombLegAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryCombPromotionParamAsync",
+      "csharp": "QueryCombPromotionParamAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryContractBankAsync",
+      "csharp": "QueryContractBankAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryDepthMarketDataAsync",
+      "csharp": "QueryDepthMarketDataAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryEWarrantOffsetAsync",
+      "csharp": "QueryEWarrantOffsetAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryExchangeAsync",
+      "csharp": "QueryExchangeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryExchangeMarginRateAdjustAsync",
+      "csharp": "QueryExchangeMarginRateAdjustAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryExchangeMarginRateAsync",
+      "csharp": "QueryExchangeMarginRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryExchangeRateAsync",
+      "csharp": "QueryExchangeRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryExecOrderAsync",
+      "csharp": "QueryExecOrderAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryForQuoteAsync",
+      "csharp": "QueryForQuoteAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryHedgeCfmAsync",
+      "csharp": "QueryHedgeCfmAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInstrumentAsync",
+      "csharp": "QueryInstrumentAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInstrumentCommissionRateAsync",
+      "csharp": "QueryInstrumentCommissionRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInstrumentMarginRateAsync",
+      "csharp": "QueryInstrumentMarginRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInstrumentOrderCommRateAsync",
+      "csharp": "QueryInstrumentOrderCommRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestUnitAsync",
+      "csharp": "QueryInvestUnitAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorAsync",
+      "csharp": "QueryInvestorAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorCommodityGroupSpmmMarginAsync",
+      "csharp": "QueryInvestorCommodityGroupSpmmMarginAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorCommoditySpmmMarginAsync",
+      "csharp": "QueryInvestorCommoditySpmmMarginAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorInfoCommRecAsync",
+      "csharp": "QueryInvestorInfoCommRecAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorPortfMarginRatioAsync",
+      "csharp": "QueryInvestorPortfMarginRatioAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorPortfSettingAsync",
+      "csharp": "QueryInvestorPortfSettingAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorPositionAsync",
+      "csharp": "QueryInvestorPositionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorPositionCombineDetailAsync",
+      "csharp": "QueryInvestorPositionCombineDetailAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorPositionDetailAsync",
+      "csharp": "QueryInvestorPositionDetailAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorProdRcamsMarginAsync",
+      "csharp": "QueryInvestorProdRcamsMarginAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorProdRuleMarginAsync",
+      "csharp": "QueryInvestorProdRuleMarginAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorProdSpbmDetailAsync",
+      "csharp": "QueryInvestorProdSpbmDetailAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryInvestorProductGroupMarginAsync",
+      "csharp": "QueryInvestorProductGroupMarginAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryMaxOrderVolumeAsync",
+      "csharp": "QueryMaxOrderVolumeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryMmInstrumentCommissionRateAsync",
+      "csharp": "QueryMmInstrumentCommissionRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryMmOptionInstrCommRateAsync",
+      "csharp": "QueryMmOptionInstrCommRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryNoticeAsync",
+      "csharp": "QueryNoticeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryOffsetSettingAsync",
+      "csharp": "QueryOffsetSettingAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryOptionInstrCommRateAsync",
+      "csharp": "QueryOptionInstrCommRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryOptionInstrTradeCostAsync",
+      "csharp": "QueryOptionInstrTradeCostAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryOptionSelfCloseAsync",
+      "csharp": "QueryOptionSelfCloseAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryOrderAsync",
+      "csharp": "QueryOrderAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryParkedOrderActionAsync",
+      "csharp": "QueryParkedOrderActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryParkedOrderAsync",
+      "csharp": "QueryParkedOrderAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryProductAsync",
+      "csharp": "QueryProductAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryProductExchRateAsync",
+      "csharp": "QueryProductExchRateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryProductGroupAsync",
+      "csharp": "QueryProductGroupAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryQuoteAsync",
+      "csharp": "QueryQuoteAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRcamsCombProductInfoAsync",
+      "csharp": "QueryRcamsCombProductInfoAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRcamsInstrParameterAsync",
+      "csharp": "QueryRcamsInstrParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRcamsInterParameterAsync",
+      "csharp": "QueryRcamsInterParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRcamsIntraParameterAsync",
+      "csharp": "QueryRcamsIntraParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRcamsInvestorCombPositionAsync",
+      "csharp": "QueryRcamsInvestorCombPositionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRcamsShortOptAdjustParamAsync",
+      "csharp": "QueryRcamsShortOptAdjustParamAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRiskSettleInvstPositionAsync",
+      "csharp": "QueryRiskSettleInvstPositionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRiskSettleProductStatusAsync",
+      "csharp": "QueryRiskSettleProductStatusAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRuleInstrParameterAsync",
+      "csharp": "QueryRuleInstrParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRuleInterParameterAsync",
+      "csharp": "QueryRuleInterParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryRuleIntraParameterAsync",
+      "csharp": "QueryRuleIntraParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySecAgentAcIdMapAsync",
+      "csharp": "QuerySecAgentAcIdMapAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySecAgentCheckModeAsync",
+      "csharp": "QuerySecAgentCheckModeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySecAgentTradeInfoAsync",
+      "csharp": "QuerySecAgentTradeInfoAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySecAgentTradingAccountAsync",
+      "csharp": "QuerySecAgentTradingAccountAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySettlementInfoAsync",
+      "csharp": "QuerySettlementInfoAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySettlementInfoConfirmAsync",
+      "csharp": "QuerySettlementInfoConfirmAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpbmAddOnInterParameterAsync",
+      "csharp": "QuerySpbmAddOnInterParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpbmFutureParameterAsync",
+      "csharp": "QuerySpbmFutureParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpbmInterParameterAsync",
+      "csharp": "QuerySpbmInterParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpbmIntraParameterAsync",
+      "csharp": "QuerySpbmIntraParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpbmInvestorPortfDefAsync",
+      "csharp": "QuerySpbmInvestorPortfDefAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpbmOptionParameterAsync",
+      "csharp": "QuerySpbmOptionParameterAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpbmPortfDefinitionAsync",
+      "csharp": "QuerySpbmPortfDefinitionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpdApplyAsync",
+      "csharp": "QuerySpdApplyAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpmmInstParamAsync",
+      "csharp": "QuerySpmmInstParamAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QuerySpmmProductParamAsync",
+      "csharp": "QuerySpmmProductParamAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryTradeAsync",
+      "csharp": "QueryTradeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryTraderOfferAsync",
+      "csharp": "QueryTraderOfferAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryTradingAccountAsync",
+      "csharp": "QueryTradingAccountAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryTradingCodeAsync",
+      "csharp": "QueryTradingCodeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryTradingNoticeAsync",
+      "csharp": "QueryTradingNoticeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryTransferBankAsync",
+      "csharp": "QueryTransferBankAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryTransferSerialAsync",
+      "csharp": "QueryTransferSerialAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "QueryUserSessionAsync",
+      "csharp": "QueryUserSessionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RegisterFensUserInfo",
+      "csharp": "RegisterFensUserInfo",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RegisterNameServer",
+      "csharp": "RegisterNameServer",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RegisterUserSystemInfo",
+      "csharp": "RegisterUserSystemInfo",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RegisterWechatUserSystemInfo",
+      "csharp": "RegisterWechatUserSystemInfo",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqBatchOrderActionAsync",
+      "csharp": "ReqBatchOrderActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqCancelOffsetSettingAsync",
+      "csharp": "ReqCancelOffsetSettingAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqCombActionInsertAsync",
+      "csharp": "ReqCombActionInsertAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqExecOrderActionAsync",
+      "csharp": "ReqExecOrderActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqExecOrderInsertAsync",
+      "csharp": "ReqExecOrderInsertAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqForQuoteInsertAsync",
+      "csharp": "ReqForQuoteInsertAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqGenSmsCodeAsync",
+      "csharp": "ReqGenSmsCodeAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqGenUserCaptchaAsync",
+      "csharp": "ReqGenUserCaptchaAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqGenUserTextAsync",
+      "csharp": "ReqGenUserTextAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqHedgeCfmActionAsync",
+      "csharp": "ReqHedgeCfmActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqHedgeCfmAsync",
+      "csharp": "ReqHedgeCfmAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqOffsetSettingAsync",
+      "csharp": "ReqOffsetSettingAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqOptionSelfCloseActionAsync",
+      "csharp": "ReqOptionSelfCloseActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqOptionSelfCloseInsertAsync",
+      "csharp": "ReqOptionSelfCloseInsertAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqParkedOrderActionAsync",
+      "csharp": "ReqParkedOrderActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqParkedOrderInsertAsync",
+      "csharp": "ReqParkedOrderInsertAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqQuoteActionAsync",
+      "csharp": "ReqQuoteActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqQuoteInsertAsync",
+      "csharp": "ReqQuoteInsertAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqRemoveParkedOrderActionAsync",
+      "csharp": "ReqRemoveParkedOrderActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqRemoveParkedOrderAsync",
+      "csharp": "ReqRemoveParkedOrderAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqSpdApplyActionAsync",
+      "csharp": "ReqSpdApplyActionAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqSpdApplyAsync",
+      "csharp": "ReqSpdApplyAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqTradingAccountPasswordUpdateAsync",
+      "csharp": "ReqTradingAccountPasswordUpdateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqUserAuthMethodAsync",
+      "csharp": "ReqUserAuthMethodAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqUserLoginWithCaptchaAsync",
+      "csharp": "ReqUserLoginWithCaptchaAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqUserLoginWithOtpAsync",
+      "csharp": "ReqUserLoginWithOtpAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqUserLoginWithTextAsync",
+      "csharp": "ReqUserLoginWithTextAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "ReqUserPasswordUpdateAsync",
+      "csharp": "ReqUserPasswordUpdateAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "RspError",
+      "csharp": "RspError",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "SettlementInfoConfirmAsync",
+      "csharp": "SettlementInfoConfirmAsync",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "SubmitUserSystemInfo",
+      "csharp": "SubmitUserSystemInfo",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "SubmitWechatUserSystemInfo",
+      "csharp": "SubmitWechatUserSystemInfo",
+      "surface": "TraderClient",
+      "status": "mapped"
+    },
+    {
+      "fsharp": "TradeReceived",
+      "csharp": "TradeReceived",
+      "surface": "TraderClient",
+      "status": "mapped"
+    }
+  ],
+  "exceptions": [
+    {
+      "surface": "TraderClient",
+      "patterns": [
+        "Try*Async"
+      ],
+      "reason": "Try methods are F# Result-oriented convenience helpers; the C# projection exposes the corresponding command methods as Task<int> and maps native dispatch failures to CtpNativeException instead of exposing FSharpResult."
+    }
+  ]
+}
