@@ -24,6 +24,7 @@ type DepthMarketData =
       PreDelta: decimal
       CurrDelta: decimal
       UpdateTime: TimeOnly
+      UpdateMillisec: int
       BidPrice1: decimal
       BidVolume1: int
       AskPrice1: decimal
@@ -49,7 +50,9 @@ type DepthMarketData =
       InstrumentId: string
       ExchangeInstId: string
       BandingUpperPrice: decimal
-      BandingLowerPrice: decimal }
+      BandingLowerPrice: decimal
+      Reserve1: string
+      Reserve2: string }
 
 type MulticastInstrumentResponse =
     { TopicId: int
@@ -57,7 +60,8 @@ type MulticastInstrumentResponse =
       CodePrice: decimal
       VolumeMultiple: int
       PriceTick: decimal
-      InstrumentId: string }
+      InstrumentId: string
+      Reserve1: string }
 
 type QryMulticastInstrumentRequest =
     { TopicId: int
@@ -239,7 +243,12 @@ type private NativeDepthMarketData =
 
     [<DefaultValue>]
     val mutable BandingLowerPrice: float
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeMulticastInstrument =
     [<DefaultValue>]
@@ -260,7 +269,9 @@ type private NativeMulticastInstrument =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
     [<DefaultValue>]
     val mutable InstrumentId: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeQryMulticastInstrument =
     [<DefaultValue>]
@@ -269,7 +280,9 @@ type private NativeQryMulticastInstrument =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
     [<DefaultValue>]
     val mutable InstrumentId: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeMdFensUserInfo =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -497,6 +510,7 @@ module private MdBridgeMapping =
             TemporalHelpers.parseTimeWithMillis
                 (EncodingHelpers.decodeFixed encoding value.UpdateTime)
                 value.UpdateMillisec
+          UpdateMillisec = value.UpdateMillisec
           BidPrice1 = toDecimal value.BidPrice1
           BidVolume1 = value.BidVolume1
           AskPrice1 = toDecimal value.AskPrice1
@@ -522,7 +536,9 @@ module private MdBridgeMapping =
           InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
           ExchangeInstId = EncodingHelpers.decodeFixed encoding value.ExchangeInstId
           BandingUpperPrice = toDecimal value.BandingUpperPrice
-          BandingLowerPrice = toDecimal value.BandingLowerPrice }
+          BandingLowerPrice = toDecimal value.BandingLowerPrice
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1
+          Reserve2 = EncodingHelpers.decodeFixed encoding value.Reserve2 }
 
     let multicastInstrument encoding (value: NativeMulticastInstrument) =
         { TopicId = value.TopicId
@@ -530,7 +546,8 @@ module private MdBridgeMapping =
           CodePrice = toDecimal value.CodePrice
           VolumeMultiple = value.VolumeMultiple
           PriceTick = toDecimal value.PriceTick
-          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1 }
 
     let forQuoteRsp encoding (value: NativeMdForQuoteRsp) : ForQuoteRspResponse =
         { TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate

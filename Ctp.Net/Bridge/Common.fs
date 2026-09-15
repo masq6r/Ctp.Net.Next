@@ -323,7 +323,9 @@ module internal TemporalHelpers =
 
 type RspInfo = { ErrorId: int; ErrorMessage: string; RawErrorMessage: byte array }
 
-type SpecificInstrumentResponse = { InstrumentId: string }
+type SpecificInstrumentResponse =
+    { InstrumentId: string
+      Reserve1: string }
 
 type UserLoginResponse =
     { TradingDay: DateOnly
@@ -361,7 +363,8 @@ type UserLoginRequest =
       LoginRemark: string option
       ClientIpPort: int option
       ClientIPAddress: string option
-      SmsCode: string option }
+      SmsCode: string option
+      Reserve1: string option }
 
     static member Create(brokerId: string, userId: string, password: string, ?userProductInfo: string) =
         { TradingDay = None
@@ -376,7 +379,8 @@ type UserLoginRequest =
           LoginRemark = None
           ClientIpPort = None
           ClientIPAddress = None
-          SmsCode = None }
+          SmsCode = None
+          Reserve1 = None }
 
 type UserLogoutRequest =
     { BrokerId: string
@@ -398,7 +402,9 @@ type internal NativeSpecificInstrument =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
     [<DefaultValue>]
     val mutable InstrumentId: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type internal NativeReqUserLogin =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
@@ -448,10 +454,12 @@ type internal NativeReqUserLogin =
     [<DefaultValue>]
     val mutable ClientIpAddress: byte array
 
-    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 41)>]
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
     [<DefaultValue>]
     val mutable SmsCode: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type internal NativeUserLogout =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -569,7 +577,8 @@ module internal BridgeMapping =
           RawErrorMessage = raw }
 
     let specificInstrument encoding (value: NativeSpecificInstrument) =
-        { InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+        { InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1 }
 
     let userLogin encoding (value: NativeRspUserLogin) =
         { TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
@@ -611,7 +620,8 @@ module internal BridgeBuilders =
         native.LoginRemark <- EncodingHelpers.encodeFixed encoding 36 request.LoginRemark
         native.ClientIpPort <- defaultArg request.ClientIpPort 0
         native.ClientIpAddress <- EncodingHelpers.encodeFixed encoding 33 request.ClientIPAddress
-        native.SmsCode <- EncodingHelpers.encodeFixed encoding 41 request.SmsCode
+        native.SmsCode <- EncodingHelpers.encodeFixed encoding 17 request.SmsCode
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 16 request.Reserve1
         native
 
     let reqUserLogout encoding (request: UserLogoutRequest) =

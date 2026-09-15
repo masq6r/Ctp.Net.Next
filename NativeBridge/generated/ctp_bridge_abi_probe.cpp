@@ -22,6 +22,22 @@ void print_layout(const char* name, std::initializer_list<FieldLayout> fields) {
 
 int main() {
   std::printf("{\"schema_version\":1,\"structs\":[");
+  print_layout<ctp_account_property>("ctp_account_property", {
+    {"broker_id", offsetof(ctp_account_property, broker_id)},
+    {"account_id", offsetof(ctp_account_property, account_id)},
+    {"bank_id", offsetof(ctp_account_property, bank_id)},
+    {"bank_account", offsetof(ctp_account_property, bank_account)},
+    {"open_name", offsetof(ctp_account_property, open_name)},
+    {"open_bank", offsetof(ctp_account_property, open_bank)},
+    {"is_active", offsetof(ctp_account_property, is_active)},
+    {"account_source_type", offsetof(ctp_account_property, account_source_type)},
+    {"open_date", offsetof(ctp_account_property, open_date)},
+    {"cancel_date", offsetof(ctp_account_property, cancel_date)},
+    {"operator_id", offsetof(ctp_account_property, operator_id)},
+    {"operate_date", offsetof(ctp_account_property, operate_date)},
+    {"operate_time", offsetof(ctp_account_property, operate_time)},
+    {"currency_id", offsetof(ctp_account_property, currency_id)},
+  });
   print_layout<ctp_accountregister>("ctp_accountregister", {
     {"trade_day", offsetof(ctp_accountregister, trade_day)},
     {"bank_id", offsetof(ctp_accountregister, bank_id)},
@@ -41,6 +57,49 @@ int main() {
     {"cust_type", offsetof(ctp_accountregister, cust_type)},
     {"bank_acc_type", offsetof(ctp_accountregister, bank_acc_type)},
     {"long_customer_name", offsetof(ctp_accountregister, long_customer_name)},
+  });
+  print_layout<ctp_addr_app_id_relation>("ctp_addr_app_id_relation", {
+    {"broker_id", offsetof(ctp_addr_app_id_relation, broker_id)},
+    {"address", offsetof(ctp_addr_app_id_relation, address)},
+    {"dr_identity_id", offsetof(ctp_addr_app_id_relation, dr_identity_id)},
+    {"app_id", offsetof(ctp_addr_app_id_relation, app_id)},
+  });
+  print_layout<ctp_app_authentication_code>("ctp_app_authentication_code", {
+    {"broker_id", offsetof(ctp_app_authentication_code, broker_id)},
+    {"app_id", offsetof(ctp_app_authentication_code, app_id)},
+    {"auth_code", offsetof(ctp_app_authentication_code, auth_code)},
+    {"pre_auth_code", offsetof(ctp_app_authentication_code, pre_auth_code)},
+    {"app_type", offsetof(ctp_app_authentication_code, app_type)},
+  });
+  print_layout<ctp_app_id_auth_assign>("ctp_app_id_auth_assign", {
+    {"broker_id", offsetof(ctp_app_id_auth_assign, broker_id)},
+    {"app_id", offsetof(ctp_app_id_auth_assign, app_id)},
+    {"dr_identity_id", offsetof(ctp_app_id_auth_assign, dr_identity_id)},
+  });
+  print_layout<ctp_auth_forbidden_ip>("ctp_auth_forbidden_ip", {
+    {"ip_address", offsetof(ctp_auth_forbidden_ip, ip_address)},
+  });
+  print_layout<ctp_auth_ip>("ctp_auth_ip", {
+    {"broker_id", offsetof(ctp_auth_ip, broker_id)},
+    {"app_id", offsetof(ctp_auth_ip, app_id)},
+    {"ip_address", offsetof(ctp_auth_ip, ip_address)},
+  });
+  print_layout<ctp_auth_user_id>("ctp_auth_user_id", {
+    {"broker_id", offsetof(ctp_auth_user_id, broker_id)},
+    {"app_id", offsetof(ctp_auth_user_id, app_id)},
+    {"user_id", offsetof(ctp_auth_user_id, user_id)},
+    {"auth_type", offsetof(ctp_auth_user_id, auth_type)},
+  });
+  print_layout<ctp_authentication_info>("ctp_authentication_info", {
+    {"broker_id", offsetof(ctp_authentication_info, broker_id)},
+    {"user_id", offsetof(ctp_authentication_info, user_id)},
+    {"user_product_info", offsetof(ctp_authentication_info, user_product_info)},
+    {"auth_info", offsetof(ctp_authentication_info, auth_info)},
+    {"is_result", offsetof(ctp_authentication_info, is_result)},
+    {"app_id", offsetof(ctp_authentication_info, app_id)},
+    {"app_type", offsetof(ctp_authentication_info, app_type)},
+    {"reserve1", offsetof(ctp_authentication_info, reserve1)},
+    {"client_ip_address", offsetof(ctp_authentication_info, client_ip_address)},
   });
   print_layout<ctp_batch_order_action>("ctp_batch_order_action", {
     {"broker_id", offsetof(ctp_batch_order_action, broker_id)},
@@ -66,6 +125,30 @@ int main() {
     {"mac_address", offsetof(ctp_batch_order_action, mac_address)},
     {"ip_address", offsetof(ctp_batch_order_action, ip_address)},
   });
+  print_layout<ctp_broker>("ctp_broker", {
+    {"broker_id", offsetof(ctp_broker, broker_id)},
+    {"broker_abbr", offsetof(ctp_broker, broker_abbr)},
+    {"broker_name", offsetof(ctp_broker, broker_name)},
+    {"is_active", offsetof(ctp_broker, is_active)},
+  });
+  print_layout<ctp_broker_deposit>("ctp_broker_deposit", {
+    {"trading_day", offsetof(ctp_broker_deposit, trading_day)},
+    {"broker_id", offsetof(ctp_broker_deposit, broker_id)},
+    {"participant_id", offsetof(ctp_broker_deposit, participant_id)},
+    {"exchange_id", offsetof(ctp_broker_deposit, exchange_id)},
+    {"pre_balance", offsetof(ctp_broker_deposit, pre_balance)},
+    {"curr_margin", offsetof(ctp_broker_deposit, curr_margin)},
+    {"close_profit", offsetof(ctp_broker_deposit, close_profit)},
+    {"balance", offsetof(ctp_broker_deposit, balance)},
+    {"deposit", offsetof(ctp_broker_deposit, deposit)},
+    {"withdraw", offsetof(ctp_broker_deposit, withdraw)},
+    {"available", offsetof(ctp_broker_deposit, available)},
+    {"reserve", offsetof(ctp_broker_deposit, reserve)},
+    {"frozen_margin", offsetof(ctp_broker_deposit, frozen_margin)},
+  });
+  print_layout<ctp_broker_sync>("ctp_broker_sync", {
+    {"broker_id", offsetof(ctp_broker_sync, broker_id)},
+  });
   print_layout<ctp_broker_trading_algos>("ctp_broker_trading_algos", {
     {"broker_id", offsetof(ctp_broker_trading_algos, broker_id)},
     {"exchange_id", offsetof(ctp_broker_trading_algos, exchange_id)},
@@ -84,6 +167,70 @@ int main() {
     {"currency_id", offsetof(ctp_broker_trading_params, currency_id)},
     {"option_royalty_price_type", offsetof(ctp_broker_trading_params, option_royalty_price_type)},
     {"account_id", offsetof(ctp_broker_trading_params, account_id)},
+  });
+  print_layout<ctp_broker_user>("ctp_broker_user", {
+    {"broker_id", offsetof(ctp_broker_user, broker_id)},
+    {"user_id", offsetof(ctp_broker_user, user_id)},
+    {"user_name", offsetof(ctp_broker_user, user_name)},
+    {"user_type", offsetof(ctp_broker_user, user_type)},
+    {"is_active", offsetof(ctp_broker_user, is_active)},
+    {"is_using_otp", offsetof(ctp_broker_user, is_using_otp)},
+    {"is_auth_force", offsetof(ctp_broker_user, is_auth_force)},
+  });
+  print_layout<ctp_broker_user_event>("ctp_broker_user_event", {
+    {"broker_id", offsetof(ctp_broker_user_event, broker_id)},
+    {"user_id", offsetof(ctp_broker_user_event, user_id)},
+    {"user_event_type", offsetof(ctp_broker_user_event, user_event_type)},
+    {"event_sequence_no", offsetof(ctp_broker_user_event, event_sequence_no)},
+    {"event_date", offsetof(ctp_broker_user_event, event_date)},
+    {"event_time", offsetof(ctp_broker_user_event, event_time)},
+    {"user_event_info", offsetof(ctp_broker_user_event, user_event_info)},
+    {"investor_id", offsetof(ctp_broker_user_event, investor_id)},
+    {"reserve1", offsetof(ctp_broker_user_event, reserve1)},
+    {"instrument_id", offsetof(ctp_broker_user_event, instrument_id)},
+    {"dr_identity_id", offsetof(ctp_broker_user_event, dr_identity_id)},
+    {"trading_day", offsetof(ctp_broker_user_event, trading_day)},
+  });
+  print_layout<ctp_broker_user_function>("ctp_broker_user_function", {
+    {"broker_id", offsetof(ctp_broker_user_function, broker_id)},
+    {"user_id", offsetof(ctp_broker_user_function, user_id)},
+    {"broker_function_code", offsetof(ctp_broker_user_function, broker_function_code)},
+  });
+  print_layout<ctp_broker_user_otp_param>("ctp_broker_user_otp_param", {
+    {"broker_id", offsetof(ctp_broker_user_otp_param, broker_id)},
+    {"user_id", offsetof(ctp_broker_user_otp_param, user_id)},
+    {"otp_vendors_id", offsetof(ctp_broker_user_otp_param, otp_vendors_id)},
+    {"serial_number", offsetof(ctp_broker_user_otp_param, serial_number)},
+    {"auth_key", offsetof(ctp_broker_user_otp_param, auth_key)},
+    {"last_drift", offsetof(ctp_broker_user_otp_param, last_drift)},
+    {"last_success", offsetof(ctp_broker_user_otp_param, last_success)},
+    {"otp_type", offsetof(ctp_broker_user_otp_param, otp_type)},
+  });
+  print_layout<ctp_broker_user_password>("ctp_broker_user_password", {
+    {"broker_id", offsetof(ctp_broker_user_password, broker_id)},
+    {"user_id", offsetof(ctp_broker_user_password, user_id)},
+    {"password", offsetof(ctp_broker_user_password, password)},
+    {"last_update_time", offsetof(ctp_broker_user_password, last_update_time)},
+    {"last_login_time", offsetof(ctp_broker_user_password, last_login_time)},
+    {"expire_date", offsetof(ctp_broker_user_password, expire_date)},
+    {"weak_expire_date", offsetof(ctp_broker_user_password, weak_expire_date)},
+  });
+  print_layout<ctp_broker_user_right_assign>("ctp_broker_user_right_assign", {
+    {"broker_id", offsetof(ctp_broker_user_right_assign, broker_id)},
+    {"dr_identity_id", offsetof(ctp_broker_user_right_assign, dr_identity_id)},
+    {"tradeable", offsetof(ctp_broker_user_right_assign, tradeable)},
+  });
+  print_layout<ctp_broker_withdraw_algorithm>("ctp_broker_withdraw_algorithm", {
+    {"broker_id", offsetof(ctp_broker_withdraw_algorithm, broker_id)},
+    {"withdraw_algorithm", offsetof(ctp_broker_withdraw_algorithm, withdraw_algorithm)},
+    {"using_ratio", offsetof(ctp_broker_withdraw_algorithm, using_ratio)},
+    {"include_close_profit", offsetof(ctp_broker_withdraw_algorithm, include_close_profit)},
+    {"all_without_trade", offsetof(ctp_broker_withdraw_algorithm, all_without_trade)},
+    {"avail_include_close_profit", offsetof(ctp_broker_withdraw_algorithm, avail_include_close_profit)},
+    {"is_broker_user_event", offsetof(ctp_broker_withdraw_algorithm, is_broker_user_event)},
+    {"currency_id", offsetof(ctp_broker_withdraw_algorithm, currency_id)},
+    {"fund_mortgage_ratio", offsetof(ctp_broker_withdraw_algorithm, fund_mortgage_ratio)},
+    {"balance_algorithm", offsetof(ctp_broker_withdraw_algorithm, balance_algorithm)},
   });
   print_layout<ctp_bulletin>("ctp_bulletin", {
     {"exchange_id", offsetof(ctp_bulletin, exchange_id)},
@@ -174,6 +321,15 @@ int main() {
     {"action_local_id", offsetof(ctp_cancel_offset_setting, action_local_id)},
     {"action_date", offsetof(ctp_cancel_offset_setting, action_date)},
     {"action_time", offsetof(ctp_cancel_offset_setting, action_time)},
+  });
+  print_layout<ctp_cfmmc_broker_key>("ctp_cfmmc_broker_key", {
+    {"broker_id", offsetof(ctp_cfmmc_broker_key, broker_id)},
+    {"participant_id", offsetof(ctp_cfmmc_broker_key, participant_id)},
+    {"create_date", offsetof(ctp_cfmmc_broker_key, create_date)},
+    {"create_time", offsetof(ctp_cfmmc_broker_key, create_time)},
+    {"key_id", offsetof(ctp_cfmmc_broker_key, key_id)},
+    {"current_key", offsetof(ctp_cfmmc_broker_key, current_key)},
+    {"key_kind", offsetof(ctp_cfmmc_broker_key, key_kind)},
   });
   print_layout<ctp_cfmmc_trading_account_key>("ctp_cfmmc_trading_account_key", {
     {"broker_id", offsetof(ctp_cfmmc_trading_account_key, broker_id)},
@@ -290,12 +446,59 @@ int main() {
     {"comb_hedge_flag", offsetof(ctp_comb_promotion_param, comb_hedge_flag)},
     {"xparameter", offsetof(ctp_comb_promotion_param, xparameter)},
   });
+  print_layout<ctp_combination_leg>("ctp_combination_leg", {
+    {"reserve1", offsetof(ctp_combination_leg, reserve1)},
+    {"leg_id", offsetof(ctp_combination_leg, leg_id)},
+    {"reserve2", offsetof(ctp_combination_leg, reserve2)},
+    {"direction", offsetof(ctp_combination_leg, direction)},
+    {"leg_multiple", offsetof(ctp_combination_leg, leg_multiple)},
+    {"imply_level", offsetof(ctp_combination_leg, imply_level)},
+    {"comb_instrument_id", offsetof(ctp_combination_leg, comb_instrument_id)},
+    {"leg_instrument_id", offsetof(ctp_combination_leg, leg_instrument_id)},
+  });
+  print_layout<ctp_comm_phase>("ctp_comm_phase", {
+    {"trading_day", offsetof(ctp_comm_phase, trading_day)},
+    {"comm_phase_no", offsetof(ctp_comm_phase, comm_phase_no)},
+    {"system_id", offsetof(ctp_comm_phase, system_id)},
+  });
+  print_layout<ctp_comm_rate_model>("ctp_comm_rate_model", {
+    {"broker_id", offsetof(ctp_comm_rate_model, broker_id)},
+    {"comm_model_id", offsetof(ctp_comm_rate_model, comm_model_id)},
+    {"comm_model_name", offsetof(ctp_comm_rate_model, comm_model_name)},
+  });
   print_layout<ctp_contract_bank>("ctp_contract_bank", {
     {"broker_id", offsetof(ctp_contract_bank, broker_id)},
     {"bank_id", offsetof(ctp_contract_bank, bank_id)},
     {"bank_brch_id", offsetof(ctp_contract_bank, bank_brch_id)},
     {"bank_name", offsetof(ctp_contract_bank, bank_name)},
     {"csrc_bank_id", offsetof(ctp_contract_bank, csrc_bank_id)},
+  });
+  print_layout<ctp_curr_dr_identity>("ctp_curr_dr_identity", {
+    {"dr_identity_id", offsetof(ctp_curr_dr_identity, dr_identity_id)},
+  });
+  print_layout<ctp_curr_transfer_identity>("ctp_curr_transfer_identity", {
+    {"identity_id", offsetof(ctp_curr_transfer_identity, identity_id)},
+  });
+  print_layout<ctp_current_time>("ctp_current_time", {
+    {"curr_date", offsetof(ctp_current_time, curr_date)},
+    {"curr_time", offsetof(ctp_current_time, curr_time)},
+    {"curr_millisec", offsetof(ctp_current_time, curr_millisec)},
+    {"action_day", offsetof(ctp_current_time, action_day)},
+  });
+  print_layout<ctp_department_user>("ctp_department_user", {
+    {"broker_id", offsetof(ctp_department_user, broker_id)},
+    {"user_id", offsetof(ctp_department_user, user_id)},
+    {"investor_range", offsetof(ctp_department_user, investor_range)},
+    {"investor_id", offsetof(ctp_department_user, investor_id)},
+  });
+  print_layout<ctp_deposit_result_inform>("ctp_deposit_result_inform", {
+    {"deposit_seq_no", offsetof(ctp_deposit_result_inform, deposit_seq_no)},
+    {"broker_id", offsetof(ctp_deposit_result_inform, broker_id)},
+    {"investor_id", offsetof(ctp_deposit_result_inform, investor_id)},
+    {"deposit", offsetof(ctp_deposit_result_inform, deposit)},
+    {"request_id", offsetof(ctp_deposit_result_inform, request_id)},
+    {"return_code", offsetof(ctp_deposit_result_inform, return_code)},
+    {"descr_info_for_return_code", offsetof(ctp_deposit_result_inform, descr_info_for_return_code)},
   });
   print_layout<ctp_depth_market_data>("ctp_depth_market_data", {
     {"trading_day", offsetof(ctp_depth_market_data, trading_day)},
@@ -344,6 +547,24 @@ int main() {
     {"exchange_inst_id", offsetof(ctp_depth_market_data, exchange_inst_id)},
     {"banding_upper_price", offsetof(ctp_depth_market_data, banding_upper_price)},
     {"banding_lower_price", offsetof(ctp_depth_market_data, banding_lower_price)},
+    {"reserve1", offsetof(ctp_depth_market_data, reserve1)},
+    {"reserve2", offsetof(ctp_depth_market_data, reserve2)},
+  });
+  print_layout<ctp_discount>("ctp_discount", {
+    {"broker_id", offsetof(ctp_discount, broker_id)},
+    {"investor_range", offsetof(ctp_discount, investor_range)},
+    {"investor_id", offsetof(ctp_discount, investor_id)},
+    {"discount", offsetof(ctp_discount, discount)},
+  });
+  print_layout<ctp_dissemination>("ctp_dissemination", {
+    {"sequence_series", offsetof(ctp_dissemination, sequence_series)},
+    {"sequence_no", offsetof(ctp_dissemination, sequence_no)},
+  });
+  print_layout<ctp_dr_transfer>("ctp_dr_transfer", {
+    {"orig_dr_identity_id", offsetof(ctp_dr_transfer, orig_dr_identity_id)},
+    {"dest_dr_identity_id", offsetof(ctp_dr_transfer, dest_dr_identity_id)},
+    {"orig_broker_id", offsetof(ctp_dr_transfer, orig_broker_id)},
+    {"dest_broker_id", offsetof(ctp_dr_transfer, dest_broker_id)},
   });
   print_layout<ctp_e_warrant_offset>("ctp_e_warrant_offset", {
     {"trading_day", offsetof(ctp_e_warrant_offset, trading_day)},
@@ -356,6 +577,129 @@ int main() {
     {"volume", offsetof(ctp_e_warrant_offset, volume)},
     {"invest_unit_id", offsetof(ctp_e_warrant_offset, invest_unit_id)},
     {"instrument_id", offsetof(ctp_e_warrant_offset, instrument_id)},
+  });
+  print_layout<ctp_err_exec_order>("ctp_err_exec_order", {
+    {"broker_id", offsetof(ctp_err_exec_order, broker_id)},
+    {"investor_id", offsetof(ctp_err_exec_order, investor_id)},
+    {"reserve1", offsetof(ctp_err_exec_order, reserve1)},
+    {"exec_order_ref", offsetof(ctp_err_exec_order, exec_order_ref)},
+    {"user_id", offsetof(ctp_err_exec_order, user_id)},
+    {"volume", offsetof(ctp_err_exec_order, volume)},
+    {"request_id", offsetof(ctp_err_exec_order, request_id)},
+    {"business_unit", offsetof(ctp_err_exec_order, business_unit)},
+    {"offset_flag", offsetof(ctp_err_exec_order, offset_flag)},
+    {"hedge_flag", offsetof(ctp_err_exec_order, hedge_flag)},
+    {"action_type", offsetof(ctp_err_exec_order, action_type)},
+    {"posi_direction", offsetof(ctp_err_exec_order, posi_direction)},
+    {"reserve_position_flag", offsetof(ctp_err_exec_order, reserve_position_flag)},
+    {"close_flag", offsetof(ctp_err_exec_order, close_flag)},
+    {"exchange_id", offsetof(ctp_err_exec_order, exchange_id)},
+    {"invest_unit_id", offsetof(ctp_err_exec_order, invest_unit_id)},
+    {"account_id", offsetof(ctp_err_exec_order, account_id)},
+    {"currency_id", offsetof(ctp_err_exec_order, currency_id)},
+    {"client_id", offsetof(ctp_err_exec_order, client_id)},
+    {"reserve2", offsetof(ctp_err_exec_order, reserve2)},
+    {"mac_address", offsetof(ctp_err_exec_order, mac_address)},
+    {"error_id", offsetof(ctp_err_exec_order, error_id)},
+    {"error_msg", offsetof(ctp_err_exec_order, error_msg)},
+    {"instrument_id", offsetof(ctp_err_exec_order, instrument_id)},
+    {"ip_address", offsetof(ctp_err_exec_order, ip_address)},
+  });
+  print_layout<ctp_err_exec_order_action>("ctp_err_exec_order_action", {
+    {"broker_id", offsetof(ctp_err_exec_order_action, broker_id)},
+    {"investor_id", offsetof(ctp_err_exec_order_action, investor_id)},
+    {"exec_order_action_ref", offsetof(ctp_err_exec_order_action, exec_order_action_ref)},
+    {"exec_order_ref", offsetof(ctp_err_exec_order_action, exec_order_ref)},
+    {"request_id", offsetof(ctp_err_exec_order_action, request_id)},
+    {"front_id", offsetof(ctp_err_exec_order_action, front_id)},
+    {"session_id", offsetof(ctp_err_exec_order_action, session_id)},
+    {"exchange_id", offsetof(ctp_err_exec_order_action, exchange_id)},
+    {"exec_order_sys_id", offsetof(ctp_err_exec_order_action, exec_order_sys_id)},
+    {"action_flag", offsetof(ctp_err_exec_order_action, action_flag)},
+    {"user_id", offsetof(ctp_err_exec_order_action, user_id)},
+    {"reserve1", offsetof(ctp_err_exec_order_action, reserve1)},
+    {"invest_unit_id", offsetof(ctp_err_exec_order_action, invest_unit_id)},
+    {"reserve2", offsetof(ctp_err_exec_order_action, reserve2)},
+    {"mac_address", offsetof(ctp_err_exec_order_action, mac_address)},
+    {"error_id", offsetof(ctp_err_exec_order_action, error_id)},
+    {"error_msg", offsetof(ctp_err_exec_order_action, error_msg)},
+    {"instrument_id", offsetof(ctp_err_exec_order_action, instrument_id)},
+    {"ip_address", offsetof(ctp_err_exec_order_action, ip_address)},
+  });
+  print_layout<ctp_err_order>("ctp_err_order", {
+    {"broker_id", offsetof(ctp_err_order, broker_id)},
+    {"investor_id", offsetof(ctp_err_order, investor_id)},
+    {"reserve1", offsetof(ctp_err_order, reserve1)},
+    {"order_ref", offsetof(ctp_err_order, order_ref)},
+    {"user_id", offsetof(ctp_err_order, user_id)},
+    {"order_price_type", offsetof(ctp_err_order, order_price_type)},
+    {"direction", offsetof(ctp_err_order, direction)},
+    {"comb_offset_flag", offsetof(ctp_err_order, comb_offset_flag)},
+    {"comb_hedge_flag", offsetof(ctp_err_order, comb_hedge_flag)},
+    {"limit_price", offsetof(ctp_err_order, limit_price)},
+    {"volume_total_original", offsetof(ctp_err_order, volume_total_original)},
+    {"time_condition", offsetof(ctp_err_order, time_condition)},
+    {"gtd_date", offsetof(ctp_err_order, gtd_date)},
+    {"volume_condition", offsetof(ctp_err_order, volume_condition)},
+    {"min_volume", offsetof(ctp_err_order, min_volume)},
+    {"contingent_condition", offsetof(ctp_err_order, contingent_condition)},
+    {"stop_price", offsetof(ctp_err_order, stop_price)},
+    {"force_close_reason", offsetof(ctp_err_order, force_close_reason)},
+    {"is_auto_suspend", offsetof(ctp_err_order, is_auto_suspend)},
+    {"business_unit", offsetof(ctp_err_order, business_unit)},
+    {"request_id", offsetof(ctp_err_order, request_id)},
+    {"user_force_close", offsetof(ctp_err_order, user_force_close)},
+    {"error_id", offsetof(ctp_err_order, error_id)},
+    {"error_msg", offsetof(ctp_err_order, error_msg)},
+    {"is_swap_order", offsetof(ctp_err_order, is_swap_order)},
+    {"exchange_id", offsetof(ctp_err_order, exchange_id)},
+    {"invest_unit_id", offsetof(ctp_err_order, invest_unit_id)},
+    {"account_id", offsetof(ctp_err_order, account_id)},
+    {"currency_id", offsetof(ctp_err_order, currency_id)},
+    {"client_id", offsetof(ctp_err_order, client_id)},
+    {"reserve2", offsetof(ctp_err_order, reserve2)},
+    {"mac_address", offsetof(ctp_err_order, mac_address)},
+    {"instrument_id", offsetof(ctp_err_order, instrument_id)},
+    {"ip_address", offsetof(ctp_err_order, ip_address)},
+    {"order_memo", offsetof(ctp_err_order, order_memo)},
+    {"session_req_seq", offsetof(ctp_err_order, session_req_seq)},
+  });
+  print_layout<ctp_err_order_action>("ctp_err_order_action", {
+    {"broker_id", offsetof(ctp_err_order_action, broker_id)},
+    {"investor_id", offsetof(ctp_err_order_action, investor_id)},
+    {"order_action_ref", offsetof(ctp_err_order_action, order_action_ref)},
+    {"order_ref", offsetof(ctp_err_order_action, order_ref)},
+    {"request_id", offsetof(ctp_err_order_action, request_id)},
+    {"front_id", offsetof(ctp_err_order_action, front_id)},
+    {"session_id", offsetof(ctp_err_order_action, session_id)},
+    {"exchange_id", offsetof(ctp_err_order_action, exchange_id)},
+    {"order_sys_id", offsetof(ctp_err_order_action, order_sys_id)},
+    {"action_flag", offsetof(ctp_err_order_action, action_flag)},
+    {"limit_price", offsetof(ctp_err_order_action, limit_price)},
+    {"volume_change", offsetof(ctp_err_order_action, volume_change)},
+    {"action_date", offsetof(ctp_err_order_action, action_date)},
+    {"action_time", offsetof(ctp_err_order_action, action_time)},
+    {"trader_id", offsetof(ctp_err_order_action, trader_id)},
+    {"install_id", offsetof(ctp_err_order_action, install_id)},
+    {"order_local_id", offsetof(ctp_err_order_action, order_local_id)},
+    {"action_local_id", offsetof(ctp_err_order_action, action_local_id)},
+    {"participant_id", offsetof(ctp_err_order_action, participant_id)},
+    {"client_id", offsetof(ctp_err_order_action, client_id)},
+    {"business_unit", offsetof(ctp_err_order_action, business_unit)},
+    {"order_action_status", offsetof(ctp_err_order_action, order_action_status)},
+    {"user_id", offsetof(ctp_err_order_action, user_id)},
+    {"status_msg", offsetof(ctp_err_order_action, status_msg)},
+    {"reserve1", offsetof(ctp_err_order_action, reserve1)},
+    {"branch_id", offsetof(ctp_err_order_action, branch_id)},
+    {"invest_unit_id", offsetof(ctp_err_order_action, invest_unit_id)},
+    {"reserve2", offsetof(ctp_err_order_action, reserve2)},
+    {"mac_address", offsetof(ctp_err_order_action, mac_address)},
+    {"error_id", offsetof(ctp_err_order_action, error_id)},
+    {"error_msg", offsetof(ctp_err_order_action, error_msg)},
+    {"instrument_id", offsetof(ctp_err_order_action, instrument_id)},
+    {"ip_address", offsetof(ctp_err_order_action, ip_address)},
+    {"order_memo", offsetof(ctp_err_order_action, order_memo)},
+    {"session_req_seq", offsetof(ctp_err_order_action, session_req_seq)},
   });
   print_layout<ctp_error_conditional_order>("ctp_error_conditional_order", {
     {"broker_id", offsetof(ctp_error_conditional_order, broker_id)},
@@ -432,6 +776,120 @@ int main() {
     {"exchange_name", offsetof(ctp_exchange, exchange_name)},
     {"exchange_property", offsetof(ctp_exchange, exchange_property)},
   });
+  print_layout<ctp_exchange_batch_order_action>("ctp_exchange_batch_order_action", {
+    {"exchange_id", offsetof(ctp_exchange_batch_order_action, exchange_id)},
+    {"action_date", offsetof(ctp_exchange_batch_order_action, action_date)},
+    {"action_time", offsetof(ctp_exchange_batch_order_action, action_time)},
+    {"trader_id", offsetof(ctp_exchange_batch_order_action, trader_id)},
+    {"install_id", offsetof(ctp_exchange_batch_order_action, install_id)},
+    {"action_local_id", offsetof(ctp_exchange_batch_order_action, action_local_id)},
+    {"participant_id", offsetof(ctp_exchange_batch_order_action, participant_id)},
+    {"client_id", offsetof(ctp_exchange_batch_order_action, client_id)},
+    {"business_unit", offsetof(ctp_exchange_batch_order_action, business_unit)},
+    {"order_action_status", offsetof(ctp_exchange_batch_order_action, order_action_status)},
+    {"user_id", offsetof(ctp_exchange_batch_order_action, user_id)},
+    {"reserve1", offsetof(ctp_exchange_batch_order_action, reserve1)},
+    {"mac_address", offsetof(ctp_exchange_batch_order_action, mac_address)},
+    {"ip_address", offsetof(ctp_exchange_batch_order_action, ip_address)},
+  });
+  print_layout<ctp_exchange_comb_action>("ctp_exchange_comb_action", {
+    {"direction", offsetof(ctp_exchange_comb_action, direction)},
+    {"volume", offsetof(ctp_exchange_comb_action, volume)},
+    {"comb_direction", offsetof(ctp_exchange_comb_action, comb_direction)},
+    {"hedge_flag", offsetof(ctp_exchange_comb_action, hedge_flag)},
+    {"action_local_id", offsetof(ctp_exchange_comb_action, action_local_id)},
+    {"exchange_id", offsetof(ctp_exchange_comb_action, exchange_id)},
+    {"participant_id", offsetof(ctp_exchange_comb_action, participant_id)},
+    {"client_id", offsetof(ctp_exchange_comb_action, client_id)},
+    {"reserve1", offsetof(ctp_exchange_comb_action, reserve1)},
+    {"trader_id", offsetof(ctp_exchange_comb_action, trader_id)},
+    {"install_id", offsetof(ctp_exchange_comb_action, install_id)},
+    {"action_status", offsetof(ctp_exchange_comb_action, action_status)},
+    {"notify_sequence", offsetof(ctp_exchange_comb_action, notify_sequence)},
+    {"trading_day", offsetof(ctp_exchange_comb_action, trading_day)},
+    {"settlement_id", offsetof(ctp_exchange_comb_action, settlement_id)},
+    {"sequence_no", offsetof(ctp_exchange_comb_action, sequence_no)},
+    {"reserve2", offsetof(ctp_exchange_comb_action, reserve2)},
+    {"mac_address", offsetof(ctp_exchange_comb_action, mac_address)},
+    {"com_trade_id", offsetof(ctp_exchange_comb_action, com_trade_id)},
+    {"branch_id", offsetof(ctp_exchange_comb_action, branch_id)},
+    {"exchange_inst_id", offsetof(ctp_exchange_comb_action, exchange_inst_id)},
+    {"ip_address", offsetof(ctp_exchange_comb_action, ip_address)},
+  });
+  print_layout<ctp_exchange_exec_order>("ctp_exchange_exec_order", {
+    {"volume", offsetof(ctp_exchange_exec_order, volume)},
+    {"request_id", offsetof(ctp_exchange_exec_order, request_id)},
+    {"business_unit", offsetof(ctp_exchange_exec_order, business_unit)},
+    {"offset_flag", offsetof(ctp_exchange_exec_order, offset_flag)},
+    {"hedge_flag", offsetof(ctp_exchange_exec_order, hedge_flag)},
+    {"action_type", offsetof(ctp_exchange_exec_order, action_type)},
+    {"posi_direction", offsetof(ctp_exchange_exec_order, posi_direction)},
+    {"reserve_position_flag", offsetof(ctp_exchange_exec_order, reserve_position_flag)},
+    {"close_flag", offsetof(ctp_exchange_exec_order, close_flag)},
+    {"exec_order_local_id", offsetof(ctp_exchange_exec_order, exec_order_local_id)},
+    {"exchange_id", offsetof(ctp_exchange_exec_order, exchange_id)},
+    {"participant_id", offsetof(ctp_exchange_exec_order, participant_id)},
+    {"client_id", offsetof(ctp_exchange_exec_order, client_id)},
+    {"reserve1", offsetof(ctp_exchange_exec_order, reserve1)},
+    {"trader_id", offsetof(ctp_exchange_exec_order, trader_id)},
+    {"install_id", offsetof(ctp_exchange_exec_order, install_id)},
+    {"order_submit_status", offsetof(ctp_exchange_exec_order, order_submit_status)},
+    {"notify_sequence", offsetof(ctp_exchange_exec_order, notify_sequence)},
+    {"trading_day", offsetof(ctp_exchange_exec_order, trading_day)},
+    {"settlement_id", offsetof(ctp_exchange_exec_order, settlement_id)},
+    {"exec_order_sys_id", offsetof(ctp_exchange_exec_order, exec_order_sys_id)},
+    {"insert_date", offsetof(ctp_exchange_exec_order, insert_date)},
+    {"insert_time", offsetof(ctp_exchange_exec_order, insert_time)},
+    {"cancel_time", offsetof(ctp_exchange_exec_order, cancel_time)},
+    {"exec_result", offsetof(ctp_exchange_exec_order, exec_result)},
+    {"clearing_part_id", offsetof(ctp_exchange_exec_order, clearing_part_id)},
+    {"sequence_no", offsetof(ctp_exchange_exec_order, sequence_no)},
+    {"branch_id", offsetof(ctp_exchange_exec_order, branch_id)},
+    {"reserve2", offsetof(ctp_exchange_exec_order, reserve2)},
+    {"mac_address", offsetof(ctp_exchange_exec_order, mac_address)},
+    {"exchange_inst_id", offsetof(ctp_exchange_exec_order, exchange_inst_id)},
+    {"ip_address", offsetof(ctp_exchange_exec_order, ip_address)},
+  });
+  print_layout<ctp_exchange_exec_order_action>("ctp_exchange_exec_order_action", {
+    {"exchange_id", offsetof(ctp_exchange_exec_order_action, exchange_id)},
+    {"exec_order_sys_id", offsetof(ctp_exchange_exec_order_action, exec_order_sys_id)},
+    {"action_flag", offsetof(ctp_exchange_exec_order_action, action_flag)},
+    {"action_date", offsetof(ctp_exchange_exec_order_action, action_date)},
+    {"action_time", offsetof(ctp_exchange_exec_order_action, action_time)},
+    {"trader_id", offsetof(ctp_exchange_exec_order_action, trader_id)},
+    {"install_id", offsetof(ctp_exchange_exec_order_action, install_id)},
+    {"exec_order_local_id", offsetof(ctp_exchange_exec_order_action, exec_order_local_id)},
+    {"action_local_id", offsetof(ctp_exchange_exec_order_action, action_local_id)},
+    {"participant_id", offsetof(ctp_exchange_exec_order_action, participant_id)},
+    {"client_id", offsetof(ctp_exchange_exec_order_action, client_id)},
+    {"business_unit", offsetof(ctp_exchange_exec_order_action, business_unit)},
+    {"order_action_status", offsetof(ctp_exchange_exec_order_action, order_action_status)},
+    {"user_id", offsetof(ctp_exchange_exec_order_action, user_id)},
+    {"action_type", offsetof(ctp_exchange_exec_order_action, action_type)},
+    {"branch_id", offsetof(ctp_exchange_exec_order_action, branch_id)},
+    {"reserve1", offsetof(ctp_exchange_exec_order_action, reserve1)},
+    {"mac_address", offsetof(ctp_exchange_exec_order_action, mac_address)},
+    {"reserve2", offsetof(ctp_exchange_exec_order_action, reserve2)},
+    {"volume", offsetof(ctp_exchange_exec_order_action, volume)},
+    {"ip_address", offsetof(ctp_exchange_exec_order_action, ip_address)},
+    {"exchange_inst_id", offsetof(ctp_exchange_exec_order_action, exchange_inst_id)},
+  });
+  print_layout<ctp_exchange_for_quote>("ctp_exchange_for_quote", {
+    {"for_quote_local_id", offsetof(ctp_exchange_for_quote, for_quote_local_id)},
+    {"exchange_id", offsetof(ctp_exchange_for_quote, exchange_id)},
+    {"participant_id", offsetof(ctp_exchange_for_quote, participant_id)},
+    {"client_id", offsetof(ctp_exchange_for_quote, client_id)},
+    {"reserve1", offsetof(ctp_exchange_for_quote, reserve1)},
+    {"trader_id", offsetof(ctp_exchange_for_quote, trader_id)},
+    {"install_id", offsetof(ctp_exchange_for_quote, install_id)},
+    {"insert_date", offsetof(ctp_exchange_for_quote, insert_date)},
+    {"insert_time", offsetof(ctp_exchange_for_quote, insert_time)},
+    {"for_quote_status", offsetof(ctp_exchange_for_quote, for_quote_status)},
+    {"reserve2", offsetof(ctp_exchange_for_quote, reserve2)},
+    {"mac_address", offsetof(ctp_exchange_for_quote, mac_address)},
+    {"exchange_inst_id", offsetof(ctp_exchange_for_quote, exchange_inst_id)},
+    {"ip_address", offsetof(ctp_exchange_for_quote, ip_address)},
+  });
   print_layout<ctp_exchange_margin_rate>("ctp_exchange_margin_rate", {
     {"broker_id", offsetof(ctp_exchange_margin_rate, broker_id)},
     {"reserve1", offsetof(ctp_exchange_margin_rate, reserve1)},
@@ -461,12 +919,243 @@ int main() {
     {"no_short_margin_ratio_by_volume", offsetof(ctp_exchange_margin_rate_adjust, no_short_margin_ratio_by_volume)},
     {"instrument_id", offsetof(ctp_exchange_margin_rate_adjust, instrument_id)},
   });
+  print_layout<ctp_exchange_option_self_close>("ctp_exchange_option_self_close", {
+    {"volume", offsetof(ctp_exchange_option_self_close, volume)},
+    {"request_id", offsetof(ctp_exchange_option_self_close, request_id)},
+    {"business_unit", offsetof(ctp_exchange_option_self_close, business_unit)},
+    {"hedge_flag", offsetof(ctp_exchange_option_self_close, hedge_flag)},
+    {"opt_self_close_flag", offsetof(ctp_exchange_option_self_close, opt_self_close_flag)},
+    {"option_self_close_local_id", offsetof(ctp_exchange_option_self_close, option_self_close_local_id)},
+    {"exchange_id", offsetof(ctp_exchange_option_self_close, exchange_id)},
+    {"participant_id", offsetof(ctp_exchange_option_self_close, participant_id)},
+    {"client_id", offsetof(ctp_exchange_option_self_close, client_id)},
+    {"reserve1", offsetof(ctp_exchange_option_self_close, reserve1)},
+    {"trader_id", offsetof(ctp_exchange_option_self_close, trader_id)},
+    {"install_id", offsetof(ctp_exchange_option_self_close, install_id)},
+    {"order_submit_status", offsetof(ctp_exchange_option_self_close, order_submit_status)},
+    {"notify_sequence", offsetof(ctp_exchange_option_self_close, notify_sequence)},
+    {"trading_day", offsetof(ctp_exchange_option_self_close, trading_day)},
+    {"settlement_id", offsetof(ctp_exchange_option_self_close, settlement_id)},
+    {"option_self_close_sys_id", offsetof(ctp_exchange_option_self_close, option_self_close_sys_id)},
+    {"insert_date", offsetof(ctp_exchange_option_self_close, insert_date)},
+    {"insert_time", offsetof(ctp_exchange_option_self_close, insert_time)},
+    {"cancel_time", offsetof(ctp_exchange_option_self_close, cancel_time)},
+    {"exec_result", offsetof(ctp_exchange_option_self_close, exec_result)},
+    {"clearing_part_id", offsetof(ctp_exchange_option_self_close, clearing_part_id)},
+    {"sequence_no", offsetof(ctp_exchange_option_self_close, sequence_no)},
+    {"branch_id", offsetof(ctp_exchange_option_self_close, branch_id)},
+    {"reserve2", offsetof(ctp_exchange_option_self_close, reserve2)},
+    {"mac_address", offsetof(ctp_exchange_option_self_close, mac_address)},
+    {"exchange_inst_id", offsetof(ctp_exchange_option_self_close, exchange_inst_id)},
+    {"ip_address", offsetof(ctp_exchange_option_self_close, ip_address)},
+  });
+  print_layout<ctp_exchange_option_self_close_action>("ctp_exchange_option_self_close_action", {
+    {"exchange_id", offsetof(ctp_exchange_option_self_close_action, exchange_id)},
+    {"option_self_close_sys_id", offsetof(ctp_exchange_option_self_close_action, option_self_close_sys_id)},
+    {"action_flag", offsetof(ctp_exchange_option_self_close_action, action_flag)},
+    {"action_date", offsetof(ctp_exchange_option_self_close_action, action_date)},
+    {"action_time", offsetof(ctp_exchange_option_self_close_action, action_time)},
+    {"trader_id", offsetof(ctp_exchange_option_self_close_action, trader_id)},
+    {"install_id", offsetof(ctp_exchange_option_self_close_action, install_id)},
+    {"option_self_close_local_id", offsetof(ctp_exchange_option_self_close_action, option_self_close_local_id)},
+    {"action_local_id", offsetof(ctp_exchange_option_self_close_action, action_local_id)},
+    {"participant_id", offsetof(ctp_exchange_option_self_close_action, participant_id)},
+    {"client_id", offsetof(ctp_exchange_option_self_close_action, client_id)},
+    {"business_unit", offsetof(ctp_exchange_option_self_close_action, business_unit)},
+    {"order_action_status", offsetof(ctp_exchange_option_self_close_action, order_action_status)},
+    {"user_id", offsetof(ctp_exchange_option_self_close_action, user_id)},
+    {"branch_id", offsetof(ctp_exchange_option_self_close_action, branch_id)},
+    {"reserve1", offsetof(ctp_exchange_option_self_close_action, reserve1)},
+    {"mac_address", offsetof(ctp_exchange_option_self_close_action, mac_address)},
+    {"reserve2", offsetof(ctp_exchange_option_self_close_action, reserve2)},
+    {"opt_self_close_flag", offsetof(ctp_exchange_option_self_close_action, opt_self_close_flag)},
+    {"ip_address", offsetof(ctp_exchange_option_self_close_action, ip_address)},
+    {"exchange_inst_id", offsetof(ctp_exchange_option_self_close_action, exchange_inst_id)},
+  });
+  print_layout<ctp_exchange_order>("ctp_exchange_order", {
+    {"order_price_type", offsetof(ctp_exchange_order, order_price_type)},
+    {"direction", offsetof(ctp_exchange_order, direction)},
+    {"comb_offset_flag", offsetof(ctp_exchange_order, comb_offset_flag)},
+    {"comb_hedge_flag", offsetof(ctp_exchange_order, comb_hedge_flag)},
+    {"limit_price", offsetof(ctp_exchange_order, limit_price)},
+    {"volume_total_original", offsetof(ctp_exchange_order, volume_total_original)},
+    {"time_condition", offsetof(ctp_exchange_order, time_condition)},
+    {"gtd_date", offsetof(ctp_exchange_order, gtd_date)},
+    {"volume_condition", offsetof(ctp_exchange_order, volume_condition)},
+    {"min_volume", offsetof(ctp_exchange_order, min_volume)},
+    {"contingent_condition", offsetof(ctp_exchange_order, contingent_condition)},
+    {"stop_price", offsetof(ctp_exchange_order, stop_price)},
+    {"force_close_reason", offsetof(ctp_exchange_order, force_close_reason)},
+    {"is_auto_suspend", offsetof(ctp_exchange_order, is_auto_suspend)},
+    {"business_unit", offsetof(ctp_exchange_order, business_unit)},
+    {"request_id", offsetof(ctp_exchange_order, request_id)},
+    {"order_local_id", offsetof(ctp_exchange_order, order_local_id)},
+    {"exchange_id", offsetof(ctp_exchange_order, exchange_id)},
+    {"participant_id", offsetof(ctp_exchange_order, participant_id)},
+    {"client_id", offsetof(ctp_exchange_order, client_id)},
+    {"reserve1", offsetof(ctp_exchange_order, reserve1)},
+    {"trader_id", offsetof(ctp_exchange_order, trader_id)},
+    {"install_id", offsetof(ctp_exchange_order, install_id)},
+    {"order_submit_status", offsetof(ctp_exchange_order, order_submit_status)},
+    {"notify_sequence", offsetof(ctp_exchange_order, notify_sequence)},
+    {"trading_day", offsetof(ctp_exchange_order, trading_day)},
+    {"settlement_id", offsetof(ctp_exchange_order, settlement_id)},
+    {"order_sys_id", offsetof(ctp_exchange_order, order_sys_id)},
+    {"order_source", offsetof(ctp_exchange_order, order_source)},
+    {"order_status", offsetof(ctp_exchange_order, order_status)},
+    {"order_type", offsetof(ctp_exchange_order, order_type)},
+    {"volume_traded", offsetof(ctp_exchange_order, volume_traded)},
+    {"volume_total", offsetof(ctp_exchange_order, volume_total)},
+    {"insert_date", offsetof(ctp_exchange_order, insert_date)},
+    {"insert_time", offsetof(ctp_exchange_order, insert_time)},
+    {"active_time", offsetof(ctp_exchange_order, active_time)},
+    {"suspend_time", offsetof(ctp_exchange_order, suspend_time)},
+    {"update_time", offsetof(ctp_exchange_order, update_time)},
+    {"cancel_time", offsetof(ctp_exchange_order, cancel_time)},
+    {"active_trader_id", offsetof(ctp_exchange_order, active_trader_id)},
+    {"clearing_part_id", offsetof(ctp_exchange_order, clearing_part_id)},
+    {"sequence_no", offsetof(ctp_exchange_order, sequence_no)},
+    {"branch_id", offsetof(ctp_exchange_order, branch_id)},
+    {"reserve2", offsetof(ctp_exchange_order, reserve2)},
+    {"mac_address", offsetof(ctp_exchange_order, mac_address)},
+    {"exchange_inst_id", offsetof(ctp_exchange_order, exchange_inst_id)},
+    {"ip_address", offsetof(ctp_exchange_order, ip_address)},
+  });
+  print_layout<ctp_exchange_order_action>("ctp_exchange_order_action", {
+    {"exchange_id", offsetof(ctp_exchange_order_action, exchange_id)},
+    {"order_sys_id", offsetof(ctp_exchange_order_action, order_sys_id)},
+    {"action_flag", offsetof(ctp_exchange_order_action, action_flag)},
+    {"limit_price", offsetof(ctp_exchange_order_action, limit_price)},
+    {"volume_change", offsetof(ctp_exchange_order_action, volume_change)},
+    {"action_date", offsetof(ctp_exchange_order_action, action_date)},
+    {"action_time", offsetof(ctp_exchange_order_action, action_time)},
+    {"trader_id", offsetof(ctp_exchange_order_action, trader_id)},
+    {"install_id", offsetof(ctp_exchange_order_action, install_id)},
+    {"order_local_id", offsetof(ctp_exchange_order_action, order_local_id)},
+    {"action_local_id", offsetof(ctp_exchange_order_action, action_local_id)},
+    {"participant_id", offsetof(ctp_exchange_order_action, participant_id)},
+    {"client_id", offsetof(ctp_exchange_order_action, client_id)},
+    {"business_unit", offsetof(ctp_exchange_order_action, business_unit)},
+    {"order_action_status", offsetof(ctp_exchange_order_action, order_action_status)},
+    {"user_id", offsetof(ctp_exchange_order_action, user_id)},
+    {"branch_id", offsetof(ctp_exchange_order_action, branch_id)},
+    {"reserve1", offsetof(ctp_exchange_order_action, reserve1)},
+    {"mac_address", offsetof(ctp_exchange_order_action, mac_address)},
+    {"ip_address", offsetof(ctp_exchange_order_action, ip_address)},
+  });
+  print_layout<ctp_exchange_order_action_error>("ctp_exchange_order_action_error", {
+    {"exchange_id", offsetof(ctp_exchange_order_action_error, exchange_id)},
+    {"order_sys_id", offsetof(ctp_exchange_order_action_error, order_sys_id)},
+    {"trader_id", offsetof(ctp_exchange_order_action_error, trader_id)},
+    {"install_id", offsetof(ctp_exchange_order_action_error, install_id)},
+    {"order_local_id", offsetof(ctp_exchange_order_action_error, order_local_id)},
+    {"action_local_id", offsetof(ctp_exchange_order_action_error, action_local_id)},
+    {"error_id", offsetof(ctp_exchange_order_action_error, error_id)},
+    {"error_msg", offsetof(ctp_exchange_order_action_error, error_msg)},
+  });
+  print_layout<ctp_exchange_order_insert_error>("ctp_exchange_order_insert_error", {
+    {"exchange_id", offsetof(ctp_exchange_order_insert_error, exchange_id)},
+    {"participant_id", offsetof(ctp_exchange_order_insert_error, participant_id)},
+    {"trader_id", offsetof(ctp_exchange_order_insert_error, trader_id)},
+    {"install_id", offsetof(ctp_exchange_order_insert_error, install_id)},
+    {"order_local_id", offsetof(ctp_exchange_order_insert_error, order_local_id)},
+    {"error_id", offsetof(ctp_exchange_order_insert_error, error_id)},
+    {"error_msg", offsetof(ctp_exchange_order_insert_error, error_msg)},
+  });
+  print_layout<ctp_exchange_quote>("ctp_exchange_quote", {
+    {"ask_price", offsetof(ctp_exchange_quote, ask_price)},
+    {"bid_price", offsetof(ctp_exchange_quote, bid_price)},
+    {"ask_volume", offsetof(ctp_exchange_quote, ask_volume)},
+    {"bid_volume", offsetof(ctp_exchange_quote, bid_volume)},
+    {"request_id", offsetof(ctp_exchange_quote, request_id)},
+    {"business_unit", offsetof(ctp_exchange_quote, business_unit)},
+    {"ask_offset_flag", offsetof(ctp_exchange_quote, ask_offset_flag)},
+    {"bid_offset_flag", offsetof(ctp_exchange_quote, bid_offset_flag)},
+    {"ask_hedge_flag", offsetof(ctp_exchange_quote, ask_hedge_flag)},
+    {"bid_hedge_flag", offsetof(ctp_exchange_quote, bid_hedge_flag)},
+    {"quote_local_id", offsetof(ctp_exchange_quote, quote_local_id)},
+    {"exchange_id", offsetof(ctp_exchange_quote, exchange_id)},
+    {"participant_id", offsetof(ctp_exchange_quote, participant_id)},
+    {"client_id", offsetof(ctp_exchange_quote, client_id)},
+    {"reserve1", offsetof(ctp_exchange_quote, reserve1)},
+    {"trader_id", offsetof(ctp_exchange_quote, trader_id)},
+    {"install_id", offsetof(ctp_exchange_quote, install_id)},
+    {"notify_sequence", offsetof(ctp_exchange_quote, notify_sequence)},
+    {"order_submit_status", offsetof(ctp_exchange_quote, order_submit_status)},
+    {"trading_day", offsetof(ctp_exchange_quote, trading_day)},
+    {"settlement_id", offsetof(ctp_exchange_quote, settlement_id)},
+    {"quote_sys_id", offsetof(ctp_exchange_quote, quote_sys_id)},
+    {"insert_date", offsetof(ctp_exchange_quote, insert_date)},
+    {"insert_time", offsetof(ctp_exchange_quote, insert_time)},
+    {"cancel_time", offsetof(ctp_exchange_quote, cancel_time)},
+    {"quote_status", offsetof(ctp_exchange_quote, quote_status)},
+    {"clearing_part_id", offsetof(ctp_exchange_quote, clearing_part_id)},
+    {"sequence_no", offsetof(ctp_exchange_quote, sequence_no)},
+    {"ask_order_sys_id", offsetof(ctp_exchange_quote, ask_order_sys_id)},
+    {"bid_order_sys_id", offsetof(ctp_exchange_quote, bid_order_sys_id)},
+    {"for_quote_sys_id", offsetof(ctp_exchange_quote, for_quote_sys_id)},
+    {"branch_id", offsetof(ctp_exchange_quote, branch_id)},
+    {"reserve2", offsetof(ctp_exchange_quote, reserve2)},
+    {"mac_address", offsetof(ctp_exchange_quote, mac_address)},
+    {"exchange_inst_id", offsetof(ctp_exchange_quote, exchange_inst_id)},
+    {"ip_address", offsetof(ctp_exchange_quote, ip_address)},
+    {"time_condition", offsetof(ctp_exchange_quote, time_condition)},
+  });
+  print_layout<ctp_exchange_quote_action>("ctp_exchange_quote_action", {
+    {"exchange_id", offsetof(ctp_exchange_quote_action, exchange_id)},
+    {"quote_sys_id", offsetof(ctp_exchange_quote_action, quote_sys_id)},
+    {"action_flag", offsetof(ctp_exchange_quote_action, action_flag)},
+    {"action_date", offsetof(ctp_exchange_quote_action, action_date)},
+    {"action_time", offsetof(ctp_exchange_quote_action, action_time)},
+    {"trader_id", offsetof(ctp_exchange_quote_action, trader_id)},
+    {"install_id", offsetof(ctp_exchange_quote_action, install_id)},
+    {"quote_local_id", offsetof(ctp_exchange_quote_action, quote_local_id)},
+    {"action_local_id", offsetof(ctp_exchange_quote_action, action_local_id)},
+    {"participant_id", offsetof(ctp_exchange_quote_action, participant_id)},
+    {"client_id", offsetof(ctp_exchange_quote_action, client_id)},
+    {"business_unit", offsetof(ctp_exchange_quote_action, business_unit)},
+    {"order_action_status", offsetof(ctp_exchange_quote_action, order_action_status)},
+    {"user_id", offsetof(ctp_exchange_quote_action, user_id)},
+    {"reserve1", offsetof(ctp_exchange_quote_action, reserve1)},
+    {"mac_address", offsetof(ctp_exchange_quote_action, mac_address)},
+    {"ip_address", offsetof(ctp_exchange_quote_action, ip_address)},
+  });
   print_layout<ctp_exchange_rate>("ctp_exchange_rate", {
     {"broker_id", offsetof(ctp_exchange_rate, broker_id)},
     {"from_currency_id", offsetof(ctp_exchange_rate, from_currency_id)},
     {"from_currency_unit", offsetof(ctp_exchange_rate, from_currency_unit)},
     {"to_currency_id", offsetof(ctp_exchange_rate, to_currency_id)},
     {"exchange_rate", offsetof(ctp_exchange_rate, exchange_rate)},
+  });
+  print_layout<ctp_exchange_sequence>("ctp_exchange_sequence", {
+    {"exchange_id", offsetof(ctp_exchange_sequence, exchange_id)},
+    {"sequence_no", offsetof(ctp_exchange_sequence, sequence_no)},
+    {"market_status", offsetof(ctp_exchange_sequence, market_status)},
+  });
+  print_layout<ctp_exchange_trade>("ctp_exchange_trade", {
+    {"exchange_id", offsetof(ctp_exchange_trade, exchange_id)},
+    {"trade_id", offsetof(ctp_exchange_trade, trade_id)},
+    {"direction", offsetof(ctp_exchange_trade, direction)},
+    {"order_sys_id", offsetof(ctp_exchange_trade, order_sys_id)},
+    {"participant_id", offsetof(ctp_exchange_trade, participant_id)},
+    {"client_id", offsetof(ctp_exchange_trade, client_id)},
+    {"trading_role", offsetof(ctp_exchange_trade, trading_role)},
+    {"reserve1", offsetof(ctp_exchange_trade, reserve1)},
+    {"offset_flag", offsetof(ctp_exchange_trade, offset_flag)},
+    {"hedge_flag", offsetof(ctp_exchange_trade, hedge_flag)},
+    {"price", offsetof(ctp_exchange_trade, price)},
+    {"volume", offsetof(ctp_exchange_trade, volume)},
+    {"trade_date", offsetof(ctp_exchange_trade, trade_date)},
+    {"trade_time", offsetof(ctp_exchange_trade, trade_time)},
+    {"trade_type", offsetof(ctp_exchange_trade, trade_type)},
+    {"price_source", offsetof(ctp_exchange_trade, price_source)},
+    {"trader_id", offsetof(ctp_exchange_trade, trader_id)},
+    {"order_local_id", offsetof(ctp_exchange_trade, order_local_id)},
+    {"clearing_part_id", offsetof(ctp_exchange_trade, clearing_part_id)},
+    {"business_unit", offsetof(ctp_exchange_trade, business_unit)},
+    {"sequence_no", offsetof(ctp_exchange_trade, sequence_no)},
+    {"trade_source", offsetof(ctp_exchange_trade, trade_source)},
+    {"exchange_inst_id", offsetof(ctp_exchange_trade, exchange_inst_id)},
   });
   print_layout<ctp_exec_order>("ctp_exec_order", {
     {"broker_id", offsetof(ctp_exec_order, broker_id)},
@@ -549,6 +1238,9 @@ int main() {
     {"instrument_id", offsetof(ctp_exec_order_action, instrument_id)},
     {"ip_address", offsetof(ctp_exec_order_action, ip_address)},
   });
+  print_layout<ctp_exit_emergency>("ctp_exit_emergency", {
+    {"broker_id", offsetof(ctp_exit_emergency, broker_id)},
+  });
   print_layout<ctp_fens_user_info>("ctp_fens_user_info", {
     {"broker_id", offsetof(ctp_fens_user_info, broker_id)},
     {"user_id", offsetof(ctp_fens_user_info, user_id)},
@@ -582,6 +1274,14 @@ int main() {
     {"exchange_inst_id", offsetof(ctp_for_quote, exchange_inst_id)},
     {"ip_address", offsetof(ctp_for_quote, ip_address)},
   });
+  print_layout<ctp_for_quote_param>("ctp_for_quote_param", {
+    {"broker_id", offsetof(ctp_for_quote_param, broker_id)},
+    {"reserve1", offsetof(ctp_for_quote_param, reserve1)},
+    {"exchange_id", offsetof(ctp_for_quote_param, exchange_id)},
+    {"last_price", offsetof(ctp_for_quote_param, last_price)},
+    {"price_interval", offsetof(ctp_for_quote_param, price_interval)},
+    {"instrument_id", offsetof(ctp_for_quote_param, instrument_id)},
+  });
   print_layout<ctp_for_quote_rsp>("ctp_for_quote_rsp", {
     {"trading_day", offsetof(ctp_for_quote_rsp, trading_day)},
     {"reserve1", offsetof(ctp_for_quote_rsp, reserve1)},
@@ -591,10 +1291,53 @@ int main() {
     {"exchange_id", offsetof(ctp_for_quote_rsp, exchange_id)},
     {"instrument_id", offsetof(ctp_for_quote_rsp, instrument_id)},
   });
+  print_layout<ctp_force_user_logout>("ctp_force_user_logout", {
+    {"broker_id", offsetof(ctp_force_user_logout, broker_id)},
+    {"user_id", offsetof(ctp_force_user_logout, user_id)},
+  });
   print_layout<ctp_front_info>("ctp_front_info", {
     {"front_addr", offsetof(ctp_front_info, front_addr)},
     {"qry_freq", offsetof(ctp_front_info, qry_freq)},
     {"ftd_pkg_freq", offsetof(ctp_front_info, ftd_pkg_freq)},
+  });
+  print_layout<ctp_front_status>("ctp_front_status", {
+    {"front_id", offsetof(ctp_front_status, front_id)},
+    {"last_report_date", offsetof(ctp_front_status, last_report_date)},
+    {"last_report_time", offsetof(ctp_front_status, last_report_time)},
+    {"is_active", offsetof(ctp_front_status, is_active)},
+  });
+  print_layout<ctp_future_limit_posi_param>("ctp_future_limit_posi_param", {
+    {"investor_range", offsetof(ctp_future_limit_posi_param, investor_range)},
+    {"broker_id", offsetof(ctp_future_limit_posi_param, broker_id)},
+    {"investor_id", offsetof(ctp_future_limit_posi_param, investor_id)},
+    {"reserve1", offsetof(ctp_future_limit_posi_param, reserve1)},
+    {"spec_open_volume", offsetof(ctp_future_limit_posi_param, spec_open_volume)},
+    {"arbi_open_volume", offsetof(ctp_future_limit_posi_param, arbi_open_volume)},
+    {"open_volume", offsetof(ctp_future_limit_posi_param, open_volume)},
+    {"product_id", offsetof(ctp_future_limit_posi_param, product_id)},
+  });
+  print_layout<ctp_future_sign_io>("ctp_future_sign_io", {
+    {"trade_code", offsetof(ctp_future_sign_io, trade_code)},
+    {"bank_id", offsetof(ctp_future_sign_io, bank_id)},
+    {"bank_branch_id", offsetof(ctp_future_sign_io, bank_branch_id)},
+    {"broker_id", offsetof(ctp_future_sign_io, broker_id)},
+    {"broker_branch_id", offsetof(ctp_future_sign_io, broker_branch_id)},
+    {"trade_date", offsetof(ctp_future_sign_io, trade_date)},
+    {"trade_time", offsetof(ctp_future_sign_io, trade_time)},
+    {"bank_serial", offsetof(ctp_future_sign_io, bank_serial)},
+    {"trading_day", offsetof(ctp_future_sign_io, trading_day)},
+    {"plate_serial", offsetof(ctp_future_sign_io, plate_serial)},
+    {"last_fragment", offsetof(ctp_future_sign_io, last_fragment)},
+    {"session_id", offsetof(ctp_future_sign_io, session_id)},
+    {"install_id", offsetof(ctp_future_sign_io, install_id)},
+    {"user_id", offsetof(ctp_future_sign_io, user_id)},
+    {"digest", offsetof(ctp_future_sign_io, digest)},
+    {"currency_id", offsetof(ctp_future_sign_io, currency_id)},
+    {"device_id", offsetof(ctp_future_sign_io, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_future_sign_io, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_future_sign_io, oper_no)},
+    {"request_id", offsetof(ctp_future_sign_io, request_id)},
+    {"tid", offsetof(ctp_future_sign_io, tid)},
   });
   print_layout<ctp_hedge_cfm>("ctp_hedge_cfm", {
     {"broker_id", offsetof(ctp_hedge_cfm, broker_id)},
@@ -654,6 +1397,12 @@ int main() {
     {"session_id", offsetof(ctp_hedge_cfm_action, session_id)},
     {"ip_address", offsetof(ctp_hedge_cfm_action, ip_address)},
     {"mac_address", offsetof(ctp_hedge_cfm_action, mac_address)},
+  });
+  print_layout<ctp_index_price>("ctp_index_price", {
+    {"broker_id", offsetof(ctp_index_price, broker_id)},
+    {"reserve1", offsetof(ctp_index_price, reserve1)},
+    {"close_price", offsetof(ctp_index_price, close_price)},
+    {"instrument_id", offsetof(ctp_index_price, instrument_id)},
   });
   print_layout<ctp_input_batch_order_action>("ctp_input_batch_order_action", {
     {"broker_id", offsetof(ctp_input_batch_order_action, broker_id)},
@@ -858,6 +1607,9 @@ int main() {
     {"mac_address", offsetof(ctp_input_order, mac_address)},
     {"ip_address", offsetof(ctp_input_order, ip_address)},
     {"order_memo", offsetof(ctp_input_order, order_memo)},
+    {"reserve1", offsetof(ctp_input_order, reserve1)},
+    {"reserve2", offsetof(ctp_input_order, reserve2)},
+    {"session_req_seq", offsetof(ctp_input_order, session_req_seq)},
   });
   print_layout<ctp_input_order_action>("ctp_input_order_action", {
     {"broker_id", offsetof(ctp_input_order_action, broker_id)},
@@ -878,6 +1630,9 @@ int main() {
     {"instrument_id", offsetof(ctp_input_order_action, instrument_id)},
     {"ip_address", offsetof(ctp_input_order_action, ip_address)},
     {"order_memo", offsetof(ctp_input_order_action, order_memo)},
+    {"reserve1", offsetof(ctp_input_order_action, reserve1)},
+    {"reserve2", offsetof(ctp_input_order_action, reserve2)},
+    {"session_req_seq", offsetof(ctp_input_order_action, session_req_seq)},
   });
   print_layout<ctp_input_quote>("ctp_input_quote", {
     {"broker_id", offsetof(ctp_input_quote, broker_id)},
@@ -1028,6 +1783,31 @@ int main() {
     {"invest_unit_id", offsetof(ctp_instrument_margin_rate, invest_unit_id)},
     {"instrument_id", offsetof(ctp_instrument_margin_rate, instrument_id)},
   });
+  print_layout<ctp_instrument_margin_rate_adjust>("ctp_instrument_margin_rate_adjust", {
+    {"reserve1", offsetof(ctp_instrument_margin_rate_adjust, reserve1)},
+    {"investor_range", offsetof(ctp_instrument_margin_rate_adjust, investor_range)},
+    {"broker_id", offsetof(ctp_instrument_margin_rate_adjust, broker_id)},
+    {"investor_id", offsetof(ctp_instrument_margin_rate_adjust, investor_id)},
+    {"hedge_flag", offsetof(ctp_instrument_margin_rate_adjust, hedge_flag)},
+    {"long_margin_ratio_by_money", offsetof(ctp_instrument_margin_rate_adjust, long_margin_ratio_by_money)},
+    {"long_margin_ratio_by_volume", offsetof(ctp_instrument_margin_rate_adjust, long_margin_ratio_by_volume)},
+    {"short_margin_ratio_by_money", offsetof(ctp_instrument_margin_rate_adjust, short_margin_ratio_by_money)},
+    {"short_margin_ratio_by_volume", offsetof(ctp_instrument_margin_rate_adjust, short_margin_ratio_by_volume)},
+    {"is_relative", offsetof(ctp_instrument_margin_rate_adjust, is_relative)},
+    {"instrument_id", offsetof(ctp_instrument_margin_rate_adjust, instrument_id)},
+  });
+  print_layout<ctp_instrument_margin_rate_ul>("ctp_instrument_margin_rate_ul", {
+    {"reserve1", offsetof(ctp_instrument_margin_rate_ul, reserve1)},
+    {"investor_range", offsetof(ctp_instrument_margin_rate_ul, investor_range)},
+    {"broker_id", offsetof(ctp_instrument_margin_rate_ul, broker_id)},
+    {"investor_id", offsetof(ctp_instrument_margin_rate_ul, investor_id)},
+    {"hedge_flag", offsetof(ctp_instrument_margin_rate_ul, hedge_flag)},
+    {"long_margin_ratio_by_money", offsetof(ctp_instrument_margin_rate_ul, long_margin_ratio_by_money)},
+    {"long_margin_ratio_by_volume", offsetof(ctp_instrument_margin_rate_ul, long_margin_ratio_by_volume)},
+    {"short_margin_ratio_by_money", offsetof(ctp_instrument_margin_rate_ul, short_margin_ratio_by_money)},
+    {"short_margin_ratio_by_volume", offsetof(ctp_instrument_margin_rate_ul, short_margin_ratio_by_volume)},
+    {"instrument_id", offsetof(ctp_instrument_margin_rate_ul, instrument_id)},
+  });
   print_layout<ctp_instrument_order_comm_rate>("ctp_instrument_order_comm_rate", {
     {"reserve1", offsetof(ctp_instrument_order_comm_rate, reserve1)},
     {"investor_range", offsetof(ctp_instrument_order_comm_rate, investor_range)},
@@ -1053,6 +1833,14 @@ int main() {
     {"enter_reason", offsetof(ctp_instrument_status, enter_reason)},
     {"exchange_inst_id", offsetof(ctp_instrument_status, exchange_inst_id)},
     {"instrument_id", offsetof(ctp_instrument_status, instrument_id)},
+  });
+  print_layout<ctp_instrument_trading_right>("ctp_instrument_trading_right", {
+    {"reserve1", offsetof(ctp_instrument_trading_right, reserve1)},
+    {"investor_range", offsetof(ctp_instrument_trading_right, investor_range)},
+    {"broker_id", offsetof(ctp_instrument_trading_right, broker_id)},
+    {"investor_id", offsetof(ctp_instrument_trading_right, investor_id)},
+    {"trading_right", offsetof(ctp_instrument_trading_right, trading_right)},
+    {"instrument_id", offsetof(ctp_instrument_trading_right, instrument_id)},
   });
   print_layout<ctp_invest_unit>("ctp_invest_unit", {
     {"broker_id", offsetof(ctp_invest_unit, broker_id)},
@@ -1081,6 +1869,12 @@ int main() {
     {"margin_model_id", offsetof(ctp_investor, margin_model_id)},
     {"is_order_freq", offsetof(ctp_investor, is_order_freq)},
     {"is_open_vol_limit", offsetof(ctp_investor, is_open_vol_limit)},
+  });
+  print_layout<ctp_investor_account>("ctp_investor_account", {
+    {"broker_id", offsetof(ctp_investor_account, broker_id)},
+    {"investor_id", offsetof(ctp_investor_account, investor_id)},
+    {"account_id", offsetof(ctp_investor_account, account_id)},
+    {"currency_id", offsetof(ctp_investor_account, currency_id)},
   });
   print_layout<ctp_investor_commodity_group_spmm_margin>("ctp_investor_commodity_group_spmm_margin", {
     {"exchange_id", offsetof(ctp_investor_commodity_group_spmm_margin, exchange_id)},
@@ -1130,6 +1924,25 @@ int main() {
     {"cash_in", offsetof(ctp_investor_commodity_spmm_margin, cash_in)},
     {"strike_frozen_margin", offsetof(ctp_investor_commodity_spmm_margin, strike_frozen_margin)},
   });
+  print_layout<ctp_investor_department_flat>("ctp_investor_department_flat", {
+    {"broker_id", offsetof(ctp_investor_department_flat, broker_id)},
+    {"investor_id", offsetof(ctp_investor_department_flat, investor_id)},
+    {"department_id", offsetof(ctp_investor_department_flat, department_id)},
+  });
+  print_layout<ctp_investor_group>("ctp_investor_group", {
+    {"broker_id", offsetof(ctp_investor_group, broker_id)},
+    {"investor_group_id", offsetof(ctp_investor_group, investor_group_id)},
+    {"investor_group_name", offsetof(ctp_investor_group, investor_group_name)},
+  });
+  print_layout<ctp_investor_info_cnt_setting>("ctp_investor_info_cnt_setting", {
+    {"exchange_id", offsetof(ctp_investor_info_cnt_setting, exchange_id)},
+    {"broker_id", offsetof(ctp_investor_info_cnt_setting, broker_id)},
+    {"investor_id", offsetof(ctp_investor_info_cnt_setting, investor_id)},
+    {"product_id", offsetof(ctp_investor_info_cnt_setting, product_id)},
+    {"is_cal_info_comm", offsetof(ctp_investor_info_cnt_setting, is_cal_info_comm)},
+    {"is_limit_info_max", offsetof(ctp_investor_info_cnt_setting, is_limit_info_max)},
+    {"info_max_limit", offsetof(ctp_investor_info_cnt_setting, info_max_limit)},
+  });
   print_layout<ctp_investor_info_comm_rec>("ctp_investor_info_comm_rec", {
     {"exchange_id", offsetof(ctp_investor_info_comm_rec, exchange_id)},
     {"broker_id", offsetof(ctp_investor_info_comm_rec, broker_id)},
@@ -1142,6 +1955,11 @@ int main() {
     {"is_opt_series", offsetof(ctp_investor_info_comm_rec, is_opt_series)},
     {"product_id", offsetof(ctp_investor_info_comm_rec, product_id)},
     {"info_cnt", offsetof(ctp_investor_info_comm_rec, info_cnt)},
+  });
+  print_layout<ctp_investor_portf_margin_model>("ctp_investor_portf_margin_model", {
+    {"broker_id", offsetof(ctp_investor_portf_margin_model, broker_id)},
+    {"investor_id", offsetof(ctp_investor_portf_margin_model, investor_id)},
+    {"margin_model_id", offsetof(ctp_investor_portf_margin_model, margin_model_id)},
   });
   print_layout<ctp_investor_portf_margin_ratio>("ctp_investor_portf_margin_ratio", {
     {"investor_range", offsetof(ctp_investor_portf_margin_ratio, investor_range)},
@@ -1178,6 +1996,38 @@ int main() {
     {"use_margin", offsetof(ctp_investor_position, use_margin)},
     {"position_cost", offsetof(ctp_investor_position, position_cost)},
     {"open_cost", offsetof(ctp_investor_position, open_cost)},
+    {"reserve1", offsetof(ctp_investor_position, reserve1)},
+    {"long_frozen_amount", offsetof(ctp_investor_position, long_frozen_amount)},
+    {"short_frozen_amount", offsetof(ctp_investor_position, short_frozen_amount)},
+    {"open_amount", offsetof(ctp_investor_position, open_amount)},
+    {"close_amount", offsetof(ctp_investor_position, close_amount)},
+    {"pre_margin", offsetof(ctp_investor_position, pre_margin)},
+    {"frozen_margin", offsetof(ctp_investor_position, frozen_margin)},
+    {"frozen_cash", offsetof(ctp_investor_position, frozen_cash)},
+    {"frozen_commission", offsetof(ctp_investor_position, frozen_commission)},
+    {"cash_in", offsetof(ctp_investor_position, cash_in)},
+    {"commission", offsetof(ctp_investor_position, commission)},
+    {"pre_settlement_price", offsetof(ctp_investor_position, pre_settlement_price)},
+    {"settlement_price", offsetof(ctp_investor_position, settlement_price)},
+    {"trading_day", offsetof(ctp_investor_position, trading_day)},
+    {"settlement_id", offsetof(ctp_investor_position, settlement_id)},
+    {"exchange_margin", offsetof(ctp_investor_position, exchange_margin)},
+    {"comb_position", offsetof(ctp_investor_position, comb_position)},
+    {"comb_long_frozen", offsetof(ctp_investor_position, comb_long_frozen)},
+    {"comb_short_frozen", offsetof(ctp_investor_position, comb_short_frozen)},
+    {"close_profit_by_date", offsetof(ctp_investor_position, close_profit_by_date)},
+    {"close_profit_by_trade", offsetof(ctp_investor_position, close_profit_by_trade)},
+    {"margin_rate_by_money", offsetof(ctp_investor_position, margin_rate_by_money)},
+    {"margin_rate_by_volume", offsetof(ctp_investor_position, margin_rate_by_volume)},
+    {"strike_frozen", offsetof(ctp_investor_position, strike_frozen)},
+    {"strike_frozen_amount", offsetof(ctp_investor_position, strike_frozen_amount)},
+    {"abandon_frozen", offsetof(ctp_investor_position, abandon_frozen)},
+    {"yd_strike_frozen", offsetof(ctp_investor_position, yd_strike_frozen)},
+    {"invest_unit_id", offsetof(ctp_investor_position, invest_unit_id)},
+    {"position_cost_offset", offsetof(ctp_investor_position, position_cost_offset)},
+    {"tas_position", offsetof(ctp_investor_position, tas_position)},
+    {"tas_position_cost", offsetof(ctp_investor_position, tas_position_cost)},
+    {"option_value", offsetof(ctp_investor_position, option_value)},
   });
   print_layout<ctp_investor_position_combine_detail>("ctp_investor_position_combine_detail", {
     {"trading_day", offsetof(ctp_investor_position_combine_detail, trading_day)},
@@ -1350,6 +2200,219 @@ int main() {
     {"invest_unit_id", offsetof(ctp_investor_product_group_margin, invest_unit_id)},
     {"product_group_id", offsetof(ctp_investor_product_group_margin, product_group_id)},
   });
+  print_layout<ctp_investor_reserve_info>("ctp_investor_reserve_info", {
+    {"broker_id", offsetof(ctp_investor_reserve_info, broker_id)},
+    {"user_id", offsetof(ctp_investor_reserve_info, user_id)},
+    {"reserve_info", offsetof(ctp_investor_reserve_info, reserve_info)},
+  });
+  print_layout<ctp_investor_trading_right>("ctp_investor_trading_right", {
+    {"broker_id", offsetof(ctp_investor_trading_right, broker_id)},
+    {"investor_id", offsetof(ctp_investor_trading_right, investor_id)},
+    {"invst_trading_right", offsetof(ctp_investor_trading_right, invst_trading_right)},
+  });
+  print_layout<ctp_investor_withdraw_algorithm>("ctp_investor_withdraw_algorithm", {
+    {"broker_id", offsetof(ctp_investor_withdraw_algorithm, broker_id)},
+    {"investor_range", offsetof(ctp_investor_withdraw_algorithm, investor_range)},
+    {"investor_id", offsetof(ctp_investor_withdraw_algorithm, investor_id)},
+    {"using_ratio", offsetof(ctp_investor_withdraw_algorithm, using_ratio)},
+    {"currency_id", offsetof(ctp_investor_withdraw_algorithm, currency_id)},
+    {"fund_mortgage_ratio", offsetof(ctp_investor_withdraw_algorithm, fund_mortgage_ratio)},
+  });
+  print_layout<ctp_ip_addr_param>("ctp_ip_addr_param", {
+    {"broker_id", offsetof(ctp_ip_addr_param, broker_id)},
+    {"address", offsetof(ctp_ip_addr_param, address)},
+    {"dr_identity_id", offsetof(ctp_ip_addr_param, dr_identity_id)},
+    {"dr_identity_name", offsetof(ctp_ip_addr_param, dr_identity_name)},
+    {"addr_srv_mode", offsetof(ctp_ip_addr_param, addr_srv_mode)},
+    {"addr_ver", offsetof(ctp_ip_addr_param, addr_ver)},
+    {"addr_no", offsetof(ctp_ip_addr_param, addr_no)},
+    {"addr_name", offsetof(ctp_ip_addr_param, addr_name)},
+    {"is_sm", offsetof(ctp_ip_addr_param, is_sm)},
+    {"is_local_addr", offsetof(ctp_ip_addr_param, is_local_addr)},
+    {"remark", offsetof(ctp_ip_addr_param, remark)},
+    {"site", offsetof(ctp_ip_addr_param, site)},
+    {"net_operator", offsetof(ctp_ip_addr_param, net_operator)},
+    {"sys_name", offsetof(ctp_ip_addr_param, sys_name)},
+  });
+  print_layout<ctp_ip_list>("ctp_ip_list", {
+    {"reserve1", offsetof(ctp_ip_list, reserve1)},
+    {"is_white", offsetof(ctp_ip_list, is_white)},
+    {"ip_address", offsetof(ctp_ip_list, ip_address)},
+  });
+  print_layout<ctp_link_man>("ctp_link_man", {
+    {"broker_id", offsetof(ctp_link_man, broker_id)},
+    {"investor_id", offsetof(ctp_link_man, investor_id)},
+    {"person_type", offsetof(ctp_link_man, person_type)},
+    {"identified_card_type", offsetof(ctp_link_man, identified_card_type)},
+    {"identified_card_no", offsetof(ctp_link_man, identified_card_no)},
+    {"person_name", offsetof(ctp_link_man, person_name)},
+    {"telephone", offsetof(ctp_link_man, telephone)},
+    {"address", offsetof(ctp_link_man, address)},
+    {"zip_code", offsetof(ctp_link_man, zip_code)},
+    {"priority", offsetof(ctp_link_man, priority)},
+    {"uoa_zip_code", offsetof(ctp_link_man, uoa_zip_code)},
+    {"person_full_name", offsetof(ctp_link_man, person_full_name)},
+  });
+  print_layout<ctp_load_settlement_info>("ctp_load_settlement_info", {
+    {"broker_id", offsetof(ctp_load_settlement_info, broker_id)},
+  });
+  print_layout<ctp_local_addr_config>("ctp_local_addr_config", {
+    {"broker_id", offsetof(ctp_local_addr_config, broker_id)},
+    {"peer_addr", offsetof(ctp_local_addr_config, peer_addr)},
+    {"net_mask", offsetof(ctp_local_addr_config, net_mask)},
+    {"dr_identity_id", offsetof(ctp_local_addr_config, dr_identity_id)},
+    {"local_address", offsetof(ctp_local_addr_config, local_address)},
+  });
+  print_layout<ctp_login_forbidden_ip>("ctp_login_forbidden_ip", {
+    {"reserve1", offsetof(ctp_login_forbidden_ip, reserve1)},
+    {"ip_address", offsetof(ctp_login_forbidden_ip, ip_address)},
+  });
+  print_layout<ctp_login_forbidden_user>("ctp_login_forbidden_user", {
+    {"broker_id", offsetof(ctp_login_forbidden_user, broker_id)},
+    {"user_id", offsetof(ctp_login_forbidden_user, user_id)},
+    {"reserve1", offsetof(ctp_login_forbidden_user, reserve1)},
+    {"ip_address", offsetof(ctp_login_forbidden_user, ip_address)},
+  });
+  print_layout<ctp_login_info>("ctp_login_info", {
+    {"front_id", offsetof(ctp_login_info, front_id)},
+    {"session_id", offsetof(ctp_login_info, session_id)},
+    {"broker_id", offsetof(ctp_login_info, broker_id)},
+    {"user_id", offsetof(ctp_login_info, user_id)},
+    {"login_date", offsetof(ctp_login_info, login_date)},
+    {"login_time", offsetof(ctp_login_info, login_time)},
+    {"reserve1", offsetof(ctp_login_info, reserve1)},
+    {"user_product_info", offsetof(ctp_login_info, user_product_info)},
+    {"interface_product_info", offsetof(ctp_login_info, interface_product_info)},
+    {"protocol_info", offsetof(ctp_login_info, protocol_info)},
+    {"system_name", offsetof(ctp_login_info, system_name)},
+    {"password_deprecated", offsetof(ctp_login_info, password_deprecated)},
+    {"max_order_ref", offsetof(ctp_login_info, max_order_ref)},
+    {"shfe_time", offsetof(ctp_login_info, shfe_time)},
+    {"dce_time", offsetof(ctp_login_info, dce_time)},
+    {"czce_time", offsetof(ctp_login_info, czce_time)},
+    {"ffex_time", offsetof(ctp_login_info, ffex_time)},
+    {"mac_address", offsetof(ctp_login_info, mac_address)},
+    {"one_time_password", offsetof(ctp_login_info, one_time_password)},
+    {"ine_time", offsetof(ctp_login_info, ine_time)},
+    {"is_qry_control", offsetof(ctp_login_info, is_qry_control)},
+    {"login_remark", offsetof(ctp_login_info, login_remark)},
+    {"password", offsetof(ctp_login_info, password)},
+    {"ip_address", offsetof(ctp_login_info, ip_address)},
+  });
+  print_layout<ctp_logout_all>("ctp_logout_all", {
+    {"front_id", offsetof(ctp_logout_all, front_id)},
+    {"session_id", offsetof(ctp_logout_all, session_id)},
+    {"system_name", offsetof(ctp_logout_all, system_name)},
+  });
+  print_layout<ctp_manual_sync_broker_user_otp>("ctp_manual_sync_broker_user_otp", {
+    {"broker_id", offsetof(ctp_manual_sync_broker_user_otp, broker_id)},
+    {"user_id", offsetof(ctp_manual_sync_broker_user_otp, user_id)},
+    {"otp_type", offsetof(ctp_manual_sync_broker_user_otp, otp_type)},
+    {"first_otp", offsetof(ctp_manual_sync_broker_user_otp, first_otp)},
+    {"second_otp", offsetof(ctp_manual_sync_broker_user_otp, second_otp)},
+  });
+  print_layout<ctp_margin_model>("ctp_margin_model", {
+    {"broker_id", offsetof(ctp_margin_model, broker_id)},
+    {"margin_model_id", offsetof(ctp_margin_model, margin_model_id)},
+    {"margin_model_name", offsetof(ctp_margin_model, margin_model_name)},
+  });
+  print_layout<ctp_market_data>("ctp_market_data", {
+    {"trading_day", offsetof(ctp_market_data, trading_day)},
+    {"reserve1", offsetof(ctp_market_data, reserve1)},
+    {"exchange_id", offsetof(ctp_market_data, exchange_id)},
+    {"reserve2", offsetof(ctp_market_data, reserve2)},
+    {"last_price", offsetof(ctp_market_data, last_price)},
+    {"pre_settlement_price", offsetof(ctp_market_data, pre_settlement_price)},
+    {"pre_close_price", offsetof(ctp_market_data, pre_close_price)},
+    {"pre_open_interest", offsetof(ctp_market_data, pre_open_interest)},
+    {"open_price", offsetof(ctp_market_data, open_price)},
+    {"highest_price", offsetof(ctp_market_data, highest_price)},
+    {"lowest_price", offsetof(ctp_market_data, lowest_price)},
+    {"volume", offsetof(ctp_market_data, volume)},
+    {"turnover", offsetof(ctp_market_data, turnover)},
+    {"open_interest", offsetof(ctp_market_data, open_interest)},
+    {"close_price", offsetof(ctp_market_data, close_price)},
+    {"settlement_price", offsetof(ctp_market_data, settlement_price)},
+    {"upper_limit_price", offsetof(ctp_market_data, upper_limit_price)},
+    {"lower_limit_price", offsetof(ctp_market_data, lower_limit_price)},
+    {"pre_delta", offsetof(ctp_market_data, pre_delta)},
+    {"curr_delta", offsetof(ctp_market_data, curr_delta)},
+    {"update_time", offsetof(ctp_market_data, update_time)},
+    {"update_millisec", offsetof(ctp_market_data, update_millisec)},
+    {"action_day", offsetof(ctp_market_data, action_day)},
+    {"instrument_id", offsetof(ctp_market_data, instrument_id)},
+    {"exchange_inst_id", offsetof(ctp_market_data, exchange_inst_id)},
+  });
+  print_layout<ctp_market_data_ask23>("ctp_market_data_ask23", {
+    {"ask_price2", offsetof(ctp_market_data_ask23, ask_price2)},
+    {"ask_volume2", offsetof(ctp_market_data_ask23, ask_volume2)},
+    {"ask_price3", offsetof(ctp_market_data_ask23, ask_price3)},
+    {"ask_volume3", offsetof(ctp_market_data_ask23, ask_volume3)},
+  });
+  print_layout<ctp_market_data_ask45>("ctp_market_data_ask45", {
+    {"ask_price4", offsetof(ctp_market_data_ask45, ask_price4)},
+    {"ask_volume4", offsetof(ctp_market_data_ask45, ask_volume4)},
+    {"ask_price5", offsetof(ctp_market_data_ask45, ask_price5)},
+    {"ask_volume5", offsetof(ctp_market_data_ask45, ask_volume5)},
+  });
+  print_layout<ctp_market_data_average_price>("ctp_market_data_average_price", {
+    {"average_price", offsetof(ctp_market_data_average_price, average_price)},
+  });
+  print_layout<ctp_market_data_banding_price>("ctp_market_data_banding_price", {
+    {"banding_upper_price", offsetof(ctp_market_data_banding_price, banding_upper_price)},
+    {"banding_lower_price", offsetof(ctp_market_data_banding_price, banding_lower_price)},
+  });
+  print_layout<ctp_market_data_base>("ctp_market_data_base", {
+    {"trading_day", offsetof(ctp_market_data_base, trading_day)},
+    {"pre_settlement_price", offsetof(ctp_market_data_base, pre_settlement_price)},
+    {"pre_close_price", offsetof(ctp_market_data_base, pre_close_price)},
+    {"pre_open_interest", offsetof(ctp_market_data_base, pre_open_interest)},
+    {"pre_delta", offsetof(ctp_market_data_base, pre_delta)},
+  });
+  print_layout<ctp_market_data_best_price>("ctp_market_data_best_price", {
+    {"bid_price1", offsetof(ctp_market_data_best_price, bid_price1)},
+    {"bid_volume1", offsetof(ctp_market_data_best_price, bid_volume1)},
+    {"ask_price1", offsetof(ctp_market_data_best_price, ask_price1)},
+    {"ask_volume1", offsetof(ctp_market_data_best_price, ask_volume1)},
+  });
+  print_layout<ctp_market_data_bid23>("ctp_market_data_bid23", {
+    {"bid_price2", offsetof(ctp_market_data_bid23, bid_price2)},
+    {"bid_volume2", offsetof(ctp_market_data_bid23, bid_volume2)},
+    {"bid_price3", offsetof(ctp_market_data_bid23, bid_price3)},
+    {"bid_volume3", offsetof(ctp_market_data_bid23, bid_volume3)},
+  });
+  print_layout<ctp_market_data_bid45>("ctp_market_data_bid45", {
+    {"bid_price4", offsetof(ctp_market_data_bid45, bid_price4)},
+    {"bid_volume4", offsetof(ctp_market_data_bid45, bid_volume4)},
+    {"bid_price5", offsetof(ctp_market_data_bid45, bid_price5)},
+    {"bid_volume5", offsetof(ctp_market_data_bid45, bid_volume5)},
+  });
+  print_layout<ctp_market_data_exchange>("ctp_market_data_exchange", {
+    {"exchange_id", offsetof(ctp_market_data_exchange, exchange_id)},
+  });
+  print_layout<ctp_market_data_last_match>("ctp_market_data_last_match", {
+    {"last_price", offsetof(ctp_market_data_last_match, last_price)},
+    {"volume", offsetof(ctp_market_data_last_match, volume)},
+    {"turnover", offsetof(ctp_market_data_last_match, turnover)},
+    {"open_interest", offsetof(ctp_market_data_last_match, open_interest)},
+  });
+  print_layout<ctp_market_data_static>("ctp_market_data_static", {
+    {"open_price", offsetof(ctp_market_data_static, open_price)},
+    {"highest_price", offsetof(ctp_market_data_static, highest_price)},
+    {"lowest_price", offsetof(ctp_market_data_static, lowest_price)},
+    {"close_price", offsetof(ctp_market_data_static, close_price)},
+    {"upper_limit_price", offsetof(ctp_market_data_static, upper_limit_price)},
+    {"lower_limit_price", offsetof(ctp_market_data_static, lower_limit_price)},
+    {"settlement_price", offsetof(ctp_market_data_static, settlement_price)},
+    {"curr_delta", offsetof(ctp_market_data_static, curr_delta)},
+  });
+  print_layout<ctp_market_data_update_time>("ctp_market_data_update_time", {
+    {"reserve1", offsetof(ctp_market_data_update_time, reserve1)},
+    {"update_time", offsetof(ctp_market_data_update_time, update_time)},
+    {"update_millisec", offsetof(ctp_market_data_update_time, update_millisec)},
+    {"action_day", offsetof(ctp_market_data_update_time, action_day)},
+    {"instrument_id", offsetof(ctp_market_data_update_time, instrument_id)},
+  });
   print_layout<ctp_md_spi>("ctp_md_spi", {
     {"on_front_connected", offsetof(ctp_md_spi, on_front_connected)},
     {"on_front_disconnected", offsetof(ctp_md_spi, on_front_disconnected)},
@@ -1364,6 +2427,28 @@ int main() {
     {"on_rsp_unsub_for_quote_rsp", offsetof(ctp_md_spi, on_rsp_unsub_for_quote_rsp)},
     {"on_rtn_depth_market_data", offsetof(ctp_md_spi, on_rtn_depth_market_data)},
     {"on_rtn_for_quote_rsp", offsetof(ctp_md_spi, on_rtn_for_quote_rsp)},
+  });
+  print_layout<ctp_md_trader_offer>("ctp_md_trader_offer", {
+    {"exchange_id", offsetof(ctp_md_trader_offer, exchange_id)},
+    {"trader_id", offsetof(ctp_md_trader_offer, trader_id)},
+    {"participant_id", offsetof(ctp_md_trader_offer, participant_id)},
+    {"password", offsetof(ctp_md_trader_offer, password)},
+    {"install_id", offsetof(ctp_md_trader_offer, install_id)},
+    {"order_local_id", offsetof(ctp_md_trader_offer, order_local_id)},
+    {"trader_connect_status", offsetof(ctp_md_trader_offer, trader_connect_status)},
+    {"connect_request_date", offsetof(ctp_md_trader_offer, connect_request_date)},
+    {"connect_request_time", offsetof(ctp_md_trader_offer, connect_request_time)},
+    {"last_report_date", offsetof(ctp_md_trader_offer, last_report_date)},
+    {"last_report_time", offsetof(ctp_md_trader_offer, last_report_time)},
+    {"connect_date", offsetof(ctp_md_trader_offer, connect_date)},
+    {"connect_time", offsetof(ctp_md_trader_offer, connect_time)},
+    {"start_date", offsetof(ctp_md_trader_offer, start_date)},
+    {"start_time", offsetof(ctp_md_trader_offer, start_time)},
+    {"trading_day", offsetof(ctp_md_trader_offer, trading_day)},
+    {"broker_id", offsetof(ctp_md_trader_offer, broker_id)},
+    {"max_trade_id", offsetof(ctp_md_trader_offer, max_trade_id)},
+    {"max_order_message_reference", offsetof(ctp_md_trader_offer, max_order_message_reference)},
+    {"order_cancel_alg", offsetof(ctp_md_trader_offer, order_cancel_alg)},
   });
   print_layout<ctp_mm_instrument_commission_rate>("ctp_mm_instrument_commission_rate", {
     {"reserve1", offsetof(ctp_mm_instrument_commission_rate, reserve1)},
@@ -1393,6 +2478,12 @@ int main() {
     {"strike_ratio_by_volume", offsetof(ctp_mm_option_instr_comm_rate, strike_ratio_by_volume)},
     {"instrument_id", offsetof(ctp_mm_option_instr_comm_rate, instrument_id)},
   });
+  print_layout<ctp_mortgage_param>("ctp_mortgage_param", {
+    {"broker_id", offsetof(ctp_mortgage_param, broker_id)},
+    {"account_id", offsetof(ctp_mortgage_param, account_id)},
+    {"mortgage_balance", offsetof(ctp_mortgage_param, mortgage_balance)},
+    {"check_mortgage_ratio", offsetof(ctp_mortgage_param, check_mortgage_ratio)},
+  });
   print_layout<ctp_multicast_instrument>("ctp_multicast_instrument", {
     {"topic_id", offsetof(ctp_multicast_instrument, topic_id)},
     {"instrument_no", offsetof(ctp_multicast_instrument, instrument_no)},
@@ -1400,11 +2491,64 @@ int main() {
     {"volume_multiple", offsetof(ctp_multicast_instrument, volume_multiple)},
     {"price_tick", offsetof(ctp_multicast_instrument, price_tick)},
     {"instrument_id", offsetof(ctp_multicast_instrument, instrument_id)},
+    {"reserve1", offsetof(ctp_multicast_instrument, reserve1)},
   });
   print_layout<ctp_notice>("ctp_notice", {
     {"broker_id", offsetof(ctp_notice, broker_id)},
     {"content", offsetof(ctp_notice, content)},
     {"sequence_label", offsetof(ctp_notice, sequence_label)},
+  });
+  print_layout<ctp_notify_future_sign_in>("ctp_notify_future_sign_in", {
+    {"trade_code", offsetof(ctp_notify_future_sign_in, trade_code)},
+    {"bank_id", offsetof(ctp_notify_future_sign_in, bank_id)},
+    {"bank_branch_id", offsetof(ctp_notify_future_sign_in, bank_branch_id)},
+    {"broker_id", offsetof(ctp_notify_future_sign_in, broker_id)},
+    {"broker_branch_id", offsetof(ctp_notify_future_sign_in, broker_branch_id)},
+    {"trade_date", offsetof(ctp_notify_future_sign_in, trade_date)},
+    {"trade_time", offsetof(ctp_notify_future_sign_in, trade_time)},
+    {"bank_serial", offsetof(ctp_notify_future_sign_in, bank_serial)},
+    {"trading_day", offsetof(ctp_notify_future_sign_in, trading_day)},
+    {"plate_serial", offsetof(ctp_notify_future_sign_in, plate_serial)},
+    {"last_fragment", offsetof(ctp_notify_future_sign_in, last_fragment)},
+    {"session_id", offsetof(ctp_notify_future_sign_in, session_id)},
+    {"install_id", offsetof(ctp_notify_future_sign_in, install_id)},
+    {"user_id", offsetof(ctp_notify_future_sign_in, user_id)},
+    {"digest", offsetof(ctp_notify_future_sign_in, digest)},
+    {"currency_id", offsetof(ctp_notify_future_sign_in, currency_id)},
+    {"device_id", offsetof(ctp_notify_future_sign_in, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_notify_future_sign_in, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_notify_future_sign_in, oper_no)},
+    {"request_id", offsetof(ctp_notify_future_sign_in, request_id)},
+    {"tid", offsetof(ctp_notify_future_sign_in, tid)},
+    {"error_id", offsetof(ctp_notify_future_sign_in, error_id)},
+    {"error_msg", offsetof(ctp_notify_future_sign_in, error_msg)},
+    {"pin_key", offsetof(ctp_notify_future_sign_in, pin_key)},
+    {"mac_key", offsetof(ctp_notify_future_sign_in, mac_key)},
+  });
+  print_layout<ctp_notify_future_sign_out>("ctp_notify_future_sign_out", {
+    {"trade_code", offsetof(ctp_notify_future_sign_out, trade_code)},
+    {"bank_id", offsetof(ctp_notify_future_sign_out, bank_id)},
+    {"bank_branch_id", offsetof(ctp_notify_future_sign_out, bank_branch_id)},
+    {"broker_id", offsetof(ctp_notify_future_sign_out, broker_id)},
+    {"broker_branch_id", offsetof(ctp_notify_future_sign_out, broker_branch_id)},
+    {"trade_date", offsetof(ctp_notify_future_sign_out, trade_date)},
+    {"trade_time", offsetof(ctp_notify_future_sign_out, trade_time)},
+    {"bank_serial", offsetof(ctp_notify_future_sign_out, bank_serial)},
+    {"trading_day", offsetof(ctp_notify_future_sign_out, trading_day)},
+    {"plate_serial", offsetof(ctp_notify_future_sign_out, plate_serial)},
+    {"last_fragment", offsetof(ctp_notify_future_sign_out, last_fragment)},
+    {"session_id", offsetof(ctp_notify_future_sign_out, session_id)},
+    {"install_id", offsetof(ctp_notify_future_sign_out, install_id)},
+    {"user_id", offsetof(ctp_notify_future_sign_out, user_id)},
+    {"digest", offsetof(ctp_notify_future_sign_out, digest)},
+    {"currency_id", offsetof(ctp_notify_future_sign_out, currency_id)},
+    {"device_id", offsetof(ctp_notify_future_sign_out, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_notify_future_sign_out, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_notify_future_sign_out, oper_no)},
+    {"request_id", offsetof(ctp_notify_future_sign_out, request_id)},
+    {"tid", offsetof(ctp_notify_future_sign_out, tid)},
+    {"error_id", offsetof(ctp_notify_future_sign_out, error_id)},
+    {"error_msg", offsetof(ctp_notify_future_sign_out, error_msg)},
   });
   print_layout<ctp_notify_query_account>("ctp_notify_query_account", {
     {"trade_code", offsetof(ctp_notify_query_account, trade_code)},
@@ -1448,6 +2592,75 @@ int main() {
     {"error_id", offsetof(ctp_notify_query_account, error_id)},
     {"error_msg", offsetof(ctp_notify_query_account, error_msg)},
     {"long_customer_name", offsetof(ctp_notify_query_account, long_customer_name)},
+  });
+  print_layout<ctp_notify_query_future_account_by_sec>("ctp_notify_query_future_account_by_sec", {
+    {"trade_code", offsetof(ctp_notify_query_future_account_by_sec, trade_code)},
+    {"bank_id", offsetof(ctp_notify_query_future_account_by_sec, bank_id)},
+    {"bank_branch_id", offsetof(ctp_notify_query_future_account_by_sec, bank_branch_id)},
+    {"broker_id", offsetof(ctp_notify_query_future_account_by_sec, broker_id)},
+    {"broker_branch_id", offsetof(ctp_notify_query_future_account_by_sec, broker_branch_id)},
+    {"trade_date", offsetof(ctp_notify_query_future_account_by_sec, trade_date)},
+    {"trade_time", offsetof(ctp_notify_query_future_account_by_sec, trade_time)},
+    {"bank_serial", offsetof(ctp_notify_query_future_account_by_sec, bank_serial)},
+    {"trading_day", offsetof(ctp_notify_query_future_account_by_sec, trading_day)},
+    {"plate_serial", offsetof(ctp_notify_query_future_account_by_sec, plate_serial)},
+    {"last_fragment", offsetof(ctp_notify_query_future_account_by_sec, last_fragment)},
+    {"session_id", offsetof(ctp_notify_query_future_account_by_sec, session_id)},
+    {"customer_name", offsetof(ctp_notify_query_future_account_by_sec, customer_name)},
+    {"id_card_type", offsetof(ctp_notify_query_future_account_by_sec, id_card_type)},
+    {"identified_card_no", offsetof(ctp_notify_query_future_account_by_sec, identified_card_no)},
+    {"cust_type", offsetof(ctp_notify_query_future_account_by_sec, cust_type)},
+    {"bank_account", offsetof(ctp_notify_query_future_account_by_sec, bank_account)},
+    {"bank_pass_word", offsetof(ctp_notify_query_future_account_by_sec, bank_pass_word)},
+    {"account_id", offsetof(ctp_notify_query_future_account_by_sec, account_id)},
+    {"password", offsetof(ctp_notify_query_future_account_by_sec, password)},
+    {"future_serial", offsetof(ctp_notify_query_future_account_by_sec, future_serial)},
+    {"install_id", offsetof(ctp_notify_query_future_account_by_sec, install_id)},
+    {"user_id", offsetof(ctp_notify_query_future_account_by_sec, user_id)},
+    {"verify_cert_no_flag", offsetof(ctp_notify_query_future_account_by_sec, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_notify_query_future_account_by_sec, currency_id)},
+    {"digest", offsetof(ctp_notify_query_future_account_by_sec, digest)},
+    {"bank_acc_type", offsetof(ctp_notify_query_future_account_by_sec, bank_acc_type)},
+    {"device_id", offsetof(ctp_notify_query_future_account_by_sec, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_notify_query_future_account_by_sec, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_notify_query_future_account_by_sec, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_notify_query_future_account_by_sec, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_notify_query_future_account_by_sec, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_notify_query_future_account_by_sec, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_notify_query_future_account_by_sec, oper_no)},
+    {"request_id", offsetof(ctp_notify_query_future_account_by_sec, request_id)},
+    {"tid", offsetof(ctp_notify_query_future_account_by_sec, tid)},
+    {"bank_use_amount", offsetof(ctp_notify_query_future_account_by_sec, bank_use_amount)},
+    {"bank_fetch_amount", offsetof(ctp_notify_query_future_account_by_sec, bank_fetch_amount)},
+    {"error_id", offsetof(ctp_notify_query_future_account_by_sec, error_id)},
+    {"error_msg", offsetof(ctp_notify_query_future_account_by_sec, error_msg)},
+    {"long_customer_name", offsetof(ctp_notify_query_future_account_by_sec, long_customer_name)},
+    {"dr_identity_id", offsetof(ctp_notify_query_future_account_by_sec, dr_identity_id)},
+    {"sec_future_serial", offsetof(ctp_notify_query_future_account_by_sec, sec_future_serial)},
+  });
+  print_layout<ctp_notify_sync_key>("ctp_notify_sync_key", {
+    {"trade_code", offsetof(ctp_notify_sync_key, trade_code)},
+    {"bank_id", offsetof(ctp_notify_sync_key, bank_id)},
+    {"bank_branch_id", offsetof(ctp_notify_sync_key, bank_branch_id)},
+    {"broker_id", offsetof(ctp_notify_sync_key, broker_id)},
+    {"broker_branch_id", offsetof(ctp_notify_sync_key, broker_branch_id)},
+    {"trade_date", offsetof(ctp_notify_sync_key, trade_date)},
+    {"trade_time", offsetof(ctp_notify_sync_key, trade_time)},
+    {"bank_serial", offsetof(ctp_notify_sync_key, bank_serial)},
+    {"trading_day", offsetof(ctp_notify_sync_key, trading_day)},
+    {"plate_serial", offsetof(ctp_notify_sync_key, plate_serial)},
+    {"last_fragment", offsetof(ctp_notify_sync_key, last_fragment)},
+    {"session_id", offsetof(ctp_notify_sync_key, session_id)},
+    {"install_id", offsetof(ctp_notify_sync_key, install_id)},
+    {"user_id", offsetof(ctp_notify_sync_key, user_id)},
+    {"message", offsetof(ctp_notify_sync_key, message)},
+    {"device_id", offsetof(ctp_notify_sync_key, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_notify_sync_key, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_notify_sync_key, oper_no)},
+    {"request_id", offsetof(ctp_notify_sync_key, request_id)},
+    {"tid", offsetof(ctp_notify_sync_key, tid)},
+    {"error_id", offsetof(ctp_notify_sync_key, error_id)},
+    {"error_msg", offsetof(ctp_notify_sync_key, error_msg)},
   });
   print_layout<ctp_offset_setting>("ctp_offset_setting", {
     {"broker_id", offsetof(ctp_offset_setting, broker_id)},
@@ -1551,6 +2764,40 @@ int main() {
     {"invest_unit_id", offsetof(ctp_option_instr_comm_rate, invest_unit_id)},
     {"instrument_id", offsetof(ctp_option_instr_comm_rate, instrument_id)},
   });
+  print_layout<ctp_option_instr_delta>("ctp_option_instr_delta", {
+    {"reserve1", offsetof(ctp_option_instr_delta, reserve1)},
+    {"investor_range", offsetof(ctp_option_instr_delta, investor_range)},
+    {"broker_id", offsetof(ctp_option_instr_delta, broker_id)},
+    {"investor_id", offsetof(ctp_option_instr_delta, investor_id)},
+    {"delta", offsetof(ctp_option_instr_delta, delta)},
+    {"instrument_id", offsetof(ctp_option_instr_delta, instrument_id)},
+  });
+  print_layout<ctp_option_instr_margin_adjust>("ctp_option_instr_margin_adjust", {
+    {"reserve1", offsetof(ctp_option_instr_margin_adjust, reserve1)},
+    {"investor_range", offsetof(ctp_option_instr_margin_adjust, investor_range)},
+    {"broker_id", offsetof(ctp_option_instr_margin_adjust, broker_id)},
+    {"investor_id", offsetof(ctp_option_instr_margin_adjust, investor_id)},
+    {"s_short_margin_ratio_by_money", offsetof(ctp_option_instr_margin_adjust, s_short_margin_ratio_by_money)},
+    {"s_short_margin_ratio_by_volume", offsetof(ctp_option_instr_margin_adjust, s_short_margin_ratio_by_volume)},
+    {"h_short_margin_ratio_by_money", offsetof(ctp_option_instr_margin_adjust, h_short_margin_ratio_by_money)},
+    {"h_short_margin_ratio_by_volume", offsetof(ctp_option_instr_margin_adjust, h_short_margin_ratio_by_volume)},
+    {"a_short_margin_ratio_by_money", offsetof(ctp_option_instr_margin_adjust, a_short_margin_ratio_by_money)},
+    {"a_short_margin_ratio_by_volume", offsetof(ctp_option_instr_margin_adjust, a_short_margin_ratio_by_volume)},
+    {"is_relative", offsetof(ctp_option_instr_margin_adjust, is_relative)},
+    {"m_short_margin_ratio_by_money", offsetof(ctp_option_instr_margin_adjust, m_short_margin_ratio_by_money)},
+    {"m_short_margin_ratio_by_volume", offsetof(ctp_option_instr_margin_adjust, m_short_margin_ratio_by_volume)},
+    {"instrument_id", offsetof(ctp_option_instr_margin_adjust, instrument_id)},
+  });
+  print_layout<ctp_option_instr_mini_margin>("ctp_option_instr_mini_margin", {
+    {"reserve1", offsetof(ctp_option_instr_mini_margin, reserve1)},
+    {"investor_range", offsetof(ctp_option_instr_mini_margin, investor_range)},
+    {"broker_id", offsetof(ctp_option_instr_mini_margin, broker_id)},
+    {"investor_id", offsetof(ctp_option_instr_mini_margin, investor_id)},
+    {"min_margin", offsetof(ctp_option_instr_mini_margin, min_margin)},
+    {"value_method", offsetof(ctp_option_instr_mini_margin, value_method)},
+    {"is_relative", offsetof(ctp_option_instr_mini_margin, is_relative)},
+    {"instrument_id", offsetof(ctp_option_instr_mini_margin, instrument_id)},
+  });
   print_layout<ctp_option_instr_trade_cost>("ctp_option_instr_trade_cost", {
     {"broker_id", offsetof(ctp_option_instr_trade_cost, broker_id)},
     {"investor_id", offsetof(ctp_option_instr_trade_cost, investor_id)},
@@ -1564,6 +2811,15 @@ int main() {
     {"exchange_id", offsetof(ctp_option_instr_trade_cost, exchange_id)},
     {"invest_unit_id", offsetof(ctp_option_instr_trade_cost, invest_unit_id)},
     {"instrument_id", offsetof(ctp_option_instr_trade_cost, instrument_id)},
+  });
+  print_layout<ctp_option_instr_trading_right>("ctp_option_instr_trading_right", {
+    {"reserve1", offsetof(ctp_option_instr_trading_right, reserve1)},
+    {"investor_range", offsetof(ctp_option_instr_trading_right, investor_range)},
+    {"broker_id", offsetof(ctp_option_instr_trading_right, broker_id)},
+    {"investor_id", offsetof(ctp_option_instr_trading_right, investor_id)},
+    {"direction", offsetof(ctp_option_instr_trading_right, direction)},
+    {"trading_right", offsetof(ctp_option_instr_trading_right, trading_right)},
+    {"instrument_id", offsetof(ctp_option_instr_trading_right, instrument_id)},
   });
   print_layout<ctp_option_self_close>("ctp_option_self_close", {
     {"broker_id", offsetof(ctp_option_self_close, broker_id)},
@@ -1668,6 +2924,48 @@ int main() {
     {"suspend_time", offsetof(ctp_order, suspend_time)},
     {"update_time", offsetof(ctp_order, update_time)},
     {"cancel_time", offsetof(ctp_order, cancel_time)},
+    {"reserve1", offsetof(ctp_order, reserve1)},
+    {"time_condition", offsetof(ctp_order, time_condition)},
+    {"gtd_date", offsetof(ctp_order, gtd_date)},
+    {"volume_condition", offsetof(ctp_order, volume_condition)},
+    {"min_volume", offsetof(ctp_order, min_volume)},
+    {"contingent_condition", offsetof(ctp_order, contingent_condition)},
+    {"stop_price", offsetof(ctp_order, stop_price)},
+    {"force_close_reason", offsetof(ctp_order, force_close_reason)},
+    {"is_auto_suspend", offsetof(ctp_order, is_auto_suspend)},
+    {"business_unit", offsetof(ctp_order, business_unit)},
+    {"request_id", offsetof(ctp_order, request_id)},
+    {"order_local_id", offsetof(ctp_order, order_local_id)},
+    {"participant_id", offsetof(ctp_order, participant_id)},
+    {"client_id", offsetof(ctp_order, client_id)},
+    {"reserve2", offsetof(ctp_order, reserve2)},
+    {"trader_id", offsetof(ctp_order, trader_id)},
+    {"install_id", offsetof(ctp_order, install_id)},
+    {"notify_sequence", offsetof(ctp_order, notify_sequence)},
+    {"trading_day", offsetof(ctp_order, trading_day)},
+    {"settlement_id", offsetof(ctp_order, settlement_id)},
+    {"order_source", offsetof(ctp_order, order_source)},
+    {"order_type", offsetof(ctp_order, order_type)},
+    {"active_trader_id", offsetof(ctp_order, active_trader_id)},
+    {"clearing_part_id", offsetof(ctp_order, clearing_part_id)},
+    {"sequence_no", offsetof(ctp_order, sequence_no)},
+    {"user_product_info", offsetof(ctp_order, user_product_info)},
+    {"user_force_close", offsetof(ctp_order, user_force_close)},
+    {"active_user_id", offsetof(ctp_order, active_user_id)},
+    {"broker_order_seq", offsetof(ctp_order, broker_order_seq)},
+    {"relative_order_sys_id", offsetof(ctp_order, relative_order_sys_id)},
+    {"zce_total_traded_volume", offsetof(ctp_order, zce_total_traded_volume)},
+    {"is_swap_order", offsetof(ctp_order, is_swap_order)},
+    {"branch_id", offsetof(ctp_order, branch_id)},
+    {"invest_unit_id", offsetof(ctp_order, invest_unit_id)},
+    {"account_id", offsetof(ctp_order, account_id)},
+    {"currency_id", offsetof(ctp_order, currency_id)},
+    {"reserve3", offsetof(ctp_order, reserve3)},
+    {"mac_address", offsetof(ctp_order, mac_address)},
+    {"exchange_inst_id", offsetof(ctp_order, exchange_inst_id)},
+    {"ip_address", offsetof(ctp_order, ip_address)},
+    {"order_memo", offsetof(ctp_order, order_memo)},
+    {"session_req_seq", offsetof(ctp_order, session_req_seq)},
   });
   print_layout<ctp_order_action>("ctp_order_action", {
     {"broker_id", offsetof(ctp_order_action, broker_id)},
@@ -1769,6 +3067,27 @@ int main() {
     {"instrument_id", offsetof(ctp_parked_order_action, instrument_id)},
     {"ip_address", offsetof(ctp_parked_order_action, ip_address)},
   });
+  print_layout<ctp_part_broker>("ctp_part_broker", {
+    {"broker_id", offsetof(ctp_part_broker, broker_id)},
+    {"exchange_id", offsetof(ctp_part_broker, exchange_id)},
+    {"participant_id", offsetof(ctp_part_broker, participant_id)},
+    {"is_active", offsetof(ctp_part_broker, is_active)},
+  });
+  print_layout<ctp_portf_trade_param_setting>("ctp_portf_trade_param_setting", {
+    {"exchange_id", offsetof(ctp_portf_trade_param_setting, exchange_id)},
+    {"broker_id", offsetof(ctp_portf_trade_param_setting, broker_id)},
+    {"investor_id", offsetof(ctp_portf_trade_param_setting, investor_id)},
+    {"portfolio", offsetof(ctp_portf_trade_param_setting, portfolio)},
+    {"is_action_verify", offsetof(ctp_portf_trade_param_setting, is_action_verify)},
+    {"is_close_verify", offsetof(ctp_portf_trade_param_setting, is_close_verify)},
+  });
+  print_layout<ctp_position_profit_algorithm>("ctp_position_profit_algorithm", {
+    {"broker_id", offsetof(ctp_position_profit_algorithm, broker_id)},
+    {"account_id", offsetof(ctp_position_profit_algorithm, account_id)},
+    {"algorithm", offsetof(ctp_position_profit_algorithm, algorithm)},
+    {"memo", offsetof(ctp_position_profit_algorithm, memo)},
+    {"currency_id", offsetof(ctp_position_profit_algorithm, currency_id)},
+  });
   print_layout<ctp_product>("ctp_product", {
     {"reserve1", offsetof(ctp_product, reserve1)},
     {"product_name", offsetof(ctp_product, product_name)},
@@ -1813,6 +3132,20 @@ int main() {
     {"bank_branch_id", offsetof(ctp_qry_accountregister, bank_branch_id)},
     {"currency_id", offsetof(ctp_qry_accountregister, currency_id)},
   });
+  print_layout<ctp_qry_addr_app_id_relation>("ctp_qry_addr_app_id_relation", {
+    {"broker_id", offsetof(ctp_qry_addr_app_id_relation, broker_id)},
+  });
+  print_layout<ctp_qry_auth_forbidden_ip>("ctp_qry_auth_forbidden_ip", {
+    {"ip_address", offsetof(ctp_qry_auth_forbidden_ip, ip_address)},
+  });
+  print_layout<ctp_qry_batch_order_action>("ctp_qry_batch_order_action", {
+    {"broker_id", offsetof(ctp_qry_batch_order_action, broker_id)},
+    {"investor_id", offsetof(ctp_qry_batch_order_action, investor_id)},
+    {"exchange_id", offsetof(ctp_qry_batch_order_action, exchange_id)},
+  });
+  print_layout<ctp_qry_broker>("ctp_qry_broker", {
+    {"broker_id", offsetof(ctp_qry_broker, broker_id)},
+  });
   print_layout<ctp_qry_broker_trading_algos>("ctp_qry_broker_trading_algos", {
     {"broker_id", offsetof(ctp_qry_broker_trading_algos, broker_id)},
     {"exchange_id", offsetof(ctp_qry_broker_trading_algos, exchange_id)},
@@ -1824,6 +3157,29 @@ int main() {
     {"investor_id", offsetof(ctp_qry_broker_trading_params, investor_id)},
     {"currency_id", offsetof(ctp_qry_broker_trading_params, currency_id)},
     {"account_id", offsetof(ctp_qry_broker_trading_params, account_id)},
+  });
+  print_layout<ctp_qry_broker_user>("ctp_qry_broker_user", {
+    {"broker_id", offsetof(ctp_qry_broker_user, broker_id)},
+    {"user_id", offsetof(ctp_qry_broker_user, user_id)},
+  });
+  print_layout<ctp_qry_broker_user_event>("ctp_qry_broker_user_event", {
+    {"broker_id", offsetof(ctp_qry_broker_user_event, broker_id)},
+    {"user_id", offsetof(ctp_qry_broker_user_event, user_id)},
+    {"user_event_type", offsetof(ctp_qry_broker_user_event, user_event_type)},
+  });
+  print_layout<ctp_qry_broker_user_function>("ctp_qry_broker_user_function", {
+    {"broker_id", offsetof(ctp_qry_broker_user_function, broker_id)},
+    {"user_id", offsetof(ctp_qry_broker_user_function, user_id)},
+  });
+  print_layout<ctp_qry_bulletin>("ctp_qry_bulletin", {
+    {"exchange_id", offsetof(ctp_qry_bulletin, exchange_id)},
+    {"bulletin_id", offsetof(ctp_qry_bulletin, bulletin_id)},
+    {"sequence_no", offsetof(ctp_qry_bulletin, sequence_no)},
+    {"news_type", offsetof(ctp_qry_bulletin, news_type)},
+    {"news_urgency", offsetof(ctp_qry_bulletin, news_urgency)},
+  });
+  print_layout<ctp_qry_cfmmc_broker_key>("ctp_qry_cfmmc_broker_key", {
+    {"broker_id", offsetof(ctp_qry_cfmmc_broker_key, broker_id)},
   });
   print_layout<ctp_qry_cfmmc_trading_account_key>("ctp_qry_cfmmc_trading_account_key", {
     {"broker_id", offsetof(ctp_qry_cfmmc_trading_account_key, broker_id)},
@@ -1858,10 +3214,27 @@ int main() {
     {"exchange_id", offsetof(ctp_qry_comb_promotion_param, exchange_id)},
     {"instrument_id", offsetof(ctp_qry_comb_promotion_param, instrument_id)},
   });
+  print_layout<ctp_qry_combination_leg>("ctp_qry_combination_leg", {
+    {"reserve1", offsetof(ctp_qry_combination_leg, reserve1)},
+    {"leg_id", offsetof(ctp_qry_combination_leg, leg_id)},
+    {"reserve2", offsetof(ctp_qry_combination_leg, reserve2)},
+    {"comb_instrument_id", offsetof(ctp_qry_combination_leg, comb_instrument_id)},
+    {"leg_instrument_id", offsetof(ctp_qry_combination_leg, leg_instrument_id)},
+  });
+  print_layout<ctp_qry_comm_rate_model>("ctp_qry_comm_rate_model", {
+    {"broker_id", offsetof(ctp_qry_comm_rate_model, broker_id)},
+    {"comm_model_id", offsetof(ctp_qry_comm_rate_model, comm_model_id)},
+  });
   print_layout<ctp_qry_contract_bank>("ctp_qry_contract_bank", {
     {"broker_id", offsetof(ctp_qry_contract_bank, broker_id)},
     {"bank_id", offsetof(ctp_qry_contract_bank, bank_id)},
     {"bank_brch_id", offsetof(ctp_qry_contract_bank, bank_brch_id)},
+  });
+  print_layout<ctp_qry_curr_dr_identity>("ctp_qry_curr_dr_identity", {
+    {"dr_identity_id", offsetof(ctp_qry_curr_dr_identity, dr_identity_id)},
+  });
+  print_layout<ctp_qry_department_user>("ctp_qry_department_user", {
+    {"broker_id", offsetof(ctp_qry_department_user, broker_id)},
   });
   print_layout<ctp_qry_depth_market_data>("ctp_qry_depth_market_data", {
     {"reserve1", offsetof(ctp_qry_depth_market_data, reserve1)},
@@ -1877,8 +3250,54 @@ int main() {
     {"invest_unit_id", offsetof(ctp_qry_e_warrant_offset, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_e_warrant_offset, instrument_id)},
   });
+  print_layout<ctp_qry_err_exec_order>("ctp_qry_err_exec_order", {
+    {"broker_id", offsetof(ctp_qry_err_exec_order, broker_id)},
+    {"investor_id", offsetof(ctp_qry_err_exec_order, investor_id)},
+  });
+  print_layout<ctp_qry_err_exec_order_action>("ctp_qry_err_exec_order_action", {
+    {"broker_id", offsetof(ctp_qry_err_exec_order_action, broker_id)},
+    {"investor_id", offsetof(ctp_qry_err_exec_order_action, investor_id)},
+  });
+  print_layout<ctp_qry_err_order>("ctp_qry_err_order", {
+    {"broker_id", offsetof(ctp_qry_err_order, broker_id)},
+    {"investor_id", offsetof(ctp_qry_err_order, investor_id)},
+  });
+  print_layout<ctp_qry_err_order_action>("ctp_qry_err_order_action", {
+    {"broker_id", offsetof(ctp_qry_err_order_action, broker_id)},
+    {"investor_id", offsetof(ctp_qry_err_order_action, investor_id)},
+  });
   print_layout<ctp_qry_exchange>("ctp_qry_exchange", {
     {"exchange_id", offsetof(ctp_qry_exchange, exchange_id)},
+  });
+  print_layout<ctp_qry_exchange_comb_action>("ctp_qry_exchange_comb_action", {
+    {"participant_id", offsetof(ctp_qry_exchange_comb_action, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_comb_action, client_id)},
+    {"reserve1", offsetof(ctp_qry_exchange_comb_action, reserve1)},
+    {"exchange_id", offsetof(ctp_qry_exchange_comb_action, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_comb_action, trader_id)},
+    {"exchange_inst_id", offsetof(ctp_qry_exchange_comb_action, exchange_inst_id)},
+  });
+  print_layout<ctp_qry_exchange_exec_order>("ctp_qry_exchange_exec_order", {
+    {"participant_id", offsetof(ctp_qry_exchange_exec_order, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_exec_order, client_id)},
+    {"reserve1", offsetof(ctp_qry_exchange_exec_order, reserve1)},
+    {"exchange_id", offsetof(ctp_qry_exchange_exec_order, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_exec_order, trader_id)},
+    {"exchange_inst_id", offsetof(ctp_qry_exchange_exec_order, exchange_inst_id)},
+  });
+  print_layout<ctp_qry_exchange_exec_order_action>("ctp_qry_exchange_exec_order_action", {
+    {"participant_id", offsetof(ctp_qry_exchange_exec_order_action, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_exec_order_action, client_id)},
+    {"exchange_id", offsetof(ctp_qry_exchange_exec_order_action, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_exec_order_action, trader_id)},
+  });
+  print_layout<ctp_qry_exchange_for_quote>("ctp_qry_exchange_for_quote", {
+    {"participant_id", offsetof(ctp_qry_exchange_for_quote, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_for_quote, client_id)},
+    {"reserve1", offsetof(ctp_qry_exchange_for_quote, reserve1)},
+    {"exchange_id", offsetof(ctp_qry_exchange_for_quote, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_for_quote, trader_id)},
+    {"exchange_inst_id", offsetof(ctp_qry_exchange_for_quote, exchange_inst_id)},
   });
   print_layout<ctp_qry_exchange_margin_rate>("ctp_qry_exchange_margin_rate", {
     {"broker_id", offsetof(ctp_qry_exchange_margin_rate, broker_id)},
@@ -1893,10 +3312,41 @@ int main() {
     {"hedge_flag", offsetof(ctp_qry_exchange_margin_rate_adjust, hedge_flag)},
     {"instrument_id", offsetof(ctp_qry_exchange_margin_rate_adjust, instrument_id)},
   });
+  print_layout<ctp_qry_exchange_order>("ctp_qry_exchange_order", {
+    {"participant_id", offsetof(ctp_qry_exchange_order, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_order, client_id)},
+    {"reserve1", offsetof(ctp_qry_exchange_order, reserve1)},
+    {"exchange_id", offsetof(ctp_qry_exchange_order, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_order, trader_id)},
+    {"exchange_inst_id", offsetof(ctp_qry_exchange_order, exchange_inst_id)},
+  });
+  print_layout<ctp_qry_exchange_order_action>("ctp_qry_exchange_order_action", {
+    {"participant_id", offsetof(ctp_qry_exchange_order_action, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_order_action, client_id)},
+    {"exchange_id", offsetof(ctp_qry_exchange_order_action, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_order_action, trader_id)},
+  });
+  print_layout<ctp_qry_exchange_quote>("ctp_qry_exchange_quote", {
+    {"participant_id", offsetof(ctp_qry_exchange_quote, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_quote, client_id)},
+    {"reserve1", offsetof(ctp_qry_exchange_quote, reserve1)},
+    {"exchange_id", offsetof(ctp_qry_exchange_quote, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_quote, trader_id)},
+    {"exchange_inst_id", offsetof(ctp_qry_exchange_quote, exchange_inst_id)},
+  });
+  print_layout<ctp_qry_exchange_quote_action>("ctp_qry_exchange_quote_action", {
+    {"participant_id", offsetof(ctp_qry_exchange_quote_action, participant_id)},
+    {"client_id", offsetof(ctp_qry_exchange_quote_action, client_id)},
+    {"exchange_id", offsetof(ctp_qry_exchange_quote_action, exchange_id)},
+    {"trader_id", offsetof(ctp_qry_exchange_quote_action, trader_id)},
+  });
   print_layout<ctp_qry_exchange_rate>("ctp_qry_exchange_rate", {
     {"broker_id", offsetof(ctp_qry_exchange_rate, broker_id)},
     {"from_currency_id", offsetof(ctp_qry_exchange_rate, from_currency_id)},
     {"to_currency_id", offsetof(ctp_qry_exchange_rate, to_currency_id)},
+  });
+  print_layout<ctp_qry_exchange_sequence>("ctp_qry_exchange_sequence", {
+    {"exchange_id", offsetof(ctp_qry_exchange_sequence, exchange_id)},
   });
   print_layout<ctp_qry_exec_order>("ctp_qry_exec_order", {
     {"broker_id", offsetof(ctp_qry_exec_order, broker_id)},
@@ -1908,6 +3358,11 @@ int main() {
     {"insert_time_end", offsetof(ctp_qry_exec_order, insert_time_end)},
     {"instrument_id", offsetof(ctp_qry_exec_order, instrument_id)},
   });
+  print_layout<ctp_qry_exec_order_action>("ctp_qry_exec_order_action", {
+    {"broker_id", offsetof(ctp_qry_exec_order_action, broker_id)},
+    {"investor_id", offsetof(ctp_qry_exec_order_action, investor_id)},
+    {"exchange_id", offsetof(ctp_qry_exec_order_action, exchange_id)},
+  });
   print_layout<ctp_qry_for_quote>("ctp_qry_for_quote", {
     {"broker_id", offsetof(ctp_qry_for_quote, broker_id)},
     {"investor_id", offsetof(ctp_qry_for_quote, investor_id)},
@@ -1918,12 +3373,33 @@ int main() {
     {"invest_unit_id", offsetof(ctp_qry_for_quote, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_for_quote, instrument_id)},
   });
+  print_layout<ctp_qry_for_quote_param>("ctp_qry_for_quote_param", {
+    {"broker_id", offsetof(ctp_qry_for_quote_param, broker_id)},
+    {"reserve1", offsetof(ctp_qry_for_quote_param, reserve1)},
+    {"exchange_id", offsetof(ctp_qry_for_quote_param, exchange_id)},
+    {"instrument_id", offsetof(ctp_qry_for_quote_param, instrument_id)},
+  });
+  print_layout<ctp_qry_front_status>("ctp_qry_front_status", {
+    {"front_id", offsetof(ctp_qry_front_status, front_id)},
+  });
   print_layout<ctp_qry_hedge_cfm>("ctp_qry_hedge_cfm", {
     {"broker_id", offsetof(ctp_qry_hedge_cfm, broker_id)},
     {"investor_id", offsetof(ctp_qry_hedge_cfm, investor_id)},
     {"exchange_id", offsetof(ctp_qry_hedge_cfm, exchange_id)},
     {"order_sys_id", offsetof(ctp_qry_hedge_cfm, order_sys_id)},
     {"instrument_id", offsetof(ctp_qry_hedge_cfm, instrument_id)},
+  });
+  print_layout<ctp_qry_his_order>("ctp_qry_his_order", {
+    {"broker_id", offsetof(ctp_qry_his_order, broker_id)},
+    {"investor_id", offsetof(ctp_qry_his_order, investor_id)},
+    {"reserve1", offsetof(ctp_qry_his_order, reserve1)},
+    {"exchange_id", offsetof(ctp_qry_his_order, exchange_id)},
+    {"order_sys_id", offsetof(ctp_qry_his_order, order_sys_id)},
+    {"insert_time_start", offsetof(ctp_qry_his_order, insert_time_start)},
+    {"insert_time_end", offsetof(ctp_qry_his_order, insert_time_end)},
+    {"trading_day", offsetof(ctp_qry_his_order, trading_day)},
+    {"settlement_id", offsetof(ctp_qry_his_order, settlement_id)},
+    {"instrument_id", offsetof(ctp_qry_his_order, instrument_id)},
   });
   print_layout<ctp_qry_instrument>("ctp_qry_instrument", {
     {"reserve1", offsetof(ctp_qry_instrument, reserve1)},
@@ -1957,6 +3433,17 @@ int main() {
     {"reserve1", offsetof(ctp_qry_instrument_order_comm_rate, reserve1)},
     {"instrument_id", offsetof(ctp_qry_instrument_order_comm_rate, instrument_id)},
   });
+  print_layout<ctp_qry_instrument_status>("ctp_qry_instrument_status", {
+    {"exchange_id", offsetof(ctp_qry_instrument_status, exchange_id)},
+    {"reserve1", offsetof(ctp_qry_instrument_status, reserve1)},
+    {"exchange_inst_id", offsetof(ctp_qry_instrument_status, exchange_inst_id)},
+  });
+  print_layout<ctp_qry_instrument_trading_right>("ctp_qry_instrument_trading_right", {
+    {"broker_id", offsetof(ctp_qry_instrument_trading_right, broker_id)},
+    {"investor_id", offsetof(ctp_qry_instrument_trading_right, investor_id)},
+    {"reserve1", offsetof(ctp_qry_instrument_trading_right, reserve1)},
+    {"instrument_id", offsetof(ctp_qry_instrument_trading_right, instrument_id)},
+  });
   print_layout<ctp_qry_invest_unit>("ctp_qry_invest_unit", {
     {"broker_id", offsetof(ctp_qry_invest_unit, broker_id)},
     {"investor_id", offsetof(ctp_qry_invest_unit, investor_id)},
@@ -1975,6 +3462,12 @@ int main() {
     {"broker_id", offsetof(ctp_qry_investor_commodity_spmm_margin, broker_id)},
     {"investor_id", offsetof(ctp_qry_investor_commodity_spmm_margin, investor_id)},
     {"commodity_id", offsetof(ctp_qry_investor_commodity_spmm_margin, commodity_id)},
+  });
+  print_layout<ctp_qry_investor_department_flat>("ctp_qry_investor_department_flat", {
+    {"broker_id", offsetof(ctp_qry_investor_department_flat, broker_id)},
+  });
+  print_layout<ctp_qry_investor_group>("ctp_qry_investor_group", {
+    {"broker_id", offsetof(ctp_qry_investor_group, broker_id)},
   });
   print_layout<ctp_qry_investor_info_comm_rec>("ctp_qry_investor_info_comm_rec", {
     {"investor_id", offsetof(ctp_qry_investor_info_comm_rec, investor_id)},
@@ -1998,6 +3491,7 @@ int main() {
     {"exchange_id", offsetof(ctp_qry_investor_position, exchange_id)},
     {"invest_unit_id", offsetof(ctp_qry_investor_position, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_investor_position, instrument_id)},
+    {"reserve1", offsetof(ctp_qry_investor_position, reserve1)},
   });
   print_layout<ctp_qry_investor_position_combine_detail>("ctp_qry_investor_position_combine_detail", {
     {"broker_id", offsetof(ctp_qry_investor_position_combine_detail, broker_id)},
@@ -2043,6 +3537,32 @@ int main() {
     {"invest_unit_id", offsetof(ctp_qry_investor_product_group_margin, invest_unit_id)},
     {"product_group_id", offsetof(ctp_qry_investor_product_group_margin, product_group_id)},
   });
+  print_layout<ctp_qry_ip_addr_param>("ctp_qry_ip_addr_param", {
+    {"broker_id", offsetof(ctp_qry_ip_addr_param, broker_id)},
+  });
+  print_layout<ctp_qry_ip_list>("ctp_qry_ip_list", {
+    {"reserve1", offsetof(ctp_qry_ip_list, reserve1)},
+    {"ip_address", offsetof(ctp_qry_ip_list, ip_address)},
+  });
+  print_layout<ctp_qry_link_man>("ctp_qry_link_man", {
+    {"broker_id", offsetof(ctp_qry_link_man, broker_id)},
+    {"investor_id", offsetof(ctp_qry_link_man, investor_id)},
+  });
+  print_layout<ctp_qry_local_addr_config>("ctp_qry_local_addr_config", {
+    {"broker_id", offsetof(ctp_qry_local_addr_config, broker_id)},
+  });
+  print_layout<ctp_qry_login_forbidden_ip>("ctp_qry_login_forbidden_ip", {
+    {"reserve1", offsetof(ctp_qry_login_forbidden_ip, reserve1)},
+    {"ip_address", offsetof(ctp_qry_login_forbidden_ip, ip_address)},
+  });
+  print_layout<ctp_qry_login_forbidden_user>("ctp_qry_login_forbidden_user", {
+    {"broker_id", offsetof(ctp_qry_login_forbidden_user, broker_id)},
+    {"user_id", offsetof(ctp_qry_login_forbidden_user, user_id)},
+  });
+  print_layout<ctp_qry_margin_model>("ctp_qry_margin_model", {
+    {"broker_id", offsetof(ctp_qry_margin_model, broker_id)},
+    {"margin_model_id", offsetof(ctp_qry_margin_model, margin_model_id)},
+  });
   print_layout<ctp_qry_max_order_volume>("ctp_qry_max_order_volume", {
     {"broker_id", offsetof(ctp_qry_max_order_volume, broker_id)},
     {"investor_id", offsetof(ctp_qry_max_order_volume, investor_id)},
@@ -2054,6 +3574,24 @@ int main() {
     {"exchange_id", offsetof(ctp_qry_max_order_volume, exchange_id)},
     {"invest_unit_id", offsetof(ctp_qry_max_order_volume, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_max_order_volume, instrument_id)},
+  });
+  print_layout<ctp_qry_max_order_volume_with_price>("ctp_qry_max_order_volume_with_price", {
+    {"broker_id", offsetof(ctp_qry_max_order_volume_with_price, broker_id)},
+    {"investor_id", offsetof(ctp_qry_max_order_volume_with_price, investor_id)},
+    {"reserve1", offsetof(ctp_qry_max_order_volume_with_price, reserve1)},
+    {"direction", offsetof(ctp_qry_max_order_volume_with_price, direction)},
+    {"offset_flag", offsetof(ctp_qry_max_order_volume_with_price, offset_flag)},
+    {"hedge_flag", offsetof(ctp_qry_max_order_volume_with_price, hedge_flag)},
+    {"max_volume", offsetof(ctp_qry_max_order_volume_with_price, max_volume)},
+    {"price", offsetof(ctp_qry_max_order_volume_with_price, price)},
+    {"exchange_id", offsetof(ctp_qry_max_order_volume_with_price, exchange_id)},
+    {"invest_unit_id", offsetof(ctp_qry_max_order_volume_with_price, invest_unit_id)},
+    {"instrument_id", offsetof(ctp_qry_max_order_volume_with_price, instrument_id)},
+  });
+  print_layout<ctp_qry_md_trader_offer>("ctp_qry_md_trader_offer", {
+    {"exchange_id", offsetof(ctp_qry_md_trader_offer, exchange_id)},
+    {"participant_id", offsetof(ctp_qry_md_trader_offer, participant_id)},
+    {"trader_id", offsetof(ctp_qry_md_trader_offer, trader_id)},
   });
   print_layout<ctp_qry_mm_instrument_commission_rate>("ctp_qry_mm_instrument_commission_rate", {
     {"broker_id", offsetof(ctp_qry_mm_instrument_commission_rate, broker_id)},
@@ -2070,6 +3608,7 @@ int main() {
   print_layout<ctp_qry_multicast_instrument>("ctp_qry_multicast_instrument", {
     {"topic_id", offsetof(ctp_qry_multicast_instrument, topic_id)},
     {"instrument_id", offsetof(ctp_qry_multicast_instrument, instrument_id)},
+    {"reserve1", offsetof(ctp_qry_multicast_instrument, reserve1)},
   });
   print_layout<ctp_qry_notice>("ctp_qry_notice", {
     {"broker_id", offsetof(ctp_qry_notice, broker_id)},
@@ -2099,6 +3638,13 @@ int main() {
     {"invest_unit_id", offsetof(ctp_qry_option_instr_trade_cost, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_option_instr_trade_cost, instrument_id)},
   });
+  print_layout<ctp_qry_option_instr_trading_right>("ctp_qry_option_instr_trading_right", {
+    {"broker_id", offsetof(ctp_qry_option_instr_trading_right, broker_id)},
+    {"investor_id", offsetof(ctp_qry_option_instr_trading_right, investor_id)},
+    {"reserve1", offsetof(ctp_qry_option_instr_trading_right, reserve1)},
+    {"direction", offsetof(ctp_qry_option_instr_trading_right, direction)},
+    {"instrument_id", offsetof(ctp_qry_option_instr_trading_right, instrument_id)},
+  });
   print_layout<ctp_qry_option_self_close>("ctp_qry_option_self_close", {
     {"broker_id", offsetof(ctp_qry_option_self_close, broker_id)},
     {"investor_id", offsetof(ctp_qry_option_self_close, investor_id)},
@@ -2108,6 +3654,11 @@ int main() {
     {"insert_time_start", offsetof(ctp_qry_option_self_close, insert_time_start)},
     {"insert_time_end", offsetof(ctp_qry_option_self_close, insert_time_end)},
     {"instrument_id", offsetof(ctp_qry_option_self_close, instrument_id)},
+  });
+  print_layout<ctp_qry_option_self_close_action>("ctp_qry_option_self_close_action", {
+    {"broker_id", offsetof(ctp_qry_option_self_close_action, broker_id)},
+    {"investor_id", offsetof(ctp_qry_option_self_close_action, investor_id)},
+    {"exchange_id", offsetof(ctp_qry_option_self_close_action, exchange_id)},
   });
   print_layout<ctp_qry_order>("ctp_qry_order", {
     {"broker_id", offsetof(ctp_qry_order, broker_id)},
@@ -2119,6 +3670,11 @@ int main() {
     {"insert_time_end", offsetof(ctp_qry_order, insert_time_end)},
     {"invest_unit_id", offsetof(ctp_qry_order, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_order, instrument_id)},
+  });
+  print_layout<ctp_qry_order_action>("ctp_qry_order_action", {
+    {"broker_id", offsetof(ctp_qry_order_action, broker_id)},
+    {"investor_id", offsetof(ctp_qry_order_action, investor_id)},
+    {"exchange_id", offsetof(ctp_qry_order_action, exchange_id)},
   });
   print_layout<ctp_qry_parked_order>("ctp_qry_parked_order", {
     {"broker_id", offsetof(ctp_qry_parked_order, broker_id)},
@@ -2135,6 +3691,11 @@ int main() {
     {"exchange_id", offsetof(ctp_qry_parked_order_action, exchange_id)},
     {"invest_unit_id", offsetof(ctp_qry_parked_order_action, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_parked_order_action, instrument_id)},
+  });
+  print_layout<ctp_qry_part_broker>("ctp_qry_part_broker", {
+    {"exchange_id", offsetof(ctp_qry_part_broker, exchange_id)},
+    {"broker_id", offsetof(ctp_qry_part_broker, broker_id)},
+    {"participant_id", offsetof(ctp_qry_part_broker, participant_id)},
   });
   print_layout<ctp_qry_product>("ctp_qry_product", {
     {"reserve1", offsetof(ctp_qry_product, reserve1)},
@@ -2162,6 +3723,11 @@ int main() {
     {"insert_time_end", offsetof(ctp_qry_quote, insert_time_end)},
     {"invest_unit_id", offsetof(ctp_qry_quote, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_quote, instrument_id)},
+  });
+  print_layout<ctp_qry_quote_action>("ctp_qry_quote_action", {
+    {"broker_id", offsetof(ctp_qry_quote_action, broker_id)},
+    {"investor_id", offsetof(ctp_qry_quote_action, investor_id)},
+    {"exchange_id", offsetof(ctp_qry_quote_action, exchange_id)},
   });
   print_layout<ctp_qry_rcams_comb_product_info>("ctp_qry_rcams_comb_product_info", {
     {"product_id", offsetof(ctp_qry_rcams_comb_product_info, product_id)},
@@ -2285,6 +3851,42 @@ int main() {
   print_layout<ctp_qry_spmm_product_param>("ctp_qry_spmm_product_param", {
     {"product_id", offsetof(ctp_qry_spmm_product_param, product_id)},
   });
+  print_layout<ctp_qry_strike_offset>("ctp_qry_strike_offset", {
+    {"broker_id", offsetof(ctp_qry_strike_offset, broker_id)},
+    {"investor_id", offsetof(ctp_qry_strike_offset, investor_id)},
+    {"reserve1", offsetof(ctp_qry_strike_offset, reserve1)},
+    {"instrument_id", offsetof(ctp_qry_strike_offset, instrument_id)},
+  });
+  print_layout<ctp_qry_super_user>("ctp_qry_super_user", {
+    {"user_id", offsetof(ctp_qry_super_user, user_id)},
+  });
+  print_layout<ctp_qry_super_user_function>("ctp_qry_super_user_function", {
+    {"user_id", offsetof(ctp_qry_super_user_function, user_id)},
+  });
+  print_layout<ctp_qry_sync_delay_swap>("ctp_qry_sync_delay_swap", {
+    {"broker_id", offsetof(ctp_qry_sync_delay_swap, broker_id)},
+    {"delay_swap_seq_no", offsetof(ctp_qry_sync_delay_swap, delay_swap_seq_no)},
+  });
+  print_layout<ctp_qry_sync_deposit>("ctp_qry_sync_deposit", {
+    {"broker_id", offsetof(ctp_qry_sync_deposit, broker_id)},
+    {"deposit_seq_no", offsetof(ctp_qry_sync_deposit, deposit_seq_no)},
+  });
+  print_layout<ctp_qry_sync_fund_mortgage>("ctp_qry_sync_fund_mortgage", {
+    {"broker_id", offsetof(ctp_qry_sync_fund_mortgage, broker_id)},
+    {"mortgage_seq_no", offsetof(ctp_qry_sync_fund_mortgage, mortgage_seq_no)},
+  });
+  print_layout<ctp_qry_sync_status>("ctp_qry_sync_status", {
+    {"trading_day", offsetof(ctp_qry_sync_status, trading_day)},
+  });
+  print_layout<ctp_qry_tg_ip_addr_param>("ctp_qry_tg_ip_addr_param", {
+    {"broker_id", offsetof(ctp_qry_tg_ip_addr_param, broker_id)},
+    {"user_id", offsetof(ctp_qry_tg_ip_addr_param, user_id)},
+    {"app_id", offsetof(ctp_qry_tg_ip_addr_param, app_id)},
+  });
+  print_layout<ctp_qry_thost_user_function>("ctp_qry_thost_user_function", {
+    {"broker_id", offsetof(ctp_qry_thost_user_function, broker_id)},
+    {"user_id", offsetof(ctp_qry_thost_user_function, user_id)},
+  });
   print_layout<ctp_qry_trade>("ctp_qry_trade", {
     {"broker_id", offsetof(ctp_qry_trade, broker_id)},
     {"investor_id", offsetof(ctp_qry_trade, investor_id)},
@@ -2295,6 +3897,14 @@ int main() {
     {"trade_time_end", offsetof(ctp_qry_trade, trade_time_end)},
     {"invest_unit_id", offsetof(ctp_qry_trade, invest_unit_id)},
     {"instrument_id", offsetof(ctp_qry_trade, instrument_id)},
+  });
+  print_layout<ctp_qry_trader>("ctp_qry_trader", {
+    {"exchange_id", offsetof(ctp_qry_trader, exchange_id)},
+    {"participant_id", offsetof(ctp_qry_trader, participant_id)},
+    {"trader_id", offsetof(ctp_qry_trader, trader_id)},
+  });
+  print_layout<ctp_qry_trader_assign>("ctp_qry_trader_assign", {
+    {"trader_id", offsetof(ctp_qry_trader_assign, trader_id)},
   });
   print_layout<ctp_qry_trader_offer>("ctp_qry_trader_offer", {
     {"exchange_id", offsetof(ctp_qry_trader_offer, exchange_id)},
@@ -2331,16 +3941,28 @@ int main() {
     {"bank_id", offsetof(ctp_qry_transfer_serial, bank_id)},
     {"currency_id", offsetof(ctp_qry_transfer_serial, currency_id)},
   });
+  print_layout<ctp_qry_user_rights_assign>("ctp_qry_user_rights_assign", {
+    {"broker_id", offsetof(ctp_qry_user_rights_assign, broker_id)},
+    {"user_id", offsetof(ctp_qry_user_rights_assign, user_id)},
+  });
   print_layout<ctp_qry_user_session>("ctp_qry_user_session", {
     {"front_id", offsetof(ctp_qry_user_session, front_id)},
     {"session_id", offsetof(ctp_qry_user_session, session_id)},
     {"broker_id", offsetof(ctp_qry_user_session, broker_id)},
     {"user_id", offsetof(ctp_qry_user_session, user_id)},
   });
+  print_layout<ctp_query_broker_deposit>("ctp_query_broker_deposit", {
+    {"broker_id", offsetof(ctp_query_broker_deposit, broker_id)},
+    {"exchange_id", offsetof(ctp_query_broker_deposit, exchange_id)},
+  });
   print_layout<ctp_query_cfmmc_trading_account_token>("ctp_query_cfmmc_trading_account_token", {
     {"broker_id", offsetof(ctp_query_cfmmc_trading_account_token, broker_id)},
     {"investor_id", offsetof(ctp_query_cfmmc_trading_account_token, investor_id)},
     {"invest_unit_id", offsetof(ctp_query_cfmmc_trading_account_token, invest_unit_id)},
+  });
+  print_layout<ctp_query_freq>("ctp_query_freq", {
+    {"query_freq", offsetof(ctp_query_freq, query_freq)},
+    {"ftd_pkg_freq", offsetof(ctp_query_freq, ftd_pkg_freq)},
   });
   print_layout<ctp_quote>("ctp_quote", {
     {"broker_id", offsetof(ctp_quote, broker_id)},
@@ -2495,12 +4117,144 @@ int main() {
     {"parked_order_action_id", offsetof(ctp_remove_parked_order_action, parked_order_action_id)},
     {"invest_unit_id", offsetof(ctp_remove_parked_order_action, invest_unit_id)},
   });
+  print_layout<ctp_req_api_handshake>("ctp_req_api_handshake", {
+    {"crypto_key_version", offsetof(ctp_req_api_handshake, crypto_key_version)},
+  });
   print_layout<ctp_req_authenticate>("ctp_req_authenticate", {
     {"broker_id", offsetof(ctp_req_authenticate, broker_id)},
     {"user_id", offsetof(ctp_req_authenticate, user_id)},
     {"user_product_info", offsetof(ctp_req_authenticate, user_product_info)},
     {"auth_code", offsetof(ctp_req_authenticate, auth_code)},
     {"app_id", offsetof(ctp_req_authenticate, app_id)},
+  });
+  print_layout<ctp_req_cancel_account>("ctp_req_cancel_account", {
+    {"trade_code", offsetof(ctp_req_cancel_account, trade_code)},
+    {"bank_id", offsetof(ctp_req_cancel_account, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_cancel_account, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_cancel_account, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_cancel_account, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_cancel_account, trade_date)},
+    {"trade_time", offsetof(ctp_req_cancel_account, trade_time)},
+    {"bank_serial", offsetof(ctp_req_cancel_account, bank_serial)},
+    {"trading_day", offsetof(ctp_req_cancel_account, trading_day)},
+    {"plate_serial", offsetof(ctp_req_cancel_account, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_cancel_account, last_fragment)},
+    {"session_id", offsetof(ctp_req_cancel_account, session_id)},
+    {"customer_name", offsetof(ctp_req_cancel_account, customer_name)},
+    {"id_card_type", offsetof(ctp_req_cancel_account, id_card_type)},
+    {"identified_card_no", offsetof(ctp_req_cancel_account, identified_card_no)},
+    {"gender", offsetof(ctp_req_cancel_account, gender)},
+    {"country_code", offsetof(ctp_req_cancel_account, country_code)},
+    {"cust_type", offsetof(ctp_req_cancel_account, cust_type)},
+    {"address", offsetof(ctp_req_cancel_account, address)},
+    {"zip_code", offsetof(ctp_req_cancel_account, zip_code)},
+    {"telephone", offsetof(ctp_req_cancel_account, telephone)},
+    {"mobile_phone", offsetof(ctp_req_cancel_account, mobile_phone)},
+    {"fax", offsetof(ctp_req_cancel_account, fax)},
+    {"e_mail", offsetof(ctp_req_cancel_account, e_mail)},
+    {"money_account_status", offsetof(ctp_req_cancel_account, money_account_status)},
+    {"bank_account", offsetof(ctp_req_cancel_account, bank_account)},
+    {"bank_pass_word", offsetof(ctp_req_cancel_account, bank_pass_word)},
+    {"account_id", offsetof(ctp_req_cancel_account, account_id)},
+    {"password", offsetof(ctp_req_cancel_account, password)},
+    {"install_id", offsetof(ctp_req_cancel_account, install_id)},
+    {"verify_cert_no_flag", offsetof(ctp_req_cancel_account, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_req_cancel_account, currency_id)},
+    {"cash_exchange_code", offsetof(ctp_req_cancel_account, cash_exchange_code)},
+    {"digest", offsetof(ctp_req_cancel_account, digest)},
+    {"bank_acc_type", offsetof(ctp_req_cancel_account, bank_acc_type)},
+    {"device_id", offsetof(ctp_req_cancel_account, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_req_cancel_account, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_req_cancel_account, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_req_cancel_account, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_req_cancel_account, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_req_cancel_account, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_req_cancel_account, oper_no)},
+    {"tid", offsetof(ctp_req_cancel_account, tid)},
+    {"user_id", offsetof(ctp_req_cancel_account, user_id)},
+    {"long_customer_name", offsetof(ctp_req_cancel_account, long_customer_name)},
+  });
+  print_layout<ctp_req_change_account>("ctp_req_change_account", {
+    {"trade_code", offsetof(ctp_req_change_account, trade_code)},
+    {"bank_id", offsetof(ctp_req_change_account, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_change_account, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_change_account, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_change_account, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_change_account, trade_date)},
+    {"trade_time", offsetof(ctp_req_change_account, trade_time)},
+    {"bank_serial", offsetof(ctp_req_change_account, bank_serial)},
+    {"trading_day", offsetof(ctp_req_change_account, trading_day)},
+    {"plate_serial", offsetof(ctp_req_change_account, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_change_account, last_fragment)},
+    {"session_id", offsetof(ctp_req_change_account, session_id)},
+    {"customer_name", offsetof(ctp_req_change_account, customer_name)},
+    {"id_card_type", offsetof(ctp_req_change_account, id_card_type)},
+    {"identified_card_no", offsetof(ctp_req_change_account, identified_card_no)},
+    {"gender", offsetof(ctp_req_change_account, gender)},
+    {"country_code", offsetof(ctp_req_change_account, country_code)},
+    {"cust_type", offsetof(ctp_req_change_account, cust_type)},
+    {"address", offsetof(ctp_req_change_account, address)},
+    {"zip_code", offsetof(ctp_req_change_account, zip_code)},
+    {"telephone", offsetof(ctp_req_change_account, telephone)},
+    {"mobile_phone", offsetof(ctp_req_change_account, mobile_phone)},
+    {"fax", offsetof(ctp_req_change_account, fax)},
+    {"e_mail", offsetof(ctp_req_change_account, e_mail)},
+    {"money_account_status", offsetof(ctp_req_change_account, money_account_status)},
+    {"bank_account", offsetof(ctp_req_change_account, bank_account)},
+    {"bank_pass_word", offsetof(ctp_req_change_account, bank_pass_word)},
+    {"new_bank_account", offsetof(ctp_req_change_account, new_bank_account)},
+    {"new_bank_pass_word", offsetof(ctp_req_change_account, new_bank_pass_word)},
+    {"account_id", offsetof(ctp_req_change_account, account_id)},
+    {"password", offsetof(ctp_req_change_account, password)},
+    {"bank_acc_type", offsetof(ctp_req_change_account, bank_acc_type)},
+    {"install_id", offsetof(ctp_req_change_account, install_id)},
+    {"verify_cert_no_flag", offsetof(ctp_req_change_account, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_req_change_account, currency_id)},
+    {"broker_id_by_bank", offsetof(ctp_req_change_account, broker_id_by_bank)},
+    {"bank_pwd_flag", offsetof(ctp_req_change_account, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_req_change_account, secu_pwd_flag)},
+    {"tid", offsetof(ctp_req_change_account, tid)},
+    {"digest", offsetof(ctp_req_change_account, digest)},
+    {"long_customer_name", offsetof(ctp_req_change_account, long_customer_name)},
+  });
+  print_layout<ctp_req_day_end_file_ready>("ctp_req_day_end_file_ready", {
+    {"trade_code", offsetof(ctp_req_day_end_file_ready, trade_code)},
+    {"bank_id", offsetof(ctp_req_day_end_file_ready, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_day_end_file_ready, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_day_end_file_ready, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_day_end_file_ready, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_day_end_file_ready, trade_date)},
+    {"trade_time", offsetof(ctp_req_day_end_file_ready, trade_time)},
+    {"bank_serial", offsetof(ctp_req_day_end_file_ready, bank_serial)},
+    {"trading_day", offsetof(ctp_req_day_end_file_ready, trading_day)},
+    {"plate_serial", offsetof(ctp_req_day_end_file_ready, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_day_end_file_ready, last_fragment)},
+    {"session_id", offsetof(ctp_req_day_end_file_ready, session_id)},
+    {"file_business_code", offsetof(ctp_req_day_end_file_ready, file_business_code)},
+    {"digest", offsetof(ctp_req_day_end_file_ready, digest)},
+  });
+  print_layout<ctp_req_future_sign_out>("ctp_req_future_sign_out", {
+    {"trade_code", offsetof(ctp_req_future_sign_out, trade_code)},
+    {"bank_id", offsetof(ctp_req_future_sign_out, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_future_sign_out, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_future_sign_out, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_future_sign_out, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_future_sign_out, trade_date)},
+    {"trade_time", offsetof(ctp_req_future_sign_out, trade_time)},
+    {"bank_serial", offsetof(ctp_req_future_sign_out, bank_serial)},
+    {"trading_day", offsetof(ctp_req_future_sign_out, trading_day)},
+    {"plate_serial", offsetof(ctp_req_future_sign_out, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_future_sign_out, last_fragment)},
+    {"session_id", offsetof(ctp_req_future_sign_out, session_id)},
+    {"install_id", offsetof(ctp_req_future_sign_out, install_id)},
+    {"user_id", offsetof(ctp_req_future_sign_out, user_id)},
+    {"digest", offsetof(ctp_req_future_sign_out, digest)},
+    {"currency_id", offsetof(ctp_req_future_sign_out, currency_id)},
+    {"device_id", offsetof(ctp_req_future_sign_out, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_req_future_sign_out, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_req_future_sign_out, oper_no)},
+    {"request_id", offsetof(ctp_req_future_sign_out, request_id)},
+    {"tid", offsetof(ctp_req_future_sign_out, tid)},
   });
   print_layout<ctp_req_gen_sms_code>("ctp_req_gen_sms_code", {
     {"broker_id", offsetof(ctp_req_gen_sms_code, broker_id)},
@@ -2516,6 +4270,53 @@ int main() {
     {"trading_day", offsetof(ctp_req_gen_user_text, trading_day)},
     {"broker_id", offsetof(ctp_req_gen_user_text, broker_id)},
     {"user_id", offsetof(ctp_req_gen_user_text, user_id)},
+  });
+  print_layout<ctp_req_open_account>("ctp_req_open_account", {
+    {"trade_code", offsetof(ctp_req_open_account, trade_code)},
+    {"bank_id", offsetof(ctp_req_open_account, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_open_account, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_open_account, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_open_account, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_open_account, trade_date)},
+    {"trade_time", offsetof(ctp_req_open_account, trade_time)},
+    {"bank_serial", offsetof(ctp_req_open_account, bank_serial)},
+    {"trading_day", offsetof(ctp_req_open_account, trading_day)},
+    {"plate_serial", offsetof(ctp_req_open_account, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_open_account, last_fragment)},
+    {"session_id", offsetof(ctp_req_open_account, session_id)},
+    {"customer_name", offsetof(ctp_req_open_account, customer_name)},
+    {"id_card_type", offsetof(ctp_req_open_account, id_card_type)},
+    {"identified_card_no", offsetof(ctp_req_open_account, identified_card_no)},
+    {"gender", offsetof(ctp_req_open_account, gender)},
+    {"country_code", offsetof(ctp_req_open_account, country_code)},
+    {"cust_type", offsetof(ctp_req_open_account, cust_type)},
+    {"address", offsetof(ctp_req_open_account, address)},
+    {"zip_code", offsetof(ctp_req_open_account, zip_code)},
+    {"telephone", offsetof(ctp_req_open_account, telephone)},
+    {"mobile_phone", offsetof(ctp_req_open_account, mobile_phone)},
+    {"fax", offsetof(ctp_req_open_account, fax)},
+    {"e_mail", offsetof(ctp_req_open_account, e_mail)},
+    {"money_account_status", offsetof(ctp_req_open_account, money_account_status)},
+    {"bank_account", offsetof(ctp_req_open_account, bank_account)},
+    {"bank_pass_word", offsetof(ctp_req_open_account, bank_pass_word)},
+    {"account_id", offsetof(ctp_req_open_account, account_id)},
+    {"password", offsetof(ctp_req_open_account, password)},
+    {"install_id", offsetof(ctp_req_open_account, install_id)},
+    {"verify_cert_no_flag", offsetof(ctp_req_open_account, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_req_open_account, currency_id)},
+    {"cash_exchange_code", offsetof(ctp_req_open_account, cash_exchange_code)},
+    {"digest", offsetof(ctp_req_open_account, digest)},
+    {"bank_acc_type", offsetof(ctp_req_open_account, bank_acc_type)},
+    {"device_id", offsetof(ctp_req_open_account, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_req_open_account, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_req_open_account, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_req_open_account, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_req_open_account, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_req_open_account, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_req_open_account, oper_no)},
+    {"tid", offsetof(ctp_req_open_account, tid)},
+    {"user_id", offsetof(ctp_req_open_account, user_id)},
+    {"long_customer_name", offsetof(ctp_req_open_account, long_customer_name)},
   });
   print_layout<ctp_req_query_account>("ctp_req_query_account", {
     {"trade_code", offsetof(ctp_req_query_account, trade_code)},
@@ -2555,6 +4356,76 @@ int main() {
     {"request_id", offsetof(ctp_req_query_account, request_id)},
     {"t_id", offsetof(ctp_req_query_account, t_id)},
     {"long_customer_name", offsetof(ctp_req_query_account, long_customer_name)},
+  });
+  print_layout<ctp_req_query_bank_account_by_sec>("ctp_req_query_bank_account_by_sec", {
+    {"trade_code", offsetof(ctp_req_query_bank_account_by_sec, trade_code)},
+    {"bank_id", offsetof(ctp_req_query_bank_account_by_sec, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_query_bank_account_by_sec, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_query_bank_account_by_sec, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_query_bank_account_by_sec, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_query_bank_account_by_sec, trade_date)},
+    {"trade_time", offsetof(ctp_req_query_bank_account_by_sec, trade_time)},
+    {"bank_serial", offsetof(ctp_req_query_bank_account_by_sec, bank_serial)},
+    {"trading_day", offsetof(ctp_req_query_bank_account_by_sec, trading_day)},
+    {"plate_serial", offsetof(ctp_req_query_bank_account_by_sec, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_query_bank_account_by_sec, last_fragment)},
+    {"session_id", offsetof(ctp_req_query_bank_account_by_sec, session_id)},
+    {"customer_name", offsetof(ctp_req_query_bank_account_by_sec, customer_name)},
+    {"id_card_type", offsetof(ctp_req_query_bank_account_by_sec, id_card_type)},
+    {"identified_card_no", offsetof(ctp_req_query_bank_account_by_sec, identified_card_no)},
+    {"cust_type", offsetof(ctp_req_query_bank_account_by_sec, cust_type)},
+    {"bank_account", offsetof(ctp_req_query_bank_account_by_sec, bank_account)},
+    {"bank_pass_word", offsetof(ctp_req_query_bank_account_by_sec, bank_pass_word)},
+    {"account_id", offsetof(ctp_req_query_bank_account_by_sec, account_id)},
+    {"password", offsetof(ctp_req_query_bank_account_by_sec, password)},
+    {"future_serial", offsetof(ctp_req_query_bank_account_by_sec, future_serial)},
+    {"install_id", offsetof(ctp_req_query_bank_account_by_sec, install_id)},
+    {"user_id", offsetof(ctp_req_query_bank_account_by_sec, user_id)},
+    {"verify_cert_no_flag", offsetof(ctp_req_query_bank_account_by_sec, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_req_query_bank_account_by_sec, currency_id)},
+    {"digest", offsetof(ctp_req_query_bank_account_by_sec, digest)},
+    {"bank_acc_type", offsetof(ctp_req_query_bank_account_by_sec, bank_acc_type)},
+    {"device_id", offsetof(ctp_req_query_bank_account_by_sec, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_req_query_bank_account_by_sec, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_req_query_bank_account_by_sec, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_req_query_bank_account_by_sec, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_req_query_bank_account_by_sec, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_req_query_bank_account_by_sec, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_req_query_bank_account_by_sec, oper_no)},
+    {"request_id", offsetof(ctp_req_query_bank_account_by_sec, request_id)},
+    {"tid", offsetof(ctp_req_query_bank_account_by_sec, tid)},
+    {"long_customer_name", offsetof(ctp_req_query_bank_account_by_sec, long_customer_name)},
+    {"dr_identity_id", offsetof(ctp_req_query_bank_account_by_sec, dr_identity_id)},
+    {"sec_future_serial", offsetof(ctp_req_query_bank_account_by_sec, sec_future_serial)},
+  });
+  print_layout<ctp_req_query_trade_result_by_serial>("ctp_req_query_trade_result_by_serial", {
+    {"trade_code", offsetof(ctp_req_query_trade_result_by_serial, trade_code)},
+    {"bank_id", offsetof(ctp_req_query_trade_result_by_serial, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_query_trade_result_by_serial, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_query_trade_result_by_serial, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_query_trade_result_by_serial, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_query_trade_result_by_serial, trade_date)},
+    {"trade_time", offsetof(ctp_req_query_trade_result_by_serial, trade_time)},
+    {"bank_serial", offsetof(ctp_req_query_trade_result_by_serial, bank_serial)},
+    {"trading_day", offsetof(ctp_req_query_trade_result_by_serial, trading_day)},
+    {"plate_serial", offsetof(ctp_req_query_trade_result_by_serial, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_query_trade_result_by_serial, last_fragment)},
+    {"session_id", offsetof(ctp_req_query_trade_result_by_serial, session_id)},
+    {"reference", offsetof(ctp_req_query_trade_result_by_serial, reference)},
+    {"refrence_issure_type", offsetof(ctp_req_query_trade_result_by_serial, refrence_issure_type)},
+    {"refrence_issure", offsetof(ctp_req_query_trade_result_by_serial, refrence_issure)},
+    {"customer_name", offsetof(ctp_req_query_trade_result_by_serial, customer_name)},
+    {"id_card_type", offsetof(ctp_req_query_trade_result_by_serial, id_card_type)},
+    {"identified_card_no", offsetof(ctp_req_query_trade_result_by_serial, identified_card_no)},
+    {"cust_type", offsetof(ctp_req_query_trade_result_by_serial, cust_type)},
+    {"bank_account", offsetof(ctp_req_query_trade_result_by_serial, bank_account)},
+    {"bank_pass_word", offsetof(ctp_req_query_trade_result_by_serial, bank_pass_word)},
+    {"account_id", offsetof(ctp_req_query_trade_result_by_serial, account_id)},
+    {"password", offsetof(ctp_req_query_trade_result_by_serial, password)},
+    {"currency_id", offsetof(ctp_req_query_trade_result_by_serial, currency_id)},
+    {"trade_amount", offsetof(ctp_req_query_trade_result_by_serial, trade_amount)},
+    {"digest", offsetof(ctp_req_query_trade_result_by_serial, digest)},
+    {"long_customer_name", offsetof(ctp_req_query_trade_result_by_serial, long_customer_name)},
   });
   print_layout<ctp_req_repeal>("ctp_req_repeal", {
     {"repeal_time_interval", offsetof(ctp_req_repeal, repeal_time_interval)},
@@ -2609,6 +4480,28 @@ int main() {
     {"transfer_status", offsetof(ctp_req_repeal, transfer_status)},
     {"long_customer_name", offsetof(ctp_req_repeal, long_customer_name)},
   });
+  print_layout<ctp_req_sync_key>("ctp_req_sync_key", {
+    {"trade_code", offsetof(ctp_req_sync_key, trade_code)},
+    {"bank_id", offsetof(ctp_req_sync_key, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_sync_key, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_sync_key, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_sync_key, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_sync_key, trade_date)},
+    {"trade_time", offsetof(ctp_req_sync_key, trade_time)},
+    {"bank_serial", offsetof(ctp_req_sync_key, bank_serial)},
+    {"trading_day", offsetof(ctp_req_sync_key, trading_day)},
+    {"plate_serial", offsetof(ctp_req_sync_key, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_sync_key, last_fragment)},
+    {"session_id", offsetof(ctp_req_sync_key, session_id)},
+    {"install_id", offsetof(ctp_req_sync_key, install_id)},
+    {"user_id", offsetof(ctp_req_sync_key, user_id)},
+    {"message", offsetof(ctp_req_sync_key, message)},
+    {"device_id", offsetof(ctp_req_sync_key, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_req_sync_key, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_req_sync_key, oper_no)},
+    {"request_id", offsetof(ctp_req_sync_key, request_id)},
+    {"tid", offsetof(ctp_req_sync_key, tid)},
+  });
   print_layout<ctp_req_transfer>("ctp_req_transfer", {
     {"trade_code", offsetof(ctp_req_transfer, trade_code)},
     {"bank_id", offsetof(ctp_req_transfer, bank_id)},
@@ -2655,6 +4548,54 @@ int main() {
     {"transfer_status", offsetof(ctp_req_transfer, transfer_status)},
     {"long_customer_name", offsetof(ctp_req_transfer, long_customer_name)},
   });
+  print_layout<ctp_req_transfer_by_sec>("ctp_req_transfer_by_sec", {
+    {"trade_code", offsetof(ctp_req_transfer_by_sec, trade_code)},
+    {"bank_id", offsetof(ctp_req_transfer_by_sec, bank_id)},
+    {"bank_branch_id", offsetof(ctp_req_transfer_by_sec, bank_branch_id)},
+    {"broker_id", offsetof(ctp_req_transfer_by_sec, broker_id)},
+    {"broker_branch_id", offsetof(ctp_req_transfer_by_sec, broker_branch_id)},
+    {"trade_date", offsetof(ctp_req_transfer_by_sec, trade_date)},
+    {"trade_time", offsetof(ctp_req_transfer_by_sec, trade_time)},
+    {"bank_serial", offsetof(ctp_req_transfer_by_sec, bank_serial)},
+    {"trading_day", offsetof(ctp_req_transfer_by_sec, trading_day)},
+    {"plate_serial", offsetof(ctp_req_transfer_by_sec, plate_serial)},
+    {"last_fragment", offsetof(ctp_req_transfer_by_sec, last_fragment)},
+    {"session_id", offsetof(ctp_req_transfer_by_sec, session_id)},
+    {"customer_name", offsetof(ctp_req_transfer_by_sec, customer_name)},
+    {"id_card_type", offsetof(ctp_req_transfer_by_sec, id_card_type)},
+    {"identified_card_no", offsetof(ctp_req_transfer_by_sec, identified_card_no)},
+    {"cust_type", offsetof(ctp_req_transfer_by_sec, cust_type)},
+    {"bank_account", offsetof(ctp_req_transfer_by_sec, bank_account)},
+    {"bank_pass_word", offsetof(ctp_req_transfer_by_sec, bank_pass_word)},
+    {"account_id", offsetof(ctp_req_transfer_by_sec, account_id)},
+    {"password", offsetof(ctp_req_transfer_by_sec, password)},
+    {"install_id", offsetof(ctp_req_transfer_by_sec, install_id)},
+    {"future_serial", offsetof(ctp_req_transfer_by_sec, future_serial)},
+    {"user_id", offsetof(ctp_req_transfer_by_sec, user_id)},
+    {"verify_cert_no_flag", offsetof(ctp_req_transfer_by_sec, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_req_transfer_by_sec, currency_id)},
+    {"trade_amount", offsetof(ctp_req_transfer_by_sec, trade_amount)},
+    {"future_fetch_amount", offsetof(ctp_req_transfer_by_sec, future_fetch_amount)},
+    {"fee_pay_flag", offsetof(ctp_req_transfer_by_sec, fee_pay_flag)},
+    {"cust_fee", offsetof(ctp_req_transfer_by_sec, cust_fee)},
+    {"broker_fee", offsetof(ctp_req_transfer_by_sec, broker_fee)},
+    {"message", offsetof(ctp_req_transfer_by_sec, message)},
+    {"digest", offsetof(ctp_req_transfer_by_sec, digest)},
+    {"bank_acc_type", offsetof(ctp_req_transfer_by_sec, bank_acc_type)},
+    {"device_id", offsetof(ctp_req_transfer_by_sec, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_req_transfer_by_sec, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_req_transfer_by_sec, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_req_transfer_by_sec, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_req_transfer_by_sec, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_req_transfer_by_sec, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_req_transfer_by_sec, oper_no)},
+    {"request_id", offsetof(ctp_req_transfer_by_sec, request_id)},
+    {"tid", offsetof(ctp_req_transfer_by_sec, tid)},
+    {"transfer_status", offsetof(ctp_req_transfer_by_sec, transfer_status)},
+    {"long_customer_name", offsetof(ctp_req_transfer_by_sec, long_customer_name)},
+    {"dr_identity_id", offsetof(ctp_req_transfer_by_sec, dr_identity_id)},
+    {"sec_future_serial", offsetof(ctp_req_transfer_by_sec, sec_future_serial)},
+  });
   print_layout<ctp_req_user_auth_method>("ctp_req_user_auth_method", {
     {"trading_day", offsetof(ctp_req_user_auth_method, trading_day)},
     {"broker_id", offsetof(ctp_req_user_auth_method, broker_id)},
@@ -2674,6 +4615,27 @@ int main() {
     {"client_ip_port", offsetof(ctp_req_user_login, client_ip_port)},
     {"client_ip_address", offsetof(ctp_req_user_login, client_ip_address)},
     {"sms_code", offsetof(ctp_req_user_login, sms_code)},
+    {"reserve1", offsetof(ctp_req_user_login, reserve1)},
+  });
+  print_layout<ctp_req_user_login_sm>("ctp_req_user_login_sm", {
+    {"trading_day", offsetof(ctp_req_user_login_sm, trading_day)},
+    {"broker_id", offsetof(ctp_req_user_login_sm, broker_id)},
+    {"user_id", offsetof(ctp_req_user_login_sm, user_id)},
+    {"password", offsetof(ctp_req_user_login_sm, password)},
+    {"user_product_info", offsetof(ctp_req_user_login_sm, user_product_info)},
+    {"interface_product_info", offsetof(ctp_req_user_login_sm, interface_product_info)},
+    {"protocol_info", offsetof(ctp_req_user_login_sm, protocol_info)},
+    {"mac_address", offsetof(ctp_req_user_login_sm, mac_address)},
+    {"one_time_password", offsetof(ctp_req_user_login_sm, one_time_password)},
+    {"reserve1", offsetof(ctp_req_user_login_sm, reserve1)},
+    {"login_remark", offsetof(ctp_req_user_login_sm, login_remark)},
+    {"client_ip_port", offsetof(ctp_req_user_login_sm, client_ip_port)},
+    {"client_ip_address", offsetof(ctp_req_user_login_sm, client_ip_address)},
+    {"sms_code", offsetof(ctp_req_user_login_sm, sms_code)},
+    {"broker_name", offsetof(ctp_req_user_login_sm, broker_name)},
+    {"auth_code", offsetof(ctp_req_user_login_sm, auth_code)},
+    {"app_id", offsetof(ctp_req_user_login_sm, app_id)},
+    {"pin", offsetof(ctp_req_user_login_sm, pin)},
   });
   print_layout<ctp_req_user_login_with_captcha>("ctp_req_user_login_with_captcha", {
     {"trading_day", offsetof(ctp_req_user_login_with_captcha, trading_day)},
@@ -2719,6 +4681,102 @@ int main() {
     {"text", offsetof(ctp_req_user_login_with_text, text)},
     {"client_ip_port", offsetof(ctp_req_user_login_with_text, client_ip_port)},
     {"client_ip_address", offsetof(ctp_req_user_login_with_text, client_ip_address)},
+  });
+  print_layout<ctp_req_verify_api_key>("ctp_req_verify_api_key", {
+    {"api_handshake_data_len", offsetof(ctp_req_verify_api_key, api_handshake_data_len)},
+    {"api_handshake_data", offsetof(ctp_req_verify_api_key, api_handshake_data)},
+  });
+  print_layout<ctp_reserve_open_account>("ctp_reserve_open_account", {
+    {"trade_code", offsetof(ctp_reserve_open_account, trade_code)},
+    {"bank_id", offsetof(ctp_reserve_open_account, bank_id)},
+    {"bank_branch_id", offsetof(ctp_reserve_open_account, bank_branch_id)},
+    {"broker_id", offsetof(ctp_reserve_open_account, broker_id)},
+    {"broker_branch_id", offsetof(ctp_reserve_open_account, broker_branch_id)},
+    {"trade_date", offsetof(ctp_reserve_open_account, trade_date)},
+    {"trade_time", offsetof(ctp_reserve_open_account, trade_time)},
+    {"bank_serial", offsetof(ctp_reserve_open_account, bank_serial)},
+    {"trading_day", offsetof(ctp_reserve_open_account, trading_day)},
+    {"plate_serial", offsetof(ctp_reserve_open_account, plate_serial)},
+    {"last_fragment", offsetof(ctp_reserve_open_account, last_fragment)},
+    {"session_id", offsetof(ctp_reserve_open_account, session_id)},
+    {"customer_name", offsetof(ctp_reserve_open_account, customer_name)},
+    {"id_card_type", offsetof(ctp_reserve_open_account, id_card_type)},
+    {"identified_card_no", offsetof(ctp_reserve_open_account, identified_card_no)},
+    {"gender", offsetof(ctp_reserve_open_account, gender)},
+    {"country_code", offsetof(ctp_reserve_open_account, country_code)},
+    {"cust_type", offsetof(ctp_reserve_open_account, cust_type)},
+    {"address", offsetof(ctp_reserve_open_account, address)},
+    {"zip_code", offsetof(ctp_reserve_open_account, zip_code)},
+    {"telephone", offsetof(ctp_reserve_open_account, telephone)},
+    {"mobile_phone", offsetof(ctp_reserve_open_account, mobile_phone)},
+    {"fax", offsetof(ctp_reserve_open_account, fax)},
+    {"e_mail", offsetof(ctp_reserve_open_account, e_mail)},
+    {"money_account_status", offsetof(ctp_reserve_open_account, money_account_status)},
+    {"bank_account", offsetof(ctp_reserve_open_account, bank_account)},
+    {"bank_pass_word", offsetof(ctp_reserve_open_account, bank_pass_word)},
+    {"install_id", offsetof(ctp_reserve_open_account, install_id)},
+    {"verify_cert_no_flag", offsetof(ctp_reserve_open_account, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_reserve_open_account, currency_id)},
+    {"digest", offsetof(ctp_reserve_open_account, digest)},
+    {"bank_acc_type", offsetof(ctp_reserve_open_account, bank_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_reserve_open_account, broker_id_by_bank)},
+    {"tid", offsetof(ctp_reserve_open_account, tid)},
+    {"reserve_open_acc_stas", offsetof(ctp_reserve_open_account, reserve_open_acc_stas)},
+    {"error_id", offsetof(ctp_reserve_open_account, error_id)},
+    {"error_msg", offsetof(ctp_reserve_open_account, error_msg)},
+  });
+  print_layout<ctp_reserve_open_account_confirm>("ctp_reserve_open_account_confirm", {
+    {"trade_code", offsetof(ctp_reserve_open_account_confirm, trade_code)},
+    {"bank_id", offsetof(ctp_reserve_open_account_confirm, bank_id)},
+    {"bank_branch_id", offsetof(ctp_reserve_open_account_confirm, bank_branch_id)},
+    {"broker_id", offsetof(ctp_reserve_open_account_confirm, broker_id)},
+    {"broker_branch_id", offsetof(ctp_reserve_open_account_confirm, broker_branch_id)},
+    {"trade_date", offsetof(ctp_reserve_open_account_confirm, trade_date)},
+    {"trade_time", offsetof(ctp_reserve_open_account_confirm, trade_time)},
+    {"bank_serial", offsetof(ctp_reserve_open_account_confirm, bank_serial)},
+    {"trading_day", offsetof(ctp_reserve_open_account_confirm, trading_day)},
+    {"plate_serial", offsetof(ctp_reserve_open_account_confirm, plate_serial)},
+    {"last_fragment", offsetof(ctp_reserve_open_account_confirm, last_fragment)},
+    {"session_id", offsetof(ctp_reserve_open_account_confirm, session_id)},
+    {"customer_name", offsetof(ctp_reserve_open_account_confirm, customer_name)},
+    {"id_card_type", offsetof(ctp_reserve_open_account_confirm, id_card_type)},
+    {"identified_card_no", offsetof(ctp_reserve_open_account_confirm, identified_card_no)},
+    {"gender", offsetof(ctp_reserve_open_account_confirm, gender)},
+    {"country_code", offsetof(ctp_reserve_open_account_confirm, country_code)},
+    {"cust_type", offsetof(ctp_reserve_open_account_confirm, cust_type)},
+    {"address", offsetof(ctp_reserve_open_account_confirm, address)},
+    {"zip_code", offsetof(ctp_reserve_open_account_confirm, zip_code)},
+    {"telephone", offsetof(ctp_reserve_open_account_confirm, telephone)},
+    {"mobile_phone", offsetof(ctp_reserve_open_account_confirm, mobile_phone)},
+    {"fax", offsetof(ctp_reserve_open_account_confirm, fax)},
+    {"e_mail", offsetof(ctp_reserve_open_account_confirm, e_mail)},
+    {"money_account_status", offsetof(ctp_reserve_open_account_confirm, money_account_status)},
+    {"bank_account", offsetof(ctp_reserve_open_account_confirm, bank_account)},
+    {"bank_pass_word", offsetof(ctp_reserve_open_account_confirm, bank_pass_word)},
+    {"install_id", offsetof(ctp_reserve_open_account_confirm, install_id)},
+    {"verify_cert_no_flag", offsetof(ctp_reserve_open_account_confirm, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_reserve_open_account_confirm, currency_id)},
+    {"digest", offsetof(ctp_reserve_open_account_confirm, digest)},
+    {"bank_acc_type", offsetof(ctp_reserve_open_account_confirm, bank_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_reserve_open_account_confirm, broker_id_by_bank)},
+    {"tid", offsetof(ctp_reserve_open_account_confirm, tid)},
+    {"account_id", offsetof(ctp_reserve_open_account_confirm, account_id)},
+    {"password", offsetof(ctp_reserve_open_account_confirm, password)},
+    {"bank_reserve_open_seq", offsetof(ctp_reserve_open_account_confirm, bank_reserve_open_seq)},
+    {"book_date", offsetof(ctp_reserve_open_account_confirm, book_date)},
+    {"book_psw", offsetof(ctp_reserve_open_account_confirm, book_psw)},
+    {"error_id", offsetof(ctp_reserve_open_account_confirm, error_id)},
+    {"error_msg", offsetof(ctp_reserve_open_account_confirm, error_msg)},
+  });
+  print_layout<ctp_return_result>("ctp_return_result", {
+    {"return_code", offsetof(ctp_return_result, return_code)},
+    {"descr_info_for_return_code", offsetof(ctp_return_result, descr_info_for_return_code)},
+  });
+  print_layout<ctp_risk_forbidden_right>("ctp_risk_forbidden_right", {
+    {"broker_id", offsetof(ctp_risk_forbidden_right, broker_id)},
+    {"investor_id", offsetof(ctp_risk_forbidden_right, investor_id)},
+    {"instrument_id", offsetof(ctp_risk_forbidden_right, instrument_id)},
+    {"user_id", offsetof(ctp_risk_forbidden_right, user_id)},
   });
   print_layout<ctp_risk_settle_invst_position>("ctp_risk_settle_invst_position", {
     {"instrument_id", offsetof(ctp_risk_settle_invst_position, instrument_id)},
@@ -2776,12 +4834,69 @@ int main() {
     {"product_id", offsetof(ctp_risk_settle_product_status, product_id)},
     {"product_status", offsetof(ctp_risk_settle_product_status, product_status)},
   });
+  print_layout<ctp_rsp_api_handshake>("ctp_rsp_api_handshake", {
+    {"front_handshake_data_len", offsetof(ctp_rsp_api_handshake, front_handshake_data_len)},
+    {"front_handshake_data", offsetof(ctp_rsp_api_handshake, front_handshake_data)},
+    {"is_api_auth_enabled", offsetof(ctp_rsp_api_handshake, is_api_auth_enabled)},
+  });
   print_layout<ctp_rsp_authenticate>("ctp_rsp_authenticate", {
     {"broker_id", offsetof(ctp_rsp_authenticate, broker_id)},
     {"user_id", offsetof(ctp_rsp_authenticate, user_id)},
     {"user_product_info", offsetof(ctp_rsp_authenticate, user_product_info)},
     {"app_id", offsetof(ctp_rsp_authenticate, app_id)},
     {"app_type", offsetof(ctp_rsp_authenticate, app_type)},
+  });
+  print_layout<ctp_rsp_future_sign_in>("ctp_rsp_future_sign_in", {
+    {"trade_code", offsetof(ctp_rsp_future_sign_in, trade_code)},
+    {"bank_id", offsetof(ctp_rsp_future_sign_in, bank_id)},
+    {"bank_branch_id", offsetof(ctp_rsp_future_sign_in, bank_branch_id)},
+    {"broker_id", offsetof(ctp_rsp_future_sign_in, broker_id)},
+    {"broker_branch_id", offsetof(ctp_rsp_future_sign_in, broker_branch_id)},
+    {"trade_date", offsetof(ctp_rsp_future_sign_in, trade_date)},
+    {"trade_time", offsetof(ctp_rsp_future_sign_in, trade_time)},
+    {"bank_serial", offsetof(ctp_rsp_future_sign_in, bank_serial)},
+    {"trading_day", offsetof(ctp_rsp_future_sign_in, trading_day)},
+    {"plate_serial", offsetof(ctp_rsp_future_sign_in, plate_serial)},
+    {"last_fragment", offsetof(ctp_rsp_future_sign_in, last_fragment)},
+    {"session_id", offsetof(ctp_rsp_future_sign_in, session_id)},
+    {"install_id", offsetof(ctp_rsp_future_sign_in, install_id)},
+    {"user_id", offsetof(ctp_rsp_future_sign_in, user_id)},
+    {"digest", offsetof(ctp_rsp_future_sign_in, digest)},
+    {"currency_id", offsetof(ctp_rsp_future_sign_in, currency_id)},
+    {"device_id", offsetof(ctp_rsp_future_sign_in, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_rsp_future_sign_in, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_rsp_future_sign_in, oper_no)},
+    {"request_id", offsetof(ctp_rsp_future_sign_in, request_id)},
+    {"tid", offsetof(ctp_rsp_future_sign_in, tid)},
+    {"error_id", offsetof(ctp_rsp_future_sign_in, error_id)},
+    {"error_msg", offsetof(ctp_rsp_future_sign_in, error_msg)},
+    {"pin_key", offsetof(ctp_rsp_future_sign_in, pin_key)},
+    {"mac_key", offsetof(ctp_rsp_future_sign_in, mac_key)},
+  });
+  print_layout<ctp_rsp_future_sign_out>("ctp_rsp_future_sign_out", {
+    {"trade_code", offsetof(ctp_rsp_future_sign_out, trade_code)},
+    {"bank_id", offsetof(ctp_rsp_future_sign_out, bank_id)},
+    {"bank_branch_id", offsetof(ctp_rsp_future_sign_out, bank_branch_id)},
+    {"broker_id", offsetof(ctp_rsp_future_sign_out, broker_id)},
+    {"broker_branch_id", offsetof(ctp_rsp_future_sign_out, broker_branch_id)},
+    {"trade_date", offsetof(ctp_rsp_future_sign_out, trade_date)},
+    {"trade_time", offsetof(ctp_rsp_future_sign_out, trade_time)},
+    {"bank_serial", offsetof(ctp_rsp_future_sign_out, bank_serial)},
+    {"trading_day", offsetof(ctp_rsp_future_sign_out, trading_day)},
+    {"plate_serial", offsetof(ctp_rsp_future_sign_out, plate_serial)},
+    {"last_fragment", offsetof(ctp_rsp_future_sign_out, last_fragment)},
+    {"session_id", offsetof(ctp_rsp_future_sign_out, session_id)},
+    {"install_id", offsetof(ctp_rsp_future_sign_out, install_id)},
+    {"user_id", offsetof(ctp_rsp_future_sign_out, user_id)},
+    {"digest", offsetof(ctp_rsp_future_sign_out, digest)},
+    {"currency_id", offsetof(ctp_rsp_future_sign_out, currency_id)},
+    {"device_id", offsetof(ctp_rsp_future_sign_out, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_rsp_future_sign_out, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_rsp_future_sign_out, oper_no)},
+    {"request_id", offsetof(ctp_rsp_future_sign_out, request_id)},
+    {"tid", offsetof(ctp_rsp_future_sign_out, tid)},
+    {"error_id", offsetof(ctp_rsp_future_sign_out, error_id)},
+    {"error_msg", offsetof(ctp_rsp_future_sign_out, error_msg)},
   });
   print_layout<ctp_rsp_gen_sms_code>("ctp_rsp_gen_sms_code", {
     {"broker_id", offsetof(ctp_rsp_gen_sms_code, broker_id)},
@@ -2800,6 +4915,118 @@ int main() {
   print_layout<ctp_rsp_info>("ctp_rsp_info", {
     {"error_id", offsetof(ctp_rsp_info, error_id)},
     {"error_msg", offsetof(ctp_rsp_info, error_msg)},
+  });
+  print_layout<ctp_rsp_query_account>("ctp_rsp_query_account", {
+    {"trade_code", offsetof(ctp_rsp_query_account, trade_code)},
+    {"bank_id", offsetof(ctp_rsp_query_account, bank_id)},
+    {"bank_branch_id", offsetof(ctp_rsp_query_account, bank_branch_id)},
+    {"broker_id", offsetof(ctp_rsp_query_account, broker_id)},
+    {"broker_branch_id", offsetof(ctp_rsp_query_account, broker_branch_id)},
+    {"trade_date", offsetof(ctp_rsp_query_account, trade_date)},
+    {"trade_time", offsetof(ctp_rsp_query_account, trade_time)},
+    {"bank_serial", offsetof(ctp_rsp_query_account, bank_serial)},
+    {"trading_day", offsetof(ctp_rsp_query_account, trading_day)},
+    {"plate_serial", offsetof(ctp_rsp_query_account, plate_serial)},
+    {"last_fragment", offsetof(ctp_rsp_query_account, last_fragment)},
+    {"session_id", offsetof(ctp_rsp_query_account, session_id)},
+    {"customer_name", offsetof(ctp_rsp_query_account, customer_name)},
+    {"id_card_type", offsetof(ctp_rsp_query_account, id_card_type)},
+    {"identified_card_no", offsetof(ctp_rsp_query_account, identified_card_no)},
+    {"cust_type", offsetof(ctp_rsp_query_account, cust_type)},
+    {"bank_account", offsetof(ctp_rsp_query_account, bank_account)},
+    {"bank_pass_word", offsetof(ctp_rsp_query_account, bank_pass_word)},
+    {"account_id", offsetof(ctp_rsp_query_account, account_id)},
+    {"password", offsetof(ctp_rsp_query_account, password)},
+    {"future_serial", offsetof(ctp_rsp_query_account, future_serial)},
+    {"install_id", offsetof(ctp_rsp_query_account, install_id)},
+    {"user_id", offsetof(ctp_rsp_query_account, user_id)},
+    {"verify_cert_no_flag", offsetof(ctp_rsp_query_account, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_rsp_query_account, currency_id)},
+    {"digest", offsetof(ctp_rsp_query_account, digest)},
+    {"bank_acc_type", offsetof(ctp_rsp_query_account, bank_acc_type)},
+    {"device_id", offsetof(ctp_rsp_query_account, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_rsp_query_account, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_rsp_query_account, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_rsp_query_account, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_rsp_query_account, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_rsp_query_account, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_rsp_query_account, oper_no)},
+    {"request_id", offsetof(ctp_rsp_query_account, request_id)},
+    {"tid", offsetof(ctp_rsp_query_account, tid)},
+    {"bank_use_amount", offsetof(ctp_rsp_query_account, bank_use_amount)},
+    {"bank_fetch_amount", offsetof(ctp_rsp_query_account, bank_fetch_amount)},
+    {"long_customer_name", offsetof(ctp_rsp_query_account, long_customer_name)},
+  });
+  print_layout<ctp_rsp_query_bank_account_by_sec>("ctp_rsp_query_bank_account_by_sec", {
+    {"trade_code", offsetof(ctp_rsp_query_bank_account_by_sec, trade_code)},
+    {"bank_id", offsetof(ctp_rsp_query_bank_account_by_sec, bank_id)},
+    {"bank_branch_id", offsetof(ctp_rsp_query_bank_account_by_sec, bank_branch_id)},
+    {"broker_id", offsetof(ctp_rsp_query_bank_account_by_sec, broker_id)},
+    {"broker_branch_id", offsetof(ctp_rsp_query_bank_account_by_sec, broker_branch_id)},
+    {"trade_date", offsetof(ctp_rsp_query_bank_account_by_sec, trade_date)},
+    {"trade_time", offsetof(ctp_rsp_query_bank_account_by_sec, trade_time)},
+    {"bank_serial", offsetof(ctp_rsp_query_bank_account_by_sec, bank_serial)},
+    {"trading_day", offsetof(ctp_rsp_query_bank_account_by_sec, trading_day)},
+    {"plate_serial", offsetof(ctp_rsp_query_bank_account_by_sec, plate_serial)},
+    {"last_fragment", offsetof(ctp_rsp_query_bank_account_by_sec, last_fragment)},
+    {"session_id", offsetof(ctp_rsp_query_bank_account_by_sec, session_id)},
+    {"customer_name", offsetof(ctp_rsp_query_bank_account_by_sec, customer_name)},
+    {"id_card_type", offsetof(ctp_rsp_query_bank_account_by_sec, id_card_type)},
+    {"identified_card_no", offsetof(ctp_rsp_query_bank_account_by_sec, identified_card_no)},
+    {"cust_type", offsetof(ctp_rsp_query_bank_account_by_sec, cust_type)},
+    {"bank_account", offsetof(ctp_rsp_query_bank_account_by_sec, bank_account)},
+    {"bank_pass_word", offsetof(ctp_rsp_query_bank_account_by_sec, bank_pass_word)},
+    {"account_id", offsetof(ctp_rsp_query_bank_account_by_sec, account_id)},
+    {"password", offsetof(ctp_rsp_query_bank_account_by_sec, password)},
+    {"future_serial", offsetof(ctp_rsp_query_bank_account_by_sec, future_serial)},
+    {"install_id", offsetof(ctp_rsp_query_bank_account_by_sec, install_id)},
+    {"user_id", offsetof(ctp_rsp_query_bank_account_by_sec, user_id)},
+    {"verify_cert_no_flag", offsetof(ctp_rsp_query_bank_account_by_sec, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_rsp_query_bank_account_by_sec, currency_id)},
+    {"digest", offsetof(ctp_rsp_query_bank_account_by_sec, digest)},
+    {"bank_acc_type", offsetof(ctp_rsp_query_bank_account_by_sec, bank_acc_type)},
+    {"device_id", offsetof(ctp_rsp_query_bank_account_by_sec, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_rsp_query_bank_account_by_sec, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_rsp_query_bank_account_by_sec, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_rsp_query_bank_account_by_sec, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_rsp_query_bank_account_by_sec, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_rsp_query_bank_account_by_sec, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_rsp_query_bank_account_by_sec, oper_no)},
+    {"request_id", offsetof(ctp_rsp_query_bank_account_by_sec, request_id)},
+    {"tid", offsetof(ctp_rsp_query_bank_account_by_sec, tid)},
+    {"bank_use_amount", offsetof(ctp_rsp_query_bank_account_by_sec, bank_use_amount)},
+    {"bank_fetch_amount", offsetof(ctp_rsp_query_bank_account_by_sec, bank_fetch_amount)},
+    {"long_customer_name", offsetof(ctp_rsp_query_bank_account_by_sec, long_customer_name)},
+    {"dr_identity_id", offsetof(ctp_rsp_query_bank_account_by_sec, dr_identity_id)},
+    {"sec_future_serial", offsetof(ctp_rsp_query_bank_account_by_sec, sec_future_serial)},
+  });
+  print_layout<ctp_rsp_query_trade_result_by_serial>("ctp_rsp_query_trade_result_by_serial", {
+    {"trade_code", offsetof(ctp_rsp_query_trade_result_by_serial, trade_code)},
+    {"bank_id", offsetof(ctp_rsp_query_trade_result_by_serial, bank_id)},
+    {"bank_branch_id", offsetof(ctp_rsp_query_trade_result_by_serial, bank_branch_id)},
+    {"broker_id", offsetof(ctp_rsp_query_trade_result_by_serial, broker_id)},
+    {"broker_branch_id", offsetof(ctp_rsp_query_trade_result_by_serial, broker_branch_id)},
+    {"trade_date", offsetof(ctp_rsp_query_trade_result_by_serial, trade_date)},
+    {"trade_time", offsetof(ctp_rsp_query_trade_result_by_serial, trade_time)},
+    {"bank_serial", offsetof(ctp_rsp_query_trade_result_by_serial, bank_serial)},
+    {"trading_day", offsetof(ctp_rsp_query_trade_result_by_serial, trading_day)},
+    {"plate_serial", offsetof(ctp_rsp_query_trade_result_by_serial, plate_serial)},
+    {"last_fragment", offsetof(ctp_rsp_query_trade_result_by_serial, last_fragment)},
+    {"session_id", offsetof(ctp_rsp_query_trade_result_by_serial, session_id)},
+    {"error_id", offsetof(ctp_rsp_query_trade_result_by_serial, error_id)},
+    {"error_msg", offsetof(ctp_rsp_query_trade_result_by_serial, error_msg)},
+    {"reference", offsetof(ctp_rsp_query_trade_result_by_serial, reference)},
+    {"refrence_issure_type", offsetof(ctp_rsp_query_trade_result_by_serial, refrence_issure_type)},
+    {"refrence_issure", offsetof(ctp_rsp_query_trade_result_by_serial, refrence_issure)},
+    {"origin_return_code", offsetof(ctp_rsp_query_trade_result_by_serial, origin_return_code)},
+    {"origin_descr_info_for_return_code", offsetof(ctp_rsp_query_trade_result_by_serial, origin_descr_info_for_return_code)},
+    {"bank_account", offsetof(ctp_rsp_query_trade_result_by_serial, bank_account)},
+    {"bank_pass_word", offsetof(ctp_rsp_query_trade_result_by_serial, bank_pass_word)},
+    {"account_id", offsetof(ctp_rsp_query_trade_result_by_serial, account_id)},
+    {"password", offsetof(ctp_rsp_query_trade_result_by_serial, password)},
+    {"currency_id", offsetof(ctp_rsp_query_trade_result_by_serial, currency_id)},
+    {"trade_amount", offsetof(ctp_rsp_query_trade_result_by_serial, trade_amount)},
+    {"digest", offsetof(ctp_rsp_query_trade_result_by_serial, digest)},
   });
   print_layout<ctp_rsp_repeal>("ctp_rsp_repeal", {
     {"repeal_time_interval", offsetof(ctp_rsp_repeal, repeal_time_interval)},
@@ -2856,6 +5083,30 @@ int main() {
     {"error_msg", offsetof(ctp_rsp_repeal, error_msg)},
     {"long_customer_name", offsetof(ctp_rsp_repeal, long_customer_name)},
   });
+  print_layout<ctp_rsp_sync_key>("ctp_rsp_sync_key", {
+    {"trade_code", offsetof(ctp_rsp_sync_key, trade_code)},
+    {"bank_id", offsetof(ctp_rsp_sync_key, bank_id)},
+    {"bank_branch_id", offsetof(ctp_rsp_sync_key, bank_branch_id)},
+    {"broker_id", offsetof(ctp_rsp_sync_key, broker_id)},
+    {"broker_branch_id", offsetof(ctp_rsp_sync_key, broker_branch_id)},
+    {"trade_date", offsetof(ctp_rsp_sync_key, trade_date)},
+    {"trade_time", offsetof(ctp_rsp_sync_key, trade_time)},
+    {"bank_serial", offsetof(ctp_rsp_sync_key, bank_serial)},
+    {"trading_day", offsetof(ctp_rsp_sync_key, trading_day)},
+    {"plate_serial", offsetof(ctp_rsp_sync_key, plate_serial)},
+    {"last_fragment", offsetof(ctp_rsp_sync_key, last_fragment)},
+    {"session_id", offsetof(ctp_rsp_sync_key, session_id)},
+    {"install_id", offsetof(ctp_rsp_sync_key, install_id)},
+    {"user_id", offsetof(ctp_rsp_sync_key, user_id)},
+    {"message", offsetof(ctp_rsp_sync_key, message)},
+    {"device_id", offsetof(ctp_rsp_sync_key, device_id)},
+    {"broker_id_by_bank", offsetof(ctp_rsp_sync_key, broker_id_by_bank)},
+    {"oper_no", offsetof(ctp_rsp_sync_key, oper_no)},
+    {"request_id", offsetof(ctp_rsp_sync_key, request_id)},
+    {"tid", offsetof(ctp_rsp_sync_key, tid)},
+    {"error_id", offsetof(ctp_rsp_sync_key, error_id)},
+    {"error_msg", offsetof(ctp_rsp_sync_key, error_msg)},
+  });
   print_layout<ctp_rsp_transfer>("ctp_rsp_transfer", {
     {"trade_code", offsetof(ctp_rsp_transfer, trade_code)},
     {"bank_id", offsetof(ctp_rsp_transfer, bank_id)},
@@ -2904,6 +5155,56 @@ int main() {
     {"error_msg", offsetof(ctp_rsp_transfer, error_msg)},
     {"long_customer_name", offsetof(ctp_rsp_transfer, long_customer_name)},
   });
+  print_layout<ctp_rsp_transfer_by_sec>("ctp_rsp_transfer_by_sec", {
+    {"trade_code", offsetof(ctp_rsp_transfer_by_sec, trade_code)},
+    {"bank_id", offsetof(ctp_rsp_transfer_by_sec, bank_id)},
+    {"bank_branch_id", offsetof(ctp_rsp_transfer_by_sec, bank_branch_id)},
+    {"broker_id", offsetof(ctp_rsp_transfer_by_sec, broker_id)},
+    {"broker_branch_id", offsetof(ctp_rsp_transfer_by_sec, broker_branch_id)},
+    {"trade_date", offsetof(ctp_rsp_transfer_by_sec, trade_date)},
+    {"trade_time", offsetof(ctp_rsp_transfer_by_sec, trade_time)},
+    {"bank_serial", offsetof(ctp_rsp_transfer_by_sec, bank_serial)},
+    {"trading_day", offsetof(ctp_rsp_transfer_by_sec, trading_day)},
+    {"plate_serial", offsetof(ctp_rsp_transfer_by_sec, plate_serial)},
+    {"last_fragment", offsetof(ctp_rsp_transfer_by_sec, last_fragment)},
+    {"session_id", offsetof(ctp_rsp_transfer_by_sec, session_id)},
+    {"customer_name", offsetof(ctp_rsp_transfer_by_sec, customer_name)},
+    {"id_card_type", offsetof(ctp_rsp_transfer_by_sec, id_card_type)},
+    {"identified_card_no", offsetof(ctp_rsp_transfer_by_sec, identified_card_no)},
+    {"cust_type", offsetof(ctp_rsp_transfer_by_sec, cust_type)},
+    {"bank_account", offsetof(ctp_rsp_transfer_by_sec, bank_account)},
+    {"bank_pass_word", offsetof(ctp_rsp_transfer_by_sec, bank_pass_word)},
+    {"account_id", offsetof(ctp_rsp_transfer_by_sec, account_id)},
+    {"password", offsetof(ctp_rsp_transfer_by_sec, password)},
+    {"install_id", offsetof(ctp_rsp_transfer_by_sec, install_id)},
+    {"future_serial", offsetof(ctp_rsp_transfer_by_sec, future_serial)},
+    {"user_id", offsetof(ctp_rsp_transfer_by_sec, user_id)},
+    {"verify_cert_no_flag", offsetof(ctp_rsp_transfer_by_sec, verify_cert_no_flag)},
+    {"currency_id", offsetof(ctp_rsp_transfer_by_sec, currency_id)},
+    {"trade_amount", offsetof(ctp_rsp_transfer_by_sec, trade_amount)},
+    {"future_fetch_amount", offsetof(ctp_rsp_transfer_by_sec, future_fetch_amount)},
+    {"fee_pay_flag", offsetof(ctp_rsp_transfer_by_sec, fee_pay_flag)},
+    {"cust_fee", offsetof(ctp_rsp_transfer_by_sec, cust_fee)},
+    {"broker_fee", offsetof(ctp_rsp_transfer_by_sec, broker_fee)},
+    {"message", offsetof(ctp_rsp_transfer_by_sec, message)},
+    {"digest", offsetof(ctp_rsp_transfer_by_sec, digest)},
+    {"bank_acc_type", offsetof(ctp_rsp_transfer_by_sec, bank_acc_type)},
+    {"device_id", offsetof(ctp_rsp_transfer_by_sec, device_id)},
+    {"bank_secu_acc_type", offsetof(ctp_rsp_transfer_by_sec, bank_secu_acc_type)},
+    {"broker_id_by_bank", offsetof(ctp_rsp_transfer_by_sec, broker_id_by_bank)},
+    {"bank_secu_acc", offsetof(ctp_rsp_transfer_by_sec, bank_secu_acc)},
+    {"bank_pwd_flag", offsetof(ctp_rsp_transfer_by_sec, bank_pwd_flag)},
+    {"secu_pwd_flag", offsetof(ctp_rsp_transfer_by_sec, secu_pwd_flag)},
+    {"oper_no", offsetof(ctp_rsp_transfer_by_sec, oper_no)},
+    {"request_id", offsetof(ctp_rsp_transfer_by_sec, request_id)},
+    {"tid", offsetof(ctp_rsp_transfer_by_sec, tid)},
+    {"transfer_status", offsetof(ctp_rsp_transfer_by_sec, transfer_status)},
+    {"error_id", offsetof(ctp_rsp_transfer_by_sec, error_id)},
+    {"error_msg", offsetof(ctp_rsp_transfer_by_sec, error_msg)},
+    {"long_customer_name", offsetof(ctp_rsp_transfer_by_sec, long_customer_name)},
+    {"dr_identity_id", offsetof(ctp_rsp_transfer_by_sec, dr_identity_id)},
+    {"sec_future_serial", offsetof(ctp_rsp_transfer_by_sec, sec_future_serial)},
+  });
   print_layout<ctp_rsp_user_auth_method>("ctp_rsp_user_auth_method", {
     {"usable_auth_method", offsetof(ctp_rsp_user_auth_method, usable_auth_method)},
   });
@@ -2927,6 +5228,22 @@ int main() {
     {"user_dr_identity_id", offsetof(ctp_rsp_user_login, user_dr_identity_id)},
     {"last_login_time", offsetof(ctp_rsp_user_login, last_login_time)},
     {"reserve_info", offsetof(ctp_rsp_user_login, reserve_info)},
+  });
+  print_layout<ctp_rsp_user_login2>("ctp_rsp_user_login2", {
+    {"trading_day", offsetof(ctp_rsp_user_login2, trading_day)},
+    {"login_time", offsetof(ctp_rsp_user_login2, login_time)},
+    {"broker_id", offsetof(ctp_rsp_user_login2, broker_id)},
+    {"user_id", offsetof(ctp_rsp_user_login2, user_id)},
+    {"system_name", offsetof(ctp_rsp_user_login2, system_name)},
+    {"front_id", offsetof(ctp_rsp_user_login2, front_id)},
+    {"session_id", offsetof(ctp_rsp_user_login2, session_id)},
+    {"max_order_ref", offsetof(ctp_rsp_user_login2, max_order_ref)},
+    {"shfe_time", offsetof(ctp_rsp_user_login2, shfe_time)},
+    {"dce_time", offsetof(ctp_rsp_user_login2, dce_time)},
+    {"czce_time", offsetof(ctp_rsp_user_login2, czce_time)},
+    {"ffex_time", offsetof(ctp_rsp_user_login2, ffex_time)},
+    {"ine_time", offsetof(ctp_rsp_user_login2, ine_time)},
+    {"random_string", offsetof(ctp_rsp_user_login2, random_string)},
   });
   print_layout<ctp_rule_instr_parameter>("ctp_rule_instr_parameter", {
     {"trading_day", offsetof(ctp_rule_instr_parameter, trading_day)},
@@ -3001,6 +5318,39 @@ int main() {
     {"settlement_id", offsetof(ctp_settlement_info_confirm, settlement_id)},
     {"account_id", offsetof(ctp_settlement_info_confirm, account_id)},
     {"currency_id", offsetof(ctp_settlement_info_confirm, currency_id)},
+  });
+  print_layout<ctp_settlement_info_confirm_from_sec>("ctp_settlement_info_confirm_from_sec", {
+    {"broker_id", offsetof(ctp_settlement_info_confirm_from_sec, broker_id)},
+    {"investor_id", offsetof(ctp_settlement_info_confirm_from_sec, investor_id)},
+    {"confirm_date", offsetof(ctp_settlement_info_confirm_from_sec, confirm_date)},
+    {"confirm_time", offsetof(ctp_settlement_info_confirm_from_sec, confirm_time)},
+    {"from_sec", offsetof(ctp_settlement_info_confirm_from_sec, from_sec)},
+  });
+  print_layout<ctp_settlement_ref>("ctp_settlement_ref", {
+    {"trading_day", offsetof(ctp_settlement_ref, trading_day)},
+    {"settlement_id", offsetof(ctp_settlement_ref, settlement_id)},
+  });
+  print_layout<ctp_sms_verify_config>("ctp_sms_verify_config", {
+    {"user_id", offsetof(ctp_sms_verify_config, user_id)},
+    {"broker_id", offsetof(ctp_sms_verify_config, broker_id)},
+    {"mobile", offsetof(ctp_sms_verify_config, mobile)},
+    {"use_sms_verify", offsetof(ctp_sms_verify_config, use_sms_verify)},
+  });
+  print_layout<ctp_sms_verify_info>("ctp_sms_verify_info", {
+    {"create_time", offsetof(ctp_sms_verify_info, create_time)},
+    {"mobile", offsetof(ctp_sms_verify_info, mobile)},
+    {"sms_content", offsetof(ctp_sms_verify_info, sms_content)},
+  });
+  print_layout<ctp_sms_verify_info_from_sec>("ctp_sms_verify_info_from_sec", {
+    {"broker_id", offsetof(ctp_sms_verify_info_from_sec, broker_id)},
+    {"broker_abbr", offsetof(ctp_sms_verify_info_from_sec, broker_abbr)},
+    {"user_id", offsetof(ctp_sms_verify_info_from_sec, user_id)},
+    {"mobile", offsetof(ctp_sms_verify_info_from_sec, mobile)},
+    {"sms_code", offsetof(ctp_sms_verify_info_from_sec, sms_code)},
+    {"create_date", offsetof(ctp_sms_verify_info_from_sec, create_date)},
+    {"create_time", offsetof(ctp_sms_verify_info_from_sec, create_time)},
+    {"is_used", offsetof(ctp_sms_verify_info_from_sec, is_used)},
+    {"from_sec", offsetof(ctp_sms_verify_info_from_sec, from_sec)},
   });
   print_layout<ctp_spbm_add_on_inter_parameter>("ctp_spbm_add_on_inter_parameter", {
     {"trading_day", offsetof(ctp_spbm_add_on_inter_parameter, trading_day)},
@@ -3122,6 +5472,7 @@ int main() {
   });
   print_layout<ctp_specific_instrument>("ctp_specific_instrument", {
     {"instrument_id", offsetof(ctp_specific_instrument, instrument_id)},
+    {"reserve1", offsetof(ctp_specific_instrument, reserve1)},
   });
   print_layout<ctp_spmm_inst_param>("ctp_spmm_inst_param", {
     {"exchange_id", offsetof(ctp_spmm_inst_param, exchange_id)},
@@ -3135,6 +5486,816 @@ int main() {
     {"product_id", offsetof(ctp_spmm_product_param, product_id)},
     {"commodity_id", offsetof(ctp_spmm_product_param, commodity_id)},
     {"commodity_group_id", offsetof(ctp_spmm_product_param, commodity_group_id)},
+  });
+  print_layout<ctp_strike_offset>("ctp_strike_offset", {
+    {"reserve1", offsetof(ctp_strike_offset, reserve1)},
+    {"investor_range", offsetof(ctp_strike_offset, investor_range)},
+    {"broker_id", offsetof(ctp_strike_offset, broker_id)},
+    {"investor_id", offsetof(ctp_strike_offset, investor_id)},
+    {"offset", offsetof(ctp_strike_offset, offset)},
+    {"offset_type", offsetof(ctp_strike_offset, offset_type)},
+    {"instrument_id", offsetof(ctp_strike_offset, instrument_id)},
+  });
+  print_layout<ctp_super_user>("ctp_super_user", {
+    {"user_id", offsetof(ctp_super_user, user_id)},
+    {"user_name", offsetof(ctp_super_user, user_name)},
+    {"password", offsetof(ctp_super_user, password)},
+    {"is_active", offsetof(ctp_super_user, is_active)},
+  });
+  print_layout<ctp_super_user_function>("ctp_super_user_function", {
+    {"user_id", offsetof(ctp_super_user_function, user_id)},
+    {"function_code", offsetof(ctp_super_user_function, function_code)},
+  });
+  print_layout<ctp_sync_delay_swap>("ctp_sync_delay_swap", {
+    {"delay_swap_seq_no", offsetof(ctp_sync_delay_swap, delay_swap_seq_no)},
+    {"broker_id", offsetof(ctp_sync_delay_swap, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delay_swap, investor_id)},
+    {"from_currency_id", offsetof(ctp_sync_delay_swap, from_currency_id)},
+    {"from_amount", offsetof(ctp_sync_delay_swap, from_amount)},
+    {"from_frozen_swap", offsetof(ctp_sync_delay_swap, from_frozen_swap)},
+    {"from_remain_swap", offsetof(ctp_sync_delay_swap, from_remain_swap)},
+    {"to_currency_id", offsetof(ctp_sync_delay_swap, to_currency_id)},
+    {"to_amount", offsetof(ctp_sync_delay_swap, to_amount)},
+    {"is_manual_swap", offsetof(ctp_sync_delay_swap, is_manual_swap)},
+    {"is_all_remain_set_zero", offsetof(ctp_sync_delay_swap, is_all_remain_set_zero)},
+  });
+  print_layout<ctp_sync_delay_swap_frozen>("ctp_sync_delay_swap_frozen", {
+    {"delay_swap_seq_no", offsetof(ctp_sync_delay_swap_frozen, delay_swap_seq_no)},
+    {"broker_id", offsetof(ctp_sync_delay_swap_frozen, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delay_swap_frozen, investor_id)},
+    {"from_currency_id", offsetof(ctp_sync_delay_swap_frozen, from_currency_id)},
+    {"from_remain_swap", offsetof(ctp_sync_delay_swap_frozen, from_remain_swap)},
+    {"is_manual_swap", offsetof(ctp_sync_delay_swap_frozen, is_manual_swap)},
+  });
+  print_layout<ctp_sync_delta_dce_comb_instrument>("ctp_sync_delta_dce_comb_instrument", {
+    {"comb_instrument_id", offsetof(ctp_sync_delta_dce_comb_instrument, comb_instrument_id)},
+    {"exchange_id", offsetof(ctp_sync_delta_dce_comb_instrument, exchange_id)},
+    {"exchange_inst_id", offsetof(ctp_sync_delta_dce_comb_instrument, exchange_inst_id)},
+    {"trade_group_id", offsetof(ctp_sync_delta_dce_comb_instrument, trade_group_id)},
+    {"comb_hedge_flag", offsetof(ctp_sync_delta_dce_comb_instrument, comb_hedge_flag)},
+    {"combination_type", offsetof(ctp_sync_delta_dce_comb_instrument, combination_type)},
+    {"direction", offsetof(ctp_sync_delta_dce_comb_instrument, direction)},
+    {"product_id", offsetof(ctp_sync_delta_dce_comb_instrument, product_id)},
+    {"xparameter", offsetof(ctp_sync_delta_dce_comb_instrument, xparameter)},
+    {"action_direction", offsetof(ctp_sync_delta_dce_comb_instrument, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_dce_comb_instrument, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_depth_market_data>("ctp_sync_delta_depth_market_data", {
+    {"trading_day", offsetof(ctp_sync_delta_depth_market_data, trading_day)},
+    {"instrument_id", offsetof(ctp_sync_delta_depth_market_data, instrument_id)},
+    {"exchange_id", offsetof(ctp_sync_delta_depth_market_data, exchange_id)},
+    {"exchange_inst_id", offsetof(ctp_sync_delta_depth_market_data, exchange_inst_id)},
+    {"last_price", offsetof(ctp_sync_delta_depth_market_data, last_price)},
+    {"pre_settlement_price", offsetof(ctp_sync_delta_depth_market_data, pre_settlement_price)},
+    {"pre_close_price", offsetof(ctp_sync_delta_depth_market_data, pre_close_price)},
+    {"pre_open_interest", offsetof(ctp_sync_delta_depth_market_data, pre_open_interest)},
+    {"open_price", offsetof(ctp_sync_delta_depth_market_data, open_price)},
+    {"highest_price", offsetof(ctp_sync_delta_depth_market_data, highest_price)},
+    {"lowest_price", offsetof(ctp_sync_delta_depth_market_data, lowest_price)},
+    {"volume", offsetof(ctp_sync_delta_depth_market_data, volume)},
+    {"turnover", offsetof(ctp_sync_delta_depth_market_data, turnover)},
+    {"open_interest", offsetof(ctp_sync_delta_depth_market_data, open_interest)},
+    {"close_price", offsetof(ctp_sync_delta_depth_market_data, close_price)},
+    {"settlement_price", offsetof(ctp_sync_delta_depth_market_data, settlement_price)},
+    {"upper_limit_price", offsetof(ctp_sync_delta_depth_market_data, upper_limit_price)},
+    {"lower_limit_price", offsetof(ctp_sync_delta_depth_market_data, lower_limit_price)},
+    {"pre_delta", offsetof(ctp_sync_delta_depth_market_data, pre_delta)},
+    {"curr_delta", offsetof(ctp_sync_delta_depth_market_data, curr_delta)},
+    {"update_time", offsetof(ctp_sync_delta_depth_market_data, update_time)},
+    {"update_millisec", offsetof(ctp_sync_delta_depth_market_data, update_millisec)},
+    {"bid_price1", offsetof(ctp_sync_delta_depth_market_data, bid_price1)},
+    {"bid_volume1", offsetof(ctp_sync_delta_depth_market_data, bid_volume1)},
+    {"ask_price1", offsetof(ctp_sync_delta_depth_market_data, ask_price1)},
+    {"ask_volume1", offsetof(ctp_sync_delta_depth_market_data, ask_volume1)},
+    {"bid_price2", offsetof(ctp_sync_delta_depth_market_data, bid_price2)},
+    {"bid_volume2", offsetof(ctp_sync_delta_depth_market_data, bid_volume2)},
+    {"ask_price2", offsetof(ctp_sync_delta_depth_market_data, ask_price2)},
+    {"ask_volume2", offsetof(ctp_sync_delta_depth_market_data, ask_volume2)},
+    {"bid_price3", offsetof(ctp_sync_delta_depth_market_data, bid_price3)},
+    {"bid_volume3", offsetof(ctp_sync_delta_depth_market_data, bid_volume3)},
+    {"ask_price3", offsetof(ctp_sync_delta_depth_market_data, ask_price3)},
+    {"ask_volume3", offsetof(ctp_sync_delta_depth_market_data, ask_volume3)},
+    {"bid_price4", offsetof(ctp_sync_delta_depth_market_data, bid_price4)},
+    {"bid_volume4", offsetof(ctp_sync_delta_depth_market_data, bid_volume4)},
+    {"ask_price4", offsetof(ctp_sync_delta_depth_market_data, ask_price4)},
+    {"ask_volume4", offsetof(ctp_sync_delta_depth_market_data, ask_volume4)},
+    {"bid_price5", offsetof(ctp_sync_delta_depth_market_data, bid_price5)},
+    {"bid_volume5", offsetof(ctp_sync_delta_depth_market_data, bid_volume5)},
+    {"ask_price5", offsetof(ctp_sync_delta_depth_market_data, ask_price5)},
+    {"ask_volume5", offsetof(ctp_sync_delta_depth_market_data, ask_volume5)},
+    {"average_price", offsetof(ctp_sync_delta_depth_market_data, average_price)},
+    {"action_day", offsetof(ctp_sync_delta_depth_market_data, action_day)},
+    {"banding_upper_price", offsetof(ctp_sync_delta_depth_market_data, banding_upper_price)},
+    {"banding_lower_price", offsetof(ctp_sync_delta_depth_market_data, banding_lower_price)},
+    {"action_direction", offsetof(ctp_sync_delta_depth_market_data, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_depth_market_data, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_e_warrant_offset>("ctp_sync_delta_e_warrant_offset", {
+    {"trading_day", offsetof(ctp_sync_delta_e_warrant_offset, trading_day)},
+    {"broker_id", offsetof(ctp_sync_delta_e_warrant_offset, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_e_warrant_offset, investor_id)},
+    {"exchange_id", offsetof(ctp_sync_delta_e_warrant_offset, exchange_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_e_warrant_offset, instrument_id)},
+    {"direction", offsetof(ctp_sync_delta_e_warrant_offset, direction)},
+    {"hedge_flag", offsetof(ctp_sync_delta_e_warrant_offset, hedge_flag)},
+    {"volume", offsetof(ctp_sync_delta_e_warrant_offset, volume)},
+    {"action_direction", offsetof(ctp_sync_delta_e_warrant_offset, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_e_warrant_offset, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_exch_margin_rate>("ctp_sync_delta_exch_margin_rate", {
+    {"broker_id", offsetof(ctp_sync_delta_exch_margin_rate, broker_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_exch_margin_rate, instrument_id)},
+    {"hedge_flag", offsetof(ctp_sync_delta_exch_margin_rate, hedge_flag)},
+    {"long_margin_ratio_by_money", offsetof(ctp_sync_delta_exch_margin_rate, long_margin_ratio_by_money)},
+    {"long_margin_ratio_by_volume", offsetof(ctp_sync_delta_exch_margin_rate, long_margin_ratio_by_volume)},
+    {"short_margin_ratio_by_money", offsetof(ctp_sync_delta_exch_margin_rate, short_margin_ratio_by_money)},
+    {"short_margin_ratio_by_volume", offsetof(ctp_sync_delta_exch_margin_rate, short_margin_ratio_by_volume)},
+    {"action_direction", offsetof(ctp_sync_delta_exch_margin_rate, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_exch_margin_rate, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_index_price>("ctp_sync_delta_index_price", {
+    {"broker_id", offsetof(ctp_sync_delta_index_price, broker_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_index_price, instrument_id)},
+    {"close_price", offsetof(ctp_sync_delta_index_price, close_price)},
+    {"action_direction", offsetof(ctp_sync_delta_index_price, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_index_price, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_info>("ctp_sync_delta_info", {
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_info, sync_delta_sequence_no)},
+    {"sync_delta_status", offsetof(ctp_sync_delta_info, sync_delta_status)},
+    {"sync_description", offsetof(ctp_sync_delta_info, sync_description)},
+    {"is_only_trd_delta", offsetof(ctp_sync_delta_info, is_only_trd_delta)},
+  });
+  print_layout<ctp_sync_delta_init_invst_margin>("ctp_sync_delta_init_invst_margin", {
+    {"broker_id", offsetof(ctp_sync_delta_init_invst_margin, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_init_invst_margin, investor_id)},
+    {"last_risk_total_invst_margin", offsetof(ctp_sync_delta_init_invst_margin, last_risk_total_invst_margin)},
+    {"last_risk_total_exch_margin", offsetof(ctp_sync_delta_init_invst_margin, last_risk_total_exch_margin)},
+    {"this_sync_invst_margin", offsetof(ctp_sync_delta_init_invst_margin, this_sync_invst_margin)},
+    {"this_sync_exch_margin", offsetof(ctp_sync_delta_init_invst_margin, this_sync_exch_margin)},
+    {"remain_risk_invst_margin", offsetof(ctp_sync_delta_init_invst_margin, remain_risk_invst_margin)},
+    {"remain_risk_exch_margin", offsetof(ctp_sync_delta_init_invst_margin, remain_risk_exch_margin)},
+    {"last_risk_spec_total_invst_margin", offsetof(ctp_sync_delta_init_invst_margin, last_risk_spec_total_invst_margin)},
+    {"last_risk_spec_total_exch_margin", offsetof(ctp_sync_delta_init_invst_margin, last_risk_spec_total_exch_margin)},
+    {"this_sync_spec_invst_margin", offsetof(ctp_sync_delta_init_invst_margin, this_sync_spec_invst_margin)},
+    {"this_sync_spec_exch_margin", offsetof(ctp_sync_delta_init_invst_margin, this_sync_spec_exch_margin)},
+    {"remain_risk_spec_invst_margin", offsetof(ctp_sync_delta_init_invst_margin, remain_risk_spec_invst_margin)},
+    {"remain_risk_spec_exch_margin", offsetof(ctp_sync_delta_init_invst_margin, remain_risk_spec_exch_margin)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_init_invst_margin, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_investor_spmm_model>("ctp_sync_delta_investor_spmm_model", {
+    {"exchange_id", offsetof(ctp_sync_delta_investor_spmm_model, exchange_id)},
+    {"broker_id", offsetof(ctp_sync_delta_investor_spmm_model, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_investor_spmm_model, investor_id)},
+    {"spmm_model_id", offsetof(ctp_sync_delta_investor_spmm_model, spmm_model_id)},
+    {"action_direction", offsetof(ctp_sync_delta_investor_spmm_model, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_investor_spmm_model, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_invst_comm_rate>("ctp_sync_delta_invst_comm_rate", {
+    {"instrument_id", offsetof(ctp_sync_delta_invst_comm_rate, instrument_id)},
+    {"investor_range", offsetof(ctp_sync_delta_invst_comm_rate, investor_range)},
+    {"broker_id", offsetof(ctp_sync_delta_invst_comm_rate, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_invst_comm_rate, investor_id)},
+    {"open_ratio_by_money", offsetof(ctp_sync_delta_invst_comm_rate, open_ratio_by_money)},
+    {"open_ratio_by_volume", offsetof(ctp_sync_delta_invst_comm_rate, open_ratio_by_volume)},
+    {"close_ratio_by_money", offsetof(ctp_sync_delta_invst_comm_rate, close_ratio_by_money)},
+    {"close_ratio_by_volume", offsetof(ctp_sync_delta_invst_comm_rate, close_ratio_by_volume)},
+    {"close_today_ratio_by_money", offsetof(ctp_sync_delta_invst_comm_rate, close_today_ratio_by_money)},
+    {"close_today_ratio_by_volume", offsetof(ctp_sync_delta_invst_comm_rate, close_today_ratio_by_volume)},
+    {"action_direction", offsetof(ctp_sync_delta_invst_comm_rate, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_invst_comm_rate, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_invst_margin_rate>("ctp_sync_delta_invst_margin_rate", {
+    {"instrument_id", offsetof(ctp_sync_delta_invst_margin_rate, instrument_id)},
+    {"investor_range", offsetof(ctp_sync_delta_invst_margin_rate, investor_range)},
+    {"broker_id", offsetof(ctp_sync_delta_invst_margin_rate, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_invst_margin_rate, investor_id)},
+    {"hedge_flag", offsetof(ctp_sync_delta_invst_margin_rate, hedge_flag)},
+    {"long_margin_ratio_by_money", offsetof(ctp_sync_delta_invst_margin_rate, long_margin_ratio_by_money)},
+    {"long_margin_ratio_by_volume", offsetof(ctp_sync_delta_invst_margin_rate, long_margin_ratio_by_volume)},
+    {"short_margin_ratio_by_money", offsetof(ctp_sync_delta_invst_margin_rate, short_margin_ratio_by_money)},
+    {"short_margin_ratio_by_volume", offsetof(ctp_sync_delta_invst_margin_rate, short_margin_ratio_by_volume)},
+    {"is_relative", offsetof(ctp_sync_delta_invst_margin_rate, is_relative)},
+    {"action_direction", offsetof(ctp_sync_delta_invst_margin_rate, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_invst_margin_rate, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_invst_margin_rate_ul>("ctp_sync_delta_invst_margin_rate_ul", {
+    {"instrument_id", offsetof(ctp_sync_delta_invst_margin_rate_ul, instrument_id)},
+    {"investor_range", offsetof(ctp_sync_delta_invst_margin_rate_ul, investor_range)},
+    {"broker_id", offsetof(ctp_sync_delta_invst_margin_rate_ul, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_invst_margin_rate_ul, investor_id)},
+    {"hedge_flag", offsetof(ctp_sync_delta_invst_margin_rate_ul, hedge_flag)},
+    {"long_margin_ratio_by_money", offsetof(ctp_sync_delta_invst_margin_rate_ul, long_margin_ratio_by_money)},
+    {"long_margin_ratio_by_volume", offsetof(ctp_sync_delta_invst_margin_rate_ul, long_margin_ratio_by_volume)},
+    {"short_margin_ratio_by_money", offsetof(ctp_sync_delta_invst_margin_rate_ul, short_margin_ratio_by_money)},
+    {"short_margin_ratio_by_volume", offsetof(ctp_sync_delta_invst_margin_rate_ul, short_margin_ratio_by_volume)},
+    {"action_direction", offsetof(ctp_sync_delta_invst_margin_rate_ul, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_invst_margin_rate_ul, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_invst_pos_comb_dtl>("ctp_sync_delta_invst_pos_comb_dtl", {
+    {"trading_day", offsetof(ctp_sync_delta_invst_pos_comb_dtl, trading_day)},
+    {"open_date", offsetof(ctp_sync_delta_invst_pos_comb_dtl, open_date)},
+    {"exchange_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, exchange_id)},
+    {"settlement_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, settlement_id)},
+    {"broker_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, investor_id)},
+    {"com_trade_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, com_trade_id)},
+    {"trade_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, trade_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, instrument_id)},
+    {"hedge_flag", offsetof(ctp_sync_delta_invst_pos_comb_dtl, hedge_flag)},
+    {"direction", offsetof(ctp_sync_delta_invst_pos_comb_dtl, direction)},
+    {"total_amt", offsetof(ctp_sync_delta_invst_pos_comb_dtl, total_amt)},
+    {"margin", offsetof(ctp_sync_delta_invst_pos_comb_dtl, margin)},
+    {"exch_margin", offsetof(ctp_sync_delta_invst_pos_comb_dtl, exch_margin)},
+    {"margin_rate_by_money", offsetof(ctp_sync_delta_invst_pos_comb_dtl, margin_rate_by_money)},
+    {"margin_rate_by_volume", offsetof(ctp_sync_delta_invst_pos_comb_dtl, margin_rate_by_volume)},
+    {"leg_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, leg_id)},
+    {"leg_multiple", offsetof(ctp_sync_delta_invst_pos_comb_dtl, leg_multiple)},
+    {"trade_group_id", offsetof(ctp_sync_delta_invst_pos_comb_dtl, trade_group_id)},
+    {"action_direction", offsetof(ctp_sync_delta_invst_pos_comb_dtl, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_invst_pos_comb_dtl, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_invst_pos_dtl>("ctp_sync_delta_invst_pos_dtl", {
+    {"instrument_id", offsetof(ctp_sync_delta_invst_pos_dtl, instrument_id)},
+    {"broker_id", offsetof(ctp_sync_delta_invst_pos_dtl, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_invst_pos_dtl, investor_id)},
+    {"hedge_flag", offsetof(ctp_sync_delta_invst_pos_dtl, hedge_flag)},
+    {"direction", offsetof(ctp_sync_delta_invst_pos_dtl, direction)},
+    {"open_date", offsetof(ctp_sync_delta_invst_pos_dtl, open_date)},
+    {"trade_id", offsetof(ctp_sync_delta_invst_pos_dtl, trade_id)},
+    {"volume", offsetof(ctp_sync_delta_invst_pos_dtl, volume)},
+    {"open_price", offsetof(ctp_sync_delta_invst_pos_dtl, open_price)},
+    {"trading_day", offsetof(ctp_sync_delta_invst_pos_dtl, trading_day)},
+    {"settlement_id", offsetof(ctp_sync_delta_invst_pos_dtl, settlement_id)},
+    {"trade_type", offsetof(ctp_sync_delta_invst_pos_dtl, trade_type)},
+    {"comb_instrument_id", offsetof(ctp_sync_delta_invst_pos_dtl, comb_instrument_id)},
+    {"exchange_id", offsetof(ctp_sync_delta_invst_pos_dtl, exchange_id)},
+    {"close_profit_by_date", offsetof(ctp_sync_delta_invst_pos_dtl, close_profit_by_date)},
+    {"close_profit_by_trade", offsetof(ctp_sync_delta_invst_pos_dtl, close_profit_by_trade)},
+    {"position_profit_by_date", offsetof(ctp_sync_delta_invst_pos_dtl, position_profit_by_date)},
+    {"position_profit_by_trade", offsetof(ctp_sync_delta_invst_pos_dtl, position_profit_by_trade)},
+    {"margin", offsetof(ctp_sync_delta_invst_pos_dtl, margin)},
+    {"exch_margin", offsetof(ctp_sync_delta_invst_pos_dtl, exch_margin)},
+    {"margin_rate_by_money", offsetof(ctp_sync_delta_invst_pos_dtl, margin_rate_by_money)},
+    {"margin_rate_by_volume", offsetof(ctp_sync_delta_invst_pos_dtl, margin_rate_by_volume)},
+    {"last_settlement_price", offsetof(ctp_sync_delta_invst_pos_dtl, last_settlement_price)},
+    {"settlement_price", offsetof(ctp_sync_delta_invst_pos_dtl, settlement_price)},
+    {"close_volume", offsetof(ctp_sync_delta_invst_pos_dtl, close_volume)},
+    {"close_amount", offsetof(ctp_sync_delta_invst_pos_dtl, close_amount)},
+    {"time_first_volume", offsetof(ctp_sync_delta_invst_pos_dtl, time_first_volume)},
+    {"spec_posi_type", offsetof(ctp_sync_delta_invst_pos_dtl, spec_posi_type)},
+    {"action_direction", offsetof(ctp_sync_delta_invst_pos_dtl, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_invst_pos_dtl, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_opt_exch_margin>("ctp_sync_delta_opt_exch_margin", {
+    {"broker_id", offsetof(ctp_sync_delta_opt_exch_margin, broker_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_opt_exch_margin, instrument_id)},
+    {"s_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_exch_margin, s_short_margin_ratio_by_money)},
+    {"s_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_exch_margin, s_short_margin_ratio_by_volume)},
+    {"h_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_exch_margin, h_short_margin_ratio_by_money)},
+    {"h_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_exch_margin, h_short_margin_ratio_by_volume)},
+    {"a_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_exch_margin, a_short_margin_ratio_by_money)},
+    {"a_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_exch_margin, a_short_margin_ratio_by_volume)},
+    {"m_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_exch_margin, m_short_margin_ratio_by_money)},
+    {"m_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_exch_margin, m_short_margin_ratio_by_volume)},
+    {"action_direction", offsetof(ctp_sync_delta_opt_exch_margin, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_opt_exch_margin, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_opt_invst_comm_rate>("ctp_sync_delta_opt_invst_comm_rate", {
+    {"instrument_id", offsetof(ctp_sync_delta_opt_invst_comm_rate, instrument_id)},
+    {"investor_range", offsetof(ctp_sync_delta_opt_invst_comm_rate, investor_range)},
+    {"broker_id", offsetof(ctp_sync_delta_opt_invst_comm_rate, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_opt_invst_comm_rate, investor_id)},
+    {"open_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_comm_rate, open_ratio_by_money)},
+    {"open_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_comm_rate, open_ratio_by_volume)},
+    {"close_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_comm_rate, close_ratio_by_money)},
+    {"close_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_comm_rate, close_ratio_by_volume)},
+    {"close_today_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_comm_rate, close_today_ratio_by_money)},
+    {"close_today_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_comm_rate, close_today_ratio_by_volume)},
+    {"strike_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_comm_rate, strike_ratio_by_money)},
+    {"strike_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_comm_rate, strike_ratio_by_volume)},
+    {"action_direction", offsetof(ctp_sync_delta_opt_invst_comm_rate, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_opt_invst_comm_rate, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_opt_invst_margin>("ctp_sync_delta_opt_invst_margin", {
+    {"instrument_id", offsetof(ctp_sync_delta_opt_invst_margin, instrument_id)},
+    {"investor_range", offsetof(ctp_sync_delta_opt_invst_margin, investor_range)},
+    {"broker_id", offsetof(ctp_sync_delta_opt_invst_margin, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_opt_invst_margin, investor_id)},
+    {"s_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_margin, s_short_margin_ratio_by_money)},
+    {"s_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_margin, s_short_margin_ratio_by_volume)},
+    {"h_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_margin, h_short_margin_ratio_by_money)},
+    {"h_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_margin, h_short_margin_ratio_by_volume)},
+    {"a_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_margin, a_short_margin_ratio_by_money)},
+    {"a_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_margin, a_short_margin_ratio_by_volume)},
+    {"is_relative", offsetof(ctp_sync_delta_opt_invst_margin, is_relative)},
+    {"m_short_margin_ratio_by_money", offsetof(ctp_sync_delta_opt_invst_margin, m_short_margin_ratio_by_money)},
+    {"m_short_margin_ratio_by_volume", offsetof(ctp_sync_delta_opt_invst_margin, m_short_margin_ratio_by_volume)},
+    {"action_direction", offsetof(ctp_sync_delta_opt_invst_margin, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_opt_invst_margin, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_product_exch_rate>("ctp_sync_delta_product_exch_rate", {
+    {"product_id", offsetof(ctp_sync_delta_product_exch_rate, product_id)},
+    {"quote_currency_id", offsetof(ctp_sync_delta_product_exch_rate, quote_currency_id)},
+    {"exchange_rate", offsetof(ctp_sync_delta_product_exch_rate, exchange_rate)},
+    {"action_direction", offsetof(ctp_sync_delta_product_exch_rate, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_product_exch_rate, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_product_status>("ctp_sync_delta_product_status", {
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_product_status, sync_delta_sequence_no)},
+    {"exchange_id", offsetof(ctp_sync_delta_product_status, exchange_id)},
+    {"product_id", offsetof(ctp_sync_delta_product_status, product_id)},
+    {"product_status", offsetof(ctp_sync_delta_product_status, product_status)},
+  });
+  print_layout<ctp_sync_delta_rcams_comb_prod_info>("ctp_sync_delta_rcams_comb_prod_info", {
+    {"trading_day", offsetof(ctp_sync_delta_rcams_comb_prod_info, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rcams_comb_prod_info, exchange_id)},
+    {"product_id", offsetof(ctp_sync_delta_rcams_comb_prod_info, product_id)},
+    {"comb_product_id", offsetof(ctp_sync_delta_rcams_comb_prod_info, comb_product_id)},
+    {"product_group_id", offsetof(ctp_sync_delta_rcams_comb_prod_info, product_group_id)},
+    {"action_direction", offsetof(ctp_sync_delta_rcams_comb_prod_info, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rcams_comb_prod_info, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rcams_comb_rule_dtl>("ctp_sync_delta_rcams_comb_rule_dtl", {
+    {"trading_day", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, exchange_id)},
+    {"prod_group", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, prod_group)},
+    {"rule_id", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, rule_id)},
+    {"priority", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, priority)},
+    {"hedge_flag", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, hedge_flag)},
+    {"comb_margin", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, comb_margin)},
+    {"exchange_inst_id", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, exchange_inst_id)},
+    {"leg_id", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, leg_id)},
+    {"leg_instrument_id", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, leg_instrument_id)},
+    {"direction", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, direction)},
+    {"leg_multiple", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, leg_multiple)},
+    {"action_direction", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rcams_comb_rule_dtl, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rcams_instr_parameter>("ctp_sync_delta_rcams_instr_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_rcams_instr_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rcams_instr_parameter, exchange_id)},
+    {"product_id", offsetof(ctp_sync_delta_rcams_instr_parameter, product_id)},
+    {"hedge_rate", offsetof(ctp_sync_delta_rcams_instr_parameter, hedge_rate)},
+    {"action_direction", offsetof(ctp_sync_delta_rcams_instr_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rcams_instr_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rcams_inter_parameter>("ctp_sync_delta_rcams_inter_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_rcams_inter_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rcams_inter_parameter, exchange_id)},
+    {"product_group_id", offsetof(ctp_sync_delta_rcams_inter_parameter, product_group_id)},
+    {"priority", offsetof(ctp_sync_delta_rcams_inter_parameter, priority)},
+    {"credit_rate", offsetof(ctp_sync_delta_rcams_inter_parameter, credit_rate)},
+    {"comb_product1", offsetof(ctp_sync_delta_rcams_inter_parameter, comb_product1)},
+    {"comb_product2", offsetof(ctp_sync_delta_rcams_inter_parameter, comb_product2)},
+    {"action_direction", offsetof(ctp_sync_delta_rcams_inter_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rcams_inter_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rcams_intra_parameter>("ctp_sync_delta_rcams_intra_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_rcams_intra_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rcams_intra_parameter, exchange_id)},
+    {"comb_product_id", offsetof(ctp_sync_delta_rcams_intra_parameter, comb_product_id)},
+    {"hedge_rate", offsetof(ctp_sync_delta_rcams_intra_parameter, hedge_rate)},
+    {"action_direction", offsetof(ctp_sync_delta_rcams_intra_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rcams_intra_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rcams_invst_comb_pos>("ctp_sync_delta_rcams_invst_comb_pos", {
+    {"exchange_id", offsetof(ctp_sync_delta_rcams_invst_comb_pos, exchange_id)},
+    {"broker_id", offsetof(ctp_sync_delta_rcams_invst_comb_pos, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_rcams_invst_comb_pos, investor_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_rcams_invst_comb_pos, instrument_id)},
+    {"hedge_flag", offsetof(ctp_sync_delta_rcams_invst_comb_pos, hedge_flag)},
+    {"posi_direction", offsetof(ctp_sync_delta_rcams_invst_comb_pos, posi_direction)},
+    {"comb_instrument_id", offsetof(ctp_sync_delta_rcams_invst_comb_pos, comb_instrument_id)},
+    {"leg_id", offsetof(ctp_sync_delta_rcams_invst_comb_pos, leg_id)},
+    {"exchange_inst_id", offsetof(ctp_sync_delta_rcams_invst_comb_pos, exchange_inst_id)},
+    {"total_amt", offsetof(ctp_sync_delta_rcams_invst_comb_pos, total_amt)},
+    {"exch_margin", offsetof(ctp_sync_delta_rcams_invst_comb_pos, exch_margin)},
+    {"margin", offsetof(ctp_sync_delta_rcams_invst_comb_pos, margin)},
+    {"action_direction", offsetof(ctp_sync_delta_rcams_invst_comb_pos, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rcams_invst_comb_pos, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rcamss_opt_adj_param>("ctp_sync_delta_rcamss_opt_adj_param", {
+    {"trading_day", offsetof(ctp_sync_delta_rcamss_opt_adj_param, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rcamss_opt_adj_param, exchange_id)},
+    {"comb_product_id", offsetof(ctp_sync_delta_rcamss_opt_adj_param, comb_product_id)},
+    {"hedge_flag", offsetof(ctp_sync_delta_rcamss_opt_adj_param, hedge_flag)},
+    {"adjust_value", offsetof(ctp_sync_delta_rcamss_opt_adj_param, adjust_value)},
+    {"action_direction", offsetof(ctp_sync_delta_rcamss_opt_adj_param, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rcamss_opt_adj_param, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rule_instr_parameter>("ctp_sync_delta_rule_instr_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_rule_instr_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rule_instr_parameter, exchange_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_rule_instr_parameter, instrument_id)},
+    {"instrument_class", offsetof(ctp_sync_delta_rule_instr_parameter, instrument_class)},
+    {"std_instrument_id", offsetof(ctp_sync_delta_rule_instr_parameter, std_instrument_id)},
+    {"b_spec_ratio", offsetof(ctp_sync_delta_rule_instr_parameter, b_spec_ratio)},
+    {"s_spec_ratio", offsetof(ctp_sync_delta_rule_instr_parameter, s_spec_ratio)},
+    {"b_hedge_ratio", offsetof(ctp_sync_delta_rule_instr_parameter, b_hedge_ratio)},
+    {"s_hedge_ratio", offsetof(ctp_sync_delta_rule_instr_parameter, s_hedge_ratio)},
+    {"b_add_on_margin", offsetof(ctp_sync_delta_rule_instr_parameter, b_add_on_margin)},
+    {"s_add_on_margin", offsetof(ctp_sync_delta_rule_instr_parameter, s_add_on_margin)},
+    {"commodity_group_id", offsetof(ctp_sync_delta_rule_instr_parameter, commodity_group_id)},
+    {"action_direction", offsetof(ctp_sync_delta_rule_instr_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rule_instr_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rule_inter_parameter>("ctp_sync_delta_rule_inter_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_rule_inter_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rule_inter_parameter, exchange_id)},
+    {"spread_id", offsetof(ctp_sync_delta_rule_inter_parameter, spread_id)},
+    {"inter_rate", offsetof(ctp_sync_delta_rule_inter_parameter, inter_rate)},
+    {"leg1_prod_family_code", offsetof(ctp_sync_delta_rule_inter_parameter, leg1_prod_family_code)},
+    {"leg2_prod_family_code", offsetof(ctp_sync_delta_rule_inter_parameter, leg2_prod_family_code)},
+    {"leg1_prop_factor", offsetof(ctp_sync_delta_rule_inter_parameter, leg1_prop_factor)},
+    {"leg2_prop_factor", offsetof(ctp_sync_delta_rule_inter_parameter, leg2_prop_factor)},
+    {"commodity_group_id", offsetof(ctp_sync_delta_rule_inter_parameter, commodity_group_id)},
+    {"commodity_group_name", offsetof(ctp_sync_delta_rule_inter_parameter, commodity_group_name)},
+    {"action_direction", offsetof(ctp_sync_delta_rule_inter_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rule_inter_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_rule_intra_parameter>("ctp_sync_delta_rule_intra_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_rule_intra_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_rule_intra_parameter, exchange_id)},
+    {"prod_family_code", offsetof(ctp_sync_delta_rule_intra_parameter, prod_family_code)},
+    {"std_instrument_id", offsetof(ctp_sync_delta_rule_intra_parameter, std_instrument_id)},
+    {"std_instr_margin", offsetof(ctp_sync_delta_rule_intra_parameter, std_instr_margin)},
+    {"usual_intra_rate", offsetof(ctp_sync_delta_rule_intra_parameter, usual_intra_rate)},
+    {"delivery_intra_rate", offsetof(ctp_sync_delta_rule_intra_parameter, delivery_intra_rate)},
+    {"action_direction", offsetof(ctp_sync_delta_rule_intra_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_rule_intra_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spbm_add_on_inter_param>("ctp_sync_delta_spbm_add_on_inter_param", {
+    {"trading_day", offsetof(ctp_sync_delta_spbm_add_on_inter_param, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_spbm_add_on_inter_param, exchange_id)},
+    {"spread_id", offsetof(ctp_sync_delta_spbm_add_on_inter_param, spread_id)},
+    {"add_on_inter_rate_z2", offsetof(ctp_sync_delta_spbm_add_on_inter_param, add_on_inter_rate_z2)},
+    {"leg1_prod_family_code", offsetof(ctp_sync_delta_spbm_add_on_inter_param, leg1_prod_family_code)},
+    {"leg2_prod_family_code", offsetof(ctp_sync_delta_spbm_add_on_inter_param, leg2_prod_family_code)},
+    {"action_direction", offsetof(ctp_sync_delta_spbm_add_on_inter_param, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spbm_add_on_inter_param, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spbm_future_parameter>("ctp_sync_delta_spbm_future_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_spbm_future_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_spbm_future_parameter, exchange_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_spbm_future_parameter, instrument_id)},
+    {"prod_family_code", offsetof(ctp_sync_delta_spbm_future_parameter, prod_family_code)},
+    {"cvf", offsetof(ctp_sync_delta_spbm_future_parameter, cvf)},
+    {"time_range", offsetof(ctp_sync_delta_spbm_future_parameter, time_range)},
+    {"margin_rate", offsetof(ctp_sync_delta_spbm_future_parameter, margin_rate)},
+    {"lock_rate_x", offsetof(ctp_sync_delta_spbm_future_parameter, lock_rate_x)},
+    {"add_on_rate", offsetof(ctp_sync_delta_spbm_future_parameter, add_on_rate)},
+    {"pre_settlement_price", offsetof(ctp_sync_delta_spbm_future_parameter, pre_settlement_price)},
+    {"add_on_lock_rate_x2", offsetof(ctp_sync_delta_spbm_future_parameter, add_on_lock_rate_x2)},
+    {"action_direction", offsetof(ctp_sync_delta_spbm_future_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spbm_future_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spbm_inter_parameter>("ctp_sync_delta_spbm_inter_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_spbm_inter_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_spbm_inter_parameter, exchange_id)},
+    {"spread_id", offsetof(ctp_sync_delta_spbm_inter_parameter, spread_id)},
+    {"inter_rate_z", offsetof(ctp_sync_delta_spbm_inter_parameter, inter_rate_z)},
+    {"leg1_prod_family_code", offsetof(ctp_sync_delta_spbm_inter_parameter, leg1_prod_family_code)},
+    {"leg2_prod_family_code", offsetof(ctp_sync_delta_spbm_inter_parameter, leg2_prod_family_code)},
+    {"action_direction", offsetof(ctp_sync_delta_spbm_inter_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spbm_inter_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spbm_intra_parameter>("ctp_sync_delta_spbm_intra_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_spbm_intra_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_spbm_intra_parameter, exchange_id)},
+    {"prod_family_code", offsetof(ctp_sync_delta_spbm_intra_parameter, prod_family_code)},
+    {"intra_rate_y", offsetof(ctp_sync_delta_spbm_intra_parameter, intra_rate_y)},
+    {"add_on_intra_rate_y2", offsetof(ctp_sync_delta_spbm_intra_parameter, add_on_intra_rate_y2)},
+    {"action_direction", offsetof(ctp_sync_delta_spbm_intra_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spbm_intra_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spbm_invst_portf_def>("ctp_sync_delta_spbm_invst_portf_def", {
+    {"exchange_id", offsetof(ctp_sync_delta_spbm_invst_portf_def, exchange_id)},
+    {"broker_id", offsetof(ctp_sync_delta_spbm_invst_portf_def, broker_id)},
+    {"investor_id", offsetof(ctp_sync_delta_spbm_invst_portf_def, investor_id)},
+    {"portfolio_def_id", offsetof(ctp_sync_delta_spbm_invst_portf_def, portfolio_def_id)},
+    {"action_direction", offsetof(ctp_sync_delta_spbm_invst_portf_def, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spbm_invst_portf_def, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spbm_option_parameter>("ctp_sync_delta_spbm_option_parameter", {
+    {"trading_day", offsetof(ctp_sync_delta_spbm_option_parameter, trading_day)},
+    {"exchange_id", offsetof(ctp_sync_delta_spbm_option_parameter, exchange_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_spbm_option_parameter, instrument_id)},
+    {"prod_family_code", offsetof(ctp_sync_delta_spbm_option_parameter, prod_family_code)},
+    {"cvf", offsetof(ctp_sync_delta_spbm_option_parameter, cvf)},
+    {"down_price", offsetof(ctp_sync_delta_spbm_option_parameter, down_price)},
+    {"delta", offsetof(ctp_sync_delta_spbm_option_parameter, delta)},
+    {"slimi_delta", offsetof(ctp_sync_delta_spbm_option_parameter, slimi_delta)},
+    {"pre_settlement_price", offsetof(ctp_sync_delta_spbm_option_parameter, pre_settlement_price)},
+    {"action_direction", offsetof(ctp_sync_delta_spbm_option_parameter, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spbm_option_parameter, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spbm_portf_definition>("ctp_sync_delta_spbm_portf_definition", {
+    {"exchange_id", offsetof(ctp_sync_delta_spbm_portf_definition, exchange_id)},
+    {"portfolio_def_id", offsetof(ctp_sync_delta_spbm_portf_definition, portfolio_def_id)},
+    {"prod_family_code", offsetof(ctp_sync_delta_spbm_portf_definition, prod_family_code)},
+    {"is_spbm", offsetof(ctp_sync_delta_spbm_portf_definition, is_spbm)},
+    {"action_direction", offsetof(ctp_sync_delta_spbm_portf_definition, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spbm_portf_definition, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spmm_inst_param>("ctp_sync_delta_spmm_inst_param", {
+    {"exchange_id", offsetof(ctp_sync_delta_spmm_inst_param, exchange_id)},
+    {"instrument_id", offsetof(ctp_sync_delta_spmm_inst_param, instrument_id)},
+    {"inst_margin_cal_id", offsetof(ctp_sync_delta_spmm_inst_param, inst_margin_cal_id)},
+    {"commodity_id", offsetof(ctp_sync_delta_spmm_inst_param, commodity_id)},
+    {"commodity_group_id", offsetof(ctp_sync_delta_spmm_inst_param, commodity_group_id)},
+    {"action_direction", offsetof(ctp_sync_delta_spmm_inst_param, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spmm_inst_param, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spmm_model_param>("ctp_sync_delta_spmm_model_param", {
+    {"exchange_id", offsetof(ctp_sync_delta_spmm_model_param, exchange_id)},
+    {"spmm_model_id", offsetof(ctp_sync_delta_spmm_model_param, spmm_model_id)},
+    {"commodity_group_id", offsetof(ctp_sync_delta_spmm_model_param, commodity_group_id)},
+    {"intra_commodity_rate", offsetof(ctp_sync_delta_spmm_model_param, intra_commodity_rate)},
+    {"inter_commodity_rate", offsetof(ctp_sync_delta_spmm_model_param, inter_commodity_rate)},
+    {"option_discount_rate", offsetof(ctp_sync_delta_spmm_model_param, option_discount_rate)},
+    {"mini_margin_ratio", offsetof(ctp_sync_delta_spmm_model_param, mini_margin_ratio)},
+    {"action_direction", offsetof(ctp_sync_delta_spmm_model_param, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spmm_model_param, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_spmm_product_param>("ctp_sync_delta_spmm_product_param", {
+    {"exchange_id", offsetof(ctp_sync_delta_spmm_product_param, exchange_id)},
+    {"product_id", offsetof(ctp_sync_delta_spmm_product_param, product_id)},
+    {"commodity_id", offsetof(ctp_sync_delta_spmm_product_param, commodity_id)},
+    {"commodity_group_id", offsetof(ctp_sync_delta_spmm_product_param, commodity_group_id)},
+    {"action_direction", offsetof(ctp_sync_delta_spmm_product_param, action_direction)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_spmm_product_param, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_delta_trading_account>("ctp_sync_delta_trading_account", {
+    {"broker_id", offsetof(ctp_sync_delta_trading_account, broker_id)},
+    {"account_id", offsetof(ctp_sync_delta_trading_account, account_id)},
+    {"pre_mortgage", offsetof(ctp_sync_delta_trading_account, pre_mortgage)},
+    {"pre_credit", offsetof(ctp_sync_delta_trading_account, pre_credit)},
+    {"pre_deposit", offsetof(ctp_sync_delta_trading_account, pre_deposit)},
+    {"pre_balance", offsetof(ctp_sync_delta_trading_account, pre_balance)},
+    {"pre_margin", offsetof(ctp_sync_delta_trading_account, pre_margin)},
+    {"interest_base", offsetof(ctp_sync_delta_trading_account, interest_base)},
+    {"interest", offsetof(ctp_sync_delta_trading_account, interest)},
+    {"deposit", offsetof(ctp_sync_delta_trading_account, deposit)},
+    {"withdraw", offsetof(ctp_sync_delta_trading_account, withdraw)},
+    {"frozen_margin", offsetof(ctp_sync_delta_trading_account, frozen_margin)},
+    {"frozen_cash", offsetof(ctp_sync_delta_trading_account, frozen_cash)},
+    {"frozen_commission", offsetof(ctp_sync_delta_trading_account, frozen_commission)},
+    {"curr_margin", offsetof(ctp_sync_delta_trading_account, curr_margin)},
+    {"cash_in", offsetof(ctp_sync_delta_trading_account, cash_in)},
+    {"commission", offsetof(ctp_sync_delta_trading_account, commission)},
+    {"close_profit", offsetof(ctp_sync_delta_trading_account, close_profit)},
+    {"position_profit", offsetof(ctp_sync_delta_trading_account, position_profit)},
+    {"balance", offsetof(ctp_sync_delta_trading_account, balance)},
+    {"available", offsetof(ctp_sync_delta_trading_account, available)},
+    {"withdraw_quota", offsetof(ctp_sync_delta_trading_account, withdraw_quota)},
+    {"reserve", offsetof(ctp_sync_delta_trading_account, reserve)},
+    {"trading_day", offsetof(ctp_sync_delta_trading_account, trading_day)},
+    {"settlement_id", offsetof(ctp_sync_delta_trading_account, settlement_id)},
+    {"credit", offsetof(ctp_sync_delta_trading_account, credit)},
+    {"mortgage", offsetof(ctp_sync_delta_trading_account, mortgage)},
+    {"exchange_margin", offsetof(ctp_sync_delta_trading_account, exchange_margin)},
+    {"delivery_margin", offsetof(ctp_sync_delta_trading_account, delivery_margin)},
+    {"exchange_delivery_margin", offsetof(ctp_sync_delta_trading_account, exchange_delivery_margin)},
+    {"reserve_balance", offsetof(ctp_sync_delta_trading_account, reserve_balance)},
+    {"currency_id", offsetof(ctp_sync_delta_trading_account, currency_id)},
+    {"pre_fund_mortgage_in", offsetof(ctp_sync_delta_trading_account, pre_fund_mortgage_in)},
+    {"pre_fund_mortgage_out", offsetof(ctp_sync_delta_trading_account, pre_fund_mortgage_out)},
+    {"fund_mortgage_in", offsetof(ctp_sync_delta_trading_account, fund_mortgage_in)},
+    {"fund_mortgage_out", offsetof(ctp_sync_delta_trading_account, fund_mortgage_out)},
+    {"fund_mortgage_available", offsetof(ctp_sync_delta_trading_account, fund_mortgage_available)},
+    {"mortgageable_fund", offsetof(ctp_sync_delta_trading_account, mortgageable_fund)},
+    {"spec_product_margin", offsetof(ctp_sync_delta_trading_account, spec_product_margin)},
+    {"spec_product_frozen_margin", offsetof(ctp_sync_delta_trading_account, spec_product_frozen_margin)},
+    {"spec_product_commission", offsetof(ctp_sync_delta_trading_account, spec_product_commission)},
+    {"spec_product_frozen_commission", offsetof(ctp_sync_delta_trading_account, spec_product_frozen_commission)},
+    {"spec_product_position_profit", offsetof(ctp_sync_delta_trading_account, spec_product_position_profit)},
+    {"spec_product_close_profit", offsetof(ctp_sync_delta_trading_account, spec_product_close_profit)},
+    {"spec_product_position_profit_by_alg", offsetof(ctp_sync_delta_trading_account, spec_product_position_profit_by_alg)},
+    {"spec_product_exchange_margin", offsetof(ctp_sync_delta_trading_account, spec_product_exchange_margin)},
+    {"frozen_swap", offsetof(ctp_sync_delta_trading_account, frozen_swap)},
+    {"remain_swap", offsetof(ctp_sync_delta_trading_account, remain_swap)},
+    {"option_value", offsetof(ctp_sync_delta_trading_account, option_value)},
+    {"sync_delta_sequence_no", offsetof(ctp_sync_delta_trading_account, sync_delta_sequence_no)},
+  });
+  print_layout<ctp_sync_deposit>("ctp_sync_deposit", {
+    {"deposit_seq_no", offsetof(ctp_sync_deposit, deposit_seq_no)},
+    {"broker_id", offsetof(ctp_sync_deposit, broker_id)},
+    {"investor_id", offsetof(ctp_sync_deposit, investor_id)},
+    {"deposit", offsetof(ctp_sync_deposit, deposit)},
+    {"is_force", offsetof(ctp_sync_deposit, is_force)},
+    {"currency_id", offsetof(ctp_sync_deposit, currency_id)},
+    {"is_from_sopt", offsetof(ctp_sync_deposit, is_from_sopt)},
+    {"trading_password", offsetof(ctp_sync_deposit, trading_password)},
+    {"is_sec_agent_tranfer", offsetof(ctp_sync_deposit, is_sec_agent_tranfer)},
+  });
+  print_layout<ctp_sync_fund_mortgage>("ctp_sync_fund_mortgage", {
+    {"mortgage_seq_no", offsetof(ctp_sync_fund_mortgage, mortgage_seq_no)},
+    {"broker_id", offsetof(ctp_sync_fund_mortgage, broker_id)},
+    {"investor_id", offsetof(ctp_sync_fund_mortgage, investor_id)},
+    {"from_currency_id", offsetof(ctp_sync_fund_mortgage, from_currency_id)},
+    {"mortgage_amount", offsetof(ctp_sync_fund_mortgage, mortgage_amount)},
+    {"to_currency_id", offsetof(ctp_sync_fund_mortgage, to_currency_id)},
+  });
+  print_layout<ctp_sync_spbm_parameter_end>("ctp_sync_spbm_parameter_end", {
+    {"trading_day", offsetof(ctp_sync_spbm_parameter_end, trading_day)},
+  });
+  print_layout<ctp_sync_status>("ctp_sync_status", {
+    {"trading_day", offsetof(ctp_sync_status, trading_day)},
+    {"data_sync_status", offsetof(ctp_sync_status, data_sync_status)},
+  });
+  print_layout<ctp_syncing_instrument_commission_rate>("ctp_syncing_instrument_commission_rate", {
+    {"reserve1", offsetof(ctp_syncing_instrument_commission_rate, reserve1)},
+    {"investor_range", offsetof(ctp_syncing_instrument_commission_rate, investor_range)},
+    {"broker_id", offsetof(ctp_syncing_instrument_commission_rate, broker_id)},
+    {"investor_id", offsetof(ctp_syncing_instrument_commission_rate, investor_id)},
+    {"open_ratio_by_money", offsetof(ctp_syncing_instrument_commission_rate, open_ratio_by_money)},
+    {"open_ratio_by_volume", offsetof(ctp_syncing_instrument_commission_rate, open_ratio_by_volume)},
+    {"close_ratio_by_money", offsetof(ctp_syncing_instrument_commission_rate, close_ratio_by_money)},
+    {"close_ratio_by_volume", offsetof(ctp_syncing_instrument_commission_rate, close_ratio_by_volume)},
+    {"close_today_ratio_by_money", offsetof(ctp_syncing_instrument_commission_rate, close_today_ratio_by_money)},
+    {"close_today_ratio_by_volume", offsetof(ctp_syncing_instrument_commission_rate, close_today_ratio_by_volume)},
+    {"instrument_id", offsetof(ctp_syncing_instrument_commission_rate, instrument_id)},
+  });
+  print_layout<ctp_syncing_instrument_margin_rate>("ctp_syncing_instrument_margin_rate", {
+    {"reserve1", offsetof(ctp_syncing_instrument_margin_rate, reserve1)},
+    {"investor_range", offsetof(ctp_syncing_instrument_margin_rate, investor_range)},
+    {"broker_id", offsetof(ctp_syncing_instrument_margin_rate, broker_id)},
+    {"investor_id", offsetof(ctp_syncing_instrument_margin_rate, investor_id)},
+    {"hedge_flag", offsetof(ctp_syncing_instrument_margin_rate, hedge_flag)},
+    {"long_margin_ratio_by_money", offsetof(ctp_syncing_instrument_margin_rate, long_margin_ratio_by_money)},
+    {"long_margin_ratio_by_volume", offsetof(ctp_syncing_instrument_margin_rate, long_margin_ratio_by_volume)},
+    {"short_margin_ratio_by_money", offsetof(ctp_syncing_instrument_margin_rate, short_margin_ratio_by_money)},
+    {"short_margin_ratio_by_volume", offsetof(ctp_syncing_instrument_margin_rate, short_margin_ratio_by_volume)},
+    {"is_relative", offsetof(ctp_syncing_instrument_margin_rate, is_relative)},
+    {"instrument_id", offsetof(ctp_syncing_instrument_margin_rate, instrument_id)},
+  });
+  print_layout<ctp_syncing_instrument_trading_right>("ctp_syncing_instrument_trading_right", {
+    {"reserve1", offsetof(ctp_syncing_instrument_trading_right, reserve1)},
+    {"investor_range", offsetof(ctp_syncing_instrument_trading_right, investor_range)},
+    {"broker_id", offsetof(ctp_syncing_instrument_trading_right, broker_id)},
+    {"investor_id", offsetof(ctp_syncing_instrument_trading_right, investor_id)},
+    {"trading_right", offsetof(ctp_syncing_instrument_trading_right, trading_right)},
+    {"instrument_id", offsetof(ctp_syncing_instrument_trading_right, instrument_id)},
+  });
+  print_layout<ctp_syncing_investor>("ctp_syncing_investor", {
+    {"investor_id", offsetof(ctp_syncing_investor, investor_id)},
+    {"broker_id", offsetof(ctp_syncing_investor, broker_id)},
+    {"investor_group_id", offsetof(ctp_syncing_investor, investor_group_id)},
+    {"investor_name", offsetof(ctp_syncing_investor, investor_name)},
+    {"identified_card_type", offsetof(ctp_syncing_investor, identified_card_type)},
+    {"identified_card_no", offsetof(ctp_syncing_investor, identified_card_no)},
+    {"is_active", offsetof(ctp_syncing_investor, is_active)},
+    {"telephone", offsetof(ctp_syncing_investor, telephone)},
+    {"address", offsetof(ctp_syncing_investor, address)},
+    {"open_date", offsetof(ctp_syncing_investor, open_date)},
+    {"mobile", offsetof(ctp_syncing_investor, mobile)},
+    {"comm_model_id", offsetof(ctp_syncing_investor, comm_model_id)},
+    {"margin_model_id", offsetof(ctp_syncing_investor, margin_model_id)},
+    {"is_order_freq", offsetof(ctp_syncing_investor, is_order_freq)},
+    {"is_open_vol_limit", offsetof(ctp_syncing_investor, is_open_vol_limit)},
+  });
+  print_layout<ctp_syncing_investor_group>("ctp_syncing_investor_group", {
+    {"broker_id", offsetof(ctp_syncing_investor_group, broker_id)},
+    {"investor_group_id", offsetof(ctp_syncing_investor_group, investor_group_id)},
+    {"investor_group_name", offsetof(ctp_syncing_investor_group, investor_group_name)},
+  });
+  print_layout<ctp_syncing_investor_position>("ctp_syncing_investor_position", {
+    {"reserve1", offsetof(ctp_syncing_investor_position, reserve1)},
+    {"broker_id", offsetof(ctp_syncing_investor_position, broker_id)},
+    {"investor_id", offsetof(ctp_syncing_investor_position, investor_id)},
+    {"posi_direction", offsetof(ctp_syncing_investor_position, posi_direction)},
+    {"hedge_flag", offsetof(ctp_syncing_investor_position, hedge_flag)},
+    {"position_date", offsetof(ctp_syncing_investor_position, position_date)},
+    {"yd_position", offsetof(ctp_syncing_investor_position, yd_position)},
+    {"position", offsetof(ctp_syncing_investor_position, position)},
+    {"long_frozen", offsetof(ctp_syncing_investor_position, long_frozen)},
+    {"short_frozen", offsetof(ctp_syncing_investor_position, short_frozen)},
+    {"long_frozen_amount", offsetof(ctp_syncing_investor_position, long_frozen_amount)},
+    {"short_frozen_amount", offsetof(ctp_syncing_investor_position, short_frozen_amount)},
+    {"open_volume", offsetof(ctp_syncing_investor_position, open_volume)},
+    {"close_volume", offsetof(ctp_syncing_investor_position, close_volume)},
+    {"open_amount", offsetof(ctp_syncing_investor_position, open_amount)},
+    {"close_amount", offsetof(ctp_syncing_investor_position, close_amount)},
+    {"position_cost", offsetof(ctp_syncing_investor_position, position_cost)},
+    {"pre_margin", offsetof(ctp_syncing_investor_position, pre_margin)},
+    {"use_margin", offsetof(ctp_syncing_investor_position, use_margin)},
+    {"frozen_margin", offsetof(ctp_syncing_investor_position, frozen_margin)},
+    {"frozen_cash", offsetof(ctp_syncing_investor_position, frozen_cash)},
+    {"frozen_commission", offsetof(ctp_syncing_investor_position, frozen_commission)},
+    {"cash_in", offsetof(ctp_syncing_investor_position, cash_in)},
+    {"commission", offsetof(ctp_syncing_investor_position, commission)},
+    {"close_profit", offsetof(ctp_syncing_investor_position, close_profit)},
+    {"position_profit", offsetof(ctp_syncing_investor_position, position_profit)},
+    {"pre_settlement_price", offsetof(ctp_syncing_investor_position, pre_settlement_price)},
+    {"settlement_price", offsetof(ctp_syncing_investor_position, settlement_price)},
+    {"trading_day", offsetof(ctp_syncing_investor_position, trading_day)},
+    {"settlement_id", offsetof(ctp_syncing_investor_position, settlement_id)},
+    {"open_cost", offsetof(ctp_syncing_investor_position, open_cost)},
+    {"exchange_margin", offsetof(ctp_syncing_investor_position, exchange_margin)},
+    {"comb_position", offsetof(ctp_syncing_investor_position, comb_position)},
+    {"comb_long_frozen", offsetof(ctp_syncing_investor_position, comb_long_frozen)},
+    {"comb_short_frozen", offsetof(ctp_syncing_investor_position, comb_short_frozen)},
+    {"close_profit_by_date", offsetof(ctp_syncing_investor_position, close_profit_by_date)},
+    {"close_profit_by_trade", offsetof(ctp_syncing_investor_position, close_profit_by_trade)},
+    {"today_position", offsetof(ctp_syncing_investor_position, today_position)},
+    {"margin_rate_by_money", offsetof(ctp_syncing_investor_position, margin_rate_by_money)},
+    {"margin_rate_by_volume", offsetof(ctp_syncing_investor_position, margin_rate_by_volume)},
+    {"strike_frozen", offsetof(ctp_syncing_investor_position, strike_frozen)},
+    {"strike_frozen_amount", offsetof(ctp_syncing_investor_position, strike_frozen_amount)},
+    {"abandon_frozen", offsetof(ctp_syncing_investor_position, abandon_frozen)},
+    {"exchange_id", offsetof(ctp_syncing_investor_position, exchange_id)},
+    {"yd_strike_frozen", offsetof(ctp_syncing_investor_position, yd_strike_frozen)},
+    {"invest_unit_id", offsetof(ctp_syncing_investor_position, invest_unit_id)},
+    {"position_cost_offset", offsetof(ctp_syncing_investor_position, position_cost_offset)},
+    {"tas_position", offsetof(ctp_syncing_investor_position, tas_position)},
+    {"tas_position_cost", offsetof(ctp_syncing_investor_position, tas_position_cost)},
+    {"instrument_id", offsetof(ctp_syncing_investor_position, instrument_id)},
+  });
+  print_layout<ctp_syncing_trading_account>("ctp_syncing_trading_account", {
+    {"broker_id", offsetof(ctp_syncing_trading_account, broker_id)},
+    {"account_id", offsetof(ctp_syncing_trading_account, account_id)},
+    {"pre_mortgage", offsetof(ctp_syncing_trading_account, pre_mortgage)},
+    {"pre_credit", offsetof(ctp_syncing_trading_account, pre_credit)},
+    {"pre_deposit", offsetof(ctp_syncing_trading_account, pre_deposit)},
+    {"pre_balance", offsetof(ctp_syncing_trading_account, pre_balance)},
+    {"pre_margin", offsetof(ctp_syncing_trading_account, pre_margin)},
+    {"interest_base", offsetof(ctp_syncing_trading_account, interest_base)},
+    {"interest", offsetof(ctp_syncing_trading_account, interest)},
+    {"deposit", offsetof(ctp_syncing_trading_account, deposit)},
+    {"withdraw", offsetof(ctp_syncing_trading_account, withdraw)},
+    {"frozen_margin", offsetof(ctp_syncing_trading_account, frozen_margin)},
+    {"frozen_cash", offsetof(ctp_syncing_trading_account, frozen_cash)},
+    {"frozen_commission", offsetof(ctp_syncing_trading_account, frozen_commission)},
+    {"curr_margin", offsetof(ctp_syncing_trading_account, curr_margin)},
+    {"cash_in", offsetof(ctp_syncing_trading_account, cash_in)},
+    {"commission", offsetof(ctp_syncing_trading_account, commission)},
+    {"close_profit", offsetof(ctp_syncing_trading_account, close_profit)},
+    {"position_profit", offsetof(ctp_syncing_trading_account, position_profit)},
+    {"balance", offsetof(ctp_syncing_trading_account, balance)},
+    {"available", offsetof(ctp_syncing_trading_account, available)},
+    {"withdraw_quota", offsetof(ctp_syncing_trading_account, withdraw_quota)},
+    {"reserve", offsetof(ctp_syncing_trading_account, reserve)},
+    {"trading_day", offsetof(ctp_syncing_trading_account, trading_day)},
+    {"settlement_id", offsetof(ctp_syncing_trading_account, settlement_id)},
+    {"credit", offsetof(ctp_syncing_trading_account, credit)},
+    {"mortgage", offsetof(ctp_syncing_trading_account, mortgage)},
+    {"exchange_margin", offsetof(ctp_syncing_trading_account, exchange_margin)},
+    {"delivery_margin", offsetof(ctp_syncing_trading_account, delivery_margin)},
+    {"exchange_delivery_margin", offsetof(ctp_syncing_trading_account, exchange_delivery_margin)},
+    {"reserve_balance", offsetof(ctp_syncing_trading_account, reserve_balance)},
+    {"currency_id", offsetof(ctp_syncing_trading_account, currency_id)},
+    {"pre_fund_mortgage_in", offsetof(ctp_syncing_trading_account, pre_fund_mortgage_in)},
+    {"pre_fund_mortgage_out", offsetof(ctp_syncing_trading_account, pre_fund_mortgage_out)},
+    {"fund_mortgage_in", offsetof(ctp_syncing_trading_account, fund_mortgage_in)},
+    {"fund_mortgage_out", offsetof(ctp_syncing_trading_account, fund_mortgage_out)},
+    {"fund_mortgage_available", offsetof(ctp_syncing_trading_account, fund_mortgage_available)},
+    {"mortgageable_fund", offsetof(ctp_syncing_trading_account, mortgageable_fund)},
+    {"spec_product_margin", offsetof(ctp_syncing_trading_account, spec_product_margin)},
+    {"spec_product_frozen_margin", offsetof(ctp_syncing_trading_account, spec_product_frozen_margin)},
+    {"spec_product_commission", offsetof(ctp_syncing_trading_account, spec_product_commission)},
+    {"spec_product_frozen_commission", offsetof(ctp_syncing_trading_account, spec_product_frozen_commission)},
+    {"spec_product_position_profit", offsetof(ctp_syncing_trading_account, spec_product_position_profit)},
+    {"spec_product_close_profit", offsetof(ctp_syncing_trading_account, spec_product_close_profit)},
+    {"spec_product_position_profit_by_alg", offsetof(ctp_syncing_trading_account, spec_product_position_profit_by_alg)},
+    {"spec_product_exchange_margin", offsetof(ctp_syncing_trading_account, spec_product_exchange_margin)},
+    {"frozen_swap", offsetof(ctp_syncing_trading_account, frozen_swap)},
+    {"remain_swap", offsetof(ctp_syncing_trading_account, remain_swap)},
+    {"option_value", offsetof(ctp_syncing_trading_account, option_value)},
+  });
+  print_layout<ctp_syncing_trading_code>("ctp_syncing_trading_code", {
+    {"investor_id", offsetof(ctp_syncing_trading_code, investor_id)},
+    {"broker_id", offsetof(ctp_syncing_trading_code, broker_id)},
+    {"exchange_id", offsetof(ctp_syncing_trading_code, exchange_id)},
+    {"client_id", offsetof(ctp_syncing_trading_code, client_id)},
+    {"is_active", offsetof(ctp_syncing_trading_code, is_active)},
+    {"client_id_type", offsetof(ctp_syncing_trading_code, client_id_type)},
+  });
+  print_layout<ctp_tg_ip_addr_param>("ctp_tg_ip_addr_param", {
+    {"broker_id", offsetof(ctp_tg_ip_addr_param, broker_id)},
+    {"user_id", offsetof(ctp_tg_ip_addr_param, user_id)},
+    {"address", offsetof(ctp_tg_ip_addr_param, address)},
+    {"dr_identity_id", offsetof(ctp_tg_ip_addr_param, dr_identity_id)},
+    {"dr_identity_name", offsetof(ctp_tg_ip_addr_param, dr_identity_name)},
+    {"addr_srv_mode", offsetof(ctp_tg_ip_addr_param, addr_srv_mode)},
+    {"addr_ver", offsetof(ctp_tg_ip_addr_param, addr_ver)},
+    {"addr_no", offsetof(ctp_tg_ip_addr_param, addr_no)},
+    {"addr_name", offsetof(ctp_tg_ip_addr_param, addr_name)},
+    {"is_sm", offsetof(ctp_tg_ip_addr_param, is_sm)},
+    {"is_local_addr", offsetof(ctp_tg_ip_addr_param, is_local_addr)},
+    {"remark", offsetof(ctp_tg_ip_addr_param, remark)},
+    {"site", offsetof(ctp_tg_ip_addr_param, site)},
+    {"net_operator", offsetof(ctp_tg_ip_addr_param, net_operator)},
+    {"sys_name", offsetof(ctp_tg_ip_addr_param, sys_name)},
+  });
+  print_layout<ctp_tg_session_qry_status>("ctp_tg_session_qry_status", {
+    {"last_qry_freq", offsetof(ctp_tg_session_qry_status, last_qry_freq)},
+    {"qry_status", offsetof(ctp_tg_session_qry_status, qry_status)},
+  });
+  print_layout<ctp_thost_user_function>("ctp_thost_user_function", {
+    {"broker_id", offsetof(ctp_thost_user_function, broker_id)},
+    {"user_id", offsetof(ctp_thost_user_function, user_id)},
+    {"thost_function_code", offsetof(ctp_thost_user_function, thost_function_code)},
   });
   print_layout<ctp_trade>("ctp_trade", {
     {"broker_id", offsetof(ctp_trade, broker_id)},
@@ -3153,6 +6314,47 @@ int main() {
     {"trade_date", offsetof(ctp_trade, trade_date)},
     {"trade_time", offsetof(ctp_trade, trade_time)},
     {"trading_day", offsetof(ctp_trade, trading_day)},
+    {"reserve1", offsetof(ctp_trade, reserve1)},
+    {"participant_id", offsetof(ctp_trade, participant_id)},
+    {"client_id", offsetof(ctp_trade, client_id)},
+    {"trading_role", offsetof(ctp_trade, trading_role)},
+    {"reserve2", offsetof(ctp_trade, reserve2)},
+    {"trade_type", offsetof(ctp_trade, trade_type)},
+    {"price_source", offsetof(ctp_trade, price_source)},
+    {"trader_id", offsetof(ctp_trade, trader_id)},
+    {"order_local_id", offsetof(ctp_trade, order_local_id)},
+    {"clearing_part_id", offsetof(ctp_trade, clearing_part_id)},
+    {"business_unit", offsetof(ctp_trade, business_unit)},
+    {"sequence_no", offsetof(ctp_trade, sequence_no)},
+    {"settlement_id", offsetof(ctp_trade, settlement_id)},
+    {"broker_order_seq", offsetof(ctp_trade, broker_order_seq)},
+    {"trade_source", offsetof(ctp_trade, trade_source)},
+    {"invest_unit_id", offsetof(ctp_trade, invest_unit_id)},
+    {"exchange_inst_id", offsetof(ctp_trade, exchange_inst_id)},
+  });
+  print_layout<ctp_trade_param>("ctp_trade_param", {
+    {"broker_id", offsetof(ctp_trade_param, broker_id)},
+    {"trade_param_id", offsetof(ctp_trade_param, trade_param_id)},
+    {"trade_param_value", offsetof(ctp_trade_param, trade_param_value)},
+    {"memo", offsetof(ctp_trade_param, memo)},
+  });
+  print_layout<ctp_trader>("ctp_trader", {
+    {"exchange_id", offsetof(ctp_trader, exchange_id)},
+    {"trader_id", offsetof(ctp_trader, trader_id)},
+    {"participant_id", offsetof(ctp_trader, participant_id)},
+    {"password", offsetof(ctp_trader, password)},
+    {"install_count", offsetof(ctp_trader, install_count)},
+    {"broker_id", offsetof(ctp_trader, broker_id)},
+    {"order_cancel_alg", offsetof(ctp_trader, order_cancel_alg)},
+    {"trade_install_count", offsetof(ctp_trader, trade_install_count)},
+    {"md_install_count", offsetof(ctp_trader, md_install_count)},
+  });
+  print_layout<ctp_trader_assign>("ctp_trader_assign", {
+    {"broker_id", offsetof(ctp_trader_assign, broker_id)},
+    {"exchange_id", offsetof(ctp_trader_assign, exchange_id)},
+    {"trader_id", offsetof(ctp_trader_assign, trader_id)},
+    {"participant_id", offsetof(ctp_trader_assign, participant_id)},
+    {"dr_identity_id", offsetof(ctp_trader_assign, dr_identity_id)},
   });
   print_layout<ctp_trader_offer>("ctp_trader_offer", {
     {"exchange_id", offsetof(ctp_trader_offer, exchange_id)},
@@ -3374,6 +6576,45 @@ int main() {
     {"position_profit", offsetof(ctp_trading_account, position_profit)},
     {"withdraw_quota", offsetof(ctp_trading_account, withdraw_quota)},
     {"reserve", offsetof(ctp_trading_account, reserve)},
+    {"pre_mortgage", offsetof(ctp_trading_account, pre_mortgage)},
+    {"pre_credit", offsetof(ctp_trading_account, pre_credit)},
+    {"pre_deposit", offsetof(ctp_trading_account, pre_deposit)},
+    {"pre_balance", offsetof(ctp_trading_account, pre_balance)},
+    {"pre_margin", offsetof(ctp_trading_account, pre_margin)},
+    {"interest_base", offsetof(ctp_trading_account, interest_base)},
+    {"interest", offsetof(ctp_trading_account, interest)},
+    {"cash_in", offsetof(ctp_trading_account, cash_in)},
+    {"settlement_id", offsetof(ctp_trading_account, settlement_id)},
+    {"credit", offsetof(ctp_trading_account, credit)},
+    {"mortgage", offsetof(ctp_trading_account, mortgage)},
+    {"exchange_margin", offsetof(ctp_trading_account, exchange_margin)},
+    {"delivery_margin", offsetof(ctp_trading_account, delivery_margin)},
+    {"exchange_delivery_margin", offsetof(ctp_trading_account, exchange_delivery_margin)},
+    {"reserve_balance", offsetof(ctp_trading_account, reserve_balance)},
+    {"pre_fund_mortgage_in", offsetof(ctp_trading_account, pre_fund_mortgage_in)},
+    {"pre_fund_mortgage_out", offsetof(ctp_trading_account, pre_fund_mortgage_out)},
+    {"fund_mortgage_in", offsetof(ctp_trading_account, fund_mortgage_in)},
+    {"fund_mortgage_out", offsetof(ctp_trading_account, fund_mortgage_out)},
+    {"fund_mortgage_available", offsetof(ctp_trading_account, fund_mortgage_available)},
+    {"mortgageable_fund", offsetof(ctp_trading_account, mortgageable_fund)},
+    {"spec_product_margin", offsetof(ctp_trading_account, spec_product_margin)},
+    {"spec_product_frozen_margin", offsetof(ctp_trading_account, spec_product_frozen_margin)},
+    {"spec_product_commission", offsetof(ctp_trading_account, spec_product_commission)},
+    {"spec_product_frozen_commission", offsetof(ctp_trading_account, spec_product_frozen_commission)},
+    {"spec_product_position_profit", offsetof(ctp_trading_account, spec_product_position_profit)},
+    {"spec_product_close_profit", offsetof(ctp_trading_account, spec_product_close_profit)},
+    {"spec_product_position_profit_by_alg", offsetof(ctp_trading_account, spec_product_position_profit_by_alg)},
+    {"spec_product_exchange_margin", offsetof(ctp_trading_account, spec_product_exchange_margin)},
+    {"biz_type", offsetof(ctp_trading_account, biz_type)},
+    {"frozen_swap", offsetof(ctp_trading_account, frozen_swap)},
+    {"remain_swap", offsetof(ctp_trading_account, remain_swap)},
+    {"option_value", offsetof(ctp_trading_account, option_value)},
+  });
+  print_layout<ctp_trading_account_password>("ctp_trading_account_password", {
+    {"broker_id", offsetof(ctp_trading_account_password, broker_id)},
+    {"account_id", offsetof(ctp_trading_account_password, account_id)},
+    {"password", offsetof(ctp_trading_account_password, password)},
+    {"currency_id", offsetof(ctp_trading_account_password, currency_id)},
   });
   print_layout<ctp_trading_account_password_update>("ctp_trading_account_password_update", {
     {"broker_id", offsetof(ctp_trading_account_password_update, broker_id)},
@@ -3381,6 +6622,26 @@ int main() {
     {"old_password", offsetof(ctp_trading_account_password_update, old_password)},
     {"new_password", offsetof(ctp_trading_account_password_update, new_password)},
     {"currency_id", offsetof(ctp_trading_account_password_update, currency_id)},
+  });
+  print_layout<ctp_trading_account_password_update_from_sec>("ctp_trading_account_password_update_from_sec", {
+    {"broker_id", offsetof(ctp_trading_account_password_update_from_sec, broker_id)},
+    {"account_id", offsetof(ctp_trading_account_password_update_from_sec, account_id)},
+    {"old_password", offsetof(ctp_trading_account_password_update_from_sec, old_password)},
+    {"new_password", offsetof(ctp_trading_account_password_update_from_sec, new_password)},
+    {"currency_id", offsetof(ctp_trading_account_password_update_from_sec, currency_id)},
+    {"from_sec", offsetof(ctp_trading_account_password_update_from_sec, from_sec)},
+  });
+  print_layout<ctp_trading_account_password_update_v1>("ctp_trading_account_password_update_v1", {
+    {"broker_id", offsetof(ctp_trading_account_password_update_v1, broker_id)},
+    {"investor_id", offsetof(ctp_trading_account_password_update_v1, investor_id)},
+    {"old_password", offsetof(ctp_trading_account_password_update_v1, old_password)},
+    {"new_password", offsetof(ctp_trading_account_password_update_v1, new_password)},
+  });
+  print_layout<ctp_trading_account_reserve>("ctp_trading_account_reserve", {
+    {"broker_id", offsetof(ctp_trading_account_reserve, broker_id)},
+    {"account_id", offsetof(ctp_trading_account_reserve, account_id)},
+    {"reserve", offsetof(ctp_trading_account_reserve, reserve)},
+    {"currency_id", offsetof(ctp_trading_account_reserve, currency_id)},
   });
   print_layout<ctp_trading_code>("ctp_trading_code", {
     {"investor_id", offsetof(ctp_trading_code, investor_id)},
@@ -3419,6 +6680,87 @@ int main() {
     {"bank_name", offsetof(ctp_transfer_bank, bank_name)},
     {"is_active", offsetof(ctp_transfer_bank, is_active)},
   });
+  print_layout<ctp_transfer_bank_to_future_req>("ctp_transfer_bank_to_future_req", {
+    {"future_account", offsetof(ctp_transfer_bank_to_future_req, future_account)},
+    {"future_pwd_flag", offsetof(ctp_transfer_bank_to_future_req, future_pwd_flag)},
+    {"future_acc_pwd", offsetof(ctp_transfer_bank_to_future_req, future_acc_pwd)},
+    {"trade_amt", offsetof(ctp_transfer_bank_to_future_req, trade_amt)},
+    {"cust_fee", offsetof(ctp_transfer_bank_to_future_req, cust_fee)},
+    {"currency_code", offsetof(ctp_transfer_bank_to_future_req, currency_code)},
+  });
+  print_layout<ctp_transfer_bank_to_future_rsp>("ctp_transfer_bank_to_future_rsp", {
+    {"ret_code", offsetof(ctp_transfer_bank_to_future_rsp, ret_code)},
+    {"ret_info", offsetof(ctp_transfer_bank_to_future_rsp, ret_info)},
+    {"future_account", offsetof(ctp_transfer_bank_to_future_rsp, future_account)},
+    {"trade_amt", offsetof(ctp_transfer_bank_to_future_rsp, trade_amt)},
+    {"cust_fee", offsetof(ctp_transfer_bank_to_future_rsp, cust_fee)},
+    {"currency_code", offsetof(ctp_transfer_bank_to_future_rsp, currency_code)},
+  });
+  print_layout<ctp_transfer_future_to_bank_req>("ctp_transfer_future_to_bank_req", {
+    {"future_account", offsetof(ctp_transfer_future_to_bank_req, future_account)},
+    {"future_pwd_flag", offsetof(ctp_transfer_future_to_bank_req, future_pwd_flag)},
+    {"future_acc_pwd", offsetof(ctp_transfer_future_to_bank_req, future_acc_pwd)},
+    {"trade_amt", offsetof(ctp_transfer_future_to_bank_req, trade_amt)},
+    {"cust_fee", offsetof(ctp_transfer_future_to_bank_req, cust_fee)},
+    {"currency_code", offsetof(ctp_transfer_future_to_bank_req, currency_code)},
+  });
+  print_layout<ctp_transfer_future_to_bank_rsp>("ctp_transfer_future_to_bank_rsp", {
+    {"ret_code", offsetof(ctp_transfer_future_to_bank_rsp, ret_code)},
+    {"ret_info", offsetof(ctp_transfer_future_to_bank_rsp, ret_info)},
+    {"future_account", offsetof(ctp_transfer_future_to_bank_rsp, future_account)},
+    {"trade_amt", offsetof(ctp_transfer_future_to_bank_rsp, trade_amt)},
+    {"cust_fee", offsetof(ctp_transfer_future_to_bank_rsp, cust_fee)},
+    {"currency_code", offsetof(ctp_transfer_future_to_bank_rsp, currency_code)},
+  });
+  print_layout<ctp_transfer_header>("ctp_transfer_header", {
+    {"version", offsetof(ctp_transfer_header, version)},
+    {"trade_code", offsetof(ctp_transfer_header, trade_code)},
+    {"trade_date", offsetof(ctp_transfer_header, trade_date)},
+    {"trade_time", offsetof(ctp_transfer_header, trade_time)},
+    {"trade_serial", offsetof(ctp_transfer_header, trade_serial)},
+    {"future_id", offsetof(ctp_transfer_header, future_id)},
+    {"bank_id", offsetof(ctp_transfer_header, bank_id)},
+    {"bank_brch_id", offsetof(ctp_transfer_header, bank_brch_id)},
+    {"oper_no", offsetof(ctp_transfer_header, oper_no)},
+    {"device_id", offsetof(ctp_transfer_header, device_id)},
+    {"record_num", offsetof(ctp_transfer_header, record_num)},
+    {"session_id", offsetof(ctp_transfer_header, session_id)},
+    {"request_id", offsetof(ctp_transfer_header, request_id)},
+  });
+  print_layout<ctp_transfer_qry_bank_req>("ctp_transfer_qry_bank_req", {
+    {"future_account", offsetof(ctp_transfer_qry_bank_req, future_account)},
+    {"future_pwd_flag", offsetof(ctp_transfer_qry_bank_req, future_pwd_flag)},
+    {"future_acc_pwd", offsetof(ctp_transfer_qry_bank_req, future_acc_pwd)},
+    {"currency_code", offsetof(ctp_transfer_qry_bank_req, currency_code)},
+  });
+  print_layout<ctp_transfer_qry_bank_rsp>("ctp_transfer_qry_bank_rsp", {
+    {"ret_code", offsetof(ctp_transfer_qry_bank_rsp, ret_code)},
+    {"ret_info", offsetof(ctp_transfer_qry_bank_rsp, ret_info)},
+    {"future_account", offsetof(ctp_transfer_qry_bank_rsp, future_account)},
+    {"trade_amt", offsetof(ctp_transfer_qry_bank_rsp, trade_amt)},
+    {"use_amt", offsetof(ctp_transfer_qry_bank_rsp, use_amt)},
+    {"fetch_amt", offsetof(ctp_transfer_qry_bank_rsp, fetch_amt)},
+    {"currency_code", offsetof(ctp_transfer_qry_bank_rsp, currency_code)},
+  });
+  print_layout<ctp_transfer_qry_detail_req>("ctp_transfer_qry_detail_req", {
+    {"future_account", offsetof(ctp_transfer_qry_detail_req, future_account)},
+  });
+  print_layout<ctp_transfer_qry_detail_rsp>("ctp_transfer_qry_detail_rsp", {
+    {"trade_date", offsetof(ctp_transfer_qry_detail_rsp, trade_date)},
+    {"trade_time", offsetof(ctp_transfer_qry_detail_rsp, trade_time)},
+    {"trade_code", offsetof(ctp_transfer_qry_detail_rsp, trade_code)},
+    {"future_serial", offsetof(ctp_transfer_qry_detail_rsp, future_serial)},
+    {"future_id", offsetof(ctp_transfer_qry_detail_rsp, future_id)},
+    {"future_account", offsetof(ctp_transfer_qry_detail_rsp, future_account)},
+    {"bank_serial", offsetof(ctp_transfer_qry_detail_rsp, bank_serial)},
+    {"bank_id", offsetof(ctp_transfer_qry_detail_rsp, bank_id)},
+    {"bank_brch_id", offsetof(ctp_transfer_qry_detail_rsp, bank_brch_id)},
+    {"bank_account", offsetof(ctp_transfer_qry_detail_rsp, bank_account)},
+    {"cert_code", offsetof(ctp_transfer_qry_detail_rsp, cert_code)},
+    {"currency_code", offsetof(ctp_transfer_qry_detail_rsp, currency_code)},
+    {"tx_amount", offsetof(ctp_transfer_qry_detail_rsp, tx_amount)},
+    {"flag", offsetof(ctp_transfer_qry_detail_rsp, flag)},
+  });
   print_layout<ctp_transfer_serial>("ctp_transfer_serial", {
     {"plate_serial", offsetof(ctp_transfer_serial, plate_serial)},
     {"trade_date", offsetof(ctp_transfer_serial, trade_date)},
@@ -3449,6 +6791,20 @@ int main() {
     {"error_id", offsetof(ctp_transfer_serial, error_id)},
     {"error_msg", offsetof(ctp_transfer_serial, error_msg)},
   });
+  print_layout<ctp_user_dri_bypass>("ctp_user_dri_bypass", {
+    {"broker_id", offsetof(ctp_user_dri_bypass, broker_id)},
+    {"user_id", offsetof(ctp_user_dri_bypass, user_id)},
+    {"dr_identity_id", offsetof(ctp_user_dri_bypass, dr_identity_id)},
+  });
+  print_layout<ctp_user_ip>("ctp_user_ip", {
+    {"broker_id", offsetof(ctp_user_ip, broker_id)},
+    {"user_id", offsetof(ctp_user_ip, user_id)},
+    {"reserve1", offsetof(ctp_user_ip, reserve1)},
+    {"reserve2", offsetof(ctp_user_ip, reserve2)},
+    {"mac_address", offsetof(ctp_user_ip, mac_address)},
+    {"ip_address", offsetof(ctp_user_ip, ip_address)},
+    {"ip_mask", offsetof(ctp_user_ip, ip_mask)},
+  });
   print_layout<ctp_user_logout>("ctp_user_logout", {
     {"broker_id", offsetof(ctp_user_logout, broker_id)},
     {"user_id", offsetof(ctp_user_logout, user_id)},
@@ -3458,6 +6814,24 @@ int main() {
     {"user_id", offsetof(ctp_user_password_update, user_id)},
     {"old_password", offsetof(ctp_user_password_update, old_password)},
     {"new_password", offsetof(ctp_user_password_update, new_password)},
+  });
+  print_layout<ctp_user_password_update_from_sec>("ctp_user_password_update_from_sec", {
+    {"broker_id", offsetof(ctp_user_password_update_from_sec, broker_id)},
+    {"user_id", offsetof(ctp_user_password_update_from_sec, user_id)},
+    {"old_password", offsetof(ctp_user_password_update_from_sec, old_password)},
+    {"new_password", offsetof(ctp_user_password_update_from_sec, new_password)},
+    {"from_sec", offsetof(ctp_user_password_update_from_sec, from_sec)},
+  });
+  print_layout<ctp_user_right>("ctp_user_right", {
+    {"broker_id", offsetof(ctp_user_right, broker_id)},
+    {"user_id", offsetof(ctp_user_right, user_id)},
+    {"user_right_type", offsetof(ctp_user_right, user_right_type)},
+    {"is_forbidden", offsetof(ctp_user_right, is_forbidden)},
+  });
+  print_layout<ctp_user_rights_assign>("ctp_user_rights_assign", {
+    {"broker_id", offsetof(ctp_user_rights_assign, broker_id)},
+    {"user_id", offsetof(ctp_user_rights_assign, user_id)},
+    {"dr_identity_id", offsetof(ctp_user_rights_assign, dr_identity_id)},
   });
   print_layout<ctp_user_session>("ctp_user_session", {
     {"front_id", offsetof(ctp_user_session, front_id)},
@@ -3487,6 +6861,49 @@ int main() {
     {"client_login_remark", offsetof(ctp_user_system_info, client_login_remark)},
     {"mac", offsetof(ctp_user_system_info, mac)},
   });
+  print_layout<ctp_verify_cust_info>("ctp_verify_cust_info", {
+    {"customer_name", offsetof(ctp_verify_cust_info, customer_name)},
+    {"id_card_type", offsetof(ctp_verify_cust_info, id_card_type)},
+    {"identified_card_no", offsetof(ctp_verify_cust_info, identified_card_no)},
+    {"cust_type", offsetof(ctp_verify_cust_info, cust_type)},
+    {"long_customer_name", offsetof(ctp_verify_cust_info, long_customer_name)},
+  });
+  print_layout<ctp_verify_future_password>("ctp_verify_future_password", {
+    {"trade_code", offsetof(ctp_verify_future_password, trade_code)},
+    {"bank_id", offsetof(ctp_verify_future_password, bank_id)},
+    {"bank_branch_id", offsetof(ctp_verify_future_password, bank_branch_id)},
+    {"broker_id", offsetof(ctp_verify_future_password, broker_id)},
+    {"broker_branch_id", offsetof(ctp_verify_future_password, broker_branch_id)},
+    {"trade_date", offsetof(ctp_verify_future_password, trade_date)},
+    {"trade_time", offsetof(ctp_verify_future_password, trade_time)},
+    {"bank_serial", offsetof(ctp_verify_future_password, bank_serial)},
+    {"trading_day", offsetof(ctp_verify_future_password, trading_day)},
+    {"plate_serial", offsetof(ctp_verify_future_password, plate_serial)},
+    {"last_fragment", offsetof(ctp_verify_future_password, last_fragment)},
+    {"session_id", offsetof(ctp_verify_future_password, session_id)},
+    {"account_id", offsetof(ctp_verify_future_password, account_id)},
+    {"password", offsetof(ctp_verify_future_password, password)},
+    {"bank_account", offsetof(ctp_verify_future_password, bank_account)},
+    {"bank_pass_word", offsetof(ctp_verify_future_password, bank_pass_word)},
+    {"install_id", offsetof(ctp_verify_future_password, install_id)},
+    {"tid", offsetof(ctp_verify_future_password, tid)},
+    {"currency_id", offsetof(ctp_verify_future_password, currency_id)},
+  });
+  print_layout<ctp_verify_future_password_and_cust_info>("ctp_verify_future_password_and_cust_info", {
+    {"customer_name", offsetof(ctp_verify_future_password_and_cust_info, customer_name)},
+    {"id_card_type", offsetof(ctp_verify_future_password_and_cust_info, id_card_type)},
+    {"identified_card_no", offsetof(ctp_verify_future_password_and_cust_info, identified_card_no)},
+    {"cust_type", offsetof(ctp_verify_future_password_and_cust_info, cust_type)},
+    {"account_id", offsetof(ctp_verify_future_password_and_cust_info, account_id)},
+    {"password", offsetof(ctp_verify_future_password_and_cust_info, password)},
+    {"currency_id", offsetof(ctp_verify_future_password_and_cust_info, currency_id)},
+    {"long_customer_name", offsetof(ctp_verify_future_password_and_cust_info, long_customer_name)},
+  });
+  print_layout<ctp_verify_investor_password>("ctp_verify_investor_password", {
+    {"broker_id", offsetof(ctp_verify_investor_password, broker_id)},
+    {"investor_id", offsetof(ctp_verify_investor_password, investor_id)},
+    {"password", offsetof(ctp_verify_investor_password, password)},
+  });
   print_layout<ctp_wechat_user_system_info>("ctp_wechat_user_system_info", {
     {"broker_id", offsetof(ctp_wechat_user_system_info, broker_id)},
     {"user_id", offsetof(ctp_wechat_user_system_info, user_id)},
@@ -3497,6 +6914,12 @@ int main() {
     {"client_app_id", offsetof(ctp_wechat_user_system_info, client_app_id)},
     {"client_public_ip", offsetof(ctp_wechat_user_system_info, client_public_ip)},
     {"client_login_remark", offsetof(ctp_wechat_user_system_info, client_login_remark)},
+  });
+  print_layout<ctp_with_draw_param>("ctp_with_draw_param", {
+    {"broker_id", offsetof(ctp_with_draw_param, broker_id)},
+    {"account_id", offsetof(ctp_with_draw_param, account_id)},
+    {"with_draw_param_id", offsetof(ctp_with_draw_param, with_draw_param_id)},
+    {"with_draw_param_value", offsetof(ctp_with_draw_param, with_draw_param_value)},
   });
   std::printf("]}\n");
   return 0;

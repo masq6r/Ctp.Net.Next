@@ -1811,10 +1811,16 @@ type AbiLayoutTests() =
     member _.``new MD C ABI structs keep the checked-in interop layout``() =
         assertLayout
             "NativeMulticastInstrument"
-            120
-            [ "TopicId", 0; "InstrumentNo", 4; "CodePrice", 8; "VolumeMultiple", 16; "PriceTick", 24; "InstrumentId", 32 ]
+            144
+            [ "TopicId", 0
+              "InstrumentNo", 4
+              "CodePrice", 8
+              "VolumeMultiple", 16
+              "PriceTick", 24
+              "InstrumentId", 32
+              "Reserve1", 113 ]
 
-        assertLayout "NativeQryMulticastInstrument" 88 [ "TopicId", 0; "InstrumentId", 4 ]
+        assertLayout "NativeQryMulticastInstrument" 116 [ "TopicId", 0; "InstrumentId", 4; "Reserve1", 85 ]
         assertLayout "NativeMdFensUserInfo" 28 [ "BrokerId", 0; "UserId", 11; "LoginMode", 27 ]
 
         assertLayout

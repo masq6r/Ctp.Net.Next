@@ -41,7 +41,40 @@ type TradingAccountResponse =
       CloseProfit: decimal
       PositionProfit: decimal
       WithdrawQuota: decimal
-      Reserve: decimal }
+      Reserve: decimal
+      PreMortgage: decimal
+      PreCredit: decimal
+      PreDeposit: decimal
+      PreBalance: decimal
+      PreMargin: decimal
+      InterestBase: decimal
+      Interest: decimal
+      CashIn: decimal
+      SettlementId: int
+      Credit: decimal
+      Mortgage: decimal
+      ExchangeMargin: decimal
+      DeliveryMargin: decimal
+      ExchangeDeliveryMargin: decimal
+      ReserveBalance: decimal
+      PreFundMortgageIn: decimal
+      PreFundMortgageOut: decimal
+      FundMortgageIn: decimal
+      FundMortgageOut: decimal
+      FundMortgageAvailable: decimal
+      MortgageableFund: decimal
+      SpecProductMargin: decimal
+      SpecProductFrozenMargin: decimal
+      SpecProductCommission: decimal
+      SpecProductFrozenCommission: decimal
+      SpecProductPositionProfit: decimal
+      SpecProductCloseProfit: decimal
+      SpecProductPositionProfitByAlg: decimal
+      SpecProductExchangeMargin: decimal
+      BizType: BizType option
+      FrozenSwap: decimal
+      RemainSwap: decimal
+      OptionValue: decimal }
 
 type InvestorPositionResponse =
     { BrokerId: string
@@ -62,7 +95,39 @@ type InvestorPositionResponse =
       CloseProfit: decimal
       UseMargin: decimal
       PositionCost: decimal
-      OpenCost: decimal }
+      OpenCost: decimal
+      Reserve1: string
+      LongFrozenAmount: decimal
+      ShortFrozenAmount: decimal
+      OpenAmount: decimal
+      CloseAmount: decimal
+      PreMargin: decimal
+      FrozenMargin: decimal
+      FrozenCash: decimal
+      FrozenCommission: decimal
+      CashIn: decimal
+      Commission: decimal
+      PreSettlementPrice: decimal
+      SettlementPrice: decimal
+      TradingDay: DateOnly
+      SettlementId: int
+      ExchangeMargin: decimal
+      CombPosition: int
+      CombLongFrozen: int
+      CombShortFrozen: int
+      CloseProfitByDate: decimal
+      CloseProfitByTrade: decimal
+      MarginRateByMoney: decimal
+      MarginRateByVolume: decimal
+      StrikeFrozen: int
+      StrikeFrozenAmount: decimal
+      AbandonFrozen: int
+      YdStrikeFrozen: int
+      InvestUnitId: string
+      PositionCostOffset: decimal
+      TasPosition: int
+      TasPositionCost: decimal
+      OptionValue: decimal }
 
 type InstrumentMarginRateResponse =
     { InvestorRange: InvestorRange option
@@ -76,7 +141,8 @@ type InstrumentMarginRateResponse =
       IsRelative: bool
       ExchangeId: string
       InvestUnitId: string
-      InstrumentId: string }
+      InstrumentId: string
+      Reserve1: string }
 
 type ExchangeMarginRateResponse =
     { BrokerId: string
@@ -86,7 +152,8 @@ type ExchangeMarginRateResponse =
       ShortMarginRatioByMoney: decimal
       ShortMarginRatioByVolume: decimal
       ExchangeId: string
-      InstrumentId: string }
+      InstrumentId: string
+      Reserve1: string }
 
 type InstrumentCommissionRateResponse =
     { InvestorRange: InvestorRange option
@@ -101,7 +168,8 @@ type InstrumentCommissionRateResponse =
       ExchangeId: string
       BizType: BizType option
       InvestUnitId: string
-      InstrumentId: string }
+      InstrumentId: string
+      Reserve1: string }
 
 type InputOrderRequest =
     { BrokerId: string
@@ -133,7 +201,11 @@ type InputOrderRequest =
       ClientId: string option
       MacAddress: string option
       IpAddress: string option
-      OrderMemo: string option }
+      OrderMemo: string option
+      RequestId: int
+      Reserve1: string option
+      Reserve2: string option
+      SessionReqSeq: int }
 
 type InputOrderActionRequest =
     { BrokerId: string
@@ -152,7 +224,11 @@ type InputOrderActionRequest =
       InstrumentId: string
       MacAddress: string option
       IpAddress: string option
-      OrderMemo: string option }
+      OrderMemo: string option
+      RequestId: int
+      Reserve1: string option
+      Reserve2: string option
+      SessionReqSeq: int }
 
 type InputOrderResponse = InputOrderRequest
 type InputOrderActionResponse = InputOrderActionRequest
@@ -183,7 +259,49 @@ type OrderUpdateResponse =
       ActiveTime: TimeOnly
       SuspendTime: TimeOnly
       UpdateTime: TimeOnly
-      CancelTime: TimeOnly }
+      CancelTime: TimeOnly
+      Reserve1: string
+      TimeCondition: TimeCondition option
+      GtdDate: DateOnly option
+      VolumeCondition: VolumeCondition option
+      MinVolume: int
+      ContingentCondition: ContingentCondition option
+      StopPrice: decimal
+      ForceCloseReason: ForceCloseReason option
+      IsAutoSuspend: bool
+      BusinessUnit: string
+      RequestId: int
+      OrderLocalId: string
+      ParticipantId: string
+      ClientId: string
+      Reserve2: string
+      TraderId: string
+      InstallId: int
+      NotifySequence: int
+      TradingDay: DateOnly
+      SettlementId: int
+      OrderSource: OrderSource option
+      OrderType: OrderType option
+      ActiveTraderId: string
+      ClearingPartId: string
+      SequenceNo: int
+      UserProductInfo: string
+      UserForceClose: bool
+      ActiveUserId: string
+      BrokerOrderSeq: int
+      RelativeOrderSysId: string
+      ZceTotalTradedVolume: int
+      IsSwapOrder: bool
+      BranchId: string
+      InvestUnitId: string
+      AccountId: string
+      CurrencyId: string
+      Reserve3: string
+      MacAddress: string
+      ExchangeInstId: string
+      IpAddress: string
+      OrderMemo: string
+      SessionReqSeq: int }
 
 type TradeUpdateResponse =
     { BrokerId: string
@@ -201,7 +319,24 @@ type TradeUpdateResponse =
       Volume: int
       TradeDate: DateOnly
       TradeTime: TimeOnly
-      TradingDay: DateOnly }
+      TradingDay: DateOnly
+      Reserve1: string
+      ParticipantId: string
+      ClientId: string
+      TradingRole: char option
+      Reserve2: string
+      TradeType: TradeType option
+      PriceSource: char option
+      TraderId: string
+      OrderLocalId: string
+      ClearingPartId: string
+      BusinessUnit: string
+      SequenceNo: int
+      SettlementId: int
+      BrokerOrderSeq: int
+      TradeSource: char option
+      InvestUnitId: string
+      ExchangeInstId: string }
 
 type AuthenticateRequest =
     { BrokerId: string
@@ -3618,7 +3753,72 @@ type private NativeTradingAccount =
 
     [<DefaultValue>]
     val mutable Reserve: float
-
+    [<DefaultValue>]
+    val mutable PreMortgage: float
+    [<DefaultValue>]
+    val mutable PreCredit: float
+    [<DefaultValue>]
+    val mutable PreDeposit: float
+    [<DefaultValue>]
+    val mutable PreBalance: float
+    [<DefaultValue>]
+    val mutable PreMargin: float
+    [<DefaultValue>]
+    val mutable InterestBase: float
+    [<DefaultValue>]
+    val mutable Interest: float
+    [<DefaultValue>]
+    val mutable CashIn: float
+    [<DefaultValue>]
+    val mutable SettlementId: int
+    [<DefaultValue>]
+    val mutable Credit: float
+    [<DefaultValue>]
+    val mutable Mortgage: float
+    [<DefaultValue>]
+    val mutable ExchangeMargin: float
+    [<DefaultValue>]
+    val mutable DeliveryMargin: float
+    [<DefaultValue>]
+    val mutable ExchangeDeliveryMargin: float
+    [<DefaultValue>]
+    val mutable ReserveBalance: float
+    [<DefaultValue>]
+    val mutable PreFundMortgageIn: float
+    [<DefaultValue>]
+    val mutable PreFundMortgageOut: float
+    [<DefaultValue>]
+    val mutable FundMortgageIn: float
+    [<DefaultValue>]
+    val mutable FundMortgageOut: float
+    [<DefaultValue>]
+    val mutable FundMortgageAvailable: float
+    [<DefaultValue>]
+    val mutable MortgageableFund: float
+    [<DefaultValue>]
+    val mutable SpecProductMargin: float
+    [<DefaultValue>]
+    val mutable SpecProductFrozenMargin: float
+    [<DefaultValue>]
+    val mutable SpecProductCommission: float
+    [<DefaultValue>]
+    val mutable SpecProductFrozenCommission: float
+    [<DefaultValue>]
+    val mutable SpecProductPositionProfit: float
+    [<DefaultValue>]
+    val mutable SpecProductCloseProfit: float
+    [<DefaultValue>]
+    val mutable SpecProductPositionProfitByAlg: float
+    [<DefaultValue>]
+    val mutable SpecProductExchangeMargin: float
+    [<DefaultValue>]
+    val mutable BizType: byte
+    [<DefaultValue>]
+    val mutable FrozenSwap: float
+    [<DefaultValue>]
+    val mutable RemainSwap: float
+    [<DefaultValue>]
+    val mutable OptionValue: float
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeQryInvestorPosition =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -3640,7 +3840,9 @@ type private NativeQryInvestorPosition =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
     [<DefaultValue>]
     val mutable InstrumentId: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeInvestorPosition =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -3703,7 +3905,73 @@ type private NativeInvestorPosition =
 
     [<DefaultValue>]
     val mutable OpenCost: float
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+    [<DefaultValue>]
+    val mutable LongFrozenAmount: float
+    [<DefaultValue>]
+    val mutable ShortFrozenAmount: float
+    [<DefaultValue>]
+    val mutable OpenAmount: float
+    [<DefaultValue>]
+    val mutable CloseAmount: float
+    [<DefaultValue>]
+    val mutable PreMargin: float
+    [<DefaultValue>]
+    val mutable FrozenMargin: float
+    [<DefaultValue>]
+    val mutable FrozenCash: float
+    [<DefaultValue>]
+    val mutable FrozenCommission: float
+    [<DefaultValue>]
+    val mutable CashIn: float
+    [<DefaultValue>]
+    val mutable Commission: float
+    [<DefaultValue>]
+    val mutable PreSettlementPrice: float
+    [<DefaultValue>]
+    val mutable SettlementPrice: float
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+    [<DefaultValue>]
+    val mutable SettlementId: int
+    [<DefaultValue>]
+    val mutable ExchangeMargin: float
+    [<DefaultValue>]
+    val mutable CombPosition: int
+    [<DefaultValue>]
+    val mutable CombLongFrozen: int
+    [<DefaultValue>]
+    val mutable CombShortFrozen: int
+    [<DefaultValue>]
+    val mutable CloseProfitByDate: float
+    [<DefaultValue>]
+    val mutable CloseProfitByTrade: float
+    [<DefaultValue>]
+    val mutable MarginRateByMoney: float
+    [<DefaultValue>]
+    val mutable MarginRateByVolume: float
+    [<DefaultValue>]
+    val mutable StrikeFrozen: int
+    [<DefaultValue>]
+    val mutable StrikeFrozenAmount: float
+    [<DefaultValue>]
+    val mutable AbandonFrozen: int
+    [<DefaultValue>]
+    val mutable YdStrikeFrozen: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+    [<DefaultValue>]
+    val mutable PositionCostOffset: float
+    [<DefaultValue>]
+    val mutable TasPosition: int
+    [<DefaultValue>]
+    val mutable TasPositionCost: float
+    [<DefaultValue>]
+    val mutable OptionValue: float
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeQryInstrumentMarginRate =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -4021,7 +4289,14 @@ type private NativeInputOrder =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
     [<DefaultValue>]
     val mutable OrderMemo: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeInputOrderAction =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -4088,7 +4363,14 @@ type private NativeInputOrderAction =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
     [<DefaultValue>]
     val mutable OrderMemo: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeOrder =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -4184,7 +4466,113 @@ type private NativeOrder =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
     [<DefaultValue>]
     val mutable CancelTime: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+    [<DefaultValue>]
+    val mutable TimeCondition: byte
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable GtdDate: byte array
+    [<DefaultValue>]
+    val mutable VolumeCondition: byte
+    [<DefaultValue>]
+    val mutable MinVolume: int
+    [<DefaultValue>]
+    val mutable ContingentCondition: byte
+    [<DefaultValue>]
+    val mutable StopPrice: float
+    [<DefaultValue>]
+    val mutable ForceCloseReason: byte
+    [<DefaultValue>]
+    val mutable IsAutoSuspend: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+    [<DefaultValue>]
+    val mutable RequestId: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+    [<DefaultValue>]
+    val mutable InstallId: int
+    [<DefaultValue>]
+    val mutable NotifySequence: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable TradingDay: byte array
+    [<DefaultValue>]
+    val mutable SettlementId: int
+    [<DefaultValue>]
+    val mutable OrderSource: byte
+    [<DefaultValue>]
+    val mutable OrderType: byte
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable ActiveTraderId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClearingPartId: byte array
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable UserProductInfo: byte array
+    [<DefaultValue>]
+    val mutable UserForceClose: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable ActiveUserId: byte array
+    [<DefaultValue>]
+    val mutable BrokerOrderSeq: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable RelativeOrderSysId: byte array
+    [<DefaultValue>]
+    val mutable ZceTotalTradedVolume: int
+    [<DefaultValue>]
+    val mutable IsSwapOrder: int
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
+    [<DefaultValue>]
+    val mutable BranchId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable AccountId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)>]
+    [<DefaultValue>]
+    val mutable CurrencyId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)>]
+    [<DefaultValue>]
+    val mutable Reserve3: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable MacAddress: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 33)>]
+    [<DefaultValue>]
+    val mutable IpAddress: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderMemo: byte array
+    [<DefaultValue>]
+    val mutable SessionReqSeq: int
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeTrade =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -4245,7 +4633,50 @@ type private NativeTrade =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
     [<DefaultValue>]
     val mutable TradingDay: byte array
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ParticipantId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClientId: byte array
+    [<DefaultValue>]
+    val mutable TradingRole: byte
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
+    [<DefaultValue>]
+    val mutable TradeType: byte
+    [<DefaultValue>]
+    val mutable PriceSource: byte
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable TraderId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)>]
+    [<DefaultValue>]
+    val mutable OrderLocalId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
+    [<DefaultValue>]
+    val mutable ClearingPartId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)>]
+    [<DefaultValue>]
+    val mutable BusinessUnit: byte array
+    [<DefaultValue>]
+    val mutable SequenceNo: int
+    [<DefaultValue>]
+    val mutable SettlementId: int
+    [<DefaultValue>]
+    val mutable BrokerOrderSeq: int
+    [<DefaultValue>]
+    val mutable TradeSource: byte
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)>]
+    [<DefaultValue>]
+    val mutable InvestUnitId: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
+    [<DefaultValue>]
+    val mutable ExchangeInstId: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeAccountregister =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
@@ -4923,7 +5354,12 @@ type private NativeTraderDepthMarketData =
 
     [<DefaultValue>]
     val mutable BandingLowerPrice: float
-
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve1: byte array
+    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
+    [<DefaultValue>]
+    val mutable Reserve2: byte array
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeEWarrantOffset =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 9)>]
@@ -5048,7 +5484,6 @@ type private NativeExchangeRate =
 
     [<DefaultValue>]
     val mutable ExchangeRateResponse: float
-
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeExecOrder =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 11)>]
@@ -8756,7 +9191,6 @@ type private NativeProductExchRate =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 81)>]
     [<DefaultValue>]
     val mutable ProductId: byte array
-
 [<Struct; StructLayout(LayoutKind.Sequential)>]
 type private NativeProductGroup =
     [<MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)>]
@@ -16224,7 +16658,40 @@ module private TraderBridgeMapping =
           CloseProfit = toDecimal value.CloseProfit
           PositionProfit = toDecimal value.PositionProfit
           WithdrawQuota = toDecimal value.WithdrawQuota
-          Reserve = toDecimal value.Reserve }
+          Reserve = toDecimal value.Reserve
+          PreMortgage = toDecimal value.PreMortgage
+          PreCredit = toDecimal value.PreCredit
+          PreDeposit = toDecimal value.PreDeposit
+          PreBalance = toDecimal value.PreBalance
+          PreMargin = toDecimal value.PreMargin
+          InterestBase = toDecimal value.InterestBase
+          Interest = toDecimal value.Interest
+          CashIn = toDecimal value.CashIn
+          SettlementId = value.SettlementId
+          Credit = toDecimal value.Credit
+          Mortgage = toDecimal value.Mortgage
+          ExchangeMargin = toDecimal value.ExchangeMargin
+          DeliveryMargin = toDecimal value.DeliveryMargin
+          ExchangeDeliveryMargin = toDecimal value.ExchangeDeliveryMargin
+          ReserveBalance = toDecimal value.ReserveBalance
+          PreFundMortgageIn = toDecimal value.PreFundMortgageIn
+          PreFundMortgageOut = toDecimal value.PreFundMortgageOut
+          FundMortgageIn = toDecimal value.FundMortgageIn
+          FundMortgageOut = toDecimal value.FundMortgageOut
+          FundMortgageAvailable = toDecimal value.FundMortgageAvailable
+          MortgageableFund = toDecimal value.MortgageableFund
+          SpecProductMargin = toDecimal value.SpecProductMargin
+          SpecProductFrozenMargin = toDecimal value.SpecProductFrozenMargin
+          SpecProductCommission = toDecimal value.SpecProductCommission
+          SpecProductFrozenCommission = toDecimal value.SpecProductFrozenCommission
+          SpecProductPositionProfit = toDecimal value.SpecProductPositionProfit
+          SpecProductCloseProfit = toDecimal value.SpecProductCloseProfit
+          SpecProductPositionProfitByAlg = toDecimal value.SpecProductPositionProfitByAlg
+          SpecProductExchangeMargin = toDecimal value.SpecProductExchangeMargin
+          BizType = EncodingHelpers.byteToChar value.BizType |> Option.map BizType.FromChar
+          FrozenSwap = toDecimal value.FrozenSwap
+          RemainSwap = toDecimal value.RemainSwap
+          OptionValue = toDecimal value.OptionValue }
 
     let investorPosition encoding (value: NativeInvestorPosition) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -16249,7 +16716,39 @@ module private TraderBridgeMapping =
           CloseProfit = toDecimal value.CloseProfit
           UseMargin = toDecimal value.UseMargin
           PositionCost = toDecimal value.PositionCost
-          OpenCost = toDecimal value.OpenCost }
+          OpenCost = toDecimal value.OpenCost
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1
+          LongFrozenAmount = toDecimal value.LongFrozenAmount
+          ShortFrozenAmount = toDecimal value.ShortFrozenAmount
+          OpenAmount = toDecimal value.OpenAmount
+          CloseAmount = toDecimal value.CloseAmount
+          PreMargin = toDecimal value.PreMargin
+          FrozenMargin = toDecimal value.FrozenMargin
+          FrozenCash = toDecimal value.FrozenCash
+          FrozenCommission = toDecimal value.FrozenCommission
+          CashIn = toDecimal value.CashIn
+          Commission = toDecimal value.Commission
+          PreSettlementPrice = toDecimal value.PreSettlementPrice
+          SettlementPrice = toDecimal value.SettlementPrice
+          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
+          SettlementId = value.SettlementId
+          ExchangeMargin = toDecimal value.ExchangeMargin
+          CombPosition = value.CombPosition
+          CombLongFrozen = value.CombLongFrozen
+          CombShortFrozen = value.CombShortFrozen
+          CloseProfitByDate = toDecimal value.CloseProfitByDate
+          CloseProfitByTrade = toDecimal value.CloseProfitByTrade
+          MarginRateByMoney = toDecimal value.MarginRateByMoney
+          MarginRateByVolume = toDecimal value.MarginRateByVolume
+          StrikeFrozen = value.StrikeFrozen
+          StrikeFrozenAmount = toDecimal value.StrikeFrozenAmount
+          AbandonFrozen = value.AbandonFrozen
+          YdStrikeFrozen = value.YdStrikeFrozen
+          InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
+          PositionCostOffset = toDecimal value.PositionCostOffset
+          TasPosition = value.TasPosition
+          TasPositionCost = toDecimal value.TasPositionCost
+          OptionValue = toDecimal value.OptionValue }
 
     let instrumentMarginRate encoding (value: NativeInstrumentMarginRate) =
         { InvestorRange =
@@ -16265,7 +16764,8 @@ module private TraderBridgeMapping =
           IsRelative = value.IsRelative <> 0
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
           InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
-          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1 }
 
     let exchangeMarginRate encoding (value: NativeExchangeMarginRate) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -16275,7 +16775,8 @@ module private TraderBridgeMapping =
           ShortMarginRatioByMoney = toDecimal value.ShortMarginRatioByMoney
           ShortMarginRatioByVolume = toDecimal value.ShortMarginRatioByVolume
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
-          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1 }
 
     let instrumentCommissionRate encoding (value: NativeInstrumentCommissionRate) =
         { InvestorRange =
@@ -16292,7 +16793,8 @@ module private TraderBridgeMapping =
           ExchangeId = EncodingHelpers.decodeFixed encoding value.ExchangeId
           BizType = EncodingHelpers.byteToChar value.BizType |> Option.map BizType.FromChar
           InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
-          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId }
+          InstrumentId = EncodingHelpers.decodeFixed encoding value.InstrumentId
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1 }
 
     let inputOrderRequest encoding (value: NativeInputOrder) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -16344,7 +16846,15 @@ module private TraderBridgeMapping =
             |> EncodingHelpers.normalize
           OrderMemo =
             Some(EncodingHelpers.decodeFixed encoding value.OrderMemo)
-            |> EncodingHelpers.normalize }
+            |> EncodingHelpers.normalize
+          RequestId = value.RequestId
+          Reserve1 =
+            Some(EncodingHelpers.decodeFixed encoding value.Reserve1)
+            |> EncodingHelpers.normalize
+          Reserve2 =
+            Some(EncodingHelpers.decodeFixed encoding value.Reserve2)
+            |> EncodingHelpers.normalize
+          SessionReqSeq = value.SessionReqSeq }
 
     let inputOrderActionRequest encoding (value: NativeInputOrderAction) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -16371,7 +16881,15 @@ module private TraderBridgeMapping =
             |> EncodingHelpers.normalize
           OrderMemo =
             Some(EncodingHelpers.decodeFixed encoding value.OrderMemo)
-            |> EncodingHelpers.normalize }
+            |> EncodingHelpers.normalize
+          RequestId = value.RequestId
+          Reserve1 =
+            Some(EncodingHelpers.decodeFixed encoding value.Reserve1)
+            |> EncodingHelpers.normalize
+          Reserve2 =
+            Some(EncodingHelpers.decodeFixed encoding value.Reserve2)
+            |> EncodingHelpers.normalize
+          SessionReqSeq = value.SessionReqSeq }
 
     let orderUpdate encoding (value: NativeOrder) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -16403,7 +16921,63 @@ module private TraderBridgeMapping =
           ActiveTime = EncodingHelpers.decodeFixed encoding value.ActiveTime |> TemporalHelpers.parseTime
           SuspendTime = EncodingHelpers.decodeFixed encoding value.SuspendTime |> TemporalHelpers.parseTime
           UpdateTime = EncodingHelpers.decodeFixed encoding value.UpdateTime |> TemporalHelpers.parseTime
-          CancelTime = EncodingHelpers.decodeFixed encoding value.CancelTime |> TemporalHelpers.parseTime }
+          CancelTime = EncodingHelpers.decodeFixed encoding value.CancelTime |> TemporalHelpers.parseTime
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1
+          TimeCondition =
+            EncodingHelpers.byteToChar value.TimeCondition
+            |> Option.map TimeCondition.FromChar
+          GtdDate =
+            EncodingHelpers.decodeFixed encoding value.GtdDate
+            |> TemporalHelpers.parseDateOption
+          VolumeCondition =
+            EncodingHelpers.byteToChar value.VolumeCondition
+            |> Option.map VolumeCondition.FromChar
+          MinVolume = value.MinVolume
+          ContingentCondition =
+            EncodingHelpers.byteToChar value.ContingentCondition
+            |> Option.map ContingentCondition.FromChar
+          StopPrice = toDecimal value.StopPrice
+          ForceCloseReason =
+            EncodingHelpers.byteToChar value.ForceCloseReason
+            |> Option.map ForceCloseReason.FromChar
+          IsAutoSuspend = value.IsAutoSuspend <> 0
+          BusinessUnit = EncodingHelpers.decodeFixed encoding value.BusinessUnit
+          RequestId = value.RequestId
+          OrderLocalId = EncodingHelpers.decodeFixed encoding value.OrderLocalId
+          ParticipantId = EncodingHelpers.decodeFixed encoding value.ParticipantId
+          ClientId = EncodingHelpers.decodeFixed encoding value.ClientId
+          Reserve2 = EncodingHelpers.decodeFixed encoding value.Reserve2
+          TraderId = EncodingHelpers.decodeFixed encoding value.TraderId
+          InstallId = value.InstallId
+          NotifySequence = value.NotifySequence
+          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
+          SettlementId = value.SettlementId
+          OrderSource =
+            EncodingHelpers.byteToChar value.OrderSource
+            |> Option.map OrderSource.FromChar
+          OrderType =
+            EncodingHelpers.byteToChar value.OrderType
+            |> Option.map OrderType.FromChar
+          ActiveTraderId = EncodingHelpers.decodeFixed encoding value.ActiveTraderId
+          ClearingPartId = EncodingHelpers.decodeFixed encoding value.ClearingPartId
+          SequenceNo = value.SequenceNo
+          UserProductInfo = EncodingHelpers.decodeFixed encoding value.UserProductInfo
+          UserForceClose = value.UserForceClose <> 0
+          ActiveUserId = EncodingHelpers.decodeFixed encoding value.ActiveUserId
+          BrokerOrderSeq = value.BrokerOrderSeq
+          RelativeOrderSysId = EncodingHelpers.decodeFixed encoding value.RelativeOrderSysId
+          ZceTotalTradedVolume = value.ZceTotalTradedVolume
+          IsSwapOrder = value.IsSwapOrder <> 0
+          BranchId = EncodingHelpers.decodeFixed encoding value.BranchId
+          InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
+          AccountId = EncodingHelpers.decodeFixed encoding value.AccountId
+          CurrencyId = EncodingHelpers.decodeFixed encoding value.CurrencyId
+          Reserve3 = EncodingHelpers.decodeFixed encoding value.Reserve3
+          MacAddress = EncodingHelpers.decodeFixed encoding value.MacAddress
+          ExchangeInstId = EncodingHelpers.decodeFixed encoding value.ExchangeInstId
+          IpAddress = EncodingHelpers.decodeFixed encoding value.IpAddress
+          OrderMemo = EncodingHelpers.decodeFixed encoding value.OrderMemo
+          SessionReqSeq = value.SessionReqSeq }
 
     let tradeUpdate encoding (value: NativeTrade) =
         { BrokerId = EncodingHelpers.decodeFixed encoding value.BrokerId
@@ -16421,7 +16995,24 @@ module private TraderBridgeMapping =
           Volume = value.Volume
           TradeDate = EncodingHelpers.decodeFixed encoding value.TradeDate |> TemporalHelpers.parseDate
           TradeTime = EncodingHelpers.decodeFixed encoding value.TradeTime |> TemporalHelpers.parseTime
-          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate }
+          TradingDay = EncodingHelpers.decodeFixed encoding value.TradingDay |> TemporalHelpers.parseDate
+          Reserve1 = EncodingHelpers.decodeFixed encoding value.Reserve1
+          ParticipantId = EncodingHelpers.decodeFixed encoding value.ParticipantId
+          ClientId = EncodingHelpers.decodeFixed encoding value.ClientId
+          TradingRole = EncodingHelpers.byteToChar value.TradingRole
+          Reserve2 = EncodingHelpers.decodeFixed encoding value.Reserve2
+          TradeType = EncodingHelpers.byteToChar value.TradeType |> Option.map TradeType.FromChar
+          PriceSource = EncodingHelpers.byteToChar value.PriceSource
+          TraderId = EncodingHelpers.decodeFixed encoding value.TraderId
+          OrderLocalId = EncodingHelpers.decodeFixed encoding value.OrderLocalId
+          ClearingPartId = EncodingHelpers.decodeFixed encoding value.ClearingPartId
+          BusinessUnit = EncodingHelpers.decodeFixed encoding value.BusinessUnit
+          SequenceNo = value.SequenceNo
+          SettlementId = value.SettlementId
+          BrokerOrderSeq = value.BrokerOrderSeq
+          TradeSource = EncodingHelpers.byteToChar value.TradeSource
+          InvestUnitId = EncodingHelpers.decodeFixed encoding value.InvestUnitId
+          ExchangeInstId = EncodingHelpers.decodeFixed encoding value.ExchangeInstId }
 
     let accountregister encoding (value: NativeAccountregister) : AccountregisterResponse =
         TraderBridgeGenerated.mapNative<AccountregisterResponse, NativeAccountregister> encoding value
@@ -17216,6 +17807,7 @@ module private TraderBridgeBuilders =
         let mutable native = NativeQryInvestorPosition()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 request.Reserve1
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
@@ -17225,7 +17817,7 @@ module private TraderBridgeBuilders =
         let mutable native = NativeQryInstrumentMarginRate()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
-        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 request.Reserve1
         native.HedgeFlag <- EncodingHelpers.charToByte (Some(HedgeFlag.ToChar request.HedgeFlag))
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
@@ -17235,7 +17827,7 @@ module private TraderBridgeBuilders =
     let qryExchangeMarginRate encoding (request: QueryExchangeMarginRateRequest) : NativeQryExchangeMarginRate =
         let mutable native = NativeQryExchangeMarginRate()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
-        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 request.Reserve1
         native.HedgeFlag <- EncodingHelpers.charToByte (Some(HedgeFlag.ToChar request.HedgeFlag))
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
@@ -17249,7 +17841,7 @@ module private TraderBridgeBuilders =
         let mutable native = NativeQryInstrumentCommissionRate()
         native.BrokerId <- EncodingHelpers.encodeFixed encoding 11 (Some request.BrokerId)
         native.InvestorId <- EncodingHelpers.encodeFixed encoding 13 (Some request.InvestorId)
-        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 None
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 request.Reserve1
         native.ExchangeId <- EncodingHelpers.encodeFixed encoding 9 request.ExchangeId
         native.InvestUnitId <- EncodingHelpers.encodeFixed encoding 17 request.InvestUnitId
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
@@ -17288,6 +17880,9 @@ module private TraderBridgeBuilders =
         native.MacAddress <- EncodingHelpers.encodeFixed encoding 21 request.MacAddress
         native.IpAddress <- EncodingHelpers.encodeFixed encoding 33 request.IpAddress
         native.OrderMemo <- EncodingHelpers.encodeFixed encoding 13 request.OrderMemo
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 request.Reserve1
+        native.Reserve2 <- EncodingHelpers.encodeFixed encoding 16 request.Reserve2
+        native.SessionReqSeq <- request.SessionReqSeq
         native
 
     let inputOrderAction encoding requestId (request: InputOrderActionRequest) =
@@ -17310,6 +17905,9 @@ module private TraderBridgeBuilders =
         native.InstrumentId <- EncodingHelpers.encodeFixed encoding 81 (Some request.InstrumentId)
         native.IpAddress <- EncodingHelpers.encodeFixed encoding 33 request.IpAddress
         native.OrderMemo <- EncodingHelpers.encodeFixed encoding 13 request.OrderMemo
+        native.Reserve1 <- EncodingHelpers.encodeFixed encoding 31 request.Reserve1
+        native.Reserve2 <- EncodingHelpers.encodeFixed encoding 16 request.Reserve2
+        native.SessionReqSeq <- request.SessionReqSeq
         native
 
     let fensUserInfo encoding (request: FensUserInfoRequest) : NativeFensUserInfo =

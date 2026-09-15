@@ -99,21 +99,54 @@ void fill_trading_account(ctp_trading_account &dest,
   }
   copy_field(dest.broker_id, src->BrokerID);
   copy_field(dest.account_id, src->AccountID);
-  copy_field(dest.currency_id, src->CurrencyID);
-  copy_field(dest.trading_day, src->TradingDay);
+  dest.pre_mortgage = src->PreMortgage;
+  dest.pre_credit = src->PreCredit;
+  dest.pre_deposit = src->PreDeposit;
+  dest.pre_balance = src->PreBalance;
+  dest.pre_margin = src->PreMargin;
+  dest.interest_base = src->InterestBase;
+  dest.interest = src->Interest;
   dest.deposit = src->Deposit;
   dest.withdraw = src->Withdraw;
-  dest.balance = src->Balance;
-  dest.available = src->Available;
-  dest.curr_margin = src->CurrMargin;
   dest.frozen_margin = src->FrozenMargin;
   dest.frozen_cash = src->FrozenCash;
   dest.frozen_commission = src->FrozenCommission;
+  dest.curr_margin = src->CurrMargin;
+  dest.cash_in = src->CashIn;
   dest.commission = src->Commission;
   dest.close_profit = src->CloseProfit;
   dest.position_profit = src->PositionProfit;
+  dest.balance = src->Balance;
+  dest.available = src->Available;
   dest.withdraw_quota = src->WithdrawQuota;
   dest.reserve = src->Reserve;
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.settlement_id = src->SettlementID;
+  dest.credit = src->Credit;
+  dest.mortgage = src->Mortgage;
+  dest.exchange_margin = src->ExchangeMargin;
+  dest.delivery_margin = src->DeliveryMargin;
+  dest.exchange_delivery_margin = src->ExchangeDeliveryMargin;
+  dest.reserve_balance = src->ReserveBalance;
+  copy_field(dest.currency_id, src->CurrencyID);
+  dest.pre_fund_mortgage_in = src->PreFundMortgageIn;
+  dest.pre_fund_mortgage_out = src->PreFundMortgageOut;
+  dest.fund_mortgage_in = src->FundMortgageIn;
+  dest.fund_mortgage_out = src->FundMortgageOut;
+  dest.fund_mortgage_available = src->FundMortgageAvailable;
+  dest.mortgageable_fund = src->MortgageableFund;
+  dest.spec_product_margin = src->SpecProductMargin;
+  dest.spec_product_frozen_margin = src->SpecProductFrozenMargin;
+  dest.spec_product_commission = src->SpecProductCommission;
+  dest.spec_product_frozen_commission = src->SpecProductFrozenCommission;
+  dest.spec_product_position_profit = src->SpecProductPositionProfit;
+  dest.spec_product_close_profit = src->SpecProductCloseProfit;
+  dest.spec_product_position_profit_by_alg = src->SpecProductPositionProfitByAlg;
+  dest.spec_product_exchange_margin = src->SpecProductExchangeMargin;
+  dest.biz_type = src->BizType;
+  dest.frozen_swap = src->FrozenSwap;
+  dest.remain_swap = src->RemainSwap;
+  dest.option_value = src->OptionValue;
 }
 
 void fill_investor_position(ctp_investor_position &dest,
@@ -122,25 +155,57 @@ void fill_investor_position(ctp_investor_position &dest,
   if (src == nullptr) {
     return;
   }
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.broker_id, src->BrokerID);
   copy_field(dest.investor_id, src->InvestorID);
-  copy_field(dest.instrument_id, src->InstrumentID);
-  copy_field(dest.exchange_id, src->ExchangeID);
   dest.posi_direction = src->PosiDirection;
   dest.hedge_flag = src->HedgeFlag;
   dest.position_date = src->PositionDate;
   dest.yd_position = src->YdPosition;
   dest.position = src->Position;
-  dest.today_position = src->TodayPosition;
   dest.long_frozen = src->LongFrozen;
   dest.short_frozen = src->ShortFrozen;
+  dest.long_frozen_amount = src->LongFrozenAmount;
+  dest.short_frozen_amount = src->ShortFrozenAmount;
   dest.open_volume = src->OpenVolume;
   dest.close_volume = src->CloseVolume;
-  dest.position_profit = src->PositionProfit;
-  dest.close_profit = src->CloseProfit;
-  dest.use_margin = src->UseMargin;
+  dest.open_amount = src->OpenAmount;
+  dest.close_amount = src->CloseAmount;
   dest.position_cost = src->PositionCost;
+  dest.pre_margin = src->PreMargin;
+  dest.use_margin = src->UseMargin;
+  dest.frozen_margin = src->FrozenMargin;
+  dest.frozen_cash = src->FrozenCash;
+  dest.frozen_commission = src->FrozenCommission;
+  dest.cash_in = src->CashIn;
+  dest.commission = src->Commission;
+  dest.close_profit = src->CloseProfit;
+  dest.position_profit = src->PositionProfit;
+  dest.pre_settlement_price = src->PreSettlementPrice;
+  dest.settlement_price = src->SettlementPrice;
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.settlement_id = src->SettlementID;
   dest.open_cost = src->OpenCost;
+  dest.exchange_margin = src->ExchangeMargin;
+  dest.comb_position = src->CombPosition;
+  dest.comb_long_frozen = src->CombLongFrozen;
+  dest.comb_short_frozen = src->CombShortFrozen;
+  dest.close_profit_by_date = src->CloseProfitByDate;
+  dest.close_profit_by_trade = src->CloseProfitByTrade;
+  dest.today_position = src->TodayPosition;
+  dest.margin_rate_by_money = src->MarginRateByMoney;
+  dest.margin_rate_by_volume = src->MarginRateByVolume;
+  dest.strike_frozen = src->StrikeFrozen;
+  dest.strike_frozen_amount = src->StrikeFrozenAmount;
+  dest.abandon_frozen = src->AbandonFrozen;
+  copy_field(dest.exchange_id, src->ExchangeID);
+  dest.yd_strike_frozen = src->YdStrikeFrozen;
+  copy_field(dest.invest_unit_id, src->InvestUnitID);
+  dest.position_cost_offset = src->PositionCostOffset;
+  dest.tas_position = src->TasPosition;
+  dest.tas_position_cost = src->TasPositionCost;
+  copy_field(dest.instrument_id, src->InstrumentID);
+  dest.option_value = src->OptionValue;
 }
 
 void fill_instrument_margin_rate(
@@ -213,7 +278,7 @@ void fill_input_order(ctp_input_order &dest,
   }
   copy_field(dest.broker_id, src->BrokerID);
   copy_field(dest.investor_id, src->InvestorID);
-  copy_field(dest.instrument_id, src->InstrumentID);
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.order_ref, src->OrderRef);
   copy_field(dest.user_id, src->UserID);
   dest.order_price_type = src->OrderPriceType;
@@ -239,9 +304,12 @@ void fill_input_order(ctp_input_order &dest,
   copy_field(dest.account_id, src->AccountID);
   copy_field(dest.currency_id, src->CurrencyID);
   copy_field(dest.client_id, src->ClientID);
+  copy_field(dest.reserve2, src->reserve2);
   copy_field(dest.mac_address, src->MacAddress);
+  copy_field(dest.instrument_id, src->InstrumentID);
   copy_field(dest.ip_address, src->IPAddress);
   copy_field(dest.order_memo, src->OrderMemo);
+  dest.session_req_seq = src->SessionReqSeq;
 }
 
 void fill_input_order_action(ctp_input_order_action &dest,
@@ -263,11 +331,14 @@ void fill_input_order_action(ctp_input_order_action &dest,
   dest.limit_price = src->LimitPrice;
   dest.volume_change = src->VolumeChange;
   copy_field(dest.user_id, src->UserID);
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.invest_unit_id, src->InvestUnitID);
+  copy_field(dest.reserve2, src->reserve2);
   copy_field(dest.mac_address, src->MacAddress);
   copy_field(dest.instrument_id, src->InstrumentID);
   copy_field(dest.ip_address, src->IPAddress);
   copy_field(dest.order_memo, src->OrderMemo);
+  dest.session_req_seq = src->SessionReqSeq;
 }
 
 void fill_order(ctp_order &dest, const CThostFtdcOrderField *src) {
@@ -277,10 +348,8 @@ void fill_order(ctp_order &dest, const CThostFtdcOrderField *src) {
   }
   copy_field(dest.broker_id, src->BrokerID);
   copy_field(dest.investor_id, src->InvestorID);
-  copy_field(dest.instrument_id, src->InstrumentID);
-  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.order_ref, src->OrderRef);
-  copy_field(dest.order_sys_id, src->OrderSysID);
   copy_field(dest.user_id, src->UserID);
   dest.order_price_type = src->OrderPriceType;
   dest.direction = src->Direction;
@@ -288,19 +357,63 @@ void fill_order(ctp_order &dest, const CThostFtdcOrderField *src) {
   copy_field(dest.comb_hedge_flag, src->CombHedgeFlag);
   dest.limit_price = src->LimitPrice;
   dest.volume_total_original = src->VolumeTotalOriginal;
+  dest.time_condition = src->TimeCondition;
+  copy_field(dest.gtd_date, src->GTDDate);
+  dest.volume_condition = src->VolumeCondition;
+  dest.min_volume = src->MinVolume;
+  dest.contingent_condition = src->ContingentCondition;
+  dest.stop_price = src->StopPrice;
+  dest.force_close_reason = src->ForceCloseReason;
+  dest.is_auto_suspend = src->IsAutoSuspend;
+  copy_field(dest.business_unit, src->BusinessUnit);
+  dest.request_id = src->RequestID;
+  copy_field(dest.order_local_id, src->OrderLocalID);
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.participant_id, src->ParticipantID);
+  copy_field(dest.client_id, src->ClientID);
+  copy_field(dest.reserve2, src->reserve2);
+  copy_field(dest.trader_id, src->TraderID);
+  dest.install_id = src->InstallID;
+  dest.order_submit_status = src->OrderSubmitStatus;
+  dest.notify_sequence = src->NotifySequence;
+  copy_field(dest.trading_day, src->TradingDay);
+  dest.settlement_id = src->SettlementID;
+  copy_field(dest.order_sys_id, src->OrderSysID);
+  dest.order_source = src->OrderSource;
+  dest.order_status = src->OrderStatus;
+  dest.order_type = src->OrderType;
   dest.volume_traded = src->VolumeTraded;
   dest.volume_total = src->VolumeTotal;
-  dest.front_id = src->FrontID;
-  dest.session_id = src->SessionID;
-  dest.order_status = src->OrderStatus;
-  dest.order_submit_status = src->OrderSubmitStatus;
-  copy_field(dest.status_msg, src->StatusMsg);
   copy_field(dest.insert_date, src->InsertDate);
   copy_field(dest.insert_time, src->InsertTime);
   copy_field(dest.active_time, src->ActiveTime);
   copy_field(dest.suspend_time, src->SuspendTime);
   copy_field(dest.update_time, src->UpdateTime);
   copy_field(dest.cancel_time, src->CancelTime);
+  copy_field(dest.active_trader_id, src->ActiveTraderID);
+  copy_field(dest.clearing_part_id, src->ClearingPartID);
+  dest.sequence_no = src->SequenceNo;
+  dest.front_id = src->FrontID;
+  dest.session_id = src->SessionID;
+  copy_field(dest.user_product_info, src->UserProductInfo);
+  copy_field(dest.status_msg, src->StatusMsg);
+  dest.user_force_close = src->UserForceClose;
+  copy_field(dest.active_user_id, src->ActiveUserID);
+  dest.broker_order_seq = src->BrokerOrderSeq;
+  copy_field(dest.relative_order_sys_id, src->RelativeOrderSysID);
+  dest.zce_total_traded_volume = src->ZCETotalTradedVolume;
+  dest.is_swap_order = src->IsSwapOrder;
+  copy_field(dest.branch_id, src->BranchID);
+  copy_field(dest.invest_unit_id, src->InvestUnitID);
+  copy_field(dest.account_id, src->AccountID);
+  copy_field(dest.currency_id, src->CurrencyID);
+  copy_field(dest.reserve3, src->reserve3);
+  copy_field(dest.mac_address, src->MacAddress);
+  copy_field(dest.instrument_id, src->InstrumentID);
+  copy_field(dest.exchange_inst_id, src->ExchangeInstID);
+  copy_field(dest.ip_address, src->IPAddress);
+  copy_field(dest.order_memo, src->OrderMemo);
+  dest.session_req_seq = src->SessionReqSeq;
 }
 
 void fill_trade(ctp_trade &dest, const CThostFtdcTradeField *src) {
@@ -310,20 +423,37 @@ void fill_trade(ctp_trade &dest, const CThostFtdcTradeField *src) {
   }
   copy_field(dest.broker_id, src->BrokerID);
   copy_field(dest.investor_id, src->InvestorID);
-  copy_field(dest.instrument_id, src->InstrumentID);
-  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.order_ref, src->OrderRef);
-  copy_field(dest.order_sys_id, src->OrderSysID);
-  copy_field(dest.trade_id, src->TradeID);
   copy_field(dest.user_id, src->UserID);
+  copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.trade_id, src->TradeID);
   dest.direction = src->Direction;
+  copy_field(dest.order_sys_id, src->OrderSysID);
+  copy_field(dest.participant_id, src->ParticipantID);
+  copy_field(dest.client_id, src->ClientID);
+  dest.trading_role = src->TradingRole;
+  copy_field(dest.reserve2, src->reserve2);
   dest.offset_flag = src->OffsetFlag;
   dest.hedge_flag = src->HedgeFlag;
   dest.price = src->Price;
   dest.volume = src->Volume;
   copy_field(dest.trade_date, src->TradeDate);
   copy_field(dest.trade_time, src->TradeTime);
+  dest.trade_type = src->TradeType;
+  dest.price_source = src->PriceSource;
+  copy_field(dest.trader_id, src->TraderID);
+  copy_field(dest.order_local_id, src->OrderLocalID);
+  copy_field(dest.clearing_part_id, src->ClearingPartID);
+  copy_field(dest.business_unit, src->BusinessUnit);
+  dest.sequence_no = src->SequenceNo;
   copy_field(dest.trading_day, src->TradingDay);
+  dest.settlement_id = src->SettlementID;
+  dest.broker_order_seq = src->BrokerOrderSeq;
+  dest.trade_source = src->TradeSource;
+  copy_field(dest.invest_unit_id, src->InvestUnitID);
+  copy_field(dest.instrument_id, src->InstrumentID);
+  copy_field(dest.exchange_inst_id, src->ExchangeInstID);
 }
 
 void fill_depth_market_data(ctp_depth_market_data &dest,
@@ -333,7 +463,9 @@ void fill_depth_market_data(ctp_depth_market_data &dest,
     return;
   }
   copy_field(dest.trading_day, src->TradingDay);
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.reserve2, src->reserve2);
   dest.last_price = src->LastPrice;
   dest.pre_settlement_price = src->PreSettlementPrice;
   dest.pre_close_price = src->PreClosePrice;
@@ -374,7 +506,7 @@ void fill_depth_market_data(ctp_depth_market_data &dest,
   dest.ask_volume5 = src->AskVolume5;
   dest.average_price = src->AveragePrice;
   copy_field(dest.action_day, src->ActionDay);
-  copy_field(dest.instrument_id, src->reserve1);
+  copy_field(dest.instrument_id, src->InstrumentID);
   copy_field(dest.exchange_inst_id, src->ExchangeInstID);
   dest.banding_upper_price = src->BandingUpperPrice;
   dest.banding_lower_price = src->BandingLowerPrice;
@@ -7245,6 +7377,7 @@ void fill_req_user_login(CThostFtdcReqUserLoginField &dest,
   copy_field(dest.ProtocolInfo, src.protocol_info);
   copy_field(dest.MacAddress, src.mac_address);
   copy_field(dest.OneTimePassword, src.one_time_password);
+  copy_field(dest.reserve1, src.reserve1);
   copy_field(dest.LoginRemark, src.login_remark);
   dest.ClientIPPort = src.client_ip_port;
   copy_field(dest.ClientIPAddress, src.client_ip_address);
@@ -7295,6 +7428,7 @@ void fill_qry_investor_position(CThostFtdcQryInvestorPositionField &dest,
   std::memset(&dest, 0, sizeof(dest));
   copy_field(dest.BrokerID, src.broker_id);
   copy_field(dest.InvestorID, src.investor_id);
+  copy_field(dest.reserve1, src.reserve1);
   copy_field(dest.ExchangeID, src.exchange_id);
   copy_field(dest.InvestUnitID, src.invest_unit_id);
   copy_field(dest.InstrumentID, src.instrument_id);
@@ -7306,6 +7440,7 @@ void fill_qry_instrument_margin_rate(
   std::memset(&dest, 0, sizeof(dest));
   copy_field(dest.BrokerID, src.broker_id);
   copy_field(dest.InvestorID, src.investor_id);
+  copy_field(dest.reserve1, src.reserve1);
   dest.HedgeFlag = src.hedge_flag;
   copy_field(dest.ExchangeID, src.exchange_id);
   copy_field(dest.InvestUnitID, src.invest_unit_id);
@@ -7316,6 +7451,7 @@ void fill_qry_exchange_margin_rate(CThostFtdcQryExchangeMarginRateField &dest,
                                    const ctp_qry_exchange_margin_rate &src) {
   std::memset(&dest, 0, sizeof(dest));
   copy_field(dest.BrokerID, src.broker_id);
+  copy_field(dest.reserve1, src.reserve1);
   dest.HedgeFlag = src.hedge_flag;
   copy_field(dest.ExchangeID, src.exchange_id);
   copy_field(dest.InstrumentID, src.instrument_id);
@@ -7327,6 +7463,7 @@ void fill_qry_instrument_commission_rate(
   std::memset(&dest, 0, sizeof(dest));
   copy_field(dest.BrokerID, src.broker_id);
   copy_field(dest.InvestorID, src.investor_id);
+  copy_field(dest.reserve1, src.reserve1);
   copy_field(dest.ExchangeID, src.exchange_id);
   copy_field(dest.InvestUnitID, src.invest_unit_id);
   copy_field(dest.InstrumentID, src.instrument_id);
@@ -7337,7 +7474,7 @@ void fill_input_order(CThostFtdcInputOrderField &dest,
   std::memset(&dest, 0, sizeof(dest));
   copy_field(dest.BrokerID, src.broker_id);
   copy_field(dest.InvestorID, src.investor_id);
-  copy_field(dest.InstrumentID, src.instrument_id);
+  copy_field(dest.reserve1, src.reserve1);
   copy_field(dest.OrderRef, src.order_ref);
   copy_field(dest.UserID, src.user_id);
   dest.OrderPriceType = src.order_price_type;
@@ -7363,9 +7500,12 @@ void fill_input_order(CThostFtdcInputOrderField &dest,
   copy_field(dest.AccountID, src.account_id);
   copy_field(dest.CurrencyID, src.currency_id);
   copy_field(dest.ClientID, src.client_id);
+  copy_field(dest.reserve2, src.reserve2);
   copy_field(dest.MacAddress, src.mac_address);
+  copy_field(dest.InstrumentID, src.instrument_id);
   copy_field(dest.IPAddress, src.ip_address);
   copy_field(dest.OrderMemo, src.order_memo);
+  dest.SessionReqSeq = src.session_req_seq;
 }
 
 void fill_input_order_action(CThostFtdcInputOrderActionField &dest,
@@ -7384,11 +7524,14 @@ void fill_input_order_action(CThostFtdcInputOrderActionField &dest,
   dest.LimitPrice = src.limit_price;
   dest.VolumeChange = src.volume_change;
   copy_field(dest.UserID, src.user_id);
+  copy_field(dest.reserve1, src.reserve1);
   copy_field(dest.InvestUnitID, src.invest_unit_id);
+  copy_field(dest.reserve2, src.reserve2);
   copy_field(dest.MacAddress, src.mac_address);
   copy_field(dest.InstrumentID, src.instrument_id);
   copy_field(dest.IPAddress, src.ip_address);
   copy_field(dest.OrderMemo, src.order_memo);
+  dest.SessionReqSeq = src.session_req_seq;
 }
 
 void fill_accountregister(CThostFtdcAccountregisterField &dest,

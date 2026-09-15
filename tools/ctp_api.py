@@ -20,7 +20,49 @@ from typing import Any, Iterable
 
 
 SDK_VERSION = "v6.7.13_20260225"
-GENERATOR_VERSION = 1
+GENERATOR_VERSION = 2
+
+MANUAL_INTEROP_SOURCES = (
+    "Ctp.Net/Bridge/Common.fs",
+    "Ctp.Net/Bridge/MdBridge.fs",
+    "Ctp.Net/Bridge/TraderBridge.fs",
+)
+GENERATED_INTEROP_SOURCE = "Ctp.Net/Bridge/GeneratedNativeStructs.fs"
+MANAGED_FIELD_ALIASES = {
+    # The public records historically used this descriptive name while the
+    # native SDK and C ABI call the field ExchangeRate.
+    "exchangerate": "exchangerateresponse",
+}
+
+
+def snake_case(value: str) -> str:
+    value = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", value)
+    value = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", value)
+    return value.lower()
+
+
+def compact_name(value: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", value.lower())
+
+
+def official_c_struct_name(official_name: str) -> str:
+    body = official_name.removeprefix("CThostFtdc").removesuffix("Field")
+    special = {
+        "QrySecAgentACIDMap": "qry_sec_agent_ac_id_map",
+        "SecAgentACIDMap": "sec_agent_ac_id_map",
+    }
+    return "ctp_" + special.get(body, snake_case(body))
+
+
+def official_c_field_name(official_name: str) -> str:
+    return snake_case(official_name)
+
+
+def native_type_name(c_name: str) -> str:
+    value = c_name.removeprefix("ctp_")
+    if value == "cfmmc_trading_account_token":
+        return "NativeCFMMCTradingAccountToken"
+    return "Native" + "".join(part[:1].upper() + part[1:] for part in value.split("_"))
 
 
 def walk(node: Any) -> Iterable[dict[str, Any]]:
@@ -256,6 +298,458 @@ def official_structs(sdk_dir: Path) -> list[dict[str, Any]]:
     return sorted(fallback, key=lambda item: item["name"])
 
 
+def official_field_by_c_name(official_struct: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    return {
+        compact_name(official_c_field_name(field["name"])): field
+        for field in official_struct["fields"]
+    }
+
+
+def c_decl_for_official_field(field: dict[str, Any]) -> str:
+    array_length = field.get("array_length")
+    if array_length is not None:
+        return f"char[{array_length}]"
+
+    desugared = field.get("desugared_type") or field.get("type", "")
+    desugared = re.sub(r"\s+", " ", desugared).strip()
+    if desugared == "double":
+        return "double"
+    if desugared in {"short", "short int"}:
+        return "int16_t"
+    if desugared in {"int", "signed int"}:
+        return "int32_t"
+    if desugared == "char":
+        return "char"
+    raise ValueError(
+        f"Unsupported native field type {desugared!r} for {field.get('name', '')}."
+    )
+
+
+def merge_official_abi_structs(
+    official_struct_list: list[dict[str, Any]], current_abi: dict[str, Any]
+) -> list[dict[str, Any]]:
+    current_by_name = {item["name"]: item for item in current_abi["structs"]}
+    merged = []
+
+    for official in official_struct_list:
+        c_name = official_c_struct_name(official["name"])
+        current = current_by_name.get(c_name)
+        current_fields = current.get("fields", []) if current else []
+        official_by_name = official_field_by_c_name(official)
+        current_matches: dict[str, dict[str, Any]] = {}
+        for current_field in current_fields:
+            key = compact_name(current_field["name"])
+            if key not in official_by_name:
+                raise ValueError(
+                    f"Current C ABI field {c_name}.{current_field['name']} is not present in "
+                    f"{official['name']}."
+                )
+            if key in current_matches:
+                raise ValueError(f"Duplicate C ABI field mapping in {c_name}: {current_field['name']}.")
+            current_matches[key] = current_field
+
+        fields = []
+        for current_field in current_fields:
+            official_field = official_by_name[compact_name(current_field["name"])]
+            fields.append(
+                {
+                    "name": current_field["name"],
+                    "type": c_decl_for_official_field(official_field),
+                    "desugared_type": c_decl_for_official_field(official_field),
+                    "array_length": official_field.get("array_length"),
+                }
+            )
+
+        for official_field in official["fields"]:
+            key = compact_name(official_c_field_name(official_field["name"]))
+            if key in current_matches:
+                continue
+            c_decl = c_decl_for_official_field(official_field)
+            fields.append(
+                {
+                    "name": official_c_field_name(official_field["name"]),
+                    "type": c_decl,
+                    "desugared_type": c_decl,
+                    "array_length": official_field.get("array_length"),
+                }
+            )
+
+        merged.append({"name": c_name, "fields": fields})
+
+    return sorted(merged, key=lambda item: item["name"])
+
+
+def render_c_abi_structs(structs: list[dict[str, Any]]) -> str:
+    lines = [
+        "/* Generated from the pinned CTP SDK. Do not hand-edit this block. */",
+        "",
+    ]
+    for item in structs:
+        lines.append(f"typedef struct {item['name']} {{")
+        for field in item["fields"]:
+            field_type = field["type"]
+            if field.get("array_length") is not None:
+                lines.append(f"  char {field['name']}[{field['array_length']}];")
+            else:
+                lines.append(f"  {field_type} {field['name']};")
+        lines.extend([f"}} {item['name']};", ""])
+    return "\n".join(lines)
+
+
+def rewrite_c_abi_header(repo_root: Path, official_struct_list: list[dict[str, Any]]) -> None:
+    header_path = repo_root / "NativeBridge" / "include" / "ctp_bridge.h"
+    source = header_path.read_text(encoding="utf-8")
+    current_abi = c_abi_inventory(repo_root)
+    merged = merge_official_abi_structs(official_struct_list, current_abi)
+
+    pattern = re.compile(
+        r"typedef\s+struct\s+(ctp_\w+)\s*\{.*?\}\s*\1\s*;\s*",
+        re.S,
+    )
+
+    def keep_spi(match: re.Match[str]) -> str:
+        return match.group(0) if match.group(1).endswith("_spi") else ""
+
+    source = pattern.sub(keep_spi, source)
+    source = re.sub(r"\nstruct\s+ctp_for_quote_rsp\s*;\s*\n", "\n", source)
+    marker = '#ifdef __cplusplus\nextern "C" {\n#endif\n'
+    if marker not in source:
+        raise ValueError(f"Could not find C ABI insertion marker in {header_path}.")
+    source = source.replace(marker, marker + "\n" + render_c_abi_structs(merged), 1)
+    header_path.write_text(source, encoding="utf-8")
+
+
+def fsharp_decl_for_c_field(field: dict[str, Any]) -> str:
+    if field.get("array_length") is not None:
+        return "byte array"
+    field_type = field.get("type", "")
+    if field_type == "double":
+        return "float"
+    if field_type == "int16_t":
+        return "int16"
+    if field_type == "int32_t":
+        return "int"
+    if field_type == "char":
+        return "byte"
+    raise ValueError(f"Unsupported C ABI field type {field_type!r} for {field['name']}.")
+
+
+def render_fsharp_field(field: dict[str, Any], name: str | None = None) -> list[str]:
+    field_name = name or "".join(part[:1].upper() + part[1:] for part in field["name"].split("_"))
+    lines = []
+    if field.get("array_length") is not None:
+        lines.extend(
+            [
+                f"    [<MarshalAs(UnmanagedType.ByValArray, SizeConst = {field['array_length']})>]",
+                "    [<DefaultValue>]",
+            ]
+        )
+    else:
+        lines.append("    [<DefaultValue>]")
+    lines.append(f"    val mutable {field_name}: {fsharp_decl_for_c_field(field)}")
+    return lines
+
+
+def manual_native_type_names(repo_root: Path) -> set[str]:
+    result = set()
+    for relative in MANUAL_INTEROP_SOURCES:
+        source = (repo_root / relative).read_text(encoding="utf-8")
+        result.update(re.findall(r"^type\s+(?:private|internal)\s+(Native\w+)\s*=", source, re.M))
+    return result
+
+
+def render_generated_fsharp_structs(
+    repo_root: Path, abi_structs: list[dict[str, Any]]
+) -> str:
+    manual_names = manual_native_type_names(repo_root)
+    lines = [
+        "namespace Ctp.Net.Next.Bridge",
+        "",
+        "open System.Runtime.InteropServices",
+        "",
+        "// Generated from NativeBridge/include/ctp_bridge.h and the pinned CTP SDK.",
+        "// Do not hand-edit this file; run tools/ctp_api.py generate.",
+        "",
+    ]
+    for item in abi_structs:
+        if item["name"].endswith("_spi"):
+            continue
+        name = native_type_name(item["name"])
+        if name in manual_names:
+            continue
+        lines.extend(["[<Struct; StructLayout(LayoutKind.Sequential)>]", f"type private {name} ="])
+        for field in item["fields"]:
+            lines.extend(render_fsharp_field(field))
+            lines.append("")
+        if lines[-1] == "":
+            lines.pop()
+        lines.append("")
+    return "\n".join(lines)
+
+
+def replace_struct_body(source: str, type_name: str, body: str) -> str:
+    pattern = re.compile(
+        rf"(?ms)^(?P<prefix>\[<Struct; StructLayout\(LayoutKind\.Sequential\)>\]\n"
+        rf"type\s+(?:private|internal)\s+{re.escape(type_name)}\s*=\n)"
+        rf"(?P<body>.*?)(?=^\[<|^type\s|\Z)"
+    )
+    match = pattern.search(source)
+    if not match:
+        raise ValueError(f"Could not find managed native struct {type_name}.")
+    return source[: match.start()] + match.group("prefix") + body + source[match.end() :]
+
+
+def update_existing_fsharp_structs(
+    repo_root: Path, abi_structs: list[dict[str, Any]]
+) -> None:
+    abi_by_native_name = {
+        native_type_name(item["name"]): item
+        for item in abi_structs
+        if not item["name"].endswith("_spi")
+    }
+    # The MD and trader bridge keep separate native declarations for the same
+    # callback payload. Both must track the one C ABI layout.
+    if "ctp_depth_market_data" in {item["name"] for item in abi_structs}:
+        depth = next(item for item in abi_structs if item["name"] == "ctp_depth_market_data")
+        abi_by_native_name["NativeTraderDepthMarketData"] = depth
+    for relative in MANUAL_INTEROP_SOURCES:
+        path = repo_root / relative
+        source = path.read_text(encoding="utf-8")
+        for native_name, abi in abi_by_native_name.items():
+            pattern = re.compile(
+                rf"(?ms)^(?P<prefix>\[<Struct; StructLayout\(LayoutKind\.Sequential\)>\]\n"
+                rf"type\s+(?:private|internal)\s+{re.escape(native_name)}\s*=\n)"
+                rf"(?P<body>.*?)(?=^\[<|^type\s|\Z)"
+            )
+            match = pattern.search(source)
+            if not match:
+                continue
+            body = match.group("body")
+            existing_names = set(re.findall(r"val mutable\s+(\w+)\s*:", body))
+            existing_by_compact = {compact_name(name): name for name in existing_names}
+
+            for field in abi["fields"]:
+                expected_name = "".join(part[:1].upper() + part[1:] for part in field["name"].split("_"))
+                current_name = existing_by_compact.get(compact_name(field["name"]))
+                if current_name is None:
+                    current_name = existing_by_compact.get(
+                        MANAGED_FIELD_ALIASES.get(compact_name(field["name"]), "")
+                    )
+                if current_name is not None and field.get("array_length") is not None:
+                    field_pattern = re.compile(
+                        rf"(?P<attrs>(?:^[ \t]*\[<[^\n]+>\][ \t]*\n)*)"
+                        rf"^[ \t]*val mutable {re.escape(current_name)}\s*:\s*byte array",
+                        re.M,
+                    )
+                    field_match = field_pattern.search(body)
+                    if field_match:
+                        attrs = re.sub(
+                            r"SizeConst\s*=\s*\d+",
+                            f"SizeConst = {field['array_length']}",
+                            field_match.group("attrs"),
+                        )
+                        body = body[: field_match.start("attrs")] + attrs + body[field_match.end("attrs") :]
+                    continue
+                if current_name is not None:
+                    continue
+                addition = "\n" + "\n".join(render_fsharp_field(field, expected_name)) + "\n"
+                body = body.rstrip() + addition
+                existing_by_compact[compact_name(field["name"])] = expected_name
+
+            source = source[: match.start()] + match.group("prefix") + body + source[match.end() :]
+        path.write_text(source, encoding="utf-8")
+
+
+def render_cpp_copy_body(
+    official_struct: dict[str, Any], c_abi_struct: dict[str, Any], direction: str
+) -> str:
+    c_fields = {compact_name(field["name"]): field for field in c_abi_struct["fields"]}
+    lines = ["{", "  std::memset(&dest, 0, sizeof(dest));"]
+    if direction == "from_native":
+        lines.append("  if (src == nullptr) {")
+        lines.append("    return;")
+        lines.append("  }")
+
+    for official_field in official_struct["fields"]:
+        key = compact_name(official_c_field_name(official_field["name"]))
+        c_field = c_fields[key]
+        if official_field.get("array_length") is not None:
+            if direction == "from_native":
+                lines.append(f"  copy_field(dest.{c_field['name']}, src->{official_field['name']});")
+            else:
+                lines.append(f"  copy_field(dest.{official_field['name']}, src.{c_field['name']});")
+        elif direction == "from_native":
+            lines.append(f"  dest.{c_field['name']} = src->{official_field['name']};")
+        else:
+            lines.append(f"  dest.{official_field['name']} = src.{c_field['name']};")
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def replace_cpp_function_body(
+    source: str, function_name: str, body: str, occurrence: int = 0
+) -> str:
+    signatures = list(re.finditer(rf"\bvoid\s+{re.escape(function_name)}\s*\(", source))
+    if occurrence >= len(signatures):
+        raise ValueError(
+            f"Could not find C++ function {function_name} occurrence {occurrence}."
+        )
+    signature = signatures[occurrence]
+    if signature is None:
+        raise ValueError(f"Could not find C++ function {function_name}.")
+    opening = source.find("{", signature.end())
+    if opening < 0:
+        raise ValueError(f"Could not find C++ body for {function_name}.")
+    depth = 0
+    closing = None
+    for index in range(opening, len(source)):
+        if source[index] == "{":
+            depth += 1
+        elif source[index] == "}":
+            depth -= 1
+            if depth == 0:
+                closing = index
+                break
+    if closing is None:
+        raise ValueError(f"Could not balance C++ body for {function_name}.")
+    return source[:opening] + body + source[closing + 1 :]
+
+
+def update_cpp_copy_functions(repo_root: Path, sdk_dir: Path, abi_structs: list[dict[str, Any]]) -> None:
+    official = {item["name"]: item for item in official_structs(sdk_dir)}
+    abi = {item["name"]: item for item in abi_structs}
+    md_specs = [
+        ("fill_specific_instrument", "CThostFtdcSpecificInstrumentField", "ctp_specific_instrument", "from_native", 0),
+        ("fill_multicast_instrument", "CThostFtdcMulticastInstrumentField", "ctp_multicast_instrument", "from_native", 0),
+        ("fill_depth_market_data", "CThostFtdcDepthMarketDataField", "ctp_depth_market_data", "from_native", 0),
+        ("fill_req_user_login", "CThostFtdcReqUserLoginField", "ctp_req_user_login", "to_native", 0),
+    ]
+    trader_specs = [
+        ("fill_trading_account", "CThostFtdcTradingAccountField", "ctp_trading_account", "from_native", 0),
+        ("fill_investor_position", "CThostFtdcInvestorPositionField", "ctp_investor_position", "from_native", 0),
+        ("fill_input_order", "CThostFtdcInputOrderField", "ctp_input_order", "from_native", 0),
+        ("fill_input_order_action", "CThostFtdcInputOrderActionField", "ctp_input_order_action", "from_native", 0),
+        ("fill_order", "CThostFtdcOrderField", "ctp_order", "from_native", 0),
+        ("fill_trade", "CThostFtdcTradeField", "ctp_trade", "from_native", 0),
+        ("fill_depth_market_data", "CThostFtdcDepthMarketDataField", "ctp_depth_market_data", "from_native", 0),
+        ("fill_req_user_login", "CThostFtdcReqUserLoginField", "ctp_req_user_login", "to_native", 0),
+        ("fill_qry_investor_position", "CThostFtdcQryInvestorPositionField", "ctp_qry_investor_position", "to_native", 0),
+        ("fill_qry_instrument_margin_rate", "CThostFtdcQryInstrumentMarginRateField", "ctp_qry_instrument_margin_rate", "to_native", 0),
+        ("fill_qry_exchange_margin_rate", "CThostFtdcQryExchangeMarginRateField", "ctp_qry_exchange_margin_rate", "to_native", 0),
+        ("fill_qry_instrument_commission_rate", "CThostFtdcQryInstrumentCommissionRateField", "ctp_qry_instrument_commission_rate", "to_native", 0),
+        ("fill_input_order", "CThostFtdcInputOrderField", "ctp_input_order", "to_native", 1),
+        ("fill_input_order_action", "CThostFtdcInputOrderActionField", "ctp_input_order_action", "to_native", 1),
+    ]
+
+    for relative, specs in (
+        ("NativeBridge/src/md_bridge.cpp", md_specs),
+        ("NativeBridge/src/trader_bridge.cpp", trader_specs),
+    ):
+        path = repo_root / relative
+        source = path.read_text(encoding="utf-8")
+        for function_name, official_name, c_name, direction, occurrence in specs:
+            source = replace_cpp_function_body(
+                source,
+                function_name,
+                render_cpp_copy_body(official[official_name], abi[c_name], direction),
+                occurrence,
+            )
+        path.write_text(source, encoding="utf-8")
+
+
+def validate_cpp_copy_coverage(
+    repo_root: Path, sdk_dir: Path, abi_structs: list[dict[str, Any]]
+) -> None:
+    """Ensure every field of each implemented C++ copy helper is transferred."""
+
+    official_by_c_name = {
+        official_c_struct_name(item["name"]): item for item in official_structs(sdk_dir)
+    }
+    abi_by_name = {item["name"]: item for item in abi_structs}
+    errors = []
+
+    for relative in ("NativeBridge/src/md_bridge.cpp", "NativeBridge/src/trader_bridge.cpp"):
+        source = (repo_root / relative).read_text(encoding="utf-8")
+        for match in re.finditer(r"\bvoid\s+(fill_\w+)\s*\(", source):
+            opening = source.find("{", match.end())
+            if opening < 0:
+                continue
+
+            depth = 0
+            closing = None
+            for index in range(opening, len(source)):
+                if source[index] == "{":
+                    depth += 1
+                elif source[index] == "}":
+                    depth -= 1
+                    if depth == 0:
+                        closing = index
+                        break
+
+            if closing is None:
+                continue
+
+            signature = source[match.start() : opening]
+            body = source[opening : closing + 1]
+            c_match = re.search(r"\b(ctp_\w+)\s*[*&]?\s*(dest|src)\b", signature)
+            official_match = re.search(r"\bCThostFtdc(\w+)Field\b", signature)
+            if c_match is None or official_match is None:
+                continue
+
+            c_name = c_match.group(1)
+            c_variable = c_match.group(2)
+            official_name = f"CThostFtdc{official_match.group(1)}Field"
+            if c_name not in official_by_c_name:
+                errors.append(f"{relative}:{match.group(1)} uses unknown C ABI structure {c_name}")
+                continue
+            if c_name not in abi_by_name:
+                errors.append(f"{relative}:{match.group(1)} has no C ABI structure {c_name}")
+                continue
+
+            expected_c_name = official_c_struct_name(official_name)
+            if expected_c_name != c_name:
+                errors.append(
+                    f"{relative}:{match.group(1)} maps {official_name} to {c_name}, "
+                    f"expected {expected_c_name}"
+                )
+                continue
+
+            native_variable = "src" if c_variable == "dest" else "dest"
+            native_operator = "->" if c_variable == "dest" else "."
+            c_operator = "." if c_variable == "dest" else "."
+            official_fields = {
+                compact_name(official_c_field_name(field["name"])): field
+                for field in official_by_c_name[c_name]["fields"]
+            }
+            for field in abi_by_name[c_name]["fields"]:
+                field_name = field["name"]
+                official_field = official_fields[compact_name(field_name)]
+                c_reference = rf"\b{c_variable}{c_operator}{re.escape(field_name)}\b"
+                native_reference = rf"\b{native_variable}{native_operator}{re.escape(official_field['name'])}\b"
+                if not re.search(c_reference, body):
+                    errors.append(
+                        f"{relative}:{match.group(1)} does not copy {c_name}.{field_name}"
+                    )
+                if not re.search(native_reference, body):
+                    errors.append(
+                        f"{relative}:{match.group(1)} does not read {official_name}.{official_field['name']}"
+                    )
+
+    if errors:
+        raise SystemExit("C++ field-copy coverage drift:\n" + "\n".join(errors))
+
+
+def complete_generated_surfaces(repo_root: Path, sdk_dir: Path) -> None:
+    official_struct_list = official_structs(sdk_dir)
+    current_abi = c_abi_inventory(repo_root)
+    merged = merge_official_abi_structs(official_struct_list, current_abi)
+    rewrite_c_abi_header(repo_root, official_struct_list)
+    update_existing_fsharp_structs(repo_root, merged)
+    generated_path = repo_root / GENERATED_INTEROP_SOURCE
+    generated_path.write_text(render_generated_fsharp_structs(repo_root, merged), encoding="utf-8")
+    update_cpp_copy_functions(repo_root, sdk_dir, merged)
+
+
 def ctp_constants(sdk_dir: Path) -> list[dict[str, str]]:
     header = sdk_dir / "reference" / "ThostFtdcUserApiDataType.h"
     source = header.read_text(encoding="utf-8", errors="replace")
@@ -392,6 +886,7 @@ def managed_inventory(repo_root: Path) -> dict[str, Any]:
             "Ctp.Net/Bridge/Common.fs",
             "Ctp.Net/Bridge/MdBridge.fs",
             "Ctp.Net/Bridge/TraderBridge.fs",
+            GENERATED_INTEROP_SOURCE,
         )
     }
 
@@ -640,6 +1135,8 @@ def abi_probe_source(manifest: dict[str, Any]) -> str:
 
 
 def generate(repo_root: Path, sdk_root: Path, version: str, output_dir: Path) -> None:
+    sdk_dir = resolve_sdk(sdk_root, version)
+    complete_generated_surfaces(repo_root, sdk_dir)
     manifest = build_manifest(repo_root, sdk_root, version)
     write_json(output_dir / "ctp-api-manifest.json", manifest)
     write_json(
@@ -663,6 +1160,51 @@ def generate(repo_root: Path, sdk_root: Path, version: str, output_dir: Path) ->
     probe_path.write_text(abi_probe_source(manifest), encoding="utf-8")
 
 
+def validate_official_abi_coverage(
+    official_struct_list: list[dict[str, Any]], c_abi: dict[str, Any]
+) -> None:
+    official_by_c_name = {
+        official_c_struct_name(item["name"]): item for item in official_struct_list
+    }
+    c_abi_by_name = {item["name"]: item for item in c_abi["structs"]}
+    missing_structs = sorted(set(official_by_c_name) - set(c_abi_by_name))
+    if missing_structs:
+        raise SystemExit(f"Official C ABI structures are missing: {missing_structs}")
+
+    unexpected_structs = sorted(
+        set(c_abi_by_name) - set(official_by_c_name) - {"ctp_md_spi", "ctp_trader_spi"}
+    )
+    if unexpected_structs:
+        raise SystemExit(f"C ABI has structures without an official SDK source: {unexpected_structs}")
+
+    field_errors = []
+    for c_name, official in official_by_c_name.items():
+        actual_fields = c_abi_by_name[c_name]["fields"]
+        actual_by_name = {compact_name(field["name"]): field for field in actual_fields}
+        expected_keys = {compact_name(official_c_field_name(field["name"])) for field in official["fields"]}
+        missing_fields = sorted(expected_keys - set(actual_by_name))
+        extra_fields = sorted(set(actual_by_name) - expected_keys)
+        if missing_fields or extra_fields:
+            field_errors.append(
+                f"{c_name}: missing={missing_fields}, extra={extra_fields}"
+            )
+            continue
+        for official_field in official["fields"]:
+            key = compact_name(official_c_field_name(official_field["name"]))
+            actual_field = actual_by_name[key]
+            expected_type = c_decl_for_official_field(official_field)
+            if (
+                actual_field.get("array_length") != official_field.get("array_length")
+                or actual_field.get("type") != expected_type
+            ):
+                field_errors.append(
+                    f"{c_name}.{official_field['name']}: expected={expected_type}[{official_field.get('array_length')}], "
+                    f"actual={actual_field.get('type')}[{actual_field.get('array_length')}]"
+                )
+    if field_errors:
+        raise SystemExit("Official C ABI field coverage/type drift:\n" + "\n".join(field_errors))
+
+
 def check(repo_root: Path, sdk_root: Path, version: str, output_dir: Path) -> None:
     manifest_path = output_dir / "ctp-api-manifest.json"
     if not manifest_path.exists():
@@ -670,6 +1212,10 @@ def check(repo_root: Path, sdk_root: Path, version: str, output_dir: Path) -> No
 
     expected = build_manifest(repo_root, sdk_root, version)
     actual = json.loads(manifest_path.read_text(encoding="utf-8"))
+    validate_official_abi_coverage(expected["official_structs"], expected["c_abi"])
+    validate_cpp_copy_coverage(
+        repo_root, resolve_sdk(sdk_root, version), expected["c_abi"]["structs"]
+    )
     if api_signature(expected["official"]) != api_signature(actual.get("official", {})):
         raise SystemExit("Manifest drift in section 'official'. Run tools/ctp_api.py generate.")
 

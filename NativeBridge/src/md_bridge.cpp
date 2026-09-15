@@ -32,6 +32,7 @@ void fill_specific_instrument(ctp_specific_instrument& dest, const CThostFtdcSpe
   if (src == nullptr) {
     return;
   }
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.instrument_id, src->InstrumentID);
 }
 
@@ -42,6 +43,7 @@ void fill_multicast_instrument(ctp_multicast_instrument& dest,
     return;
   }
   dest.topic_id = src->TopicID;
+  copy_field(dest.reserve1, src->reserve1);
   dest.instrument_no = src->InstrumentNo;
   dest.code_price = src->CodePrice;
   dest.volume_multiple = src->VolumeMultiple;
@@ -113,7 +115,9 @@ void fill_depth_market_data(ctp_depth_market_data& dest, const CThostFtdcDepthMa
     return;
   }
   copy_field(dest.trading_day, src->TradingDay);
+  copy_field(dest.reserve1, src->reserve1);
   copy_field(dest.exchange_id, src->ExchangeID);
+  copy_field(dest.reserve2, src->reserve2);
   dest.last_price = src->LastPrice;
   dest.pre_settlement_price = src->PreSettlementPrice;
   dest.pre_close_price = src->PreClosePrice;
@@ -334,6 +338,7 @@ void fill_req_user_login(CThostFtdcReqUserLoginField& dest, const ctp_req_user_l
   copy_field(dest.ProtocolInfo, src.protocol_info);
   copy_field(dest.MacAddress, src.mac_address);
   copy_field(dest.OneTimePassword, src.one_time_password);
+  copy_field(dest.reserve1, src.reserve1);
   copy_field(dest.LoginRemark, src.login_remark);
   dest.ClientIPPort = src.client_ip_port;
   copy_field(dest.ClientIPAddress, src.client_ip_address);

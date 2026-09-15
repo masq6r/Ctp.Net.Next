@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -19,6 +20,24 @@ def native_type_name(c_name: str) -> str:
     if value == "cfmmc_trading_account_token":
         return "NativeCFMMCTradingAccountToken"
     return "Native" + pascal_case(value)
+
+
+def compact_name(value: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", value.lower())
+
+
+def managed_field_key(value: str) -> str:
+    aliases = {"exchangerateresponse": "exchangerate"}
+    return aliases.get(compact_name(value), compact_name(value))
+
+
+MANAGED_TYPE_ALIASES = {
+    # These payloads have separate declarations in the MD and Trader bridge
+    # files but share one C ABI structure and therefore one required layout.
+    "ctp_depth_market_data": ["NativeTraderDepthMarketData"],
+    "ctp_fens_user_info": ["NativeMdFensUserInfo"],
+    "ctp_for_quote_rsp": ["NativeMdForQuoteRsp"],
+}
 
 
 def read_probe(probe_path: Path) -> dict:
@@ -45,7 +64,16 @@ for name in typeNames do
     let typeInfo = assembly.GetType("Ctp.Net.Next.Bridge." + name, true)
     let fields = typeInfo.GetFields(flags)
     let offsets = fields |> Seq.map (fun field -> Marshal.OffsetOf(typeInfo, field.Name).ToInt64())
-    printfn "%s\\t%d\\t%s" name (Marshal.SizeOf(typeInfo)) (String.Join(",", offsets))
+    let descriptors =
+        fields
+        |> Seq.map (fun field ->
+            let marshal =
+                field.GetCustomAttributes(typeof<MarshalAsAttribute>, false)
+                |> Array.tryHead
+                |> Option.map (fun value -> (value :?> MarshalAsAttribute).SizeConst)
+                |> Option.defaultValue -1
+            String.Format("{{0}}:{{1}}:{{2}}", field.Name, marshal, field.FieldType.FullName))
+    printfn "%s\\t%d\\t%s\\t%s" name (Marshal.SizeOf(typeInfo)) (String.Join(",", offsets)) (String.Join("|", descriptors))
 '''
     with tempfile.NamedTemporaryFile("w", suffix=".fsx", encoding="utf-8") as script_file:
         script_file.write(script)
@@ -62,12 +90,24 @@ for name in typeNames do
     result = {}
     for line in completed.stdout.splitlines():
         parts = line.split("\t")
-        if len(parts) != 3:
+        if len(parts) != 4:
             continue
         offsets = [] if not parts[2] else [int(value) for value in parts[2].split(",")]
+        fields = []
+        if parts[3]:
+            for descriptor in parts[3].split("|"):
+                field_name, array_length, field_type = descriptor.split(":", 2)
+                fields.append(
+                    {
+                        "name": field_name,
+                        "array_length": int(array_length),
+                        "type": field_type,
+                    }
+                )
         result[parts[0]] = {
             "size": int(parts[1]),
             "offsets": offsets,
+            "fields": fields,
         }
     return result
 
@@ -109,7 +149,10 @@ def main() -> int:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     expected_probe = read_probe(probe_path)
     c_abi = {item["name"]: item for item in manifest["c_abi"]["structs"]}
-    type_names = [native_type_name(name) for name in sorted(c_abi)]
+    type_names = []
+    for name in sorted(c_abi):
+        type_names.append(native_type_name(name))
+        type_names.extend(MANAGED_TYPE_ALIASES.get(name, []))
     managed = compiled_layouts(assembly_path, type_names)
 
     missing = sorted(set(type_names) - set(managed))
@@ -118,20 +161,67 @@ def main() -> int:
 
     probe_by_name = {item["name"]: item for item in expected_probe["structs"]}
     for c_name in sorted(c_abi):
-        fsharp_name = native_type_name(c_name)
         native = probe_by_name[c_name]
-        managed_layout = managed[fsharp_name]
-        native_offsets = [field["offset"] for field in native["fields"]]
-        if managed_layout["size"] != native["size"]:
-            raise SystemExit(
-                f"Size drift for {c_name}/{fsharp_name}: "
-                f"native={native['size']} managed={managed_layout['size']}"
-            )
-        if managed_layout["offsets"] != native_offsets:
-            raise SystemExit(
-                f"Offset drift for {c_name}/{fsharp_name}: "
-                f"native={native_offsets} managed={managed_layout['offsets']}"
-            )
+        expected_fields = c_abi[c_name]["fields"]
+        for fsharp_name in [native_type_name(c_name), *MANAGED_TYPE_ALIASES.get(c_name, [])]:
+            managed_layout = managed[fsharp_name]
+            native_offsets = [field["offset"] for field in native["fields"]]
+            if managed_layout["size"] != native["size"]:
+                raise SystemExit(
+                    f"Size drift for {c_name}/{fsharp_name}: "
+                    f"native={native['size']} managed={managed_layout['size']}"
+                )
+            if managed_layout["offsets"] != native_offsets:
+                raise SystemExit(
+                    f"Offset drift for {c_name}/{fsharp_name}: "
+                    f"native={native_offsets} managed={managed_layout['offsets']}"
+                )
+
+            managed_fields = managed_layout["fields"]
+            if len(managed_fields) != len(expected_fields):
+                raise SystemExit(
+                    f"Field count drift for {c_name}/{fsharp_name}: "
+                    f"native={len(expected_fields)} managed={len(managed_fields)}"
+                )
+
+            # Callback tables use deliberately different naming conventions
+            # (on_rsp_* in C versus OnRsp* in F#), so their layout is checked by
+            # size, field count, and offsets only.
+            if c_name.endswith("_spi"):
+                continue
+
+            for expected, actual in zip(expected_fields, managed_fields):
+                if compact_name(expected["name"]) != managed_field_key(actual["name"]):
+                    raise SystemExit(
+                        f"Field name drift for {c_name}/{fsharp_name}: "
+                        f"native={expected['name']} managed={actual['name']}"
+                    )
+
+                expected_array_length = expected.get("array_length")
+                actual_array_length = actual["array_length"] if actual["array_length"] >= 0 else None
+                if expected_array_length != actual_array_length:
+                    raise SystemExit(
+                        f"Field array capacity drift for {c_name}.{expected['name']}/{fsharp_name}.{actual['name']}: "
+                        f"native={expected_array_length} managed={actual_array_length}"
+                    )
+
+                if expected_array_length is not None:
+                    expected_type = "System.Byte[]"
+                elif expected.get("type") == "char":
+                    expected_type = "System.Byte"
+                elif expected.get("type") == "int32_t":
+                    expected_type = "System.Int32"
+                elif expected.get("type") == "int16_t":
+                    expected_type = "System.Int16"
+                elif expected.get("type") == "double":
+                    expected_type = "System.Double"
+                else:
+                    expected_type = None
+                if expected_type is not None and actual["type"] != expected_type:
+                    raise SystemExit(
+                        f"Field type drift for {c_name}.{expected['name']}/{fsharp_name}.{actual['name']}: "
+                        f"native={expected_type} managed={actual['type']}"
+                    )
 
     print(f"managed ABI ok: {len(c_abi)} C ABI structs match F# interop layouts")
     return 0
