@@ -1,4 +1,4 @@
-namespace Ctp.Net.Next.Bridge
+namespace Ctp.Net.Bridge
 
 open System.Runtime.InteropServices
 

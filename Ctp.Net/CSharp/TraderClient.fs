@@ -1,15 +1,15 @@
-namespace Ctp.Net.Next.CSharp
+namespace Ctp.Net.CSharp
 
 open System
 open System.Runtime.InteropServices
 open System.Threading
 open System.Threading.Tasks
 open System.Collections.Generic
-open Ctp.Net.Next
-open Ctp.Net.Next.Bridge
+open Ctp.Net
+open Ctp.Net.Bridge
 open Microsoft.Extensions.Logging
 
-type TraderClient private (inner: Ctp.Net.Next.TraderClient) =
+type TraderClient private (inner: Ctp.Net.TraderClient) =
 
     let frontConnectedEvent = Event<EventHandler, EventArgs>()
     let frontDisconnectedEvent = Event<EventHandler<int>, int>()
@@ -214,14 +214,14 @@ type TraderClient private (inner: Ctp.Net.Next.TraderClient) =
         projectCommandResponse inner.SpdApplyResponseReceived spdApplyResponseEvent
         projectCommandResponse inner.SpdApplyActionResponseReceived spdApplyActionResponseEvent
 
-    new(options: CtpOptions) = new TraderClient(new Ctp.Net.Next.TraderClient(options))
+    new(options: CtpOptions) = new TraderClient(new Ctp.Net.TraderClient(options))
 
     new(configuration: TraderClientOptions) =
         if isNull (box configuration) then
             nullArg (nameof configuration)
 
         new TraderClient(
-            new Ctp.Net.Next.TraderClient(
+            new Ctp.Net.TraderClient(
                 configuration.Options,
                 ?encodings = CSharpHelpers.valueToOption configuration.Encodings,
                 ?privateTopicResumeType = CSharpHelpers.nullableToOption configuration.PrivateTopicResumeType,
@@ -234,7 +234,7 @@ type TraderClient private (inner: Ctp.Net.Next.TraderClient) =
         )
 
     new(options: CtpOptions, endpoint: CtpEndpoint) =
-        new TraderClient(new Ctp.Net.Next.TraderClient(options, ?endpoint = Some endpoint))
+        new TraderClient(new Ctp.Net.TraderClient(options, ?endpoint = Some endpoint))
 
     new
         (
@@ -250,7 +250,7 @@ type TraderClient private (inner: Ctp.Net.Next.TraderClient) =
         let nullToOpt (v: 'T) = if obj.ReferenceEquals(box v, null) then None else Some v
 
         new TraderClient(
-            new Ctp.Net.Next.TraderClient(
+            new Ctp.Net.TraderClient(
                 options,
                 ?encodings = nullToOpt encodings,
                 ?privateTopicResumeType = CSharpHelpers.nullableToOption privateTopicResumeType,

@@ -463,7 +463,7 @@ def render_generated_fsharp_structs(
 ) -> str:
     manual_names = manual_native_type_names(repo_root)
     lines = [
-        "namespace Ctp.Net.Next.Bridge",
+        "namespace Ctp.Net.Bridge",
         "",
         "open System.Runtime.InteropServices",
         "",

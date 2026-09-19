@@ -1,8 +1,8 @@
 #r "nuget: Ctp.Net.Next"
 
 open System
-open Ctp.Net.Next
-open Ctp.Net.Next.Bridge
+open Ctp.Net
+open Ctp.Net.Bridge
 
 let ctpOpt =
     CtpOptions.Create(

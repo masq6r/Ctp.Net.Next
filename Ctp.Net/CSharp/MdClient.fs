@@ -1,15 +1,15 @@
-namespace Ctp.Net.Next.CSharp
+namespace Ctp.Net.CSharp
 
 open System
 open System.Runtime.InteropServices
 open System.Threading
 open System.Threading.Tasks
 open System.Collections.Generic
-open Ctp.Net.Next
-open Ctp.Net.Next.Bridge
+open Ctp.Net
+open Ctp.Net.Bridge
 open Microsoft.Extensions.Logging
 
-type MdClient private (inner: Ctp.Net.Next.MdClient) =
+type MdClient private (inner: Ctp.Net.MdClient) =
 
     let frontConnectedEvent = Event<EventHandler, EventArgs>()
     let frontDisconnectedEvent = Event<EventHandler<int>, int>()
@@ -29,14 +29,14 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
         inner.ForQuoteRspReceived.Add(fun i -> forQuoteRspEvent.Trigger(null, i))
 
     new(options: CtpOptions, [<Optional; DefaultParameterValue(true)>] autoResubscribe: bool) =
-        new MdClient(new Ctp.Net.Next.MdClient(options, ?autoResubscribe = Some autoResubscribe))
+        new MdClient(new Ctp.Net.MdClient(options, ?autoResubscribe = Some autoResubscribe))
 
     new(configuration: MdClientOptions) =
         if isNull (box configuration) then
             nullArg (nameof configuration)
 
         new MdClient(
-            new Ctp.Net.Next.MdClient(
+            new Ctp.Net.MdClient(
                 configuration.Options,
                 ?encodings = CSharpHelpers.valueToOption configuration.Encodings,
                 ?useUdp = Some configuration.UseUdp,
@@ -49,7 +49,7 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
         )
 
     new(options: CtpOptions, endpoint: CtpEndpoint) =
-        new MdClient(new Ctp.Net.Next.MdClient(options, ?endpoint = Some endpoint))
+        new MdClient(new Ctp.Net.MdClient(options, ?endpoint = Some endpoint))
 
     new
         (
@@ -65,7 +65,7 @@ type MdClient private (inner: Ctp.Net.Next.MdClient) =
         let nullToOpt (v: 'T) = if obj.ReferenceEquals(box v, null) then None else Some v
 
         new MdClient(
-            new Ctp.Net.Next.MdClient(
+            new Ctp.Net.MdClient(
                 options,
                 ?encodings = nullToOpt encodings,
                 ?useUdp = (if useUdp then Some useUdp else None),

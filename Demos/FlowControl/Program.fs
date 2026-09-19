@@ -1,8 +1,8 @@
-open Ctp.Net.Next
+open Ctp.Net
 open System
 open System.IO
 open FSharpPlus
-open Ctp.Net.Next.Bridge
+open Ctp.Net.Bridge
 open System.Text.Json
 open System.Threading.Tasks
 

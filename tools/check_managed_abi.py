@@ -61,7 +61,7 @@ let flags = BindingFlags.Instance ||| BindingFlags.Public ||| BindingFlags.NonPu
 let typeNames = [ {type_literals} ]
 
 for name in typeNames do
-    let typeInfo = assembly.GetType("Ctp.Net.Next.Bridge." + name, true)
+    let typeInfo = assembly.GetType("Ctp.Net.Bridge." + name, true)
     let fields = typeInfo.GetFields(flags)
     let offsets = fields |> Seq.map (fun field -> Marshal.OffsetOf(typeInfo, field.Name).ToInt64())
     let descriptors =

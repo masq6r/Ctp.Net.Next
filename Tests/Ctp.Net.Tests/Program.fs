@@ -1,11 +1,11 @@
-namespace Ctp.Net.Next.Tests
+namespace Ctp.Net.Tests
 
 open Xunit
 open System
-open Ctp.Net.Next
+open Ctp.Net
 open System.Text
-open Ctp.Net.Next.Bridge
-open Ctp.Net.Next.CSharp
+open Ctp.Net.Bridge
+open Ctp.Net.CSharp
 open System.Threading
 open System.Threading.Tasks
 open System.Collections.Generic
@@ -190,7 +190,7 @@ type TraderBridgeGeneratedTests() =
         let zeroIndex = bytes |> Array.tryFindIndex ((=) 0uy) |> Option.defaultValue bytes.Length
         Encoding.UTF8.GetString(bytes, 0, zeroIndex)
 
-    let generatedType = getType "Ctp.Net.Next.Bridge.TraderBridgeGenerated"
+    let generatedType = getType "Ctp.Net.Bridge.TraderBridgeGenerated"
 
     let mapNativeAs recordType nativeTypeName (native: obj) =
         let nativeType = getType nativeTypeName
@@ -199,7 +199,7 @@ type TraderBridgeGeneratedTests() =
         mapNative.MakeGenericMethod(recordType, nativeType).Invoke(null, [| Encoding.UTF8; native |])
 
     let mapNativeRecord recordType nativeTypeName fields: obj =
-        let qualifiedNativeTypeName = $"Ctp.Net.Next.Bridge.{nativeTypeName}"
+        let qualifiedNativeTypeName = $"Ctp.Net.Bridge.{nativeTypeName}"
         let nativeType = getType qualifiedNativeTypeName
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
@@ -215,7 +215,7 @@ type TraderBridgeGeneratedTests() =
         buildNative.MakeGenericMethod(recordType, nativeType).Invoke(null, [| Encoding.UTF8; record |])
 
     let mapInstrument fields =
-        let nativeType = getType "Ctp.Net.Next.Bridge.NativeInstrument"
+        let nativeType = getType "Ctp.Net.Bridge.NativeInstrument"
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
 
@@ -223,11 +223,11 @@ type TraderBridgeGeneratedTests() =
             let field = nativeType.GetField(name, flags)
             field.SetValue(native, byte value)
 
-        mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Next.Bridge.NativeInstrument" native :?> InstrumentResponse
+        mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Bridge.NativeInstrument" native :?> InstrumentResponse
 
     [<Fact>]
     member _.``instrument mapping treats zero date sentinels as missing``() =
-        let nativeType = getType "Ctp.Net.Next.Bridge.NativeInstrument"
+        let nativeType = getType "Ctp.Net.Bridge.NativeInstrument"
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
 
@@ -235,7 +235,7 @@ type TraderBridgeGeneratedTests() =
             setFixedStringField native fieldName "       0"
 
         let instrument =
-            mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Next.Bridge.NativeInstrument" native
+            mapNativeAs typeof<InstrumentResponse> "Ctp.Net.Bridge.NativeInstrument" native
             :?> InstrumentResponse
 
         Assert.Equal(DateOnly.MinValue, instrument.CreateDate)
@@ -272,7 +272,7 @@ type TraderBridgeGeneratedTests() =
 
     [<Fact>]
     member _.``generated mapping parses dateonly timeonly and millisec fields``() =
-        let nativeType = getType "Ctp.Net.Next.Bridge.NativeTraderDepthMarketData"
+        let nativeType = getType "Ctp.Net.Bridge.NativeTraderDepthMarketData"
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
         setFixedStringField native "TradingDay" "20260519"
@@ -281,7 +281,7 @@ type TraderBridgeGeneratedTests() =
         nativeType.GetField("UpdateMillisec", flags).SetValue(native, 789)
 
         let depth =
-            mapNativeAs typeof<DepthMarketData> "Ctp.Net.Next.Bridge.NativeTraderDepthMarketData" native :?> DepthMarketData
+            mapNativeAs typeof<DepthMarketData> "Ctp.Net.Bridge.NativeTraderDepthMarketData" native :?> DepthMarketData
 
         Assert.Equal(DateOnly(2026, 5, 19), depth.TradingDay)
         Assert.Equal(TimeOnly(13, 14, 15, 789), depth.UpdateTime)
@@ -297,7 +297,7 @@ type TraderBridgeGeneratedTests() =
               CurrencyId = None }
 
         let native =
-            buildNativeAs typeof<QrySettlementInfoRequest> "Ctp.Net.Next.Bridge.NativeQrySettlementInfo" (box request)
+            buildNativeAs typeof<QrySettlementInfoRequest> "Ctp.Net.Bridge.NativeQrySettlementInfo" (box request)
 
         Assert.Equal("20260519", getFixedStringField native "TradingDay")
 
@@ -317,13 +317,13 @@ type TraderBridgeGeneratedTests() =
               Mac = "" }
 
         let native =
-            buildNativeAs typeof<UserSystemInfoRequest> "Ctp.Net.Next.Bridge.NativeUserSystemInfo" (box request)
+            buildNativeAs typeof<UserSystemInfoRequest> "Ctp.Net.Bridge.NativeUserSystemInfo" (box request)
 
         Assert.Equal("01:02:03", getFixedStringField native "ClientLoginTime")
 
     [<Fact>]
     member _.``instrument status callback payload maps typed status and time``() =
-        let nativeType = getType "Ctp.Net.Next.Bridge.NativeInstrumentStatus"
+        let nativeType = getType "Ctp.Net.Bridge.NativeInstrumentStatus"
         let native = Activator.CreateInstance(nativeType)
         zeroInitializeByteArrays native
         setFixedStringField native "ExchangeId" "SHFE"
@@ -334,7 +334,7 @@ type TraderBridgeGeneratedTests() =
         nativeType.GetField("TradingSegmentSN", flags).SetValue(native, 3)
 
         let status =
-            mapNativeAs typeof<InstrumentStatusResponse> "Ctp.Net.Next.Bridge.NativeInstrumentStatus" native
+            mapNativeAs typeof<InstrumentStatusResponse> "Ctp.Net.Bridge.NativeInstrumentStatus" native
             :?> InstrumentStatusResponse
 
         Assert.Equal("SHFE", status.ExchangeId)
@@ -359,7 +359,7 @@ type TraderBridgeGeneratedTests() =
               typeof<ChangeAccountResponse>, "NativeChangeAccount" ]
 
         for recordType, nativeTypeName in cases do
-            let nativeType = getType $"Ctp.Net.Next.Bridge.{nativeTypeName}"
+            let nativeType = getType $"Ctp.Net.Bridge.{nativeTypeName}"
             let native = Activator.CreateInstance(nativeType)
             zeroInitializeByteArrays native
 
@@ -369,7 +369,7 @@ type TraderBridgeGeneratedTests() =
                 elif field.PropertyType = typeof<TimeOnly> then
                     setFixedStringField native field.Name "09:08:07"
 
-            let mapped = mapNativeAs recordType $"Ctp.Net.Next.Bridge.{nativeTypeName}" native
+            let mapped = mapNativeAs recordType $"Ctp.Net.Bridge.{nativeTypeName}" native
             Assert.NotNull(mapped)
 
     [<Fact>]
@@ -576,7 +576,7 @@ type TraderBridgeGeneratedTests() =
             let native =
                 buildNativeAs
                     typeof<InputOffsetSettingRequest>
-                    "Ctp.Net.Next.Bridge.NativeInputOffsetSetting"
+                    "Ctp.Net.Bridge.NativeInputOffsetSetting"
                     (box (request value))
 
             native.GetType().GetField("IsOffset", flags).GetValue(native) :?> int
@@ -609,14 +609,14 @@ type TraderBridgeGeneratedTests() =
 
             Assert.Equal(expectedType, field.PropertyType)
 
-        let traderApiType = getType "Ctp.Net.Next.Bridge.TraderApi"
+        let traderApiType = getType "Ctp.Net.Bridge.TraderApi"
         let privateTopic = traderApiType.GetMethod("SubscribePrivateTopic", flags)
         let publicTopic = traderApiType.GetMethod("SubscribePublicTopic", flags)
         Assert.Equal(typeof<ResumeType>, privateTopic.GetParameters().[0].ParameterType)
         Assert.Equal(typeof<ResumeType>, publicTopic.GetParameters().[0].ParameterType)
 
         let csharpConstructor =
-            typeof<Ctp.Net.Next.CSharp.TraderClient>.GetConstructors()
+            typeof<Ctp.Net.CSharp.TraderClient>.GetConstructors()
             |> Array.find (fun ctor -> ctor.GetParameters().Length = 7)
 
         Assert.Equal(typeof<Nullable<ResumeType>>, csharpConstructor.GetParameters().[2].ParameterType)
@@ -1073,14 +1073,14 @@ type ClientCancellationApiTests() =
 
     [<Fact>]
     member _.``md login uses ambient cancellation token``() =
-        let compileOnly: Ctp.Net.Next.MdClient -> Async<Result<UserLoginResponse, RspInfo>> =
+        let compileOnly: Ctp.Net.MdClient -> Async<Result<UserLoginResponse, RspInfo>> =
             fun client -> client.LoginAsync()
 
         Assert.NotNull(box compileOnly)
 
     [<Fact>]
     member _.``trader query uses ambient cancellation token``() =
-        let compileOnly: Ctp.Net.Next.TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
+        let compileOnly: Ctp.Net.TraderClient -> Async<Result<TradingAccountResponse list, RspInfo>> =
             fun client -> client.QueryTradingAccountAsync("CNY")
 
         Assert.NotNull(box compileOnly)
@@ -1298,7 +1298,7 @@ type LoggingTests() =
     member _.``native failure logs error``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> invalidOp "boom"), logger = logger)
 
         coordinator.Connect()
@@ -1318,7 +1318,7 @@ type LoggingTests() =
     member _.``connect timeout logs warning``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
         let timeout = TimeSpan.FromMilliseconds 50.0
 
@@ -1338,7 +1338,7 @@ type LoggingTests() =
     member _.``front connected logs debug``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
 
         let task = Async.StartAsTask(coordinator.Connect())
@@ -1357,7 +1357,7 @@ type LoggingTests() =
     member _.``front disconnected logs info``() =
         use provider = new FakeLogger.FakeLoggerProvider()
         use factory = factoryWithProvider provider
-        let logger = factory.CreateLogger("Ctp.Net.Next.ConnectionCoordinator")
+        let logger = factory.CreateLogger("Ctp.Net.ConnectionCoordinator")
         let coordinator = ConnectionCoordinator((fun () -> ()), logger = logger)
 
         let task = Async.StartAsTask(coordinator.Connect())
@@ -1565,7 +1565,7 @@ type CSharpProjectionTests() =
 
     [<Fact>]
     member _.``CSharp MD auto resubscribe defaults to true and accepts explicit false``() =
-        let constructors = typeof<Ctp.Net.Next.CSharp.MdClient>.GetConstructors()
+        let constructors = typeof<Ctp.Net.CSharp.MdClient>.GetConstructors()
 
         let autoResubscribeParameters =
             constructors
@@ -1638,13 +1638,13 @@ type CSharpProjectionTests() =
             let callbackFunctionType = callback.PropertyType.GetGenericArguments().[0]
             let expectedPayloadType = callbackFunctionType.GetGenericArguments().[0]
 
-            let fsharpEvent = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            let fsharpEvent = typeof<Ctp.Net.TraderClient>.GetProperty(eventName)
             Assert.NotNull(fsharpEvent)
 
             let fsharpPayloadType = fsharpEvent.PropertyType.GetGenericArguments() |> Array.last
             Assert.Equal(expectedPayloadType, fsharpPayloadType)
 
-            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            let csharpEvent = typeof<Ctp.Net.CSharp.TraderClient>.GetEvent(eventName)
             Assert.NotNull(csharpEvent)
 
             let csharpPayloadType = csharpEvent.EventHandlerType.GetGenericArguments() |> Array.last
@@ -1664,14 +1664,14 @@ type CSharpProjectionTests() =
             let payloadOptionType = callbackFunctionType.GetGenericArguments().[0]
             let expectedPayloadType = payloadOptionType.GetGenericArguments().[0]
 
-            let fsharpEvent = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            let fsharpEvent = typeof<Ctp.Net.TraderClient>.GetProperty(eventName)
             Assert.NotNull(fsharpEvent)
 
             let fsharpDataType = fsharpEvent.PropertyType.GetGenericArguments() |> Array.last
             Assert.Equal(typedefof<TraderAsyncErrorData<_>>, fsharpDataType.GetGenericTypeDefinition())
             Assert.Equal(expectedPayloadType, fsharpDataType.GetGenericArguments().[0])
 
-            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            let csharpEvent = typeof<Ctp.Net.CSharp.TraderClient>.GetEvent(eventName)
             Assert.NotNull(csharpEvent)
 
             let csharpDataType = csharpEvent.EventHandlerType.GetGenericArguments() |> Array.last
@@ -1713,14 +1713,14 @@ type CSharpProjectionTests() =
             let payloadOptionType = callbackFunctionType.GetGenericArguments().[0]
             let expectedPayloadType = payloadOptionType.GetGenericArguments().[0]
 
-            let fsharpEvent = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            let fsharpEvent = typeof<Ctp.Net.TraderClient>.GetProperty(eventName)
             Assert.NotNull(fsharpEvent)
 
             let fsharpDataType = fsharpEvent.PropertyType.GetGenericArguments() |> Array.last
             Assert.Equal(typedefof<TraderCommandResponseData<_>>, fsharpDataType.GetGenericTypeDefinition())
             Assert.Equal(expectedPayloadType, fsharpDataType.GetGenericArguments().[0])
 
-            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            let csharpEvent = typeof<Ctp.Net.CSharp.TraderClient>.GetEvent(eventName)
             Assert.NotNull(csharpEvent)
 
             let csharpDataType = csharpEvent.EventHandlerType.GetGenericArguments() |> Array.last
@@ -1739,10 +1739,10 @@ type CSharpProjectionTests() =
                "CommandResponseReceived" |]
 
         for eventName in legacyEventNames do
-            let fsharpProperty = typeof<Ctp.Net.Next.TraderClient>.GetProperty(eventName)
+            let fsharpProperty = typeof<Ctp.Net.TraderClient>.GetProperty(eventName)
             Assert.True(hasObsoleteAttribute fsharpProperty, $"F# {eventName} should be obsolete.")
 
-            let csharpEvent = typeof<Ctp.Net.Next.CSharp.TraderClient>.GetEvent(eventName)
+            let csharpEvent = typeof<Ctp.Net.CSharp.TraderClient>.GetEvent(eventName)
             Assert.True(hasObsoleteAttribute csharpEvent, $"C# {eventName} should be obsolete.")
 
         let publicPropertyTypes (genericType: Type) =
@@ -1760,13 +1760,13 @@ type CSharpProjectionTests() =
         let flags = System.Reflection.BindingFlags.Instance ||| System.Reflection.BindingFlags.Public
 
         let fsharpMethods =
-            typeof<Ctp.Net.Next.TraderClient>.GetMethods(flags)
+            typeof<Ctp.Net.TraderClient>.GetMethods(flags)
             |> Seq.filter (fun methodInfo -> not (methodInfo.Name.StartsWith("get_")))
             |> Seq.map (fun methodInfo -> methodInfo.Name)
             |> Set.ofSeq
 
         let csharpMethods =
-            typeof<Ctp.Net.Next.CSharp.TraderClient>.GetMethods(flags)
+            typeof<Ctp.Net.CSharp.TraderClient>.GetMethods(flags)
             |> Seq.filter (fun methodInfo -> not (methodInfo.Name.StartsWith("get_")))
             |> Seq.map (fun methodInfo -> methodInfo.Name)
             |> Set.ofSeq
@@ -1780,7 +1780,7 @@ type CSharpProjectionTests() =
         Assert.Empty(missing)
 
         let optionParameters =
-            typeof<Ctp.Net.Next.CSharp.TraderClient>.GetMethods(flags)
+            typeof<Ctp.Net.CSharp.TraderClient>.GetMethods(flags)
             |> Seq.collect (fun methodInfo -> methodInfo.GetParameters())
             |> Seq.filter (fun parameter -> parameter.ParameterType.ToString().Contains("FSharpOption"))
             |> Seq.toList
@@ -1798,7 +1798,7 @@ type AbiLayoutTests() =
         | value -> value
 
     let assertLayout name expectedSize fields =
-        let typeInfo = nativeType $"Ctp.Net.Next.Bridge.{name}"
+        let typeInfo = nativeType $"Ctp.Net.Bridge.{name}"
         Assert.Equal(expectedSize, System.Runtime.InteropServices.Marshal.SizeOf(typeInfo))
 
         for fieldName, expectedOffset in fields do

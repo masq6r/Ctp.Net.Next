@@ -1,8 +1,8 @@
-namespace Ctp.Net.Next
+namespace Ctp.Net
 
 open System
 open FSharpPlus
-open Ctp.Net.Next.Bridge
+open Ctp.Net.Bridge
 open System.Threading
 open System.Threading.Tasks
 open Microsoft.Extensions.Logging
